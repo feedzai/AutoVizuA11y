@@ -179,3 +179,5 @@ The tool was tested with VoiceOver, JAWS and NVDA, as well as the most commonly 
 |                    <kbd>Alt (option)</kbd> + <kbd>Z</kbd> | How a point compares to the rest of the chart                 |
 |                    <kbd>Alt (option)</kbd> + <kbd>B</kbd> | Set longer description of the chart                           |
 |                    <kbd>Alt (option)</kbd> + <kbd>S</kbd> | Set shorter description of the chart (default)                |
+
+Other licensing options may be available, please reach out to [data-viz@feedzai.com](mailto:data-viz@feedzai.com) for more information.
