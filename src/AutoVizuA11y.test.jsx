@@ -10,9 +10,9 @@ import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect"; // For additional assertion methods
 
 import AutoVizuA11y from "./AutoVizuA11y";
-import MultiLineChart from "../../test_utils/multiLineChart";
-import { mockChartData } from "../../test_utils/mockChartData";
-import { mockAutoVizData } from "../../test_utils/mockAutoVizData";
+import MultiLineChart from "../test_utils/multiLineChart";
+import { mockChartData } from "../test_utils/mockChartData";
+import { mockAutoVizData } from "../test_utils/mockAutoVizData";
 
 test("Check a11y_chart class changes to focused when the paragraph is focused", () => {
 	render(

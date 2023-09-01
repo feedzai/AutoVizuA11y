@@ -28,7 +28,7 @@ cd autovizua11y
 #### Inputs
 
 - A set of props, passed in the AutoVizuA11y component, with information regarding the data visualization wrapped.
-- The chart that will receive AutoVizuA11Y's accessibility features.
+- The chart that will receive AutoVizuA11y's accessibility features.
 
 #### Outputs
 
@@ -40,7 +40,7 @@ cd autovizua11y
   - Labels for every data element;
   - Two descriptions for every data visualization wrapped by AutoVizuA11y. Both are composed of a title, information on the visualization type, and a human-like description generated using the `gpt-3.5-turbo` model from OpenAI. They can be made longer or shorter, depending on the user's requirements. The shorter description is announced by default once the data visualization gets focused. The descriptions can also be inputted manually.
 - **Shortcuts**
-  - That improves navigation and increases speed and efficiency in the exploration of a chart;
+  - That improves navigation by increasing speed and efficiency in the exploration of a chart;
   - That provides statistical insights about the data.
 
 ## AutoVizuA11y properties
@@ -77,7 +77,7 @@ cd autovizua11y
 ## Sample Implementation
 
 ```javascript
-import AutoVizuA11y from "./autovizua11y/AutoVizuA11y";
+import { AutoVizuA11y } from "autovizua11y";
 
 // ...
 
