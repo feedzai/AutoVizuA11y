@@ -3,7 +3,6 @@
 	"version": "0.1.0",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"main": "dist/index.js",
-	"private": true,
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/feedzai/AutoVizuA11y.git"

@@ -154,6 +154,10 @@ Besides the navigation between data visualizations, every other shortcut outcome
 
 The tool was tested with VoiceOver, JAWS and NVDA, as well as the most commonly used browsers. The key combinations for each shortcut were chosen with the intention to avoid collisions with others from the tested screen readers and browsers. That said, **it is suggested for users of JAWS and NVDA turn on "Focus mode" (<kbd>Insert</kbd> + <kbd>Space</kbd>) so that the navigation with arrow keys can be done between and inside the visualizations**.
 
+## Examples
+
+You can interact with a series of chart examples built using AutoVizuA11y [here](https://diogorduarte.github.io/autovizua11y-examples/) (it requires an OpenAI API key).
+
 ## Shortcut Guide
 
 |                                         Activation Key(s) | Description                                                   |
