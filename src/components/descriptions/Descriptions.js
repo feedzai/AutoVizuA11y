@@ -6,6 +6,14 @@
  */
 
 //when B or S are pressed the descriptions changed in the chart
+/**
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * Other licensing options may be available, please reach out to [•]include email here for more information.
+ */
+
+//when B or S are pressed the descriptions changed in the chart
 export function descriptionsChanger(ref, type, descs, title, autoDescriptions, event) {
 	title = title + ", " + type + ". " + (autoDescriptions ? "Automatic description: " : "");
 
@@ -17,13 +25,7 @@ export function descriptionsChanger(ref, type, descs, title, autoDescriptions, e
 				.getElementsByClassName("a11y_desc")[0]
 				.setAttribute("aria-label", title.concat(descs[1]));
 			return;
-		}
-		return;
-	}
-
-	//When pressed reads the longer description
-	if (ref.current !== null) {
-		if (event.altKey && event.code === "KeyB") {
+		} else if (event.altKey && event.code === "KeyB") {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[0]);
 			ref.current
 				.getElementsByClassName("a11y_desc")[0]
