@@ -1,6 +1,6 @@
 {
 	"name": "autovizua11y",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"main": "dist/index.js",
 	"repository": {
