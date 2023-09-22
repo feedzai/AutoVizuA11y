@@ -77,7 +77,7 @@ cd autovizua11y
 ## Sample Implementation
 
 ```javascript
-import { AutoVizuA11y } from "autovizua11y";
+import { AutoVizuA11y } from "@feedzai/autovizua11y";
 
 // ...
 
