@@ -1,11 +1,11 @@
 {
-	"name": "autovizua11y",
-	"version": "0.1.1",
+	"name": "@feedzai/autovizua11y",
+	"version": "0.1.3",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"main": "dist/index.js",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/feedzai/AutoVizuA11y.git"
+		"url": "git+https://github.com/feedzai/AutoVizuA11y.git"
 	},
 	"author": "Feedzai",
 	"license": "AGPL-3.0",
@@ -62,5 +62,9 @@
 		"@babel/preset-env": "^7.22.14",
 		"@babel/preset-react": "^7.22.5",
 		"babel-loader": "^9.1.3"
-	}
+	},
+	"bugs": {
+		"url": "https://github.com/feedzai/AutoVizuA11y/issues"
+	},
+	"homepage": "https://github.com/feedzai/AutoVizuA11y#readme"
 }

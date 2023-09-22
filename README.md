@@ -11,7 +11,7 @@ This tool focuses on three different key components that were identified after c
 #### Via npm
 
 ```
-npm install autovizua11y
+npm i @feedzai/autovizua11y
 ```
 
 #### Via Github
