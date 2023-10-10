@@ -142,6 +142,8 @@ function App() {
           shorter: shorterDesc,
         }}
       >
+            <LineChart></LineChart>
+    </AutoVizuA11y>
   );
 }
 ```
