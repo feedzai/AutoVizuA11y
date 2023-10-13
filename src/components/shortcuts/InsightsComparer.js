@@ -9,15 +9,7 @@ import { rounding } from "../../utils/maths";
 
 //compares the focusedData against various insights
 //insights = [sum, average, max, min];
-export function insightsComparer(
-	event,
-	alertDiv,
-	insights,
-	insightsArray,
-	focusedData,
-	series,
-	selectedSeries,
-) {
+export function insightsComparer(event, alertDiv, insights, insightsArray, focusedData) {
 	if (
 		event.altKey &&
 		event.shiftKey &&

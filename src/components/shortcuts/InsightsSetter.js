@@ -7,7 +7,7 @@
 
 //sets an alert on top of the chart depending on the insight asked
 //insights = [sum, average, max, min];
-export function insightsSetter(event, alertDiv, insights, insightsArray, series, selectedSeries) {
+export function insightsSetter(event, alertDiv, insights, insightsArray) {
 	if (
 		event.altKey &&
 		(event.code === "KeyK" || event.code === "KeyL" || event.code === "KeyJ") &&

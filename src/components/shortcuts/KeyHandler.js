@@ -71,8 +71,8 @@ export function keyHandler(
 
 		let focusedData = arrayConverted[focusedIndex];
 
-		insightsSetter(event, alertDiv, insights, insightsArray, series, selectedSeries);
-		insightsComparer(event, alertDiv, insights, insightsArray, focusedData, series, selectedSeries);
+		insightsSetter(event, alertDiv, insights, insightsArray);
+		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
 
 		if (series.length !== 0 && selectedSeries.length !== 0) {
 			const flattenedOAC = oldArrayConverted.reduce((total, subArray) => {
