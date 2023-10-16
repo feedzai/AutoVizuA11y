@@ -19,6 +19,7 @@
 	"dependencies": {
 		"node-fetch": "^3.3.2",
 		"text-encoding": "^0.7.0",
+		"uuid": "^3.2.1",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
