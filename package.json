@@ -21,7 +21,6 @@
 		"react": "^16.14.0",
 		"react-dom": "^16.14.0",
 		"text-encoding": "^0.7.0",
-		"uuid": "^3.2.1",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {

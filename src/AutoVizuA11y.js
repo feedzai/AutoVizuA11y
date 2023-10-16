@@ -20,8 +20,6 @@ import { generateDescriptions } from "./components/descriptions/DescriptionsGene
 import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsChanger } from "./components/descriptions/Descriptions";
 
-import uuid from "uuid";
-
 import "./style/AutoVizuA11y.css";
 
 const AutoVizuA11y = ({
