@@ -5,18 +5,22 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useRef, useEffect, useId, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
 import { addsAriaLabels } from "./components/navigation/AriaLabels";
 import { keyHandler } from "./components/shortcuts/KeyHandler";
 import { arrayConverter } from "./utils/arrayConverter";
+import newId from "./utils/newId";
+
 import { levelChart, levelNav } from "./components/navigation/LevelNavigation";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsChanger } from "./components/descriptions/Descriptions";
+
+import uuid from "uuid";
 
 import "./style/AutoVizuA11y.css";
 
@@ -62,7 +66,7 @@ const AutoVizuA11y = ({
 	}
 
 	// Generate a unique identifier for this component
-	const componentId = useId();
+	const componentId = newId();
 
 	const storedLongerKey = `oldLonger_${componentId}`;
 	const storedSmallerKey = `oldSmaller_${componentId}`;
