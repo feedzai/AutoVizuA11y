@@ -191,14 +191,12 @@ const AutoVizuA11y = ({
 
 	//sets the appropriate navigation keys in the ShortcutGuide
 	function handleNav(event) {
-		console.log(event.nativeEvent);
 		levelNav(event, ref);
 	}
 
 	//sets the appropriate navigation keys and shortcuts in the charts and data
 	function handleKeyDown(event) {
 		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
-		console.log(event.nativeEvent);
 		levelNav(event, ref, alertDiv, selectorType, multiSeries, nextSeries, series, selectedSeries);
 
 		let numberAux = keyHandler(
