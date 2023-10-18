@@ -18,10 +18,7 @@
 	],
 	"dependencies": {
 		"node-fetch": "^3.3.2",
-		"react": "^16.14.0",
-		"react-dom": "^16.14.0",
 		"text-encoding": "^0.7.0",
-		"uuid": "^3.2.1",
 		"web-vitals": "^2.1.4"
 	},
 	"scripts": {
@@ -50,6 +47,8 @@
 		]
 	},
 	"devDependencies": {
+		"react": "^16.14.0",
+		"react-dom": "^16.14.0",
 		"@babel/cli": "^7.22.10",
 		"@babel/core": "^7.22.11",
 		"@babel/plugin-syntax-jsx": "^7.22.5",

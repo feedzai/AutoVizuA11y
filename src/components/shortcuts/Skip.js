@@ -35,14 +35,20 @@ export function skip(event, ref, selectorType, selectedSeries) {
 	}
 
 	//skips to the beggining
-	if ((event.altKey && event.code === "KeyQ") || event.code === "Home") {
-		event.preventDefault();
+	if (
+		(event.nativeEvent.altKey && event.nativeEvent.code === "KeyQ") ||
+		event.nativeEvent.code === "Home"
+	) {
+		event.nativeEvent.preventDefault();
 		elements[0].focus();
 	}
 
 	//skips to the end
-	if ((event.altKey && event.code === "KeyW") || event.code === "End") {
-		event.preventDefault();
+	if (
+		(event.nativeEvent.altKey && event.nativeEvent.code === "KeyW") ||
+		event.nativeEvent.code === "End"
+	) {
+		event.nativeEvent.preventDefault();
 		elements[elements.length - 1].focus();
 	}
 	return;

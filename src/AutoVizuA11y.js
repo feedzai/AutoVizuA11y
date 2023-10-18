@@ -128,11 +128,13 @@ const AutoVizuA11y = ({
 	function createShortcutGuide() {
 		let checker = document.getElementById("a11y_nav_guide");
 		if (checker === null) {
-			const nav = <ShortcutGuide />;
+			const nav = (
+				<div onKeyDown={handleNav} id="a11y_nav_guide">
+					<ShortcutGuide />
+				</div>
+			);
 			const container = document.createElement("div");
 			ReactDOM.render(nav, container);
-			container.id = "a11y_nav_guide";
-			container.addEventListener("keydown", handleNav);
 			if (document.getElementById("root")) {
 				document
 					.getElementById("root")
@@ -189,12 +191,14 @@ const AutoVizuA11y = ({
 
 	//sets the appropriate navigation keys in the ShortcutGuide
 	function handleNav(event) {
+		console.log(event.nativeEvent);
 		levelNav(event, ref);
 	}
 
 	//sets the appropriate navigation keys and shortcuts in the charts and data
 	function handleKeyDown(event) {
 		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
+		console.log(event.nativeEvent);
 		levelNav(event, ref, alertDiv, selectorType, multiSeries, nextSeries, series, selectedSeries);
 
 		let numberAux = keyHandler(

@@ -11,13 +11,13 @@ export function descriptionsChanger(ref, type, descs, title, autoDescriptions, e
 
 	//When pressed reads the smaller description
 	if (ref.current !== null) {
-		if (event === undefined || (event.altKey && event.code === "KeyS")) {
+		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[1]);
 			ref.current
 				.getElementsByClassName("a11y_desc")[0]
 				.setAttribute("aria-label", title.concat(descs[1]));
 			return;
-		} else if (event.altKey && event.code === "KeyB") {
+		} else if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyB") {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[0]);
 			ref.current
 				.getElementsByClassName("a11y_desc")[0]

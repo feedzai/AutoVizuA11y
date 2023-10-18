@@ -23,7 +23,7 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 		elements = currentSeries;
 	}
 
-	if (event.key === "ArrowLeft") {
+	if (event.nativeEvent.key === "ArrowLeft") {
 		var currentPosition;
 		for (let i = 0; i < elements.length; i++) {
 			if (elements[i] === document.activeElement) {
@@ -33,12 +33,12 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 
 		//returns to normal while on the first element
 		if (currentPosition === 0 || currentPosition === undefined) {
-			event.returnValue = true;
+			event.nativeEvent.returnValue = true;
 			return;
 		}
 
 		//checks if its possible to jump X number, otherwise stops at first
-		event.preventDefault();
+		event.nativeEvent.preventDefault();
 		for (let index = 0; index < number; index++) {
 			if (elements[currentPosition - 1] !== undefined) {
 				currentPosition = currentPosition - 1;
@@ -50,7 +50,7 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 	}
 
 	//Going forward
-	if (event.key === "ArrowRight") {
+	if (event.nativeEvent.key === "ArrowRight") {
 		var currentPosition;
 
 		for (let i = 0; i < elements.length; i++) {
@@ -61,12 +61,12 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 
 		//returns to normal while on the last element
 		if (currentPosition === elements.length - 1 || currentPosition === undefined) {
-			event.returnValue = true;
+			event.nativeEvent.returnValue = true;
 			return;
 		}
 
 		//checks if its possible to jump X number, otherwise stops at last
-		event.preventDefault();
+		event.nativeEvent.preventDefault();
 		for (let index = 0; index < number; index++) {
 			if (elements[currentPosition + 1] !== undefined) {
 				currentPosition = currentPosition + 1;
@@ -87,10 +87,10 @@ export function jumpXcharts(event, ref) {
 	if (chart === document.activeElement && charts.includes(chart)) {
 		let currentPosition = charts.indexOf(chart);
 
-		if (event.key === "ArrowLeft") {
-			event.preventDefault();
+		if (event.nativeEvent.key === "ArrowLeft") {
+			event.nativeEvent.preventDefault();
 			if (currentPosition === 0 || currentPosition === undefined) {
-				event.returnValue = true;
+				event.nativeEvent.returnValue = true;
 				return;
 			}
 			if (charts[currentPosition - 1] !== null) {
@@ -99,10 +99,10 @@ export function jumpXcharts(event, ref) {
 			return;
 		}
 
-		if (event.key === "ArrowRight") {
-			event.preventDefault();
+		if (event.nativeEvent.key === "ArrowRight") {
+			event.nativeEvent.preventDefault();
 			if (currentPosition === charts.length - 1) {
-				event.returnValue = true;
+				event.nativeEvent.returnValue = true;
 				return;
 			}
 			if (charts[currentPosition + 1] !== null) {
