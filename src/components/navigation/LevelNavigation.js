@@ -19,8 +19,10 @@ export function levelNav(
 	series,
 	selectedSeries,
 ) {
-	if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyM") {
-		event.nativeEvent.preventDefault();
+	const { nativeEvent } = event;
+
+	if (nativeEvent.altKey && nativeEvent.code === "KeyM") {
+		nativeEvent.preventDefault();
 		if (
 			document.activeElement.classList.contains("a11y_modal_content") ||
 			document.activeElement.classList.contains("a11y_row") ||
@@ -48,10 +50,10 @@ export function levelNav(
 		}
 	}
 
-	switch (event.nativeEvent.code) {
+	switch (nativeEvent.code) {
 		//the user moved to the lower level - data
 		case "ArrowDown":
-			event.nativeEvent.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -70,7 +72,7 @@ export function levelNav(
 			break;
 		//the user moved to the upper level - charts
 		case "ArrowUp":
-			event.nativeEvent.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -89,7 +91,7 @@ export function levelNav(
 			break;
 		//the user moved out of the shortcut guide
 		case "Escape":
-			event.nativeEvent.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -102,11 +104,11 @@ export function levelNav(
 		default:
 			break;
 	}
-	switch (event.nativeEvent.key) {
+	switch (nativeEvent.key) {
 		case "?":
 			var modal = document.getElementsByClassName("a11y_modal")[0];
 			if (modal !== undefined) {
-				event.nativeEvent.preventDefault();
+				nativeEvent.preventDefault();
 				if (
 					document.activeElement.classList.contains("a11y_modal_content") ||
 					document.activeElement.classList.contains("a11y_row") ||

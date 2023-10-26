@@ -9,15 +9,17 @@
 export function descriptionsChanger(ref, type, descs, title, autoDescriptions, event) {
 	title = title + ", " + type + ". " + (autoDescriptions ? "Automatic description: " : "");
 
+	const { nativeEvent } = event;
+
 	//When pressed reads the smaller description
 	if (ref.current !== null) {
-		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
+		if (event === undefined || (nativeEvent.altKey && nativeEvent.code === "KeyS")) {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[1]);
 			ref.current
 				.getElementsByClassName("a11y_desc")[0]
 				.setAttribute("aria-label", title.concat(descs[1]));
 			return;
-		} else if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyB") {
+		} else if (nativeEvent.altKey && nativeEvent.code === "KeyB") {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[0]);
 			ref.current
 				.getElementsByClassName("a11y_desc")[0]

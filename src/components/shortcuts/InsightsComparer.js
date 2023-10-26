@@ -10,12 +10,12 @@ import { rounding } from "../../utils/maths";
 //compares the focusedData against various insights
 //insights = [sum, average, max, min];
 export function insightsComparer(event, alertDiv, insights, insightsArray, focusedData) {
+	const { nativeEvent } = event;
+
 	if (
-		event.nativeEvent.altKey &&
-		event.nativeEvent.shiftKey &&
-		(event.nativeEvent.code === "KeyK" ||
-			event.nativeEvent.code === "KeyL" ||
-			event.nativeEvent.code === "KeyJ") &&
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		(nativeEvent.code === "KeyK" || nativeEvent.code === "KeyL" || nativeEvent.code === "KeyJ") &&
 		insights === false
 	) {
 		alertDiv.textContent = "That shortcut does not work in this chart";
@@ -26,9 +26,9 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 
 	//data point vs average
 	if (
-		event.nativeEvent.altKey &&
-		event.nativeEvent.shiftKey &&
-		event.nativeEvent.code === "KeyK" &&
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyK" &&
 		insights !== false
 	) {
 		if (typeof focusedData === "undefined") {
@@ -42,9 +42,9 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 	}
 	//data point vs max
 	if (
-		event.nativeEvent.altKey &&
-		event.nativeEvent.shiftKey &&
-		event.nativeEvent.code === "KeyL" &&
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyL" &&
 		insights !== false
 	) {
 		if (typeof focusedData === "undefined") {
@@ -58,9 +58,9 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 	}
 	//data point vs min
 	if (
-		event.nativeEvent.altKey &&
-		event.nativeEvent.shiftKey &&
-		event.nativeEvent.code === "KeyJ" &&
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyJ" &&
 		insights !== false
 	) {
 		if (typeof focusedData === "undefined") {

@@ -9,6 +9,7 @@
 export function skip(event, ref, selectorType, selectedSeries) {
 	let elements = [];
 	let activeElement = document.activeElement;
+	const { nativeEvent } = event;
 
 	if (selectorType.element !== undefined) {
 		elements = ref.current.querySelectorAll(selectorType.element);
@@ -35,20 +36,14 @@ export function skip(event, ref, selectorType, selectedSeries) {
 	}
 
 	//skips to the beggining
-	if (
-		(event.nativeEvent.altKey && event.nativeEvent.code === "KeyQ") ||
-		event.nativeEvent.code === "Home"
-	) {
-		event.nativeEvent.preventDefault();
+	if ((nativeEvent.altKey && nativeEvent.code === "KeyQ") || nativeEvent.code === "Home") {
+		nativeEvent.preventDefault();
 		elements[0].focus();
 	}
 
 	//skips to the end
-	if (
-		(event.nativeEvent.altKey && event.nativeEvent.code === "KeyW") ||
-		event.nativeEvent.code === "End"
-	) {
-		event.nativeEvent.preventDefault();
+	if ((nativeEvent.altKey && nativeEvent.code === "KeyW") || nativeEvent.code === "End") {
+		nativeEvent.preventDefault();
 		elements[elements.length - 1].focus();
 	}
 	return;
