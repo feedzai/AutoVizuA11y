@@ -16,29 +16,13 @@ export function addsAriaLabels(ref, descriptor, selectorType, data, multiSeries)
 		elements = ref.current.getElementsByClassName(selectorType.className); //e.g."device-group"
 	}
 
-	if (multiSeries) {
-		let i = 0;
-		for (const series in data) {
-			const aux = data[series];
-			for (const x in aux) {
-				const y = aux[x];
-				elements[i].setAttribute("aria-label", series + ". " + x + ": " + y);
-				elements[i].setAttribute("role", "");
-				elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
-				elements[i].setAttribute("class", `series:${series}`);
-				i++;
-			}
-		}
-	} else {
-		let i = 0;
-		for (const x in data) {
-			const y = data[x];
-			if (elements[i] !== undefined) {
-				elements[i].setAttribute("aria-label", x + ": " + y);
-				elements[i].setAttribute("role", "");
-				elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
-				i++;
-			}
-		}
-	}
+	let i = 0;
+	data.forEach((item) => {
+		const ariaLabel = Object.values(item).join(", "); // join all values with a comma and space
+		elements[i].setAttribute("aria-label", ariaLabel);
+		elements[i].setAttribute("role", "");
+		elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
+		elements[i].setAttribute("class", `series:${item[multiSeries]}`);
+		i++;
+	});
 }

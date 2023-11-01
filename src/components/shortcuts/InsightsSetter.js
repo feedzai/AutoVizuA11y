@@ -13,14 +13,14 @@ export function insightsSetter(event, alertDiv, insights, insightsArray) {
 	if (
 		nativeEvent.altKey &&
 		(nativeEvent.code === "KeyK" || nativeEvent.code === "KeyL" || nativeEvent.code === "KeyJ") &&
-		insights === false
+		insights === ""
 	) {
 		alertDiv.textContent = "That shortcut does not work in this chart";
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000); // 1000 milliseconds = 1 second
 	}
-	if (nativeEvent.altKey && nativeEvent.code === "KeyK" && insights !== false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyK" && insights !== "") {
 		//average
 		alertDiv.textContent = "The average is " + insightsArray[1];
 		setTimeout(function () {
@@ -28,14 +28,14 @@ export function insightsSetter(event, alertDiv, insights, insightsArray) {
 		}, 1000); // 1000 milliseconds = 1 second
 	}
 	//max
-	if (nativeEvent.altKey && nativeEvent.code === "KeyL" && insights !== false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyL" && insights !== "") {
 		alertDiv.textContent = "The maximum is " + insightsArray[2];
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 	}
 	//min
-	if (nativeEvent.altKey && nativeEvent.code === "KeyJ" && insights !== false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyJ" && insights !== "") {
 		alertDiv.textContent = "The minimum is " + insightsArray[3];
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";

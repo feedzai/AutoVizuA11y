@@ -8,18 +8,11 @@
 import { sum, avg, max, min } from "../utils/maths";
 
 //calculates insights based on the array with only the values
-export function insightsCalculator(arrayConverted, multiSeries) {
+export function insightsCalculator(arrayConverted) {
 	if (arrayConverted === undefined) {
 		return;
 	}
 	let insights = [];
-
-	if (multiSeries) {
-		const flattenedArray = arrayConverted.reduce((total, subArray) => {
-			return total.concat(subArray);
-		}, []);
-		arrayConverted = flattenedArray;
-	}
 
 	let x = sum(arrayConverted);
 	let y = avg(arrayConverted, x);

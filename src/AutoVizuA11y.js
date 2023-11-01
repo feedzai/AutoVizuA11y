@@ -119,8 +119,10 @@ const AutoVizuA11y = ({
 		}
 
 		if (multiSeries) {
-			setSeries(Object.keys(data));
-			setSelectedSeries(Object.keys(data)[0]);
+			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
+			const uniqueValues = [...new Set(data.map((item) => item[multiSeries]))];
+			setSeries(uniqueValues);
+			setSelectedSeries(uniqueValues[0]);
 		}
 	}, []);
 
@@ -148,12 +150,13 @@ const AutoVizuA11y = ({
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {
 			//converts the data into a dictionary
-			arrayConverter(data, multiSeries).then(function (result) {
+			arrayConverter(data, insights).then(function (result) {
+				//result = [2,3,5] or []
 				let insightsArrayAux;
 				let averageAux;
 				setArrayConverted(result);
-				if (insights !== false) {
-					insightsArrayAux = insightsCalculator(result, multiSeries);
+				if (insights !== "") {
+					insightsArrayAux = insightsCalculator(result);
 					setInsightsArray(insightsArrayAux);
 
 					averageAux = insightsArrayAux[1];
