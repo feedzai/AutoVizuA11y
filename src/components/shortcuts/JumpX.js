@@ -7,6 +7,8 @@
 
 //handles the navigation between data elements
 export function jumpXpoints(event, number, elements, selectedSeries, series) {
+	const { nativeEvent } = event;
+
 	//going backward
 	if (series.length !== 0 && selectedSeries.length !== 0) {
 		let currentSeriesPos = series.indexOf(selectedSeries);
@@ -23,7 +25,7 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 		elements = currentSeries;
 	}
 
-	if (event.key === "ArrowLeft") {
+	if (nativeEvent.key === "ArrowLeft") {
 		var currentPosition;
 		for (let i = 0; i < elements.length; i++) {
 			if (elements[i] === document.activeElement) {
@@ -33,12 +35,12 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 
 		//returns to normal while on the first element
 		if (currentPosition === 0 || currentPosition === undefined) {
-			event.returnValue = true;
+			nativeEvent.returnValue = true;
 			return;
 		}
 
 		//checks if its possible to jump X number, otherwise stops at first
-		event.preventDefault();
+		nativeEvent.preventDefault();
 		for (let index = 0; index < number; index++) {
 			if (elements[currentPosition - 1] !== undefined) {
 				currentPosition = currentPosition - 1;
@@ -50,7 +52,7 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 	}
 
 	//Going forward
-	if (event.key === "ArrowRight") {
+	if (nativeEvent.key === "ArrowRight") {
 		var currentPosition;
 
 		for (let i = 0; i < elements.length; i++) {
@@ -61,12 +63,12 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 
 		//returns to normal while on the last element
 		if (currentPosition === elements.length - 1 || currentPosition === undefined) {
-			event.returnValue = true;
+			nativeEvent.returnValue = true;
 			return;
 		}
 
 		//checks if its possible to jump X number, otherwise stops at last
-		event.preventDefault();
+		nativeEvent.preventDefault();
 		for (let index = 0; index < number; index++) {
 			if (elements[currentPosition + 1] !== undefined) {
 				currentPosition = currentPosition + 1;
@@ -84,13 +86,15 @@ export function jumpXcharts(event, ref) {
 	charts = Array.from(charts);
 	let chart = ref.current.getElementsByClassName("a11y_desc")[0];
 
+	const { nativeEvent } = event;
+
 	if (chart === document.activeElement && charts.includes(chart)) {
 		let currentPosition = charts.indexOf(chart);
 
-		if (event.key === "ArrowLeft") {
-			event.preventDefault();
+		if (nativeEvent.key === "ArrowLeft") {
+			nativeEvent.preventDefault();
 			if (currentPosition === 0 || currentPosition === undefined) {
-				event.returnValue = true;
+				nativeEvent.returnValue = true;
 				return;
 			}
 			if (charts[currentPosition - 1] !== null) {
@@ -99,10 +103,10 @@ export function jumpXcharts(event, ref) {
 			return;
 		}
 
-		if (event.key === "ArrowRight") {
-			event.preventDefault();
+		if (nativeEvent.key === "ArrowRight") {
+			nativeEvent.preventDefault();
 			if (currentPosition === charts.length - 1) {
-				event.returnValue = true;
+				nativeEvent.returnValue = true;
 				return;
 			}
 			if (charts[currentPosition + 1] !== null) {

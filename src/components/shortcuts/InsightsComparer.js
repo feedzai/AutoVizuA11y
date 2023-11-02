@@ -10,10 +10,12 @@ import { rounding } from "../../utils/maths";
 //compares the focusedData against various insights
 //insights = [sum, average, max, min];
 export function insightsComparer(event, alertDiv, insights, insightsArray, focusedData) {
+	const { nativeEvent } = event;
+
 	if (
-		event.altKey &&
-		event.shiftKey &&
-		(event.code === "KeyK" || event.code === "KeyL" || event.code === "KeyJ") &&
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		(nativeEvent.code === "KeyK" || nativeEvent.code === "KeyL" || nativeEvent.code === "KeyJ") &&
 		insights === false
 	) {
 		alertDiv.textContent = "That shortcut does not work in this chart";
@@ -23,7 +25,12 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 	}
 
 	//data point vs average
-	if (event.altKey && event.shiftKey && event.code === "KeyK" && insights !== false) {
+	if (
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyK" &&
+		insights !== false
+	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = `This shortcut only works inside a chart`;
 			return;
@@ -34,7 +41,12 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		}, 1000);
 	}
 	//data point vs max
-	if (event.altKey && event.shiftKey && event.code === "KeyL" && insights !== false) {
+	if (
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyL" &&
+		insights !== false
+	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;
@@ -45,7 +57,12 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		}, 1000);
 	}
 	//data point vs min
-	if (event.altKey && event.shiftKey && event.code === "KeyJ" && insights !== false) {
+	if (
+		nativeEvent.altKey &&
+		nativeEvent.shiftKey &&
+		nativeEvent.code === "KeyJ" &&
+		insights !== false
+	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;

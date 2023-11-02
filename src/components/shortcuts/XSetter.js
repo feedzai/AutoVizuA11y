@@ -6,9 +6,11 @@
  */
 
 export function xSetter(event, type, number, alertDiv) {
+	const { nativeEvent } = event;
+
 	// show form for Alt+X key combination
-	if (event.altKey && event.code === "KeyX") {
-		event.preventDefault(); // prevent default behavior of Alt+X
+	if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
+		nativeEvent.preventDefault(); // prevent default behavior of Alt+X
 		const activeElement = document.activeElement; // store reference to currently focused element
 		const input = prompt("Enter a number above 0:");
 		if (input !== null && input !== "") {
@@ -36,7 +38,7 @@ export function xSetter(event, type, number, alertDiv) {
 	}
 
 	// subtract one from X
-	if (event.key === "-") {
+	if (nativeEvent.key === "-") {
 		if (number === 1) {
 			return number;
 		}
@@ -49,7 +51,7 @@ export function xSetter(event, type, number, alertDiv) {
 	}
 
 	// add one to X
-	if (event.key === "+") {
+	if (nativeEvent.key === "+") {
 		alertDiv.textContent =
 			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;
 		setTimeout(function () {

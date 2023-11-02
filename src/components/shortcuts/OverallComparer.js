@@ -10,14 +10,16 @@ import { getOrdinalNumber } from "../../utils/maths";
 
 //makes the comparison between the focusedData and the overall data
 export function overallComparer(event, alertDiv, insights, arrayConverted, focusedData) {
-	if (event.altKey && event.code === "KeyZ" && insights === false) {
+	const { nativeEvent } = event;
+
+	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights === false) {
 		alertDiv.textContent = "That shortcut does not work in this chart";
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 		return;
 	}
-	if (event.altKey && event.code === "KeyZ" && insights !== false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights !== false) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			setTimeout(function () {

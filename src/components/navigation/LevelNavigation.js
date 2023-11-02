@@ -19,8 +19,10 @@ export function levelNav(
 	series,
 	selectedSeries,
 ) {
-	if (event.altKey && event.code === "KeyM") {
-		event.preventDefault();
+	const { nativeEvent } = event;
+
+	if (nativeEvent.altKey && nativeEvent.code === "KeyM") {
+		nativeEvent.preventDefault();
 		if (
 			document.activeElement.classList.contains("a11y_modal_content") ||
 			document.activeElement.classList.contains("a11y_row") ||
@@ -48,10 +50,10 @@ export function levelNav(
 		}
 	}
 
-	switch (event.code) {
+	switch (nativeEvent.code) {
 		//the user moved to the lower level - data
 		case "ArrowDown":
-			event.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -70,7 +72,7 @@ export function levelNav(
 			break;
 		//the user moved to the upper level - charts
 		case "ArrowUp":
-			event.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -89,7 +91,7 @@ export function levelNav(
 			break;
 		//the user moved out of the shortcut guide
 		case "Escape":
-			event.preventDefault();
+			nativeEvent.preventDefault();
 			if (
 				document.activeElement.classList.contains("a11y_modal_content") ||
 				document.activeElement.classList.contains("a11y_row") ||
@@ -102,19 +104,22 @@ export function levelNav(
 		default:
 			break;
 	}
-	switch (event.key) {
+	switch (nativeEvent.key) {
 		case "?":
-			event.preventDefault();
-			if (
-				document.activeElement.classList.contains("a11y_modal_content") ||
-				document.activeElement.classList.contains("a11y_row") ||
-				document.activeElement.id === "guide_close"
-			) {
-				returnGuide(ref);
-				return;
+			var modal = document.getElementsByClassName("a11y_modal")[0];
+			if (modal !== undefined) {
+				nativeEvent.preventDefault();
+				if (
+					document.activeElement.classList.contains("a11y_modal_content") ||
+					document.activeElement.classList.contains("a11y_row") ||
+					document.activeElement.id === "guide_close"
+				) {
+					returnGuide(ref);
+					return;
+				}
+				levelGuide(ref);
+				break;
 			}
-			levelGuide(ref);
-			break;
 		default:
 			break;
 	}
