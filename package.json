@@ -25,7 +25,7 @@
 		"start": "react-scripts start",
 		"build": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files",
 		"format": "npx prettier --write '**/*.js'",
-		"test": "jest --watch",
+		"test": "jest",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
