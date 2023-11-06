@@ -164,7 +164,6 @@ function App() {
 
   return (
   <>
-
     {/* SingleSeries with automatic descriptions */}
     <AutoVizuA11y
       data = { barData }
@@ -175,11 +174,11 @@ function App() {
       insighs = "hours"
       descriptor = "hours"
       autoDescriptions={{
-          dynamicDescriptions: false,
-          apiKey: API_KEY,
-          model: "gpt-3.5-turbo",
-          temperature: 0.1,
-        }}
+        dynamicDescriptions: false,
+        apiKey: API_KEY,
+        model: "gpt-3.5-turbo",
+        temperature: 0.1,
+      }}
     >
       <BarChart></BarChart>
     </AutoVizuA11y>
@@ -187,22 +186,22 @@ function App() {
 
     {/* MultiSeries with manual descriptions */}
     <AutoVizuA11y
-        data= { multiLineData }
-        selectorType = {{ element: "circle" }}
-        type = "Multi line chart"
-        title = "Latvia, Lithuania, and Croatia are among the countries where population is decreasing"
-        context = {
-          "Countries in Europe are seeing some of the sharpest population decreases. "
-        }
-        insighs = "y"
-        descriptor = "millions"
-        multiSeries = "series"
-        manualDescriptions = {{
-          longer: longerDesc,
-          shorter: shorterDesc,
-        }}
-      >
-            <LineChart></LineChart>
+      data= { multiLineData }
+      selectorType = {{ element: "circle" }}
+      type = "Multi line chart"
+      title = "Latvia, Lithuania, and Croatia are among the countries where population is decreasing"
+      context = {
+        "Countries in Europe are seeing some of the sharpest population decreases. "
+      }
+      insighs = "y"
+      descriptor = "millions"
+      multiSeries = "series"
+      manualDescriptions = {{
+        longer: longerDesc,
+        shorter: shorterDesc,
+      }}
+    >
+      <LineChart></LineChart>
     </AutoVizuA11y>
     </>
   );
