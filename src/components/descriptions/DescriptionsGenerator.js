@@ -58,8 +58,6 @@ async function longerDescription(
 		", make a description (do not use abbreviations) with the trends in the data, starting with the conclusion:" +
 		data;
 
-	console.log(prompt);
-
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
 		headers: {
@@ -84,8 +82,6 @@ async function longerDescription(
 //calls the GPT API to generate the smaller description
 async function smallerDescription(desc, key, adjustedModel, adjustedTemperature) {
 	let prompt = "Summarize (in less than 60 words) the following:" + desc;
-
-	console.log(prompt);
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",

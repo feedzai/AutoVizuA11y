@@ -45,44 +45,12 @@ export function keyHandler(
 	jumpXcharts(event, ref);
 
 	if (arrayConverted) {
-		let oldArrayConverted = arrayConverted;
-
-		// if (series.length !== 0 && selectedSeries.length !== 0) {
-		// 	let currentSeriesPos = series.indexOf(selectedSeries);
-		// 	let currentSeriesName = series[currentSeriesPos];
-
-		// 	const currentSeries = [];
-		// 	for (let i = 0; i < elements.length; i++) {
-		// 		const element = elements[i];
-		// 		const a = `series:${currentSeriesName}`;
-		// 		if (element.classList.contains(a)) {
-		// 			currentSeries.push(element);
-		// 		}
-		// 	}
-		// 	elements = currentSeries;
-		// }
-
 		let focusedIndex = Array.prototype.findIndex.call(
 			elements,
 			(el) => el === document.activeElement,
 		);
 
-		// if (series.length !== 0 && selectedSeries.length !== 0) {
-		// 	let currentSeriesPos = series.indexOf(selectedSeries);
-		// 	focusedIndex = focusedIndex * series.length;
-		// }
-
 		let focusedData = arrayConverted[focusedIndex];
-
-		// if (series.length !== 0 && selectedSeries) {
-		// 	console.log("oi");
-		// 	const flattenedOAC = oldArrayConverted.reduce((total, subArray) => {
-		// 		return total.concat(subArray);
-		// 	}, []);
-		// 	//squash oldArrayConverted;
-		// 	console.log("flattenedOAC: " + flattenedOAC);
-		// 	arrayConverted = flattenedOAC;
-		// }
 
 		insightsSetter(event, alertDiv, insights, insightsArray);
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);

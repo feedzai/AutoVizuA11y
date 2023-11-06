@@ -45,18 +45,18 @@ cd autovizua11y
 
 ## AutoVizuA11y properties
 
-| Property             | Required/Optional   | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| -------------------- | ------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `data`               | Required            | object | For single series data visualizations, it accepts the visualization's data as an object. It is this data that is added as labels to each data element. In the case of multi-series data visualization, each key should be the series' identifier, while each value is another object with the visualization data. This is the object that is used in the calculation of the statistical insights.                           |
-| `selectorType`       | Required            | object | It expects either the HTML type (for example "rect", "circle", or "path") of the data elements or their class name — only one can be chosen. This way, the data elements should be navigable and have an aria-label. AutoVizuA11y assumes that the number of data elements with the specified class or type matches the number of elements passed through the data prop (ensuring that no element is left without a label). |
-| `type`               | Required            | string | Accepts a `string` that specifies the type of data visualization. It gets announced once a data visualization gets focused, after the title and before the descriptions.                                                                                                                                                                                                                                                    |
-| `title`              | Required            | string | Expect a `string` containing the title of the visualization, which should be short and concise, showcasing the purpose of the content inside the data visualization. It gets announced once a data visualization gets focused, before the type and the longer or shorter descriptions.                                                                                                                                      |
-| `context`            | Required            | string | Requires a `string` that provides the context in which the data visualization is present. This way, when generating the descriptions, better results are achieved.                                                                                                                                                                                                                                                          |
-| `insights`           | Required            | string | Expects a `string` that corresponds to the key in the data object from which values will be used to derive statistical insights. If an empty string `""` is passed, the user will receive an alert stating 'This shortcut does not work in this chart.' This applies to shortcuts related to minimum, average, and maximum values, as well as those involving comparisons to these insights and other data points.          |
-| `descriptor`         | Optional            | string | By receiving a `string`, this descriptor helps better contextualize what data elements are. It gets added at the end of each data element. If no descriptor is provided, blank text (””) is set instead.                                                                                                                                                                                                                    |
-| `multiSeries`        | Optional            | string | When working with multi-series data, provide a `string` that corresponds to the key in the data object that defines each series, allowing users to navigate between different series in addition to regular navigation.                                                                                                                                                                                                     |
-| `autoDescriptions`   | Required (option A) | object | Accepts an object with various options regarding the creation of automatic descriptions with OpenAI models. AutoVizuA11y does two API calls per wrapped visualization, one for each type of description (longer and shorter). The options for this prop can be checked [here](#autoDescriptions-prop-options). This prop cannot be used at the same time as "manualDescriptions".                                           |
-| `manualDescriptions` | Required (option B) | object | Accepts an object with two descriptions. By providing this prop, no automatic descriptions are generated, thus not having any costs associated. The options for this prop can be checked [here](#manualdescriptions-prop-options). This prop cannot be used at the same time as "autoDescriptions".                                                                                                                         |
+| Property             | Required/Optional   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| -------------------- | ------------------- | ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `data`               | Required            | array of objects | It accepts an array of key-value objects. The values of each pair are added ,in order, to a string and read when the corresponding DOM element is focused. **Note: the number of objects need to match the DOM elements associated with the data.**                                                                                                                                                                                                                                    |
+| `selectorType`       | Required            | object           | It expects either the HTML type (for example "rect", "circle", or "path") of the data elements or their class name — only one can be chosen. This way, the data elements should be navigable and have an aria-label. AutoVizuA11y assumes that the number of data elements with the specified class or type matches the number of elements passed through the data prop (ensuring that no element is left without a label).                                                            |
+| `type`               | Required            | string           | Accepts a `string` that specifies the type of data visualization. It gets announced once a data visualization gets focused, after the title and before the descriptions.                                                                                                                                                                                                                                                                                                               |
+| `title`              | Required            | string           | Expect a `string` containing the title of the visualization, which should be short and concise, showcasing the purpose of the content inside the data visualization. It gets announced once a data visualization gets focused, before the type and the longer or shorter descriptions.                                                                                                                                                                                                 |
+| `context`            | Required            | string           | Requires a `string` that provides the context in which the data visualization is present. This way, when generating the descriptions, better results are achieved.                                                                                                                                                                                                                                                                                                                     |
+| `insights`           | Required            | string           | Expects a `string` that corresponds to the key in the data object from which values will be used to derive statistical insights. If an empty string `""` is passed, the user will receive an alert stating 'This shortcut does not work in this chart.' This applies to shortcuts related to minimum, average, and maximum values, as well as those involving comparisons to these insights and other data points. **Note: the values used for insights need to be of type `Number`.** |
+| `descriptor`         | Optional            | string           | By receiving a `string`, this descriptor helps better contextualize what data elements are. It gets added at the end of each data element. If no descriptor is provided, blank text (””) is set instead.                                                                                                                                                                                                                                                                               |
+| `multiSeries`        | Optional            | string           | When working with multi-series data, provide a `string` that corresponds to the key in the data object that defines each series, allowing users to navigate between different series in addition to regular navigation.                                                                                                                                                                                                                                                                |
+| `autoDescriptions`   | Required (option A) | object           | Accepts an object with various options regarding the creation of automatic descriptions with OpenAI models. AutoVizuA11y does two API calls per wrapped visualization, one for each type of description (longer and shorter). The options for this prop can be checked [here](#autoDescriptions-prop-options). This prop cannot be used at the same time as "manualDescriptions".                                                                                                      |
+| `manualDescriptions` | Required (option B) | object           | Accepts an object with two descriptions. By providing this prop, no automatic descriptions are generated, thus not having any costs associated. The options for this prop can be checked [here](#manualdescriptions-prop-options). This prop cannot be used at the same time as "autoDescriptions".                                                                                                                                                                                    |
 
 ### `autoDescriptions` prop options
 
@@ -76,11 +76,10 @@ cd autovizua11y
 
 ## Sample Implementation
 
-```javascript
+```jsx
 import { AutoVizuA11y } from "@feedzai/autovizua11y";
 
 // ...
-
 
 const barData =  [{
   “day”: "Monday",
@@ -164,9 +163,9 @@ const shorterDesc = "..."
 function App() {
 
   return (
+  <>
 
-  // SingleSeries with automatic descriptions
-
+    {/* SingleSeries with automatic descriptions */}
     <AutoVizuA11y
       data = { barData }
       selectorType = {{ element: "rect" }}
@@ -186,8 +185,7 @@ function App() {
     </AutoVizuA11y>
 
 
-// MultiSeries with manual descriptions
-
+    {/* MultiSeries with manual descriptions */}
     <AutoVizuA11y
         data= { multiLineData }
         selectorType = {{ element: "circle" }}
@@ -206,6 +204,7 @@ function App() {
       >
             <LineChart></LineChart>
     </AutoVizuA11y>
+    </>
   );
 }
 ```
