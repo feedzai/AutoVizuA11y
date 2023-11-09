@@ -62,6 +62,10 @@ const AutoVizuA11y = ({
 		temperature = autoDescriptions.temperature;
 	}
 
+	if (insights == undefined || !(insights in data[0])) {
+		insights = "";
+	}
+
 	// Generate a unique identifier for this component
 	const componentId = newId();
 
@@ -118,7 +122,7 @@ const AutoVizuA11y = ({
 			storedSmaller = manualDescriptions.shorter;
 		}
 
-		if (multiSeries) {
+		if (multiSeries && multiSeries != "") {
 			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
 			const uniqueValues = [...new Set(data.map((item) => item[multiSeries]))];
 			setSeries(uniqueValues);
@@ -201,7 +205,6 @@ const AutoVizuA11y = ({
 	function handleKeyDown(event) {
 		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
 		levelNav(event, ref, alertDiv, selectorType, multiSeries, nextSeries, series, selectedSeries);
-
 		let numberAux = keyHandler(
 			type,
 			event,

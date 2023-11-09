@@ -22,7 +22,10 @@ export function addsAriaLabels(ref, descriptor, selectorType, data, multiSeries)
 		elements[i].setAttribute("aria-label", ariaLabel);
 		elements[i].setAttribute("role", "");
 		elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
-		elements[i].setAttribute("class", `series:${item[multiSeries]}`);
+		if (multiSeries && multiSeries != "") {
+			const seriesClass = item[multiSeries].replace(/ /g, "-");
+			elements[i].setAttribute("class", `series:${seriesClass}`);
+		}
 		i++;
 	});
 }
