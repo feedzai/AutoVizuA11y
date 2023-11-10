@@ -156,9 +156,10 @@ test("Check aria-label is added to selectors", async () => {
 			context="Descriptive context"
 			descriptor="rect"
 			manualDescriptions={{
-				longer: "x",
-				shorter: "y",
+				longer: "",
+				shorter: "",
 			}}
+			insights=""
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -168,10 +169,8 @@ test("Check aria-label is added to selectors", async () => {
 
 	await waitFor(() => {
 		rectElements.forEach((rect, i) => {
-			expect(rect).toHaveAttribute(
-				"aria-label",
-				Object.keys(mockAutoVizData)[i] + ": " + Object.values(mockAutoVizData)[i],
-			);
+			const aux = Object.values(mockAutoVizData[i]).join(", ");
+			expect(rect).toHaveAttribute("aria-label", aux);
 		});
 	});
 });
@@ -220,7 +219,7 @@ test("Check insights are not calculated when key is false", async () => {
 				longer: "x",
 				shorter: "y",
 			}}
-			insights={false}
+			insights=""
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -247,6 +246,7 @@ test("Check average, minimum, and maximum", async () => {
 				longer: "x",
 				shorter: "y",
 			}}
+			insights="Value"
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -282,7 +282,7 @@ test("Check alert warning because user is asking for statistics only available i
 				longer: "x",
 				shorter: "y",
 			}}
-			insights={true}
+			insights="Value"
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -324,7 +324,7 @@ test("Check data point comparisons with cross chart statistics", async () => {
 				longer: "x",
 				shorter: "y",
 			}}
-			insights={true}
+			insights="Value"
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -390,7 +390,7 @@ test("Check prompt is opened", async () => {
 				longer: "x",
 				shorter: "y",
 			}}
-			insights={true}
+			insights="Value"
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
@@ -425,7 +425,7 @@ test("Check return beginning and end", async () => {
 				longer: "x",
 				shorter: "y",
 			}}
-			insights={true}
+			insights="Value"
 		>
 			<MultiLineChart></MultiLineChart>
 		</AutoVizuA11y>,
