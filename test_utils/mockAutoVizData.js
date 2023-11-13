@@ -23,17 +23,7 @@ export const mockAutoVizData = intValuesCountryData
 	)
 	.sort((a, b) => descending(a.Value, b.Value))
 	.filter((country, i) => i < 10)
-	.sort((a, b) => ascending(a.Value, b.Value))
-	.map((item, i) => {
-		return {
-			"Region/Country/Area": item["Region/Country/Area"],
-			"Population, density and surface area": item["Population, density and surface area"],
-			Year: item.Year,
-			Series: item.Series,
-			Value: item.Value,
-		};
-	})
-	.filter(Boolean); // Remove null entries;
+	.sort((a, b) => ascending(a.Value, b.Value));
 
 // export const mockAutoVizData = Object.fromEntries(
 // 	sortedCountryData.map((country, i) => [
