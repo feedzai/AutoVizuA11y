@@ -9,5 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Added support for charts with multiple encodings
+
+## 0.2.0 - 2023-11-02
+
+### Added
+
 - Extended React compatibility to support projects with React >=16.14.0
 - Set up automatic semantic versioning
