@@ -153,7 +153,7 @@ test("Check a11y_chart class changes to focused when the paragraph is focused", 
 				shorter: "",
 			}}
 		>
-			{/* <MultiLineChart data={mockChartData}></MultiLineChart> */}
+			<MultiLineChart data={mockChartData}></MultiLineChart>
 		</AutoVizuA11y>,
 	);
 	const autoviz = screen.getByTestId("a11y_chart");
