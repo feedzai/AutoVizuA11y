@@ -230,7 +230,7 @@ function levelSeries(ref, selectorType, selectedSeries, series) {
 	//what is the point in the new series with that index?
 	let previousSeriesPos = series.indexOf(selectedSeries);
 	let currentSeriesPos = (previousSeriesPos + 1) % series.length;
-	let currentSeriesName = series[currentSeriesPos];
+	let currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
 
 	const currentSeries = [];
 	for (let i = 0; i < elements.length; i++) {
@@ -242,6 +242,7 @@ function levelSeries(ref, selectorType, selectedSeries, series) {
 	}
 
 	wiper(ref);
+
 	addDataNavigation(ref, selectorType, currentSeriesName, currentSeries[previousIndex]);
 
 	return;

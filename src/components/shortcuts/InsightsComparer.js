@@ -16,7 +16,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
 		(nativeEvent.code === "KeyK" || nativeEvent.code === "KeyL" || nativeEvent.code === "KeyJ") &&
-		insights === false
+		insights === ""
 	) {
 		alertDiv.textContent = "That shortcut does not work in this chart";
 		setTimeout(function () {
@@ -29,7 +29,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
 		nativeEvent.code === "KeyK" &&
-		insights !== false
+		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = `This shortcut only works inside a chart`;
@@ -45,7 +45,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
 		nativeEvent.code === "KeyL" &&
-		insights !== false
+		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
@@ -61,7 +61,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
 		nativeEvent.code === "KeyJ" &&
-		insights !== false
+		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";

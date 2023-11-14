@@ -15,7 +15,7 @@ const intValuesCountryData = mockChartData.map((country) => {
 	};
 });
 
-const sortedCountryData = intValuesCountryData
+export const mockAutoVizData = intValuesCountryData
 	.slice()
 	.filter(
 		(country) =>
@@ -25,9 +25,9 @@ const sortedCountryData = intValuesCountryData
 	.filter((country, i) => i < 10)
 	.sort((a, b) => ascending(a.Value, b.Value));
 
-export const mockAutoVizData = Object.fromEntries(
-	sortedCountryData.map((country, i) => [
-		country["Population, density and surface area"],
-		country.Value,
-	]),
-);
+// export const mockAutoVizData = Object.fromEntries(
+// 	sortedCountryData.map((country, i) => [
+// 		country["Population, density and surface area"],
+// 		country.Value,
+// 	]),
+// );

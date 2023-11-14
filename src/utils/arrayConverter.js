@@ -6,12 +6,10 @@
  */
 
 //converts the dictionary array into one only with values
-export async function arrayConverter(data, multiSeries) {
-	let arrayConverted;
-	if (multiSeries) {
-		arrayConverted = Object.values(data).map((x) => Object.values(x));
+export async function arrayConverter(data, insights) {
+	if (insights) {
+		return data.map((item) => item[insights]);
 	} else {
-		arrayConverted = Object.values(data);
+		return [];
 	}
-	return arrayConverted;
 }
