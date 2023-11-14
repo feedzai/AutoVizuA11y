@@ -8,21 +8,21 @@
 //generates the descriptions as soon as the components are created
 export async function generateDescriptions(
 	title,
-	dataConverted,
+	data,
 	average,
 	context,
 	apiKey,
 	model,
 	temperature,
 ) {
-	dataConverted = JSON.stringify(dataConverted);
+	data = JSON.stringify(data);
 	let key = apiKey;
 	let adjustedModel = model ?? "gpt-3.5-turbo";
 	let adjustedTemperature = temperature ?? 0;
 
 	//generates the longer one
 	const longerDesc = await longerDescription(
-		dataConverted,
+		data,
 		title,
 		average,
 		context,
@@ -40,7 +40,7 @@ export async function generateDescriptions(
 
 //calls the GPT API to generate the longer description
 async function longerDescription(
-	dataConverted,
+	data,
 	title,
 	average,
 	context,
@@ -56,7 +56,7 @@ async function longerDescription(
 		title +
 		(average ? " with an average of " + average : "") +
 		", make a description (do not use abbreviations) with the trends in the data, starting with the conclusion:" +
-		dataConverted;
+		data;
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
@@ -75,8 +75,8 @@ async function longerDescription(
 			temperature: adjustedTemperature,
 		}),
 	});
-	const data = await response.json();
-	return data.choices[0].message.content;
+	const output = await response.json();
+	return output.choices[0].message.content;
 }
 
 //calls the GPT API to generate the smaller description
@@ -100,6 +100,6 @@ async function smallerDescription(desc, key, adjustedModel, adjustedTemperature)
 			temperature: adjustedTemperature,
 		}),
 	});
-	const data = await response.json();
-	return data.choices[0].message.content;
+	const output = await response.json();
+	return output.choices[0].message.content;
 }

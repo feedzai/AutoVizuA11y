@@ -12,14 +12,14 @@ import { getOrdinalNumber } from "../../utils/maths";
 export function overallComparer(event, alertDiv, insights, arrayConverted, focusedData) {
 	const { nativeEvent } = event;
 
-	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights === false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights === "") {
 		alertDiv.textContent = "That shortcut does not work in this chart";
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 		return;
 	}
-	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights !== false) {
+	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights !== "") {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			setTimeout(function () {

@@ -12,7 +12,7 @@ export function jumpXpoints(event, number, elements, selectedSeries, series) {
 	//going backward
 	if (series.length !== 0 && selectedSeries.length !== 0) {
 		let currentSeriesPos = series.indexOf(selectedSeries);
-		let currentSeriesName = series[currentSeriesPos];
+		let currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
 
 		const currentSeries = [];
 		for (let i = 0; i < elements.length; i++) {

@@ -45,25 +45,6 @@ export function keyHandler(
 	jumpXcharts(event, ref);
 
 	if (arrayConverted) {
-		let oldArrayConverted = arrayConverted;
-
-		if (series.length !== 0 && selectedSeries.length !== 0) {
-			let currentSeriesPos = series.indexOf(selectedSeries);
-			let currentSeriesName = series[currentSeriesPos];
-
-			arrayConverted = arrayConverted[currentSeriesPos];
-
-			const currentSeries = [];
-			for (let i = 0; i < elements.length; i++) {
-				const element = elements[i];
-				const a = `series:${currentSeriesName}`;
-				if (element.classList.contains(a)) {
-					currentSeries.push(element);
-				}
-			}
-			elements = currentSeries;
-		}
-
 		let focusedIndex = Array.prototype.findIndex.call(
 			elements,
 			(el) => el === document.activeElement,
@@ -73,15 +54,6 @@ export function keyHandler(
 
 		insightsSetter(event, alertDiv, insights, insightsArray);
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
-
-		if (series.length !== 0 && selectedSeries.length !== 0) {
-			const flattenedOAC = oldArrayConverted.reduce((total, subArray) => {
-				return total.concat(subArray);
-			}, []);
-			//squash oldArrayConverted;
-			arrayConverted = flattenedOAC;
-		}
-
 		overallComparer(event, alertDiv, insights, arrayConverted, focusedData);
 		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
 		skip(event, ref, selectorType, selectedSeries);
