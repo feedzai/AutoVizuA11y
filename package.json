@@ -1,6 +1,6 @@
 {
 	"name": "@feedzai/autovizua11y",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"main": "dist/index.js",
 	"repository": {

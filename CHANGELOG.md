@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 1.0.1 - 2023-12-06
+
 ### Added
 
 - Fixed the previously correction of the "series:" class attribution in the data elements that would break the navigation inside multi series charts
