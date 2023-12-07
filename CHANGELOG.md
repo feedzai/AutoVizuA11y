@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 1.0.2 - 2023-12-06
+### Added
+- Fixed the previously correction of the "series:" class attribution in the data elements that would break the navigation inside multi series charts
+
+## 1.0.1 - 2023-12-06
+### Added
+- Corrected the attribution of the "series:" class in the data elements that would break the navigation inside multi series charts
+
 ## 1.0.0 - 2023-11-14
 ### Added
 - Added support for charts with multiple encodings

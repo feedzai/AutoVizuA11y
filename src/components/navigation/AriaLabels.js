@@ -24,7 +24,7 @@ export function addsAriaLabels(ref, descriptor, selectorType, data, multiSeries)
 			elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
 			if (multiSeries && multiSeries != "") {
 				const seriesClass = item[multiSeries].replace(/ /g, "-");
-				elements[i].setAttribute("class", `series:${seriesClass}`);
+				elements[i].classList.add(`series:${seriesClass}`);
 			}
 		}
 	});
