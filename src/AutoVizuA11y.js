@@ -144,7 +144,7 @@ const AutoVizuA11y = ({
 			if (document.getElementById("root")) {
 				const target = document.getElementById("root").firstChild
 					? document.getElementById("root").firstChild.nextSibling
-					: document.getElementById("root");
+					: undefined;
 
 				document.getElementById("root").insertBefore(container, target);
 			}

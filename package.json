@@ -26,7 +26,8 @@
 		"build": "rm -rf dist && NODE_ENV=production babel src --out-dir dist --copy-files",
 		"format": "npx prettier --write '**/*.js'",
 		"test": "jest",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"release:local": "npm version prerelease --preid=rc && npm run build && npm pack"
 	},
 	"eslintConfig": {
 		"extends": [
