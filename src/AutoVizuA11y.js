@@ -142,9 +142,11 @@ const AutoVizuA11y = ({
 			const container = document.createElement("div");
 			ReactDOM.render(nav, container);
 			if (document.getElementById("root")) {
-				document
-					.getElementById("root")
-					.insertBefore(container, document.getElementById("root").firstChild.nextSibling);
+				const target = document.getElementById("root").firstChild
+					? document.getElementById("root").firstChild.nextSibling
+					: undefined;
+
+				document.getElementById("root").insertBefore(container, target);
 			}
 		}
 	}
