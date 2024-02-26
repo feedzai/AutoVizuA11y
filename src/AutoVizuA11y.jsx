@@ -6,20 +6,17 @@
  */
 
 import React, { useRef, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 
-import { addsAriaLabels } from "./components/navigation/AriaLabels";
-import { keyHandler } from "./components/shortcuts/KeyHandler";
-import { arrayConverter } from "./utils/arrayConverter";
-import newId from "./utils/newId";
-import { levelChart, levelNav } from "./components/navigation/LevelNavigation";
+import { addsAriaLabels, keyHandler, levelChart, levelNav } from "./components";
+import { arrayConverter, newId } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsChanger } from "./components/descriptions/Descriptions";
 
-import "./style/AutoVizuA11y.css";
+import "./assets/style/AutoVizuA11y.css";
 
 const AutoVizuA11y = ({
 	type,
@@ -140,11 +137,16 @@ const AutoVizuA11y = ({
 				</div>
 			);
 			const container = document.createElement("div");
-			ReactDOM.render(nav, container);
-			if (document.getElementById("root")) {
-				document
-					.getElementById("root")
-					.insertBefore(container, document.getElementById("root").firstChild.nextSibling);
+			const root = document.getElementById("root");
+			const reactRoot = ReactDOM.createRoot(container);
+			reactRoot.render(<React.StrictMode>{nav}</React.StrictMode>);
+
+			if (root) {
+				const next = root.firstChild?.nextSibling;
+
+				if (next) {
+					root.insertBefore(container, next);
+				}
 			}
 		}
 	}
@@ -232,13 +234,13 @@ const AutoVizuA11y = ({
 			ref={ref}
 			onKeyDown={handleKeyDown}
 			className="a11y_chart"
-			data-testId="a11y_chart"
+			data-testid="a11y_chart"
 			role="form"
 		>
 			<p
 				style={{ textIndent: "-10000px" }}
 				className="a11y_desc visually-hidden"
-				data-testId="a11y_desc"
+				data-testid="a11y_desc"
 				onFocus={handleFocus}
 				onBlur={handleBlur}
 			>

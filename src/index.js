@@ -5,6 +5,4 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import AutoVizuA11y from "./AutoVizuA11y";
-
-export { AutoVizuA11y };
+export { default as AutoVizuA11y } from "./AutoVizuA11y";

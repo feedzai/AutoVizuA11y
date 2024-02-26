@@ -6,12 +6,12 @@
  */
 
 //rounds the numbers
-export function rounding(number) {
+export function rounding(number: number) {
 	return Math.round(number * 100) / 100;
 }
 
 //calculates the median value
-export function median(arr) {
+export function median(arr: number[]) {
 	const sortedArr = arr.sort((a, b) => a - b);
 	const mid = Math.floor(sortedArr.length / 2);
 	if (sortedArr.length % 2 === 0) {
@@ -22,7 +22,7 @@ export function median(arr) {
 }
 
 //returns the ordinal number based on a number
-export function getOrdinalNumber(number) {
+export function getOrdinalNumber(number: number) {
 	// 1 would return "1st lowest" or "1st highest"
 	if (number === 1) {
 		return "";
@@ -33,18 +33,18 @@ export function getOrdinalNumber(number) {
 	return number + suffix;
 }
 
-export function sum(array) {
+export function sum(array: number[]) {
 	return Math.round(array.reduce((a, b) => a + b, 0) * 100) / 100;
 }
 
-export function avg(array, sum) {
+export function avg(array: number[], sum: number) {
 	return Math.round((sum / array.length || 0) * 100) / 100;
 }
 
-export function max(array) {
+export function max(array: number[]) {
 	return Math.round(Math.max(...array) * 100) / 100;
 }
 
-export function min(array) {
+export function min(array: number[]) {
 	return Math.round(Math.min(...array) * 100) / 100;
 }

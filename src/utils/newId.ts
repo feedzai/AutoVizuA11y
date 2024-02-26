@@ -7,7 +7,7 @@
 
 let lastId = 0;
 
-export default function (prefix = "id") {
+export function newId(prefix = "id") {
 	lastId++;
 	return `${prefix}${lastId}`;
 }

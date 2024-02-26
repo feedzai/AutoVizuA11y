@@ -5,23 +5,11 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-.focused {
-	outline: 2px solid blue;
-}
-
-.focused .a11y_desc:focus {
-	outline: none; /* Remove default focus outline */
-}
-
-.visually-hidden {
-	position: absolute;
-	position: absolute !important;
-	width: 1px !important;
-	height: 1px !important;
-	padding: 0 !important;
-	margin: -1px !important;
-	overflow: hidden !important;
-	clip: rect(0, 0, 0, 0) !important;
-	white-space: nowrap !important;
-	border: 0 !important;
+//converts the dictionary array into one only with values
+export async function arrayConverter<T>(data: T[], insights: keyof T) {
+	if (insights) {
+		return data.map((item) => item[insights]);
+	} else {
+		return [];
+	}
 }
