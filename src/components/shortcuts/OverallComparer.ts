@@ -5,21 +5,26 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { median } from "../../utils/maths";
-import { getOrdinalNumber } from "../../utils/maths";
+import { median, getOrdinalNumber } from "../../utils/maths";
 
-//makes the comparison between the focusedData and the overall data
-export function overallComparer(event, alertDiv, insights, arrayConverted, focusedData) {
-	const { nativeEvent } = event;
+// Makes the comparison between the focusedData and the overall data
+export function overallComparer(
+	event: React.KeyboardEvent,
+	alertDiv: HTMLDivElement,
+	insights: string,
+	arrayConverted: number[],
+	focusedData: number | undefined,
+): void {
+	const { altKey, code } = event;
 
-	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights === "") {
+	if (altKey && code === "KeyZ" && insights === "") {
 		alertDiv.textContent = "That shortcut does not work in this chart";
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 		return;
 	}
-	if (nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights !== "") {
+	if (altKey && code === "KeyZ" && insights !== "") {
 		if (typeof focusedData === "undefined") {
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			setTimeout(function () {
@@ -34,11 +39,11 @@ export function overallComparer(event, alertDiv, insights, arrayConverted, focus
 	}
 }
 
-//actually compares both values
-function comparer(arrayConverted, focusedData) {
-	let dataSuperConverted = trimSort(arrayConverted);
-	let positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
-	let med = median(dataSuperConverted);
+// Actually compares both values
+function comparer(arrayConverted: number[], focusedData: number): string {
+	const dataSuperConverted = trimSort(arrayConverted);
+	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
+	const med = median(dataSuperConverted);
 
 	if (focusedData === med) return "This is the median value";
 
@@ -48,10 +53,12 @@ function comparer(arrayConverted, focusedData) {
 		);
 
 	if (focusedData < med) return "This is " + getOrdinalNumber(positionValue + 1) + " lowest value.";
+
+	return "";
 }
 
-//trims and sorts the data array
-function trimSort(arrayConverted) {
+// Trims and sorts the data array
+function trimSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];
 	arrayConverted.sort((a, b) => a - b);
 	return arrayConverted;

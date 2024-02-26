@@ -12,9 +12,8 @@ import { scaleBand, scaleLinear } from "@visx/scale";
 import { ascending, descending } from "d3-array";
 import { Text } from "@visx/text";
 import { mockChartData } from "./mockChartData";
-import React from "react";
 
-function BarChart() {
+export function MultiLineChart() {
 	const chartDimensions = {
 		marginTop: 0,
 		marginLeft: 3,
@@ -38,7 +37,7 @@ function BarChart() {
 				country.Series === "Population mid-year estimates (millions)" && country.Year === 2022,
 		)
 		.sort((a, b) => descending(a.Value, b.Value))
-		.filter((country, i) => i < 10)
+		.filter((_, i) => i < 10)
 		.sort((a, b) => ascending(a.Value, b.Value));
 
 	const accessors = {
@@ -84,7 +83,7 @@ function BarChart() {
 						const barX = 0;
 						const name = rect["Population, density and surface area"];
 						return (
-							<>
+							<g key={i}>
 								<rect
 									x={barX}
 									y={barY}
@@ -107,7 +106,7 @@ function BarChart() {
 								>
 									{name}
 								</Text>
-							</>
+							</g>
 						);
 					})}
 				</g>
@@ -124,5 +123,3 @@ function BarChart() {
 		</svg>
 	);
 }
-
-export default BarChart;

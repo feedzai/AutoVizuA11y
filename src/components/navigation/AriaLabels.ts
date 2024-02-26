@@ -6,25 +6,35 @@
  */
 
 //adds aria-labels to various data points
-export function addsAriaLabels(ref, descriptor, selectorType, data, multiSeries) {
-	let elements = [];
+export function addsAriaLabels(
+	ref: React.RefObject<HTMLElement>,
+	descriptor: string | undefined,
+	selectorType: { element?: string; className?: string },
+	data: { [key: string]: string }[],
+	multiSeries: string | undefined,
+): void {
+	if (!ref.current) return;
 
+	let elements: HTMLElement[] = [];
 	//either the data points are set given their tag (element) or class (className)
-	if (selectorType.element !== undefined && ref.current !== null) {
-		elements = ref.current.querySelectorAll(selectorType.element); // e.g.<rect>
-	} else if (selectorType.className !== undefined && ref.current !== null) {
-		elements = ref.current.getElementsByClassName(selectorType.className); //e.g."device-group"
+	if (selectorType.element !== undefined) {
+		elements = Array.from(ref.current.querySelectorAll(selectorType.element)); // e.g.<rect>
+	} else if (selectorType.className !== undefined) {
+		elements = Array.from(
+			ref.current.getElementsByClassName(selectorType.className),
+		) as HTMLElement[]; //e.g."device-group"
 	}
 
 	data.forEach((item, i) => {
 		const ariaLabel = Object.values(item).join(", "); // join all values with a comma and space
-		if (elements[i] !== undefined) {
-			elements[i].setAttribute("aria-label", ariaLabel);
-			elements[i].setAttribute("role", "");
-			elements[i].setAttribute("aria-roledescription", descriptor ? descriptor : "");
-			if (multiSeries && multiSeries != "") {
+		const element = elements[i];
+		if (element !== undefined) {
+			element.setAttribute("aria-label", ariaLabel);
+			element.setAttribute("role", "");
+			element.setAttribute("aria-roledescription", descriptor ? descriptor : "");
+			if (multiSeries && multiSeries !== "") {
 				const seriesClass = item[multiSeries].replace(/ /g, "-");
-				elements[i].classList.add(`series:${seriesClass}`);
+				element.classList.add(`series:${seriesClass}`);
 			}
 		}
 	});

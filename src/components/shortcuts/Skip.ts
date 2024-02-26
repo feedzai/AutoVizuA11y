@@ -5,46 +5,56 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//adds the option to skip to the end/beginning of chart
-export function skip(event, ref, selectorType, selectedSeries) {
-	let elements = [];
-	let activeElement = document.activeElement;
+// Adds the option to skip to the end/beginning of chart
+export function skip(
+	event: React.KeyboardEvent,
+	ref: React.RefObject<HTMLElement>,
+	selectorType: {
+		element?: string;
+		className?: string;
+	},
+	selectedSeries: string,
+): void {
+	let elements: HTMLElement[] = [];
+	const activeElement: HTMLElement | null = document.activeElement as HTMLElement | null;
 	const { nativeEvent } = event;
 
 	if (selectorType.element !== undefined) {
-		elements = ref.current.querySelectorAll(selectorType.element);
+		const result = ref?.current?.querySelectorAll<HTMLElement>(selectorType.element);
+
+		if (result) {
+			elements = Array.from(result);
+		}
 	} else {
-		elements = ref.current.getElementsByClassName(selectorType.className);
+		const result = ref?.current?.getElementsByClassName(selectorType.className!);
+
+		if (result) {
+			elements = Array.from(result) as HTMLElement[];
+		}
 	}
 
 	if (selectedSeries.length !== 0) {
-		const filteredElements = [];
-		for (let i = 0; i < elements.length; i++) {
-			const element = elements[i];
+		const filteredElements = elements.filter((element) => {
 			const a = `series:${selectedSeries}`;
-			if (element.classList.contains(a)) {
-				filteredElements.push(element);
-			}
-		}
+			return element.classList.contains(a);
+		});
 		elements = filteredElements;
 	}
 
-	//if the elements are focusable (eg buttons) it would work in chart level
-	let aux = Array.from(elements);
-	if (!aux.includes(activeElement)) {
+	// If the elements are focusable (e.g., buttons), it would work at the chart level
+	if (!activeElement || !elements.includes(activeElement)) {
 		return;
 	}
 
-	//skips to the beggining
+	// Skips to the beginning
 	if ((nativeEvent.altKey && nativeEvent.code === "KeyQ") || nativeEvent.code === "Home") {
 		nativeEvent.preventDefault();
-		elements[0].focus();
+		elements[0]?.focus();
 	}
 
-	//skips to the end
+	// Skips to the end
 	if ((nativeEvent.altKey && nativeEvent.code === "KeyW") || nativeEvent.code === "End") {
 		nativeEvent.preventDefault();
-		elements[elements.length - 1].focus();
+		elements[elements.length - 1]?.focus();
 	}
-	return;
 }

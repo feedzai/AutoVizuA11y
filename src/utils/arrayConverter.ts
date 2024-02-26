@@ -6,7 +6,7 @@
  */
 
 //converts the dictionary array into one only with values
-export async function arrayConverter(data, insights) {
+export async function arrayConverter<T>(data: T[], insights: keyof T) {
 	if (insights) {
 		return data.map((item) => item[insights]);
 	} else {

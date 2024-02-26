@@ -7,9 +7,15 @@
 
 import { rounding } from "../../utils/maths";
 
-//compares the focusedData against various insights
-//insights = [sum, average, max, min];
-export function insightsComparer(event, alertDiv, insights, insightsArray, focusedData) {
+// Compares the focusedData against various insights
+// insights = [sum, average, max, min];
+export function insightsComparer(
+	event: React.KeyboardEvent,
+	alertDiv: HTMLElement,
+	insights: string,
+	insightsArray: number[],
+	focusedData?: number,
+): void {
 	const { nativeEvent } = event;
 
 	if (
@@ -24,7 +30,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 		}, 1000); // 1000 milliseconds = 1 second
 	}
 
-	//data point vs average
+	// Data point vs average
 	if (
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
@@ -40,7 +46,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 	}
-	//data point vs max
+	// Data point vs max
 	if (
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
@@ -56,7 +62,7 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 	}
-	//data point vs min
+	// Data point vs min
 	if (
 		nativeEvent.altKey &&
 		nativeEvent.shiftKey &&
@@ -74,11 +80,13 @@ export function insightsComparer(event, alertDiv, insights, insightsArray, focus
 	}
 }
 
-//produces the message based on the comparison
-function comparer(code, insight, focusedData) {
+// Produces the message based on the comparison
+function comparer(code: string, insight: number, focusedData: number): string | null {
 	if (insight > focusedData)
-		return "The value is " + rounding(insight - focusedData) + " bellow the " + code;
+		return "The value is " + rounding(insight - focusedData) + " below the " + code;
 	if (insight < focusedData)
 		return "The value is " + rounding(focusedData - insight) + " above the " + code;
 	if (insight === focusedData) return "The value is the same as the " + code;
+
+	return null;
 }
