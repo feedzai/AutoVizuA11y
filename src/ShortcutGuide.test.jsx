@@ -4,16 +4,13 @@
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
-
+import { test, expect } from "vitest";
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect"; // For additional assertion methods
 
 import AutoVizuA11y from "./AutoVizuA11y";
-import MultiLineChart from "../test_utils/multiLineChart";
+import { mockChartData, mockAutoVizData, MultiLineChart } from "./utils/tests";
 import ShortcutGuide from "./ShortcutGuide";
-import { mockChartData } from "../test_utils/mockChartData";
-import { mockAutoVizData } from "../test_utils/mockAutoVizData";
 
 test("Display style of the shortcut guide should change when keys are pressed", async () => {
 	render(
