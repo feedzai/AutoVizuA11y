@@ -1,6 +1,7 @@
 {
 	"name": "@feedzai/autovizua11y",
-	"private": true,
+	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
+	"private": false,
 	"version": "1.0.2",
 	"author": "Feedzai",
 	"license": "AGPL-3.0",
