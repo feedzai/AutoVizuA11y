@@ -146,6 +146,8 @@ const AutoVizuA11y = ({
 
 				if (next) {
 					root.insertBefore(container, next);
+				} else {
+					root.appendChild(container);
 				}
 			}
 		}
