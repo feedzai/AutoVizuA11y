@@ -15,7 +15,7 @@ export function jumpXpoints(
 ): void {
 	const { key, nativeEvent } = event;
 
-	// Going backward
+	// In case of having multiple series
 	if (series.length !== 0 && selectedSeries.length !== 0) {
 		const currentSeriesPos = series.indexOf(selectedSeries);
 		const currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
@@ -30,6 +30,7 @@ export function jumpXpoints(
 		elements = currentSeries;
 	}
 
+	// Going backward
 	if (key === "ArrowLeft" && document.activeElement && Array.isArray(elements)) {
 		let currentPosition = elements.indexOf(document.activeElement as HTMLElement);
 
@@ -52,7 +53,7 @@ export function jumpXpoints(
 	}
 
 	// Going forward
-	if (key === "ArrowRight") {
+	if (key === "ArrowRight" && document.activeElement && Array.isArray(elements)) {
 		let currentPosition = elements.indexOf(document.activeElement as HTMLElement);
 
 		// Returns to normal while on the last element
@@ -75,10 +76,11 @@ export function jumpXpoints(
 }
 
 // Handles the navigation between charts
-export function jumpXcharts(event: React.KeyboardEvent, ref: React.RefObject<HTMLElement>): void {
-	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
-	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
-
+export function jumpXcharts(
+	event: React.KeyboardEvent,
+	charts: Element[],
+	chart: HTMLElement,
+): void {
 	if (chart === document.activeElement && charts.includes(chart)) {
 		const currentPosition = charts.indexOf(chart);
 

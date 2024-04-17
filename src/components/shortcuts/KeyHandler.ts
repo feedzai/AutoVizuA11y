@@ -34,12 +34,12 @@ export function keyHandler(
 	selectedSeries: string,
 	autoDescOptions: boolean,
 ): number {
-	let elements: HTMLElement[] | NodeListOf<HTMLElement> = [];
+	let elements: HTMLElement[] = [];
 	let alertDiv: HTMLDivElement;
 
 	if (ref.current) {
 		if (selectorType.element !== undefined) {
-			elements = ref.current.querySelectorAll(selectorType.element);
+			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
 		} else {
 			elements = Array.from(
 				ref.current.getElementsByClassName(selectorType.className || ""),
@@ -51,8 +51,14 @@ export function keyHandler(
 	}
 
 	number = xSetter(event, type, number, alertDiv);
-	jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
-	jumpXcharts(event, ref);
+
+	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
+	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	if (chart === document.activeElement && charts.includes(chart)) {
+		jumpXcharts(event, charts, chart);
+	} else {
+		jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
+	}
 
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
