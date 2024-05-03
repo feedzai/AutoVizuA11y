@@ -25,16 +25,10 @@ If applicable, add a screenshot, short video or gif to help explain your problem
 
 **Desktop (please complete the following information):**
 
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
-
-- Device: [e.g. iPhone6]
-- OS: [e.g. iOS8.1]
-- Browser [e.g. stock browser, safari]
-- Version [e.g. 22]
+- OS: [e.g. Windows, MacOS]
+- Browser: [e.g. Chrome, Safari]
+- Screen Reader: [e.g. VoiceOver, Jaws]
+- AutoVizuA11y Version: [e.g. 1.0.2]
 
 **Additional context**
 Add any other context about the problem here.
