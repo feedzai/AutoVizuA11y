@@ -26,7 +26,7 @@ Before committing your changes, ensure all tests pass by running `npm run test`.
 
 ## Assistance Required
 
-Check out the [open issues][issues] for tasks that need assistance.
+Check out the [open issues][issues] for tasks that need assistance. Please follow one of the provided templates when adding an issue to this repository.
 
 Also, please consider watching the repository and actively participating in discussions, responding to questions, bug reports, and feature requests. Your engagement is appreciated!
 

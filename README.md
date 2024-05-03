@@ -2,9 +2,9 @@
 
 ## Description
 
-AutoVizuA11y is a React library that automates the process of creating accessible data visualizations. It focuses on features that improve the exploration of charts with screen readers, without requiring extensive accessibility knowledge from developers.
+AutoVizuA11y is a React library that automates the process of creating accessible data visualizations for screen reader users. It focuses on features that improve the exploration of charts with a keyboard, without requiring extensive accessibility knowledge from developers.
 
-This tool focuses on three different key components that were identified after consulting with several screen reader users: chart navigability; shortcuts that allow one to navigate the charts and get insights more quickly; and insightful chart descriptions.
+This tool focuses on three different key components that were identified after consulting with several screen reader users: chart navigability; insightful chart descriptions; and shortcuts that allow one to navigate the charts and get insights more quickly.
 
 ## Install AutoVizuA11y
 
@@ -33,17 +33,18 @@ cd autovizua11y
 #### Outputs
 
 - **Navigation**
-  - Between data visualizations wrapped by AutoVizuA11y present on the same page;
-  - Between those same data visualizations and underlying data elements;
-  - Between the underlying data elements.
+  - "Horizontally", between different data visualizations and between data elements;
+  - "Vertically", between data visualizations and their underlying data elements;
+  - Between different data series (in case more than one exist).
 - **Descriptions**
   - Labels for every data element;
-  - Two descriptions for every data visualization wrapped by AutoVizuA11y. Both are composed of a title, information on the visualization type, and a human-like description generated using the `gpt-3.5-turbo` model from OpenAI. They can be made longer or shorter, depending on the user's requirements. The shorter description is announced by default once the data visualization gets focused. The descriptions can also be inputted manually.
+  - Two descriptions, a longer and a shorter, for every data visualization wrapped by AutoVizuA11y. Both are composed of a title, the visualization type, whether the description was automatically generated, and a human-like summary generated using the `gpt-3.5-turbo` model from OpenAI. The shorter description is announced by default once the data visualization gets focused. The descriptions can also be manually written.
 - **Shortcuts**
-  - That improve navigation by increasing speed and efficiency in the exploration of a chart;
-  - That provide statistical insights about the data.
+  - QOL navigation shortcuts that increase speed and efficiency in the exploration of a chart;
+  - Shortcuts that offer statistical insights about the data on demand;
+  - A Shortcut Guide that can be consulted while focusing an AutoVizuA11y chart.
 
-## AutoVizuA11y properties
+## AutoVizuA11y component properties
 
 | Property             | Required/Optional   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | -------------------- | ------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
