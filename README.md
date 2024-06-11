@@ -194,3 +194,19 @@ You can check a series of examples built using AutoVizuA11y [here](https://diogo
 |                    <kbd>Alt (option)</kbd> + <kbd>S</kbd> | Set shorter description of the chart (default)                |
 
 Other licensing options may be available, please reach out to [data-viz@feedzai.com](mailto:data-viz@feedzai.com) for more information.
+
+## Citing AutoVizuA11y
+
+```bib
+@article{2024-AutoVizuA11y,
+  title = {AutoVizuA11y: A Tool to Automate Screen Reader Accessibility in Charts},
+  ISSN = {1467-8659},
+  url = {http://dx.doi.org/10.1111/cgf.15099},
+  DOI = {10.1111/cgf.15099},
+  journal = {Computer Graphics Forum},
+  publisher = {Wiley},
+  author = {Duarte, Diogo and Costa, Rita and Bizarro, Pedro and Duarte, Carlos},
+  year = {2024},
+  month = jun
+}
+```
