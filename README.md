@@ -197,6 +197,8 @@ Other licensing options may be available, please reach out to [data-viz@feedzai.
 
 ## Citing AutoVizuA11y
 
+Below is the BibTeX entry for the EuroVis'24 full paper that explains the process of creating AutoVizuA11y.
+
 ```bib
 @article{2024-AutoVizuA11y,
   title = {AutoVizuA11y: A Tool to Automate Screen Reader Accessibility in Charts},
