@@ -6,8 +6,8 @@
  */
 
 import React from "react";
-import { render, fireEvent, screen, waitFor, unmount } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect"; // For additional assertion methods
+import { test, afterEach, expect, vi } from "vitest";
+import { render, fireEvent, screen, waitFor } from "@testing-library/react";
 
 import AutoVizuA11y from "./AutoVizuA11y";
 import MultiLineChart from "../test_utils/multiLineChart";
@@ -15,6 +15,7 @@ import { mockChartData } from "../test_utils/mockChartData";
 import { mockAutoVizData } from "../test_utils/mockAutoVizData";
 
 let component;
+window.prompt = vi.fn();
 afterEach(() => component.unmount());
 
 // Check aria-label
@@ -356,7 +357,7 @@ test("Check data point comparisons with cross chart statistics", async () => {
 		altKey: true,
 		shiftKey: true,
 	});
-	await expect(ariaLiveRegion.textContent).toBe("The value is 312.28 bellow the average");
+	await expect(ariaLiveRegion.textContent).toBe("The value is 312.28 below the average");
 	fireEvent.keyDown(secondrect, {
 		key: "‚",
 		keyCode: 75,
@@ -366,7 +367,7 @@ test("Check data point comparisons with cross chart statistics", async () => {
 		altKey: true,
 		shiftKey: true,
 	});
-	await expect(ariaLiveRegion.textContent).toBe("The value is 1281.18 bellow the maximum value");
+	await expect(ariaLiveRegion.textContent).toBe("The value is 1281.18 below the maximum value");
 	fireEvent.keyDown(secondrect, {
 		key: "‚",
 		keyCode: 75,
