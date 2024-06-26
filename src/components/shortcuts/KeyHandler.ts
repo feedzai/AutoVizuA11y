@@ -13,44 +13,67 @@ import { overallComparer } from "./OverallComparer";
 import { descriptionsChanger } from "../descriptions/Descriptions";
 import { skip } from "./Skip";
 
+type SelectorType = {
+	element?: string;
+	className?: string;
+};
+
+type AutoDescriptionsProps = {
+	dynamicDescriptions?: boolean;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+};
+
 // Handles the functions related to keypresses
 export function keyHandler(
-	type,
-	event,
-	number,
-	ref,
-	selectorType,
-	insights,
-	insightsArray,
-	arrayConverted,
-	title,
-	descs,
-	series,
-	selectedSeries,
-	autoDescOptions,
-) {
-	let elements;
-	let alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
+	type: string,
+	event: React.KeyboardEvent,
+	number: number,
+	ref: React.RefObject<HTMLElement>,
+	selectorType: SelectorType,
+	insights: string,
+	insightsArray: number[],
+	arrayConverted: number[] | undefined,
+	title: string,
+	descs: string[],
+	series: string[],
+	selectedSeries: string,
+	autoDescOptions?: AutoDescriptionsProps,
+): number {
+	let elements: HTMLElement[] = [];
+	let alertDiv: HTMLDivElement;
 
 	if (ref.current) {
 		if (selectorType.element !== undefined) {
-			elements = ref.current.querySelectorAll(selectorType.element);
+			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
 		} else {
-			elements = ref.current.getElementsByClassName(selectorType.className);
+			elements = Array.from(
+				ref.current.getElementsByClassName(selectorType.className || ""),
+			) as HTMLElement[];
 		}
+		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
+	} else {
+		alertDiv = document.createElement("div"); // Dummy alert div
 	}
 
 	number = xSetter(event, type, number, alertDiv);
-	jumpXpoints(event, number, elements, selectedSeries, series);
-	jumpXcharts(event, ref);
+
+	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
+	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	if (chart === document.activeElement && charts.includes(chart)) {
+		jumpXcharts(event, charts, chart);
+	} else {
+		jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
+	}
 
 	if (arrayConverted) {
-		let focusedIndex = Array.prototype.findIndex.call(
+		const focusedIndex = Array.prototype.findIndex.call(
 			elements,
-			(el) => el === document.activeElement,
+			(el: HTMLElement) => el === document.activeElement,
 		);
 
-		let focusedData = arrayConverted[focusedIndex];
+		const focusedData = arrayConverted[focusedIndex];
 
 		insightsSetter(event, alertDiv, insights, insightsArray);
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);

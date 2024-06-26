@@ -5,11 +5,20 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//converts the dictionary array into one only with values
-export async function arrayConverter(data, insights) {
-	if (insights) {
-		return data.map((item) => item[insights]);
-	} else {
+import { sum, avg, max, min } from "./maths";
+
+//calculates insights based on the array with only the values
+export function insightsCalculator<T extends number>(arrayConverted: T[]): number[] {
+	if (arrayConverted === undefined) {
 		return [];
 	}
+	let insights = [];
+
+	const x = sum(arrayConverted);
+	const y = avg(arrayConverted, x);
+	const z = max(arrayConverted);
+	const w = min(arrayConverted);
+	insights = [x, y, z, w];
+
+	return insights;
 }

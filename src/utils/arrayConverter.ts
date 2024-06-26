@@ -5,4 +5,11 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
+//converts the dictionary array into one only with values
+export async function arrayConverter<T>(data: T[], insights: string): Promise<number[]> {
+	if (insights && typeof insights === "string") {
+		return data.map((item) => (item as any)[insights]);
+	} else {
+		return [];
+	}
+}
