@@ -14,7 +14,7 @@ import { Text } from "@visx/text";
 import { mockChartData } from "./mockChartData";
 import React from "react";
 
-export function MultiLineChart() {
+export default function MultiLineChart() {
 	const chartDimensions = {
 		marginTop: 0,
 		marginLeft: 3,
