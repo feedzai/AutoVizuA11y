@@ -5,11 +5,5 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//converts the dictionary array into one only with values
-export async function arrayConverter(data, insights) {
-	if (insights) {
-		return data.map((item) => item[insights]);
-	} else {
-		return [];
-	}
-}
+export * from "./Descriptions";
+export * from "./DescriptionsGenerator";

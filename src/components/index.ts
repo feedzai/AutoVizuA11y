@@ -5,9 +5,6 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-let lastId = 0;
-
-export default function (prefix = "id") {
-	lastId++;
-	return `${prefix}${lastId}`;
-}
+export * from "./descriptions";
+export * from "./navigation";
+export * from "./shortcuts";

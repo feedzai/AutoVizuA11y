@@ -5,4 +5,16 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
+let lastId = 0;
+
+/**
+ * Returns a new Id to be used by each AutoVizuA11y instance.
+ *
+ * @export
+ * @param {string} [prefix="id"]
+ * @return {string} An ID.
+ */
+export function newId(prefix = "id") {
+	lastId++;
+	return `${prefix}${lastId}`;
+}

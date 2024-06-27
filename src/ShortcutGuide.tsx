@@ -8,7 +8,12 @@
 import React, { useRef, useEffect } from "react";
 import "./style/ShortcutGuideStyle.css";
 
-const ShortcutGuide = () => {
+/**
+ * Component that renders the list of all AutoVizuA11y shortcuts.
+ *
+ * @return {JSX.Element} Shortcut guide.
+ */
+const ShortcutGuide: React.FC = () => {
 	const refNav = useRef(null);
 	useEffect(() => {
 		//needs a slight delay since some elements take time to load
@@ -17,13 +22,13 @@ const ShortcutGuide = () => {
 
 	return (
 		<>
-			<div className="a11y_modal" data-testId="a11y_modal" role="button">
+			<div className="a11y_modal" data-testid="a11y_modal" role="button">
 				<div
 					className="a11y_modal_content"
-					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between 
-          charts and underlying data elements using just the keyboard. When focused on a chart, 
-          a description regarding the data will be provided — you might receive a notification 
-          indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is 
+					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
+          charts and underlying data elements using just the keyboard. When focused on a chart,
+          a description regarding the data will be provided — you might receive a notification
+          indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is
           recommended to turn Focus mode before navigating the data using the arrow keys."
 				>
 					<div id="guide_container">
@@ -38,7 +43,7 @@ const ShortcutGuide = () => {
 						<div className="flex_column">
 							<table role={"group"}>
 								<tbody>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -65,7 +70,7 @@ const ShortcutGuide = () => {
 										<th className="a11y_shortcut">? or Esc</th>
 										<th className="a11y_explanation">Leave shortcut guide</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 
 									<tr className="a11y_row">
 										<th></th>
@@ -119,7 +124,7 @@ const ShortcutGuide = () => {
 											Move between series of data inside the chart
 										</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -177,14 +182,14 @@ const ShortcutGuide = () => {
 											Subtract one number to the data points to be jumped at a time
 										</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 								</tbody>
 							</table>
 						</div>
 						<div className="flex_column">
 							<table role={"group"}>
 								<tbody>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -207,7 +212,7 @@ const ShortcutGuide = () => {
 										<th className="a11y_shortcut">Alt (option) + L</th>
 										<th className="a11y_explanation">Maximum</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -259,7 +264,7 @@ const ShortcutGuide = () => {
 											Compare current data element to the rest of the chart
 										</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -288,7 +293,7 @@ const ShortcutGuide = () => {
 											Set shorter description of the chart (default)
 										</th>
 									</tr>
-									<div className="a11y_empty_row"></div>
+									<tr className="a11y_empty_row"></tr>
 								</tbody>
 							</table>
 						</div>
