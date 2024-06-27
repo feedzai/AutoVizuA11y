@@ -6,7 +6,7 @@
  */
 
 import React, { useRef, useEffect } from "react";
-import "./style/ShortcutGuideStyle.css";
+import "./assets/style/ShortcutGuideStyle.css";
 
 /**
  * Component that renders the list of all AutoVizuA11y shortcuts.
