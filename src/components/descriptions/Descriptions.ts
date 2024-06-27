@@ -13,7 +13,7 @@ type AutoDescriptionsProps = {
 };
 
 /**
- * Handles the longer and shorter description change when Alt+B or Alt+S are pressed, respectively.
+ * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
  *
  * @export
  * @param {React.RefObject<HTMLElement>} ref

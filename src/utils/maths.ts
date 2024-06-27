@@ -17,7 +17,7 @@ export function rounding(number: number) {
 }
 
 /**
- * Calculates the median value of a number array.
+ * Calculates the median value of an array of numbers.
  *
  * @export
  * @param {number[]} arr
@@ -34,7 +34,7 @@ export function median(arr: number[]) {
 }
 
 /**
- * Determines the ordinal version of a number.
+ * Transforms number to ordinal.
  *
  * @export
  * @param {number} number

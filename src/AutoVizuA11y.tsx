@@ -45,12 +45,12 @@ type AutoVizuA11yProps = {
 };
 
 /**
- * AutoVizuA11y component, that adds screen-reader accessibility to wrapped charts.
+ * AutoVizuA11y component that adds screen-reader accessibility to wrapped charts.
  *
  * @param {AutoVizuA11yProps} {
  * 	type, - type of chart;
  * 	descriptor, - descriptor of each data element;
- * 	selectorType, - HTML type or  classname of the data elements in the DOM;
+ * 	selectorType, - HTML type or classname of the data elements in the DOM;
  * 	title, - title of the chart;
  * 	data, - data used in the chart;
  * 	multiSeries, - key in the data object that defines each series;

@@ -23,9 +23,9 @@ export function xSetter(
 ): number {
 	const { nativeEvent } = event;
 
-	// Show form for Alt+X key combination
+	// Show form for Alt (option) + X key combination
 	if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
-		nativeEvent.preventDefault(); // Prevent default behavior of Alt+X
+		nativeEvent.preventDefault(); // Prevent default behavior of Alt (option) + X
 		const activeElement = document.activeElement as HTMLElement; // Store reference to currently focused element
 		const input = prompt("Enter a number above 0:");
 		if (input !== null && input !== "") {

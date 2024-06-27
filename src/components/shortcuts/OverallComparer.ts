@@ -8,7 +8,7 @@
 import { median, getOrdinalNumber } from "../../utils/maths";
 
 /**
- * Produces a message based on corner cases and calls comparer otherwise.
+ * Handles the comparison between a value and all others from the same chart.
  *
  * @export
  * @param {React.KeyboardEvent} event

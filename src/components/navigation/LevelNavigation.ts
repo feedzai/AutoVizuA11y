@@ -9,7 +9,7 @@ import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
 
 /**
- * Changes navigation based on key press.
+ * Listens for navigation related keypresses and handles the outcomes.
  *
  * @export
  * @param {React.KeyboardEvent<HTMLDivElement>} event
@@ -152,7 +152,7 @@ interface ExtendedHTMLElement extends HTMLElement {
 }
 
 /**
- * Shows the ShortcutGuide and gives it keyboard focus.
+ * Displays the ShortcutGuide and gives it keyboard focus.
  *
  * @param {React.RefObject<HTMLElement>} ref
  */
@@ -249,7 +249,7 @@ function levelData(
 }
 
 /**
- * Enables navigation on another data series.
+ * Enables navigation between data series.
  *
  * @param {React.RefObject<HTMLElement>} ref
  * @param {{ element?: string; className?: string }} selectorType

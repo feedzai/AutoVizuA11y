@@ -9,7 +9,7 @@ import React, { useRef, useEffect } from "react";
 import "./style/ShortcutGuideStyle.css";
 
 /**
- * Component that renders the list (also visual) of all AutoVizuA11y shortcuts.
+ * Component that renders the list of all AutoVizuA11y shortcuts.
  *
  * @return {JSX.Element} Shortcut guide.
  */

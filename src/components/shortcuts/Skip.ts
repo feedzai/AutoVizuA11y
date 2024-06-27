@@ -6,7 +6,7 @@
  */
 
 /**
- * Enables one to jump to the end/beginning of a chart.
+ * Enables the navigation to the end/beginning of a chart.
  *
  * @export
  * @param {React.KeyboardEvent} event
