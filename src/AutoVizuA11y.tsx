@@ -5,14 +5,11 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useRef, useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom/client";
 
-import { addsAriaLabels } from "./components/navigation/AriaLabels";
-import { keyHandler } from "./components/shortcuts/KeyHandler";
-import { arrayConverter } from "./utils/arrayConverter";
-import newId from "./utils/newId";
-import { levelChart, levelNav } from "./components/navigation/LevelNavigation";
+import { addsAriaLabels, keyHandler, levelChart, levelNav } from "./components";
+import { arrayConverter, newId } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
@@ -21,6 +18,71 @@ import { descriptionsChanger } from "./components/descriptions/Descriptions";
 
 import "./style/AutoVizuA11y.css";
 
+type AutoDescriptionsProps = {
+	dynamicDescriptions?: boolean;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+};
+
+type ManualDescriptionsProps = {
+	longer: string;
+	shorter: string;
+};
+
+type AutoVizuA11yProps = {
+	data: object[];
+	selectorType: object;
+	type: string;
+	title: string;
+	context: string;
+	insights: string;
+	descriptor?: string;
+	multiSeries?: string;
+	autoDescriptions?: AutoDescriptionsProps;
+	manualDescriptions?: ManualDescriptionsProps;
+	children: React.ReactNode;
+};
+
+/**
+ * AutoVizuA11y component that adds screen-reader accessibility to wrapped charts.
+ *
+ * @param {AutoVizuA11yProps} {
+ * 	type, - type of chart;
+ * 	descriptor, - descriptor of each data element;
+ * 	selectorType, - HTML type or classname of the data elements in the DOM;
+ * 	title, - title of the chart;
+ * 	data, - data used in the chart;
+ * 	multiSeries, - key in the data object that defines each series;
+ * 	insights, - key in the data object from which values will be used to derive statistical insights;
+ * 	context, - context in which the visualization is present;
+ * 	manualDescriptions, - object with properties to manually write the chart descriptions;
+ * 	autoDescriptions, - object with properties to automatically write the chart descriptions;
+ * 	children, - wrapped chart.
+ * }
+ * @return {JSX.Element} Rendered chart with AutoVizuA11y features.
+ *
+ * @example
+ * // SingleSeries with automatic descriptions
+ *
+ * 			<AutoVizuA11y
+ *				data={barData}
+ *				selectorType={{ element: "rect" }}
+ *				type="bar chart"
+ *				title="Number of hours spent looking at a screen per day of the week."
+ *				context="Screen time dashboard"
+ *				insights="value"
+ *				descriptor="hours"
+ *				autoDescriptions={{
+ *					dynamicDescriptions: false,
+ *					apiKey: API_KEY,
+ *					model: "gpt-3.5-turbo",
+ *					temperature: 0.1,
+ *				}}
+ *			>
+ *				<BarChart></BarChart>
+ *			</AutoVizuA11y>
+ */
 const AutoVizuA11y = ({
 	type,
 	descriptor,
@@ -33,28 +95,28 @@ const AutoVizuA11y = ({
 	manualDescriptions,
 	autoDescriptions,
 	children,
-}) => {
+}: AutoVizuA11yProps) => {
 	let chart = React.Children.map(children, (child) => <div>{child}</div>);
-	const ref = useRef(null);
+	const ref = React.useRef<HTMLDivElement>(null);
 
 	//could be converted to prop
-	let alertDiv;
+	let alertDiv: HTMLElement | null;
 
-	let storedLonger;
-	let storedSmaller;
+	let storedLonger: string | null;
+	let storedSmaller: string | null;
 
 	let toolTutorial;
 
-	let apiKey;
-	let model;
-	let temperature;
+	let apiKey: string;
+	let model: string | undefined;
+	let temperature: number | undefined;
 
-	const [series, setSeries] = useState([]);
-	const [selectedSeries, setSelectedSeries] = useState([]);
-	const [insightsArray, setInsightsArray] = useState([]);
-	const [arrayConverted, setArrayConverted] = useState([]);
-	const [number, setNumber] = useState(1);
-	const [descs, setDescs] = useState([]);
+	const [series, setSeries] = useState<string[]>([]);
+	const [selectedSeries, setSelectedSeries] = useState<string>("");
+	const [insightsArray, setInsightsArray] = useState<number[]>([]);
+	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
+	const [number, setNumber] = useState<number>(1);
+	const [descs, setDescs] = useState<string[]>([]);
 
 	if (autoDescriptions) {
 		apiKey = autoDescriptions.apiKey;
@@ -74,16 +136,20 @@ const AutoVizuA11y = ({
 
 	const handleFocus = () => {
 		//css
-		ref.current.classList.add("focused");
+		ref.current!.classList.add("focused");
 		toolTutorial = localStorage.getItem("toolTutorial");
 		if (toolTutorial === "true") {
-			alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
-			alertDiv.textContent =
-				"You just entered an AutoVizually chart." +
-				" For information on how to interact with it, press the question mark key" +
-				" to open the shortcut guide";
+			alertDiv = ref.current!.getElementsByClassName("a11y_alert")[0] as HTMLElement | null;
+			if (alertDiv) {
+				alertDiv.textContent =
+					"You just entered an AutoVizually chart." +
+					" For information on how to interact with it, press the question mark key" +
+					" to open the shortcut guide";
+			}
 			setTimeout(function () {
-				alertDiv.textContent = "\u00A0";
+				if (alertDiv) {
+					alertDiv.textContent = "\u00A0";
+				}
 			}, 1000);
 			localStorage.setItem("toolTutorial", "false");
 			toolTutorial = "false";
@@ -91,7 +157,7 @@ const AutoVizuA11y = ({
 	};
 
 	const handleBlur = () => {
-		ref.current.classList.remove("focused");
+		ref.current!.classList.remove("focused");
 	};
 
 	// Function to add an object to the array
@@ -124,7 +190,7 @@ const AutoVizuA11y = ({
 
 		if (multiSeries && multiSeries != "") {
 			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
-			const uniqueValues = [...new Set(data.map((item) => item[multiSeries]))];
+			const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
 			setSeries(uniqueValues);
 			setSelectedSeries(uniqueValues[0]);
 		}
@@ -140,13 +206,18 @@ const AutoVizuA11y = ({
 				</div>
 			);
 			const container = document.createElement("div");
-			ReactDOM.render(nav, container);
-			if (document.getElementById("root")) {
-				const target = document.getElementById("root").firstChild
-					? document.getElementById("root").firstChild.nextSibling
-					: undefined;
+			const root = document.getElementById("root");
+			const reactRoot = ReactDOM.createRoot(container);
+			reactRoot.render(<React.StrictMode>{nav}</React.StrictMode>);
 
-				document.getElementById("root").insertBefore(container, target);
+			if (root) {
+				const next = root.firstChild?.nextSibling;
+
+				if (next) {
+					root.insertBefore(container, next);
+				} else {
+					root.appendChild(container);
+				}
 			}
 		}
 	}
@@ -199,13 +270,15 @@ const AutoVizuA11y = ({
 	}, [ref]);
 
 	//sets the appropriate navigation keys in the ShortcutGuide
-	function handleNav(event) {
+	function handleNav(event: React.KeyboardEvent<HTMLDivElement>) {
 		levelNav(event, ref);
 	}
 
 	//sets the appropriate navigation keys and shortcuts in the charts and data
-	function handleKeyDown(event) {
-		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
+	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
+		let alertDiv: HTMLElement | null = ref.current?.getElementsByClassName(
+			"a11y_alert",
+		)[0] as HTMLElement;
 		levelNav(event, ref, alertDiv, selectorType, multiSeries, nextSeries, series, selectedSeries);
 		let numberAux = keyHandler(
 			type,
@@ -234,13 +307,13 @@ const AutoVizuA11y = ({
 			ref={ref}
 			onKeyDown={handleKeyDown}
 			className="a11y_chart"
-			data-testId="a11y_chart"
+			data-testid="a11y_chart"
 			role="form"
 		>
 			<p
 				style={{ textIndent: "-10000px" }}
 				className="a11y_desc visually-hidden"
-				data-testId="a11y_desc"
+				data-testid="a11y_desc"
 				onFocus={handleFocus}
 				onBlur={handleBlur}
 			>

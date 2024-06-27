@@ -14,7 +14,7 @@ import { Text } from "@visx/text";
 import { mockChartData } from "./mockChartData";
 import React from "react";
 
-function BarChart() {
+export default function MultiLineChart() {
 	const chartDimensions = {
 		marginTop: 0,
 		marginLeft: 3,
@@ -38,7 +38,7 @@ function BarChart() {
 				country.Series === "Population mid-year estimates (millions)" && country.Year === 2022,
 		)
 		.sort((a, b) => descending(a.Value, b.Value))
-		.filter((country, i) => i < 10)
+		.filter((_, i) => i < 10)
 		.sort((a, b) => ascending(a.Value, b.Value));
 
 	const accessors = {
@@ -71,7 +71,7 @@ function BarChart() {
 				<GridColumns
 					scale={xScale}
 					numTicks={4}
-					strokeDasharray={[3, 5]}
+					strokeDasharray={"3, 5"}
 					strokeWidth={0.8}
 					width={xMax}
 					height={yMax}
@@ -84,7 +84,7 @@ function BarChart() {
 						const barX = 0;
 						const name = rect["Population, density and surface area"];
 						return (
-							<>
+							<g key={i}>
 								<rect
 									x={barX}
 									y={barY}
@@ -107,7 +107,7 @@ function BarChart() {
 								>
 									{name}
 								</Text>
-							</>
+							</g>
 						);
 					})}
 				</g>
@@ -118,11 +118,10 @@ function BarChart() {
 					numTicks={4}
 					top={yMax}
 					tickLength={5}
+					// @ts-ignore
 					tickLabelProps={bottomLabelProps}
 				/>
 			</Group>
 		</svg>
 	);
 }
-
-export default BarChart;

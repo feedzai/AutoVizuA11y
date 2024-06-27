@@ -5,13 +5,28 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export function xSetter(event, type, number, alertDiv) {
+/**
+ * Handles the number of data elements to be jumped inside a chart.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {string} type
+ * @param {number} number
+ * @param {HTMLElement} alertDiv
+ * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ */
+export function xSetter(
+	event: React.KeyboardEvent,
+	type: string,
+	number: number,
+	alertDiv: HTMLElement,
+): number {
 	const { nativeEvent } = event;
 
-	// show form for Alt+X key combination
+	// Show form for Alt (option) + X key combination
 	if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
-		nativeEvent.preventDefault(); // prevent default behavior of Alt+X
-		const activeElement = document.activeElement; // store reference to currently focused element
+		nativeEvent.preventDefault(); // Prevent default behavior of Alt (option) + X
+		const activeElement = document.activeElement as HTMLElement; // Store reference to currently focused element
 		const input = prompt("Enter a number above 0:");
 		if (input !== null && input !== "") {
 			const parsedInput = parseInt(input);
@@ -22,22 +37,22 @@ export function xSetter(event, type, number, alertDiv) {
 					alertDiv.textContent = "\u00A0";
 				}, 1000);
 				const newNumber = parsedInput;
-				activeElement.focus(); // re-focus the stored element
+				activeElement.focus(); // Re-focus the stored element
 				return newNumber;
 			} else {
 				alertDiv.textContent = "Invalid input. Please enter a number.";
 				setTimeout(function () {
 					alertDiv.textContent = "\u00A0";
 				}, 1000);
-				activeElement.focus(); // re-focus the stored element
+				activeElement.focus(); // Re-focus the stored element
 			}
 		} else {
-			activeElement.focus(); // re-focus the stored element
+			activeElement.focus(); // Re-focus the stored element
 		}
 		return number;
 	}
 
-	// subtract one from X
+	// Subtract one from X
 	if (nativeEvent.key === "-") {
 		if (number === 1) {
 			return number;
@@ -50,7 +65,7 @@ export function xSetter(event, type, number, alertDiv) {
 		return number - 1;
 	}
 
-	// add one to X
+	// Add one to X
 	if (nativeEvent.key === "+") {
 		alertDiv.textContent =
 			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;

@@ -5,4 +5,19 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
+/**
+ * Converts the data object into an array with only the numerical values.
+ *
+ * @export
+ * @template T
+ * @param {object[]} data
+ * @param {string} insights
+ * @return {Promise<number[]>} Array with numerical values.
+ */
+export async function arrayConverter<T>(data: object[], insights: string): Promise<number[]> {
+	if (insights && typeof insights === "string") {
+		return data.map((item) => (item as any)[insights]);
+	} else {
+		return [];
+	}
+}
