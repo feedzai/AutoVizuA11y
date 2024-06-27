@@ -5,11 +5,23 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-// Generates the descriptions as soon as the components are created
+/**
+ * Generates the automatic descriptions.
+ *
+ * @export
+ * @param {string} title
+ * @param {object[]} data
+ * @param {number} average
+ * @param {string} context
+ * @param {string} apiKey
+ * @param {string} [model]
+ * @param {number} [temperature]
+ * @return {Promise<string[]>} An array with both longer and smaller descriptions.
+ */
 export async function generateDescriptions(
 	title: string,
-	data: unknown,
-	average: unknown,
+	data: object[],
+	average: number,
 	context: string,
 	apiKey: string,
 	model?: string,
@@ -38,11 +50,22 @@ export async function generateDescriptions(
 	return descs;
 }
 
-// Calls the GPT API to generate the longer description
+/**
+ * Calls the GPT API to generate the longer description.
+ *
+ * @param {string} data
+ * @param {string} title
+ * @param {number} average
+ * @param {string} context
+ * @param {string} key
+ * @param {string} adjustedModel
+ * @param {number} adjustedTemperature
+ * @return {Promise<string>} Longer chart description.
+ */
 async function longerDescription(
 	data: string,
 	title: string,
-	average: unknown,
+	average: number,
 	context: string,
 	key: string,
 	adjustedModel: string,
@@ -79,7 +102,15 @@ async function longerDescription(
 	return output.choices[0].message.content;
 }
 
-// Calls the GPT API to generate the smaller description
+/**
+ * Calls the GPT API to generate the smaller description.
+ *
+ * @param {string} desc
+ * @param {string} key
+ * @param {string} adjustedModel
+ * @param {number} adjustedTemperature
+ * @return {Promise<string[]>} Smaller chart description.
+ */
 async function smallerDescription(
 	desc: string,
 	key: string,

@@ -8,7 +8,20 @@
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
 
-// When an arrow key is pressed, changes levels
+/**
+ * Changes navigation based on key press.
+ *
+ * @export
+ * @param {React.KeyboardEvent<HTMLDivElement>} event
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {HTMLElement} [alertDiv]
+ * @param {{ element?: string; className?: string }} [selectorType]
+ * @param {(string | undefined)} [multiSeries]
+ * @param {() => void} [nextSeries]
+ * @param {string[]} [series]
+ * @param {string} [selectedSeries]
+ * @return {void}
+ */
 export function levelNav(
 	event: React.KeyboardEvent<HTMLDivElement>,
 	ref: React.RefObject<HTMLElement>,
@@ -138,7 +151,11 @@ interface ExtendedHTMLElement extends HTMLElement {
 	pastFocus?: HTMLElement | null;
 }
 
-// When the user enters the ShortcutGuide from a chart or data point
+/**
+ * Shows the ShortcutGuide and gives it keyboard focus.
+ *
+ * @param {React.RefObject<HTMLElement>} ref
+ */
 function levelGuide(ref: React.RefObject<HTMLElement>): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	wiper(ref);
@@ -162,7 +179,11 @@ function levelGuide(ref: React.RefObject<HTMLElement>): void {
 	shortcutGuide.focus();
 }
 
-// When the user returns from the ShortcutGuide to the chart they were before
+/**
+ * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
+ *
+ * @param {React.RefObject<HTMLElement>} ref
+ */
 function returnGuide(ref: React.RefObject<HTMLElement>): void {
 	const allShortcuts = document.getElementsByClassName("a11y_row");
 	for (let i = 0; i < allShortcuts.length; i++) {
@@ -178,7 +199,14 @@ function returnGuide(ref: React.RefObject<HTMLElement>): void {
 	modal.style.display = "none";
 }
 
-// When the interface is created or the user goes to the chart level
+/**
+ * Enables navigation on the chart level.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {boolean} [first]
+ * @return {void}
+ */
 export function levelChart(ref: React.RefObject<HTMLElement>, first?: boolean): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	if (ref) {
@@ -199,7 +227,13 @@ export function levelChart(ref: React.RefObject<HTMLElement>, first?: boolean): 
 	chart.focus();
 }
 
-// When the user goes to the data level
+/**
+ * Enables navigation on the data level.
+ *
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {{ element?: string; className?: string }} [selectorType]
+ * @param {string} [selectedSeries]
+ */
 function levelData(
 	ref: React.RefObject<HTMLElement>,
 	selectorType?: { element?: string; className?: string },
@@ -214,6 +248,14 @@ function levelData(
 	addDataNavigation(ref, selectorType, selectedSeries);
 }
 
+/**
+ * Enables navigation on another data series.
+ *
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {{ element?: string; className?: string }} selectorType
+ * @param {string} selectedSeries
+ * @param {string[]} series
+ */
 function levelSeries(
 	ref: React.RefObject<HTMLElement>,
 	selectorType: { element?: string; className?: string },
@@ -230,7 +272,7 @@ function levelSeries(
 	} else if (selectorType.className !== undefined) {
 		elements = ref?.current?.getElementsByClassName(
 			selectorType.className,
-		) as unknown as NodeListOf<HTMLElement>;
+		) as NodeListOf<HTMLElement>;
 	}
 
 	const previousSeries: HTMLElement[] = [];

@@ -5,7 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//adds aria-labels to various data points
+/**
+ * Adds aria-labels to data elements inside a chart.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {(string | undefined)} descriptor
+ * @param {{ element?: string; className?: string }} selectorType
+ * @param {object[]} data
+ * @param {(string | undefined)} multiSeries
+ * @return {*}  {void}
+ */
 export function addsAriaLabels(
 	ref: React.RefObject<HTMLElement>,
 	descriptor: string | undefined,

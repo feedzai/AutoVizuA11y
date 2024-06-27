@@ -8,6 +8,11 @@
 import React, { useRef, useEffect } from "react";
 import "./style/ShortcutGuideStyle.css";
 
+/**
+ * Component that renders the list (also visual) of all AutoVizuA11y shortcuts.
+ *
+ * @return {JSX.Element} Shortcut guide.
+ */
 const ShortcutGuide: React.FC = () => {
 	const refNav = useRef(null);
 	useEffect(() => {

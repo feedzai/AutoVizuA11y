@@ -5,7 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-// Handles the navigation between data elements
+/**
+ * Handles the navigation between data elements inside a chart.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {number} number
+ * @param {HTMLElement[]} elements
+ * @param {string} selectedSeries
+ * @param {string[]} series
+ * @return {void}
+ */
 export function jumpXpoints(
 	event: React.KeyboardEvent,
 	number: number,
@@ -75,7 +85,15 @@ export function jumpXpoints(
 	}
 }
 
-// Handles the navigation between charts
+/**
+ * Handles the navigation between charts.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {Element[]} charts
+ * @param {HTMLElement} chart
+ * @return {void}
+ */
 export function jumpXcharts(
 	event: React.KeyboardEvent,
 	charts: Element[],

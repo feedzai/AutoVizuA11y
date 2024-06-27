@@ -7,7 +7,14 @@
 
 import React from "react";
 
-//helps wipe both information and navigation from inside the chart
+/**
+ * Wipes attributes from the chart and underlying data elements.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {boolean} [first]
+ * @return {void}
+ */
 export function wiper(ref: React.RefObject<HTMLElement>, first?: boolean): void {
 	//wipes possible features not set by the tool (only the first time)
 	if (first) {

@@ -7,6 +7,13 @@
 
 let lastId = 0;
 
+/**
+ * Returns a new Id to be used by each AutoVizuA11y instance.
+ *
+ * @export
+ * @param {string} [prefix="id"]
+ * @return {string} An ID.
+ */
 export function newId(prefix = "id") {
 	lastId++;
 	return `${prefix}${lastId}`;

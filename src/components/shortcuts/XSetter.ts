@@ -5,6 +5,16 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+/**
+ * Handles the number of data elements to be jumped inside a chart.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {string} type
+ * @param {number} number
+ * @param {HTMLElement} alertDiv
+ * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ */
 export function xSetter(
 	event: React.KeyboardEvent,
 	type: string,

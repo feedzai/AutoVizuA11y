@@ -7,7 +7,17 @@
 
 import { median, getOrdinalNumber } from "../../utils/maths";
 
-// Makes the comparison between the focusedData and the overall data
+/**
+ * Produces a message based on corner cases and calls comparer otherwise.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {HTMLDivElement} alertDiv
+ * @param {string} insights
+ * @param {number[]} arrayConverted
+ * @param {(number | undefined)} focusedData
+ * @return {void}
+ */
 export function overallComparer(
 	event: React.KeyboardEvent,
 	alertDiv: HTMLDivElement,
@@ -39,7 +49,13 @@ export function overallComparer(
 	}
 }
 
-// Actually compares both values
+/**
+ * Produces a message based on the comparison between a value and all others from the same chart.
+ *
+ * @param {number[]} arrayConverted
+ * @param {number} focusedData
+ * @return {string} The message as a string.
+ */
 function comparer(arrayConverted: number[], focusedData: number): string {
 	const dataSuperConverted = trimSort(arrayConverted);
 	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
@@ -57,7 +73,12 @@ function comparer(arrayConverted: number[], focusedData: number): string {
 	return "";
 }
 
-// Trims and sorts the data array
+/**
+ * Trims and sorts an array of numbers.
+ *
+ * @param {number[]} arrayConverted
+ * @return {*}  {number[]} Array of trimmed and sorted numbers.
+ */
 function trimSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];
 	arrayConverted.sort((a, b) => a - b);

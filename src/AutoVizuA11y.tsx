@@ -44,6 +44,45 @@ type AutoVizuA11yProps = {
 	children: React.ReactNode;
 };
 
+/**
+ * AutoVizuA11y component, that adds screen-reader accessibility to wrapped charts.
+ *
+ * @param {AutoVizuA11yProps} {
+ * 	type, - type of chart;
+ * 	descriptor, - descriptor of each data element;
+ * 	selectorType, - HTML type or  classname of the data elements in the DOM;
+ * 	title, - title of the chart;
+ * 	data, - data used in the chart;
+ * 	multiSeries, - key in the data object that defines each series;
+ * 	insights, - key in the data object from which values will be used to derive statistical insights;
+ * 	context, - context in which the visualization is present;
+ * 	manualDescriptions, - object with properties to manually write the chart descriptions;
+ * 	autoDescriptions, - object with properties to automatically write the chart descriptions;
+ * 	children, - wrapped chart.
+ * }
+ * @return {JSX.Element} Rendered chart with AutoVizuA11y features.
+ *
+ * @example
+ * // SingleSeries with automatic descriptions
+ *
+ * 			<AutoVizuA11y
+ *				data={barData}
+ *				selectorType={{ element: "rect" }}
+ *				type="bar chart"
+ *				title="Number of hours spent looking at a screen per day of the week."
+ *				context="Screen time dashboard"
+ *				insights="value"
+ *				descriptor="hours"
+ *				autoDescriptions={{
+ *					dynamicDescriptions: false,
+ *					apiKey: API_KEY,
+ *					model: "gpt-3.5-turbo",
+ *					temperature: 0.1,
+ *				}}
+ *			>
+ *				<BarChart></BarChart>
+ *			</AutoVizuA11y>
+ */
 const AutoVizuA11y = ({
 	type,
 	descriptor,

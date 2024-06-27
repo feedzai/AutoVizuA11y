@@ -12,7 +12,18 @@ type AutoDescriptionsProps = {
 	temperature?: number;
 };
 
-// When B or S are pressed the descriptions changed in the chart
+/**
+ * Handles the longer and shorter description change when Alt+B or Alt+S are pressed, respectively.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {string} type
+ * @param {string[]} descs
+ * @param {string} title
+ * @param {AutoDescriptionsProps} [autoDescriptions]
+ * @param {React.KeyboardEvent} [event]
+ * @return {void}
+ */
 export function descriptionsChanger(
 	ref: React.RefObject<HTMLElement>,
 	type: string,

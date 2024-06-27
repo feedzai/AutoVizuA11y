@@ -7,8 +7,17 @@
 
 import { rounding } from "../../utils/maths";
 
-// Compares the focusedData against various insights
-// insights = [sum, average, max, min];
+/**
+ * Compares the value of the focused data element against various statistical insights.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {HTMLElement} alertDiv
+ * @param {string} insights
+ * @param {number[]} insightsArray
+ * @param {number} [focusedData]
+ * @return {void}
+ */
 export function insightsComparer(
 	event: React.KeyboardEvent,
 	alertDiv: HTMLElement,
@@ -80,7 +89,14 @@ export function insightsComparer(
 	}
 }
 
-// Produces the message based on the comparison
+/**
+ * Produces a message based on the comparison between a value and a statistical insight.
+ *
+ * @param {string} code
+ * @param {number} insight
+ * @param {number} focusedData
+ * @return {(string | null)} The message as a string.
+ */
 function comparer(code: string, insight: number, focusedData: number): string | null {
 	if (insight > focusedData)
 		return "The value is " + rounding(insight - focusedData) + " below the " + code;

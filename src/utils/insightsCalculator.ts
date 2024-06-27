@@ -7,7 +7,14 @@
 
 import { sum, avg, max, min } from "./maths";
 
-//calculates insights based on the array with only the values
+/**
+ * Calculates insights based on the array with only the values.
+ *
+ * @export
+ * @template T
+ * @param {T[]} arrayConverted
+ * @return {number[]} Array with the sum, average, maximum and minimum values.
+ */
 export function insightsCalculator<T extends number>(arrayConverted: T[]): number[] {
 	if (arrayConverted === undefined) {
 		return [];

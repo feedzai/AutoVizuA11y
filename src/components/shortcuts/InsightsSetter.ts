@@ -5,8 +5,15 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-// Sets an alert on top of the chart depending on the insight asked
-// insights = [sum, average, max, min];
+/**
+ * Sets an alert with the statistical insight requested.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {HTMLElement} alertDiv
+ * @param {string} insights
+ * @param {number[]} insightsArray
+ */
 export function insightsSetter(
 	event: React.KeyboardEvent,
 	alertDiv: HTMLElement,

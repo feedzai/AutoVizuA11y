@@ -25,7 +25,25 @@ type AutoDescriptionsProps = {
 	temperature?: number;
 };
 
-// Handles the functions related to keypresses
+/**
+ * Listens for keypresses and handles the outcomes.
+ *
+ * @export
+ * @param {string} type
+ * @param {React.KeyboardEvent} event
+ * @param {number} number
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {SelectorType} selectorType
+ * @param {string} insights
+ * @param {number[]} insightsArray
+ * @param {(number[] | undefined)} arrayConverted
+ * @param {string} title
+ * @param {string[]} descs
+ * @param {string[]} series
+ * @param {string} selectedSeries
+ * @param {AutoDescriptionsProps} [autoDescOptions]
+ * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ */
 export function keyHandler(
 	type: string,
 	event: React.KeyboardEvent,
