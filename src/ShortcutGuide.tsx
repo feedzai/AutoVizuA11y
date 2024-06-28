@@ -22,7 +22,7 @@ const ShortcutGuide: React.FC = () => {
 
 	return (
 		<>
-			<div className="a11y_modal" data-testid="a11y_modal" role="button">
+			<div className="a11y_modal" data-testId="a11y_modal" role="button">
 				<div
 					className="a11y_modal_content"
 					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
@@ -43,7 +43,7 @@ const ShortcutGuide: React.FC = () => {
 						<div className="flex_column">
 							<table role={"group"}>
 								<tbody>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -70,7 +70,7 @@ const ShortcutGuide: React.FC = () => {
 										<th className="a11y_shortcut">? or Esc</th>
 										<th className="a11y_explanation">Leave shortcut guide</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 
 									<tr className="a11y_row">
 										<th></th>
@@ -124,7 +124,7 @@ const ShortcutGuide: React.FC = () => {
 											Move between series of data inside the chart
 										</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -182,14 +182,14 @@ const ShortcutGuide: React.FC = () => {
 											Subtract one number to the data points to be jumped at a time
 										</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 								</tbody>
 							</table>
 						</div>
 						<div className="flex_column">
 							<table role={"group"}>
 								<tbody>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -212,7 +212,7 @@ const ShortcutGuide: React.FC = () => {
 										<th className="a11y_shortcut">Alt (option) + L</th>
 										<th className="a11y_explanation">Maximum</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -264,7 +264,7 @@ const ShortcutGuide: React.FC = () => {
 											Compare current data element to the rest of the chart
 										</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 									<tr className="a11y_row">
 										<th></th>
 										<th
@@ -293,7 +293,7 @@ const ShortcutGuide: React.FC = () => {
 											Set shorter description of the chart (default)
 										</th>
 									</tr>
-									<tr className="a11y_empty_row"></tr>
+									<div className="a11y_empty_row"></div>
 								</tbody>
 							</table>
 						</div>
