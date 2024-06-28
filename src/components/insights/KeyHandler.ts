@@ -7,16 +7,16 @@
 
 import { insightsComparer } from "./InsightsComparer";
 import { insightsSetter } from "./InsightsSetter";
-import { jumpXcharts, jumpXpoints } from "./JumpX";
-import { xSetter } from "./XSetter";
+// import { jumpXcharts, jumpXpoints } from "./JumpX";
+// import { xSetter } from "./XSetter";
 import { overallComparer } from "./OverallComparer";
-import { descriptionsChanger } from "../descriptions/Descriptions";
-import { skip } from "./Skip";
+import { descriptionsChanger } from "../descriptions/DescriptionsChanger";
+// import { skip } from "./Skip";
 
-type SelectorType = {
-	element?: string;
-	className?: string;
-};
+// type SelectorType = {
+// 	element?: string;
+// 	className?: string;
+// };
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -48,42 +48,44 @@ export function keyHandler(
 	type: string,
 	event: React.KeyboardEvent,
 	number: number,
+	elements: any,
+	alertDiv: any,
 	ref: React.RefObject<HTMLElement>,
-	selectorType: SelectorType,
+	// selectorType: SelectorType,
 	insights: string,
 	insightsArray: number[],
 	arrayConverted: number[] | undefined,
 	title: string,
 	descs: string[],
-	series: string[],
-	selectedSeries: string,
+	// series: string[],
+	// selectedSeries: string,
 	autoDescOptions?: AutoDescriptionsProps,
 ): number {
-	let elements: HTMLElement[] = [];
-	let alertDiv: HTMLDivElement;
+	// let elements: HTMLElement[] = [];
+	// let alertDiv: HTMLDivElement;
 
-	if (ref.current) {
-		if (selectorType.element !== undefined) {
-			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
-		} else {
-			elements = Array.from(
-				ref.current.getElementsByClassName(selectorType.className || ""),
-			) as HTMLElement[];
-		}
-		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-	} else {
-		alertDiv = document.createElement("div"); // Dummy alert div
-	}
+	// if (ref.current) {
+	// 	if (selectorType.element !== undefined) {
+	// 		elements = Array.from(ref.current.querySelectorAll(selectorType.element));
+	// 	} else {
+	// 		elements = Array.from(
+	// 			ref.current.getElementsByClassName(selectorType.className || ""),
+	// 		) as HTMLElement[];
+	// 	}
+	// 	alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
+	// } else {
+	// 	alertDiv = document.createElement("div"); // Dummy alert div
+	// }
 
-	number = xSetter(event, type, number, alertDiv);
+	// number = xSetter(event, type, number, alertDiv);
 
-	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
-	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
-	if (chart === document.activeElement && charts.includes(chart)) {
-		jumpXcharts(event, charts, chart);
-	} else {
-		jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
-	}
+	// const charts = Array.from(document.getElementsByClassName("a11y_desc"));
+	// const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	// if (chart === document.activeElement && charts.includes(chart)) {
+	// 	jumpXcharts(event, charts, chart);
+	// } else {
+	// 	jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
+	// }
 
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
@@ -97,7 +99,7 @@ export function keyHandler(
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
 		overallComparer(event, alertDiv, insights, arrayConverted, focusedData);
 		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
-		skip(event, ref, selectorType, selectedSeries);
+		// skip(event, ref, selectorType, selectedSeries);
 	}
 
 	return number;

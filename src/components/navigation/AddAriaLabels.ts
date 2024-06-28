@@ -16,7 +16,7 @@
  * @param {(string | undefined)} multiSeries
  * @return {*}  {void}
  */
-export function addsAriaLabels(
+export function addAriaLabels(
 	ref: React.RefObject<HTMLElement>,
 	descriptor: string | undefined,
 	selectorType: { element?: string; className?: string },

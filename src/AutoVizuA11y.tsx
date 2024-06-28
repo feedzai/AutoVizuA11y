@@ -8,13 +8,13 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 
-import { addsAriaLabels, keyHandler, levelChart, levelNav } from "./components";
+import { addAriaLabels, keyHandler, switchToChartLevel, navigationKeyHandler } from "./components";
 import { arrayConverter, newId } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { insightsCalculator } from "./utils/insightsCalculator";
-import { descriptionsChanger } from "./components/descriptions/Descriptions";
+import { descriptionsChanger } from "./components/descriptions/DescriptionsChanger";
 
 import "./assets/style/AutoVizuA11y.css";
 
@@ -30,9 +30,14 @@ type ManualDescriptionsProps = {
 	shorter: string;
 };
 
+type SelectorType = {
+	element?: string;
+	className?: string;
+};
+
 type AutoVizuA11yProps = {
 	data: object[];
-	selectorType: object;
+	selectorType: SelectorType;
 	type: string;
 	title: string;
 	context: string;
@@ -99,9 +104,6 @@ const AutoVizuA11y = ({
 	let chart = React.Children.map(children, (child) => <div>{child}</div>);
 	const ref = React.useRef<HTMLDivElement>(null);
 
-	//could be converted to prop
-	let alertDiv: HTMLElement | null;
-
 	let storedLonger: string | null;
 	let storedSmaller: string | null;
 
@@ -117,6 +119,22 @@ const AutoVizuA11y = ({
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
+
+	let elements: HTMLElement[] = [];
+	let alertDiv: HTMLDivElement;
+
+	if (ref.current) {
+		if (selectorType.element !== undefined) {
+			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
+		} else {
+			elements = Array.from(
+				ref.current.getElementsByClassName(selectorType.className || ""),
+			) as HTMLElement[];
+		}
+		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
+	} else {
+		alertDiv = document.createElement("div"); // Dummy alert div
+	}
 
 	if (autoDescriptions) {
 		apiKey = autoDescriptions.apiKey;
@@ -134,12 +152,11 @@ const AutoVizuA11y = ({
 	const storedLongerKey = `oldLonger_${componentId}`;
 	const storedSmallerKey = `oldSmaller_${componentId}`;
 
-	const handleFocus = () => {
+	const handleFocus = (alertDiv: HTMLDivElement | null) => {
 		//css
 		ref.current!.classList.add("focused");
-		toolTutorial = localStorage.getItem("toolTutorial");
+		let toolTutorial = localStorage.getItem("toolTutorial");
 		if (toolTutorial === "true") {
-			alertDiv = ref.current!.getElementsByClassName("a11y_alert")[0] as HTMLElement | null;
 			if (alertDiv) {
 				alertDiv.textContent =
 					"You just entered an AutoVizually chart." +
@@ -229,8 +246,8 @@ const AutoVizuA11y = ({
 			//converts the data into a dictionary
 			arrayConverter(data, insights).then(function (result) {
 				//result = [2,3,5] or []
-				let insightsArrayAux;
-				let averageAux;
+				let insightsArrayAux = [];
+				let averageAux = 0;
 				setArrayConverted(result);
 				if (insights !== "") {
 					insightsArrayAux = insightsCalculator(result);
@@ -239,7 +256,7 @@ const AutoVizuA11y = ({
 					averageAux = insightsArrayAux[1];
 				}
 
-				addsAriaLabels(ref, descriptor, selectorType, data, multiSeries);
+				addAriaLabels(ref, descriptor, selectorType, data, multiSeries);
 
 				if (storedLonger !== null && storedSmaller !== null) {
 					descsAux = [storedLonger, storedSmaller];
@@ -262,40 +279,60 @@ const AutoVizuA11y = ({
 			});
 
 			//wipes the old tabindex present in the child components
-			levelChart(ref, true);
+			switchToChartLevel(ref, true);
 		}, 500);
 
 		//creates the ShortcutGuide
 		createShortcutGuide();
 	}, [ref]);
 
-	//sets the appropriate navigation keys in the ShortcutGuide
+	// sets the appropriate navigation keys in the ShortcutGuide
 	function handleNav(event: React.KeyboardEvent<HTMLDivElement>) {
-		levelNav(event, ref);
-	}
-
-	//sets the appropriate navigation keys and shortcuts in the charts and data
-	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>) {
-		let alertDiv: HTMLElement | null = ref.current?.getElementsByClassName(
-			"a11y_alert",
-		)[0] as HTMLElement;
-		levelNav(event, ref, alertDiv, selectorType, multiSeries, nextSeries, series, selectedSeries);
-		let numberAux = keyHandler(
+		navigationKeyHandler(
 			type,
 			event,
 			number,
 			ref,
+			elements,
+			alertDiv,
+			selectedSeries,
+			series,
 			selectorType,
+			multiSeries,
+			nextSeries,
+		);
+	}
+
+	//sets the appropriate navigation keys and shortcuts in the charts and data
+	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, alertDiv: HTMLDivElement) {
+		let numberAux = navigationKeyHandler(
+			type,
+			event,
+			number,
+			ref,
+			elements,
+			alertDiv,
+			selectedSeries,
+			series,
+			selectorType,
+			multiSeries,
+			nextSeries,
+		);
+		setNumber(numberAux);
+		keyHandler(
+			type,
+			event,
+			number,
+			elements,
+			alertDiv,
+			ref,
 			insights,
 			insightsArray,
 			arrayConverted,
 			title,
 			descs,
-			series,
-			selectedSeries,
 			autoDescriptions,
 		);
-		setNumber(numberAux);
 	}
 
 	// features exclusive to bar charts (might be able to turn this more modular)
@@ -305,7 +342,10 @@ const AutoVizuA11y = ({
 	return (
 		<div
 			ref={ref}
-			onKeyDown={handleKeyDown}
+			onKeyDown={(event) => {
+				const alertDiv = ref.current?.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
+				handleKeyDown(event, alertDiv);
+			}}
 			className="a11y_chart"
 			data-testid="a11y_chart"
 			role="form"
@@ -314,7 +354,9 @@ const AutoVizuA11y = ({
 				style={{ textIndent: "-10000px" }}
 				className="a11y_desc visually-hidden"
 				data-testid="a11y_desc"
-				onFocus={handleFocus}
+				onFocus={() => {
+					handleFocus(alertDiv);
+				}}
 				onBlur={handleBlur}
 			>
 				Generating description...

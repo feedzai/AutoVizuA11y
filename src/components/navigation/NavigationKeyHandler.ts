@@ -7,6 +7,9 @@
 
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
+import { jumpXcharts, jumpXpoints } from "./JumpX";
+import { skip } from "./Skip";
+import { xSetter } from "./XSetter";
 
 /**
  * Listens for navigation related keypresses and handles the outcomes.
@@ -22,17 +25,30 @@ import { addDataNavigation } from "./AddNavigation";
  * @param {string} [selectedSeries]
  * @return {void}
  */
-export function levelNav(
-	event: React.KeyboardEvent<HTMLDivElement>,
+export function navigationKeyHandler(
+	type: string,
+	event: React.KeyboardEvent,
+	number: number,
 	ref: React.RefObject<HTMLElement>,
-	alertDiv?: HTMLElement,
-	selectorType?: { element?: string; className?: string },
+	elements: any,
+	alertDiv: HTMLDivElement,
+	selectedSeries: string,
+	series: string[],
+	selectorType: { element?: string; className?: string },
 	multiSeries?: string | undefined,
 	nextSeries?: () => void,
-	series?: string[],
-	selectedSeries?: string,
-): void {
+): number {
 	const { altKey, code } = event.nativeEvent;
+	number = xSetter(event, type, number, alertDiv);
+	skip(event, ref, selectorType, selectedSeries);
+
+	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
+	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	if (chart === document.activeElement && charts.includes(chart)) {
+		jumpXcharts(event, charts, chart);
+	} else {
+		jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
+	}
 
 	if (altKey && code === "KeyM") {
 		event.preventDefault();
@@ -41,24 +57,24 @@ export function levelNav(
 			document.activeElement?.classList.contains("a11y_row") ||
 			document.activeElement?.id === "guide_close"
 		) {
-			return;
+			return number;
 		}
 		if (document.activeElement?.classList.contains("a11y_desc") && alertDiv) {
 			alertDiv.textContent = "You can only change series while focused on a data point";
 			setTimeout(() => {
 				alertDiv.textContent = "\u00A0";
 			}, 1000);
-			return;
+			return number;
 		}
 		if (!multiSeries && alertDiv) {
 			alertDiv.textContent = "This chart only has one series of data";
 			setTimeout(() => {
 				alertDiv.textContent = "\u00A0";
 			}, 1000);
-			return;
+			return number;
 		} else if (nextSeries && selectorType && selectedSeries && series) {
 			nextSeries();
-			levelSeries(ref, selectorType, selectedSeries, series);
+			switchSeries(ref, selectorType, selectedSeries, series);
 		}
 	}
 
@@ -79,7 +95,7 @@ export function levelNav(
 				}, 1000);
 				break;
 			}
-			levelData(ref, selectorType, selectedSeries);
+			switchToDataLevel(ref, selectorType, selectedSeries);
 			break;
 		case "ArrowUp":
 			event.preventDefault();
@@ -97,7 +113,7 @@ export function levelNav(
 				}, 1000);
 				break;
 			}
-			levelChart(ref);
+			switchToChartLevel(ref);
 			break;
 		case "Escape":
 			event.preventDefault();
@@ -107,7 +123,7 @@ export function levelNav(
 				document.activeElement?.id === "guide_close"
 			) {
 				returnGuide(ref);
-				return;
+				return number;
 			}
 			break;
 		default:
@@ -126,7 +142,7 @@ export function levelNav(
 					document.activeElement?.id === "guide_close"
 				) {
 					returnGuide(ref);
-					return;
+					return number;
 				}
 				levelGuide(ref);
 				break;
@@ -144,7 +160,7 @@ export function levelNav(
 		};
 	}
 
-	return;
+	return number;
 }
 
 interface ExtendedHTMLElement extends HTMLElement {
@@ -193,7 +209,7 @@ function returnGuide(ref: React.RefObject<HTMLElement>): void {
 		"a11y_modal_content",
 	)[0] as ExtendedHTMLElement;
 	shortcutGuide.removeAttribute("tabIndex");
-	levelChart(ref);
+	switchToChartLevel(ref);
 	if (shortcutGuide.pastFocus) shortcutGuide.pastFocus.focus();
 	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
 	modal.style.display = "none";
@@ -207,7 +223,7 @@ function returnGuide(ref: React.RefObject<HTMLElement>): void {
  * @param {boolean} [first]
  * @return {void}
  */
-export function levelChart(ref: React.RefObject<HTMLElement>, first?: boolean): void {
+export function switchToChartLevel(ref: React.RefObject<HTMLElement>, first?: boolean): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	if (ref) {
 		wiper(ref, first);
@@ -234,7 +250,7 @@ export function levelChart(ref: React.RefObject<HTMLElement>, first?: boolean): 
  * @param {{ element?: string; className?: string }} [selectorType]
  * @param {string} [selectedSeries]
  */
-function levelData(
+function switchToDataLevel(
 	ref: React.RefObject<HTMLElement>,
 	selectorType?: { element?: string; className?: string },
 	selectedSeries?: string,
@@ -256,7 +272,7 @@ function levelData(
  * @param {string} selectedSeries
  * @param {string[]} series
  */
-function levelSeries(
+function switchSeries(
 	ref: React.RefObject<HTMLElement>,
 	selectorType: { element?: string; className?: string },
 	selectedSeries: string,
@@ -270,9 +286,9 @@ function levelSeries(
 	if (selectorType.element !== undefined) {
 		elements = ref?.current?.querySelectorAll(selectorType.element) as NodeListOf<HTMLElement>;
 	} else if (selectorType.className !== undefined) {
-		elements = ref?.current?.getElementsByClassName(
-			selectorType.className,
-		) as NodeListOf<HTMLElement>;
+		elements = ref?.current?.getElementsByClassName(selectorType.className) as
+			| NodeListOf<HTMLElement>
+			| undefined;
 	}
 
 	const previousSeries: HTMLElement[] = [];
