@@ -5,20 +5,8 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { sum, avg, max, min } from "../utils/maths";
-
-//calculates insights based on the array with only the values
-export function insightsCalculator(arrayConverted) {
-	if (arrayConverted === undefined) {
-		return;
-	}
-	let insights = [];
-
-	let x = sum(arrayConverted);
-	let y = avg(arrayConverted, x);
-	let z = max(arrayConverted);
-	let w = min(arrayConverted);
-	insights = [x, y, z, w];
-
-	return insights;
-}
+export * from "./arrayConverter";
+export * from "./insightsCalculator";
+export * from "./maths";
+export * from "./newId";
+export * from "./wiper";

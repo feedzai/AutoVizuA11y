@@ -5,9 +5,9 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { test, expect } from "vitest";
 import React from "react";
 import { render, fireEvent, screen, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom/extend-expect"; // For additional assertion methods
 
 import AutoVizuA11y from "./AutoVizuA11y";
 import MultiLineChart from "../test_utils/multiLineChart";

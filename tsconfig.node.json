@@ -5,9 +5,14 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-let lastId = 0;
-
-export default function (prefix = "id") {
-	lastId++;
-	return `${prefix}${lastId}`;
+{
+	"compilerOptions": {
+		"composite": true,
+		"skipLibCheck": true,
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowSyntheticDefaultImports": true,
+		"strict": true
+	},
+	"include": ["vite.config.ts"]
 }

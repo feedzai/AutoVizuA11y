@@ -6,9 +6,14 @@
  */
 
 import React, { useRef, useEffect } from "react";
-import "./style/ShortcutGuideStyle.css";
+import "./assets/style/ShortcutGuideStyle.css";
 
-const ShortcutGuide = () => {
+/**
+ * Component that renders the list of all AutoVizuA11y shortcuts.
+ *
+ * @return {JSX.Element} Shortcut guide.
+ */
+const ShortcutGuide: React.FC = () => {
 	const refNav = useRef(null);
 	useEffect(() => {
 		//needs a slight delay since some elements take time to load
@@ -20,10 +25,10 @@ const ShortcutGuide = () => {
 			<div className="a11y_modal" data-testId="a11y_modal" role="button">
 				<div
 					className="a11y_modal_content"
-					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between 
-          charts and underlying data elements using just the keyboard. When focused on a chart, 
-          a description regarding the data will be provided — you might receive a notification 
-          indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is 
+					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
+          charts and underlying data elements using just the keyboard. When focused on a chart,
+          a description regarding the data will be provided — you might receive a notification
+          indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is
           recommended to turn Focus mode before navigating the data using the arrow keys."
 				>
 					<div id="guide_container">

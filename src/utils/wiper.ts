@@ -5,44 +5,54 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//helps wipe both information and navigation from inside the chart
-export function wiper(ref, first) {
+import React from "react";
+
+/**
+ * Wipes attributes from the chart and underlying data elements.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {boolean} [first]
+ * @return {void}
+ */
+export function wiper(ref: React.RefObject<HTMLElement>, first?: boolean): void {
 	//wipes possible features not set by the tool (only the first time)
 	if (first) {
 		if (ref.current !== null) {
 			const elementsWithAriaLabel = ref.current.querySelectorAll("[aria-label]");
 			//wipes aria-labels
-			for (let i = 0; i < elementsWithAriaLabel.length; i++) {
-				elementsWithAriaLabel[i].removeAttribute("aria-label");
-			}
+			elementsWithAriaLabel.forEach((element: Element) => {
+				element.removeAttribute("aria-label");
+			});
+
 			const elementsWithAriaDesc = ref.current.querySelectorAll("[aria-describedby]");
 			//wipes aria-describedby
-			for (let i = 0; i < elementsWithAriaDesc.length; i++) {
-				elementsWithAriaDesc[i].removeAttribute("aria-describedby");
-			}
+			elementsWithAriaDesc.forEach((element: Element) => {
+				element.removeAttribute("aria-describedby");
+			});
 
 			const elementsWithLabelBy = ref.current.querySelectorAll("[aria-labelledby]");
 			//wipes aria-labelledby
-			for (let i = 0; i < elementsWithLabelBy.length; i++) {
-				elementsWithLabelBy[i].removeAttribute("aria-labelledby");
-			}
+			elementsWithLabelBy.forEach((element: Element) => {
+				element.removeAttribute("aria-labelledby");
+			});
 			return;
 		}
 		return;
 	}
 
-	let buttons;
+	let buttons: NodeListOf<HTMLButtonElement> | null;
 	if (ref.current !== null) {
 		buttons = ref.current.querySelectorAll("button");
 		//wipes the natural navigation of a button
-		for (let i = 0; i < buttons.length; i++) {
-			buttons[i].setAttribute("tabIndex", "-1");
-		}
+		buttons.forEach((button: HTMLButtonElement) => {
+			button.setAttribute("tabIndex", "-1");
+		});
 
 		//wipes everything with a tabindex
 		const elementsWithTabIndex = ref.current.querySelectorAll('[tabindex="0"]');
-		for (let i = 0; i < elementsWithTabIndex.length; i++) {
-			elementsWithTabIndex[i].removeAttribute("tabindex");
-		}
+		elementsWithTabIndex.forEach((element: Element) => {
+			element.removeAttribute("tabindex");
+		});
 	}
 }

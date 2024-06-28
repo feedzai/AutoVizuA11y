@@ -5,4 +5,4 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
+/// <reference types="vite/client" />

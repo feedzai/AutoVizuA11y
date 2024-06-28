@@ -5,9 +5,21 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//sets an alert on top of the chart depending on the insight asked
-//insights = [sum, average, max, min];
-export function insightsSetter(event, alertDiv, insights, insightsArray) {
+/**
+ * Sets an alert with the statistical insight requested.
+ *
+ * @export
+ * @param {React.KeyboardEvent} event
+ * @param {HTMLElement} alertDiv
+ * @param {string} insights
+ * @param {number[]} insightsArray
+ */
+export function insightsSetter(
+	event: React.KeyboardEvent,
+	alertDiv: HTMLElement,
+	insights: string,
+	insightsArray: number[],
+): void {
 	const { nativeEvent } = event;
 
 	if (
@@ -21,20 +33,20 @@ export function insightsSetter(event, alertDiv, insights, insightsArray) {
 		}, 1000); // 1000 milliseconds = 1 second
 	}
 	if (nativeEvent.altKey && nativeEvent.code === "KeyK" && insights !== "") {
-		//average
+		// Average
 		alertDiv.textContent = "The average is " + insightsArray[1];
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000); // 1000 milliseconds = 1 second
 	}
-	//max
+	// Max
 	if (nativeEvent.altKey && nativeEvent.code === "KeyL" && insights !== "") {
 		alertDiv.textContent = "The maximum is " + insightsArray[2];
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
 	}
-	//min
+	// Min
 	if (nativeEvent.altKey && nativeEvent.code === "KeyJ" && insights !== "") {
 		alertDiv.textContent = "The minimum is " + insightsArray[3];
 		setTimeout(function () {

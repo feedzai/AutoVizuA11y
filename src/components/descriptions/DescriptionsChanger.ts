@@ -5,11 +5,37 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-//when B or S are pressed the descriptions changed in the chart
-export function descriptionsChanger(ref, type, descs, title, autoDescriptions, event) {
-	title = title + ", " + type + ". " + (autoDescriptions ? "Automatic description: " : "");
+type AutoDescriptionsProps = {
+	dynamicDescriptions?: boolean;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+};
 
-	//When pressed reads the smaller description
+/**
+ * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {string} type
+ * @param {string[]} descs
+ * @param {string} title
+ * @param {AutoDescriptionsProps} [autoDescriptions]
+ * @param {React.KeyboardEvent} [event]
+ * @return {void}
+ */
+export function descriptionsChanger(
+	ref: React.RefObject<HTMLElement>,
+	type: string,
+	descs: string[],
+	title: string,
+	autoDescriptions?: AutoDescriptionsProps,
+	event?: React.KeyboardEvent,
+): void {
+	title =
+		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
+
+	// When pressed reads the smaller description
 	if (ref.current !== null) {
 		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
 			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[1]);

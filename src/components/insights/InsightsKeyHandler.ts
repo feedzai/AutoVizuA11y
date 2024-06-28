@@ -7,57 +7,59 @@
 
 import { insightsComparer } from "./InsightsComparer";
 import { insightsSetter } from "./InsightsSetter";
-import { jumpXcharts, jumpXpoints } from "./JumpX";
-import { xSetter } from "./XSetter";
 import { overallComparer } from "./OverallComparer";
-import { descriptionsChanger } from "../descriptions/Descriptions";
-import { skip } from "./Skip";
+import { descriptionsChanger } from "../descriptions/DescriptionsChanger";
 
-// Handles the functions related to keypresses
-export function keyHandler(
-	type,
-	event,
-	number,
-	ref,
-	selectorType,
-	insights,
-	insightsArray,
-	arrayConverted,
-	title,
-	descs,
-	series,
-	selectedSeries,
-	autoDescOptions,
+type AutoDescriptionsProps = {
+	dynamicDescriptions?: boolean;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+};
+
+/**
+ * Listens for keypresses and handles the outcomes.
+ *
+ * @export
+ * @param {string} type
+ * @param {React.KeyboardEvent} event
+ * @param {HTMLElement[]} elements
+ * @param {HTMLDivElement} alertDiv
+ * @param {React.RefObject<HTMLElement>} ref
+ * @param {string} insights
+ * @param {number[]} insightsArray
+ * @param {(number[] | undefined)} arrayConverted
+ * @param {string} title
+ * @param {string[]} descs
+ * @param {AutoDescriptionsProps} [autoDescOptions]
+ * @return {void}
+ */
+export function insightsKeyHandler(
+	type: string,
+	event: React.KeyboardEvent,
+	elements: HTMLElement[],
+	alertDiv: HTMLDivElement,
+	ref: React.RefObject<HTMLElement>,
+	insights: string,
+	insightsArray: number[],
+	arrayConverted: number[] | undefined,
+	title: string,
+	descs: string[],
+	autoDescOptions?: AutoDescriptionsProps,
 ) {
-	let elements;
-	let alertDiv = ref.current.getElementsByClassName("a11y_alert")[0];
-
-	if (ref.current) {
-		if (selectorType.element !== undefined) {
-			elements = ref.current.querySelectorAll(selectorType.element);
-		} else {
-			elements = ref.current.getElementsByClassName(selectorType.className);
-		}
-	}
-
-	number = xSetter(event, type, number, alertDiv);
-	jumpXpoints(event, number, elements, selectedSeries, series);
-	jumpXcharts(event, ref);
-
 	if (arrayConverted) {
-		let focusedIndex = Array.prototype.findIndex.call(
+		const focusedIndex = Array.prototype.findIndex.call(
 			elements,
-			(el) => el === document.activeElement,
+			(el: HTMLElement) => el === document.activeElement,
 		);
 
-		let focusedData = arrayConverted[focusedIndex];
+		const focusedData = arrayConverted[focusedIndex];
 
 		insightsSetter(event, alertDiv, insights, insightsArray);
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
 		overallComparer(event, alertDiv, insights, arrayConverted, focusedData);
 		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
-		skip(event, ref, selectorType, selectedSeries);
 	}
 
-	return number;
+	return;
 }
