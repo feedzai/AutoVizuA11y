@@ -7,16 +7,8 @@
 
 import { insightsComparer } from "./InsightsComparer";
 import { insightsSetter } from "./InsightsSetter";
-// import { jumpXcharts, jumpXpoints } from "./JumpX";
-// import { xSetter } from "./XSetter";
 import { overallComparer } from "./OverallComparer";
 import { descriptionsChanger } from "../descriptions/DescriptionsChanger";
-// import { skip } from "./Skip";
-
-// type SelectorType = {
-// 	element?: string;
-// 	className?: string;
-// };
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -31,36 +23,30 @@ type AutoDescriptionsProps = {
  * @export
  * @param {string} type
  * @param {React.KeyboardEvent} event
- * @param {number} number
+ * @param {HTMLElement[]} elements
+ * @param {HTMLDivElement} alertDiv
  * @param {React.RefObject<HTMLElement>} ref
- * @param {SelectorType} selectorType
  * @param {string} insights
  * @param {number[]} insightsArray
  * @param {(number[] | undefined)} arrayConverted
  * @param {string} title
  * @param {string[]} descs
- * @param {string[]} series
- * @param {string} selectedSeries
  * @param {AutoDescriptionsProps} [autoDescOptions]
- * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ * @return {void}
  */
-export function keyHandler(
+export function insightsKeyHandler(
 	type: string,
 	event: React.KeyboardEvent,
-	number: number,
-	elements: any,
-	alertDiv: any,
+	elements: HTMLElement[],
+	alertDiv: HTMLDivElement,
 	ref: React.RefObject<HTMLElement>,
-	// selectorType: SelectorType,
 	insights: string,
 	insightsArray: number[],
 	arrayConverted: number[] | undefined,
 	title: string,
 	descs: string[],
-	// series: string[],
-	// selectedSeries: string,
 	autoDescOptions?: AutoDescriptionsProps,
-): number {
+) {
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
 			elements,
@@ -75,5 +61,5 @@ export function keyHandler(
 		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
 	}
 
-	return number;
+	return;
 }

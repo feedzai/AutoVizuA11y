@@ -7,7 +7,7 @@
 
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
-import { jumpXcharts, jumpXpoints } from "./JumpX";
+import { jumpXcharts, jumpXelements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
 
@@ -15,15 +15,18 @@ import { xSetter } from "./XSetter";
  * Listens for navigation related keypresses and handles the outcomes.
  *
  * @export
- * @param {React.KeyboardEvent<HTMLDivElement>} event
+ * @param {string} type
+ * @param {React.KeyboardEvent} event
+ * @param {number} number
  * @param {React.RefObject<HTMLElement>} ref
- * @param {HTMLElement} [alertDiv]
- * @param {{ element?: string; className?: string }} [selectorType]
+ * @param {*} elements
+ * @param {HTMLDivElement} alertDiv
+ * @param {string} selectedSeries
+ * @param {string[]} series
+ * @param {{ element?: string; className?: string }} selectorType
  * @param {(string | undefined)} [multiSeries]
  * @param {() => void} [nextSeries]
- * @param {string[]} [series]
- * @param {string} [selectedSeries]
- * @return {void}
+ * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
 export function navigationKeyHandler(
 	type: string,
@@ -47,7 +50,7 @@ export function navigationKeyHandler(
 	if (chart === document.activeElement && charts.includes(chart)) {
 		jumpXcharts(event, charts, chart);
 	} else {
-		jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
+		jumpXelements(event, number, elements as HTMLElement[], selectedSeries, series);
 	}
 
 	if (altKey && code === "KeyM") {

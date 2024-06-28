@@ -6,7 +6,7 @@
  */
 
 /**
- * Handles the number of data elements to be jumped inside a chart.
+ * Handles the X number of data elements to be jumped inside a chart.
  *
  * @export
  * @param {React.KeyboardEvent} event

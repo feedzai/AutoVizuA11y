@@ -50,7 +50,7 @@ export function insightsComparer(
 			alertDiv.textContent = `This shortcut only works inside a chart`;
 			return;
 		}
-		alertDiv.textContent = comparer("average", insightsArray[1], focusedData);
+		alertDiv.textContent = messageCreator("average", insightsArray[1], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -66,7 +66,7 @@ export function insightsComparer(
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;
 		}
-		alertDiv.textContent = comparer("maximum value", insightsArray[2], focusedData);
+		alertDiv.textContent = messageCreator("maximum value", insightsArray[2], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -82,7 +82,7 @@ export function insightsComparer(
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;
 		}
-		alertDiv.textContent = comparer("minimum value", insightsArray[3], focusedData);
+		alertDiv.textContent = messageCreator("minimum value", insightsArray[3], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -97,7 +97,7 @@ export function insightsComparer(
  * @param {number} focusedData
  * @return {(string | null)} The message as a string.
  */
-function comparer(code: string, insight: number, focusedData: number): string | null {
+function messageCreator(code: string, insight: number, focusedData: number): string | null {
 	if (insight > focusedData)
 		return "The value is " + rounding(insight - focusedData) + " below the " + code;
 	if (insight < focusedData)

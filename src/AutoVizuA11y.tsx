@@ -8,7 +8,12 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom/client";
 
-import { addAriaLabels, keyHandler, switchToChartLevel, navigationKeyHandler } from "./components";
+import {
+	addAriaLabels,
+	insightsKeyHandler,
+	switchToChartLevel,
+	navigationKeyHandler,
+} from "./components";
 import { arrayConverter, newId } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
@@ -319,10 +324,9 @@ const AutoVizuA11y = ({
 			nextSeries,
 		);
 		setNumber(numberAux);
-		keyHandler(
+		insightsKeyHandler(
 			type,
 			event,
-			number,
 			elements,
 			alertDiv,
 			ref,

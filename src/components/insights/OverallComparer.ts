@@ -42,7 +42,7 @@ export function overallComparer(
 			}, 1000);
 			return;
 		}
-		alertDiv.textContent = comparer(arrayConverted, focusedData);
+		alertDiv.textContent = messagecreator(arrayConverted, focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -56,8 +56,8 @@ export function overallComparer(
  * @param {number} focusedData
  * @return {string} The message as a string.
  */
-function comparer(arrayConverted: number[], focusedData: number): string {
-	const dataSuperConverted = trimSort(arrayConverted);
+function messagecreator(arrayConverted: number[], focusedData: number): string {
+	const dataSuperConverted = trimAndSort(arrayConverted);
 	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
 	const med = median(dataSuperConverted);
 
@@ -79,7 +79,7 @@ function comparer(arrayConverted: number[], focusedData: number): string {
  * @param {number[]} arrayConverted
  * @return {*}  {number[]} Array of trimmed and sorted numbers.
  */
-function trimSort(arrayConverted: number[]): number[] {
+function trimAndSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];
 	arrayConverted.sort((a, b) => a - b);
 	return arrayConverted;

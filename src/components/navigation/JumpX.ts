@@ -6,7 +6,7 @@
  */
 
 /**
- * Handles the navigation between data elements inside a chart.
+ * Handles the navigation between X data elements inside a chart.
  *
  * @export
  * @param {React.KeyboardEvent} event
@@ -16,7 +16,7 @@
  * @param {string[]} series
  * @return {void}
  */
-export function jumpXpoints(
+export function jumpXelements(
 	event: React.KeyboardEvent,
 	number: number,
 	elements: HTMLElement[],
