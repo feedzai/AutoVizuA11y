@@ -61,32 +61,6 @@ export function keyHandler(
 	// selectedSeries: string,
 	autoDescOptions?: AutoDescriptionsProps,
 ): number {
-	// let elements: HTMLElement[] = [];
-	// let alertDiv: HTMLDivElement;
-
-	// if (ref.current) {
-	// 	if (selectorType.element !== undefined) {
-	// 		elements = Array.from(ref.current.querySelectorAll(selectorType.element));
-	// 	} else {
-	// 		elements = Array.from(
-	// 			ref.current.getElementsByClassName(selectorType.className || ""),
-	// 		) as HTMLElement[];
-	// 	}
-	// 	alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-	// } else {
-	// 	alertDiv = document.createElement("div"); // Dummy alert div
-	// }
-
-	// number = xSetter(event, type, number, alertDiv);
-
-	// const charts = Array.from(document.getElementsByClassName("a11y_desc"));
-	// const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
-	// if (chart === document.activeElement && charts.includes(chart)) {
-	// 	jumpXcharts(event, charts, chart);
-	// } else {
-	// 	jumpXpoints(event, number, elements as HTMLElement[], selectedSeries, series);
-	// }
-
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
 			elements,
@@ -99,7 +73,6 @@ export function keyHandler(
 		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
 		overallComparer(event, alertDiv, insights, arrayConverted, focusedData);
 		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
-		// skip(event, ref, selectorType, selectedSeries);
 	}
 
 	return number;
