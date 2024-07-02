@@ -24,6 +24,7 @@ type AutoDescriptionsProps = {
  * @param {string} type
  * @param {React.KeyboardEvent} event
  * @param {HTMLElement[]} elements
+ * @param {Function} setDescriptionContent
  * @param {Function} setTextContent
  * @param {React.RefObject<HTMLElement>} ref
  * @param {string} insights
@@ -40,6 +41,7 @@ export function insightsKeyHandler(
 	elements: HTMLElement[],
 	setTextContent: Function,
 	ref: React.RefObject<HTMLElement>,
+	setDescriptionContent: Function,
 	insights: string,
 	insightsArray: number[],
 	arrayConverted: number[] | undefined,
@@ -58,7 +60,7 @@ export function insightsKeyHandler(
 		insightsSetter(event, setTextContent, insights, insightsArray);
 		insightsComparer(event, setTextContent, insights, insightsArray, focusedData);
 		overallComparer(event, setTextContent, insights, arrayConverted, focusedData);
-		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
+		descriptionsChanger(ref, setDescriptionContent, type, descs, title, autoDescOptions, event);
 	}
 
 	return;
