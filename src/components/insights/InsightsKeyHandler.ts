@@ -26,6 +26,7 @@ export function insightsKeyHandler({
 	type,
 	event,
 	elements,
+	setDescriptionContent,
 	setTextContent,
 	ref,
 	insights,
@@ -38,6 +39,7 @@ export function insightsKeyHandler({
 	type: string;
 	event: React.KeyboardEvent;
 	elements: HTMLElement[];
+	setDescriptionContent: Function;
 	setTextContent: Function;
 	ref: React.RefObject<HTMLElement>;
 	insights: string;
@@ -58,7 +60,15 @@ export function insightsKeyHandler({
 		insightsSetter({ event, setTextContent, insights, insightsArray });
 		insightsComparer({ event, setTextContent, insights, insightsArray, focusedData });
 		overallComparer({ event, setTextContent, insights, arrayConverted, focusedData });
-		descriptionsChanger({ ref, type, descs, title, autoDescriptions, event });
+		descriptionsChanger({
+			ref,
+			setDescriptionContent,
+			type,
+			descs,
+			title,
+			autoDescriptions,
+			event,
+		});
 	}
 
 	return;

@@ -126,6 +126,7 @@ const AutoVizuA11y = ({
 	const [descs, setDescs] = useState<string[]>([]);
 
 	let elements: HTMLElement[] = [];
+
 	let [textContent, setTextContent] = useState<string>("\u00A0");
 	let alertDiv: React.ReactNode = (
 		<div className="a11y_alert visually-hidden" role="alert" aria-live="assertive">
@@ -185,6 +186,22 @@ const AutoVizuA11y = ({
 		ref.current!.classList.remove("focused");
 	};
 
+	let [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
+	let chartDescription: React.ReactNode = (
+		<p
+			style={{ textIndent: "-10000px" }}
+			className="a11y_desc visually-hidden"
+			data-testid="a11y_desc"
+			onFocus={() => {
+				handleFocus(alertDiv);
+			}}
+			onBlur={handleBlur}
+			aria-label={descriptionContent}
+		>
+			{descriptionContent}
+		</p>
+	);
+
 	// Function to add an object to the array
 	const nextSeries = () => {
 		let currentPos = series.indexOf(selectedSeries);
@@ -243,7 +260,14 @@ const AutoVizuA11y = ({
 				if (storedLonger !== null && storedSmaller !== null) {
 					descsAux = [storedLonger, storedSmaller];
 					setDescs([storedLonger, storedSmaller]);
-					descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
+					descriptionsChanger({
+						ref,
+						setDescriptionContent,
+						type,
+						descs: descsAux,
+						title,
+						autoDescriptions,
+					});
 				} else {
 					generateDescriptions({
 						title,
@@ -256,7 +280,14 @@ const AutoVizuA11y = ({
 					}).then(function (result) {
 						descsAux = result; // Output: [longerDescValue, smallerDescValue]
 						setDescs(result); // Output: [longerDescValue, smallerDescValue]
-						descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
+						descriptionsChanger({
+							ref,
+							setDescriptionContent,
+							type,
+							descs: descsAux,
+							title,
+							autoDescriptions,
+						});
 
 						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
 							localStorage.setItem(storedLongerKey, descsAux[0]);
@@ -310,6 +341,7 @@ const AutoVizuA11y = ({
 			elements,
 			setTextContent,
 			ref,
+			setDescriptionContent,
 			insights,
 			insightsArray,
 			arrayConverted,
@@ -334,17 +366,7 @@ const AutoVizuA11y = ({
 				data-testid="a11y_chart"
 				role="form"
 			>
-				<p
-					style={{ textIndent: "-10000px" }}
-					className="a11y_desc visually-hidden"
-					data-testid="a11y_desc"
-					onFocus={() => {
-						handleFocus(alertDiv);
-					}}
-					onBlur={handleBlur}
-				>
-					Generating description...
-				</p>
+				{chartDescription}
 				<div id="a11y_number" aria-hidden="true"></div>
 				{alertDiv}
 				{chart}

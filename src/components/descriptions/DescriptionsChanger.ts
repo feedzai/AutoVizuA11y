@@ -19,6 +19,7 @@ type AutoDescriptionsProps = {
  */
 export function descriptionsChanger({
 	ref,
+	setDescriptionContent,
 	type,
 	descs,
 	title,
@@ -26,6 +27,7 @@ export function descriptionsChanger({
 	event,
 }: {
 	ref: React.RefObject<HTMLElement>;
+	setDescriptionContent: Function;
 	type: string;
 	descs: string[];
 	title: string;
@@ -38,16 +40,10 @@ export function descriptionsChanger({
 	// When pressed reads the smaller description
 	if (ref.current !== null) {
 		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
-			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[1]);
-			ref.current
-				.getElementsByClassName("a11y_desc")[0]
-				.setAttribute("aria-label", title.concat(descs[1]));
+			setDescriptionContent(title.concat(descs[1]));
 			return;
 		} else if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyB") {
-			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[0]);
-			ref.current
-				.getElementsByClassName("a11y_desc")[0]
-				.setAttribute("aria-label", title.concat(descs[0]));
+			setDescriptionContent(title.concat(descs[0]));
 			return;
 		}
 		return;
