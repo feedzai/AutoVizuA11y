@@ -19,7 +19,7 @@ import { xSetter } from "./XSetter";
  * @param {React.KeyboardEvent} event
  * @param {number} number
  * @param {React.RefObject<HTMLElement>} ref
- * @param {*} elements
+ * @param {HTMLElement[]} elements
  * @param {Function} setTextContent
  * @param {string} selectedSeries
  * @param {string[]} series
@@ -28,6 +28,7 @@ import { xSetter } from "./XSetter";
  * @param {() => void} [nextSeries]
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
+
 export function navigationKeyHandler(
 	type: string,
 	event: React.KeyboardEvent,
@@ -41,7 +42,7 @@ export function navigationKeyHandler(
 	multiSeries?: string | undefined,
 	nextSeries?: () => void,
 ): number {
-	const { altKey, code } = event.nativeEvent;
+	const { altKey, key, code } = event;
 	number = xSetter(event, type, number, setTextContent);
 	skip(event, ref, selectorType, selectedSeries);
 
@@ -50,7 +51,7 @@ export function navigationKeyHandler(
 	if (chart === document.activeElement && charts.includes(chart)) {
 		jumpXcharts(event, charts, chart);
 	} else {
-		jumpXelements(event, number, elements as HTMLElement[], selectedSeries, series);
+		jumpXelements(event, number, elements, selectedSeries, series);
 	}
 
 	if (altKey && code === "KeyM") {
@@ -79,9 +80,10 @@ export function navigationKeyHandler(
 			nextSeries();
 			switchSeries(ref, selectorType, selectedSeries, series);
 		}
+		return number;
 	}
 
-	switch (code) {
+	switch (key) {
 		case "ArrowDown":
 			event.preventDefault();
 			if (
@@ -100,6 +102,7 @@ export function navigationKeyHandler(
 			}
 			switchToDataLevel(ref, selectorType, selectedSeries);
 			break;
+
 		case "ArrowUp":
 			event.preventDefault();
 			if (
@@ -118,6 +121,7 @@ export function navigationKeyHandler(
 			}
 			switchToChartLevel(ref);
 			break;
+
 		case "Escape":
 			event.preventDefault();
 			if (
@@ -129,14 +133,9 @@ export function navigationKeyHandler(
 				return number;
 			}
 			break;
-		default:
-			break;
-	}
-	switch (event.key) {
-		case "?":
-			// eslint-disable-next-line no-case-declarations
-			const modal = document.getElementsByClassName("a11y_modal")[0];
 
+		case "?":
+			const modal = document.getElementsByClassName("a11y_modal")[0];
 			if (modal !== undefined) {
 				event.preventDefault();
 				if (
