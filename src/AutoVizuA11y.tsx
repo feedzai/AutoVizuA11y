@@ -108,6 +108,7 @@ const AutoVizuA11y = ({
 }: AutoVizuA11yProps) => {
 	let chart = React.Children.map(children, (child) => <div>{child}</div>);
 	const ref = React.useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = React.useRef<HTMLDivElement>(null);
 
 	let storedLonger: string | null;
 	let storedSmaller: string | null;
@@ -155,7 +156,13 @@ const AutoVizuA11y = ({
 	}
 
 	// Generate a unique identifier for this component
-	const componentId = newId();
+	const [componentId, setComponentId] = useState<string>("");
+
+	useEffect(() => {
+		if (componentId === "") {
+			setComponentId(newId(""));
+		}
+	}, [componentId]);
 
 	const storedLongerKey = `oldLonger_${componentId}`;
 	const storedSmallerKey = `oldSmaller_${componentId}`;
@@ -236,16 +243,14 @@ const AutoVizuA11y = ({
 			setSeries(uniqueValues);
 			setSelectedSeries(uniqueValues[0]);
 		}
-	}, []);
 
-	useEffect(() => {
 		let descsAux;
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {
 			//converts the data into a dictionary
 			arrayConverter(data, insights).then(function (result) {
 				//result = [2,3,5] or []
-				let insightsArrayAux = [];
+				let insightsArrayAux: number[] = [];
 				let averageAux = 0;
 				setArrayConverted(result);
 				if (insights !== "") {
@@ -352,13 +357,14 @@ const AutoVizuA11y = ({
 				className="a11y_chart"
 				data-testid="a11y_chart"
 				role="form"
+				key={`a11y_chart_${componentId}`}
 			>
 				{chartDescription}
 				<div id="a11y_number" aria-hidden="true"></div>
 				{alertDiv}
 				{chart}
 			</div>
-			<div onKeyDown={handleNav} id="a11y_nav_guide">
+			<div ref={shortcutGuideRef} onKeyDown={handleNav} id="a11y_nav_guide">
 				<ShortcutGuide />
 			</div>
 		</>
