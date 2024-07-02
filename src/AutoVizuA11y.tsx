@@ -221,32 +221,6 @@ const AutoVizuA11y = ({
 		}
 	}, []);
 
-	//creates a singular ShortcutGuide
-	function createShortcutGuide() {
-		let checker = document.getElementById("a11y_nav_guide");
-		if (checker === null) {
-			const nav = (
-				<div onKeyDown={handleNav} id="a11y_nav_guide">
-					<ShortcutGuide />
-				</div>
-			);
-			const container = document.createElement("div");
-			const root = document.getElementById("root");
-			const reactRoot = ReactDOM.createRoot(container);
-			reactRoot.render(<React.StrictMode>{nav}</React.StrictMode>);
-
-			if (root) {
-				const next = root.firstChild?.nextSibling;
-
-				if (next) {
-					root.insertBefore(container, next);
-				} else {
-					root.appendChild(container);
-				}
-			}
-		}
-	}
-
 	useEffect(() => {
 		let descsAux;
 		//needs a slight delay since some elements take time to load
@@ -289,9 +263,6 @@ const AutoVizuA11y = ({
 			//wipes the old tabindex present in the child components
 			switchToChartLevel(ref, true);
 		}, 500);
-
-		//creates the ShortcutGuide
-		createShortcutGuide();
 	}, [ref]);
 
 	// sets the appropriate navigation keys in the ShortcutGuide
@@ -347,30 +318,35 @@ const AutoVizuA11y = ({
 		console.log("Type of chart not supported or no type given");
 	}
 	return (
-		<div
-			ref={ref}
-			onKeyDown={(event) => {
-				handleKeyDown(event, setTextContent);
-			}}
-			className="a11y_chart"
-			data-testid="a11y_chart"
-			role="form"
-		>
-			<p
-				style={{ textIndent: "-10000px" }}
-				className="a11y_desc visually-hidden"
-				data-testid="a11y_desc"
-				onFocus={() => {
-					handleFocus(alertDiv);
+		<>
+			<div
+				ref={ref}
+				onKeyDown={(event) => {
+					handleKeyDown(event, setTextContent);
 				}}
-				onBlur={handleBlur}
+				className="a11y_chart"
+				data-testid="a11y_chart"
+				role="form"
 			>
-				Generating description...
-			</p>
-			<div id="a11y_number" aria-hidden="true"></div>
-			{alertDiv}
-			{chart}
-		</div>
+				<p
+					style={{ textIndent: "-10000px" }}
+					className="a11y_desc visually-hidden"
+					data-testid="a11y_desc"
+					onFocus={() => {
+						handleFocus(alertDiv);
+					}}
+					onBlur={handleBlur}
+				>
+					Generating description...
+				</p>
+				<div id="a11y_number" aria-hidden="true"></div>
+				{alertDiv}
+				{chart}
+			</div>
+			<div onKeyDown={handleNav} id="a11y_nav_guide">
+				<ShortcutGuide />
+			</div>
+		</>
 	);
 };
 
