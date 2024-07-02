@@ -18,7 +18,7 @@ export function insightsCalculator<T extends number>(arrayConverted: T[]): numbe
 	if (arrayConverted === undefined) {
 		return [];
 	}
-	let insights = [];
+	let insights: number[] = [];
 
 	const x = sum(arrayConverted);
 	const y = avg(arrayConverted, x);

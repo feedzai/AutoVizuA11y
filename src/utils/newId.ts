@@ -6,6 +6,7 @@
  */
 
 let lastId = 0;
+let prefix = "id";
 
 /**
  * Returns a new Id to be used by each AutoVizuA11y instance.
@@ -13,7 +14,11 @@ let lastId = 0;
  * @export
  * @return An ID.
  */
-export function newId(prefix = "id") {
-	lastId++;
-	return `${prefix}${lastId}`;
+export function newId(componentId) {
+	if (componentId !== "") {
+		return componentId;
+	} else {
+		lastId++;
+		return `${prefix}${lastId}`;
+	}
 }
