@@ -12,7 +12,7 @@ import { median, getOrdinalNumber } from "../../utils/maths";
  *
  * @export
  * @param {React.KeyboardEvent} event
- * @param {HTMLDivElement} alertDiv
+ * @param {Function} setTextContent
  * @param {string} insights
  * @param {number[]} arrayConverted
  * @param {(number | undefined)} focusedData
@@ -20,7 +20,7 @@ import { median, getOrdinalNumber } from "../../utils/maths";
  */
 export function overallComparer(
 	event: React.KeyboardEvent,
-	alertDiv: HTMLDivElement,
+	setTextContent: Function,
 	insights: string,
 	arrayConverted: number[],
 	focusedData: number | undefined,
@@ -28,23 +28,23 @@ export function overallComparer(
 	const { altKey, code } = event;
 
 	if (altKey && code === "KeyZ" && insights === "") {
-		alertDiv.textContent = "That shortcut does not work in this chart";
+		setTextContent("That shortcut does not work in this chart");
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 		return;
 	}
 	if (altKey && code === "KeyZ" && insights !== "") {
 		if (typeof focusedData === "undefined") {
-			alertDiv.textContent = "This shortcut only works inside a chart";
+			setTextContent("This shortcut only works inside a chart");
 			setTimeout(function () {
-				alertDiv.textContent = "\u00A0";
+				setTextContent("\u00A0");
 			}, 1000);
 			return;
 		}
-		alertDiv.textContent = messagecreator(arrayConverted, focusedData);
+		setTextContent(messagecreator(arrayConverted, focusedData));
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 	}
 }

@@ -5,7 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 
 import {
@@ -126,7 +126,12 @@ const AutoVizuA11y = ({
 	const [descs, setDescs] = useState<string[]>([]);
 
 	let elements: HTMLElement[] = [];
-	let alertDiv: HTMLDivElement;
+	let [textContent, setTextContent] = useState<string>("\u00A0");
+	let alertDiv: React.ReactNode = (
+		<div className="a11y_alert visually-hidden" role="alert" aria-live="assertive">
+			{textContent}
+		</div>
+	);
 
 	if (ref.current) {
 		if (selectorType.element !== undefined) {
@@ -136,9 +141,6 @@ const AutoVizuA11y = ({
 				ref.current.getElementsByClassName(selectorType.className || ""),
 			) as HTMLElement[];
 		}
-		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-	} else {
-		alertDiv = document.createElement("div"); // Dummy alert div
 	}
 
 	if (autoDescriptions) {
@@ -157,20 +159,21 @@ const AutoVizuA11y = ({
 	const storedLongerKey = `oldLonger_${componentId}`;
 	const storedSmallerKey = `oldSmaller_${componentId}`;
 
-	const handleFocus = (alertDiv: HTMLDivElement | null) => {
+	const handleFocus = (alertDiv: React.ReactNode | null) => {
 		//css
 		ref.current!.classList.add("focused");
 		let toolTutorial = localStorage.getItem("toolTutorial");
 		if (toolTutorial === "true") {
 			if (alertDiv) {
-				alertDiv.textContent =
+				setTextContent(
 					"You just entered an AutoVizually chart." +
-					" For information on how to interact with it, press the question mark key" +
-					" to open the shortcut guide";
+						" For information on how to interact with it, press the question mark key" +
+						" to open the shortcut guide",
+				);
 			}
 			setTimeout(function () {
 				if (alertDiv) {
-					alertDiv.textContent = "\u00A0";
+					setTextContent("\u00A0");
 				}
 			}, 1000);
 			localStorage.setItem("toolTutorial", "false");
@@ -299,7 +302,7 @@ const AutoVizuA11y = ({
 			number,
 			ref,
 			elements,
-			alertDiv,
+			setTextContent,
 			selectedSeries,
 			series,
 			selectorType,
@@ -309,14 +312,14 @@ const AutoVizuA11y = ({
 	}
 
 	//sets the appropriate navigation keys and shortcuts in the charts and data
-	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, alertDiv: HTMLDivElement) {
+	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, setTextContent: Function) {
 		let numberAux = navigationKeyHandler(
 			type,
 			event,
 			number,
 			ref,
 			elements,
-			alertDiv,
+			setTextContent,
 			selectedSeries,
 			series,
 			selectorType,
@@ -328,7 +331,7 @@ const AutoVizuA11y = ({
 			type,
 			event,
 			elements,
-			alertDiv,
+			setTextContent,
 			ref,
 			insights,
 			insightsArray,
@@ -347,8 +350,7 @@ const AutoVizuA11y = ({
 		<div
 			ref={ref}
 			onKeyDown={(event) => {
-				const alertDiv = ref.current?.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-				handleKeyDown(event, alertDiv);
+				handleKeyDown(event, setTextContent);
 			}}
 			className="a11y_chart"
 			data-testid="a11y_chart"
@@ -366,9 +368,7 @@ const AutoVizuA11y = ({
 				Generating description...
 			</p>
 			<div id="a11y_number" aria-hidden="true"></div>
-			<div className="a11y_alert visually-hidden" role="alert" aria-live="assertive">
-				{"\u00A0"}
-			</div>
+			{alertDiv}
 			{chart}
 		</div>
 	);

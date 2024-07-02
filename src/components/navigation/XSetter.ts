@@ -12,14 +12,14 @@
  * @param {React.KeyboardEvent} event
  * @param {string} type
  * @param {number} number
- * @param {HTMLElement} alertDiv
+ * @param {Function} setTextContent
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
 export function xSetter(
 	event: React.KeyboardEvent,
 	type: string,
 	number: number,
-	alertDiv: HTMLElement,
+	setTextContent: Function,
 ): number {
 	const { nativeEvent } = event;
 
@@ -31,18 +31,19 @@ export function xSetter(
 		if (input !== null && input !== "") {
 			const parsedInput = parseInt(input);
 			if (!isNaN(parsedInput) && parsedInput > 0) {
-				alertDiv.textContent =
-					"You are now jumping " + parsedInput + " data points at a time inside the " + type;
+				setTextContent(
+					"You are now jumping " + parsedInput + " data points at a time inside the " + type,
+				);
 				setTimeout(function () {
-					alertDiv.textContent = "\u00A0";
+					setTextContent("\u00A0");
 				}, 1000);
 				const newNumber = parsedInput;
 				activeElement.focus(); // Re-focus the stored element
 				return newNumber;
 			} else {
-				alertDiv.textContent = "Invalid input. Please enter a number.";
+				setTextContent("Invalid input. Please enter a number.");
 				setTimeout(function () {
-					alertDiv.textContent = "\u00A0";
+					setTextContent("\u00A0");
 				}, 1000);
 				activeElement.focus(); // Re-focus the stored element
 			}
@@ -57,20 +58,22 @@ export function xSetter(
 		if (number === 1) {
 			return number;
 		}
-		alertDiv.textContent =
-			"You are now jumping " + (number - 1) + " data points at a time inside the " + type;
+		setTextContent(
+			"You are now jumping " + (number - 1) + " data points at a time inside the " + type,
+		);
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 		return number - 1;
 	}
 
 	// Add one to X
 	if (nativeEvent.key === "+") {
-		alertDiv.textContent =
-			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;
+		setTextContent(
+			"You are now jumping " + (number + 1) + " data points at a time inside the " + type,
+		);
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 		return number + 1;
 	}

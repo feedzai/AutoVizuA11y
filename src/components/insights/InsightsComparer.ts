@@ -12,7 +12,7 @@ import { rounding } from "../../utils/maths";
  *
  * @export
  * @param {React.KeyboardEvent} event
- * @param {HTMLElement} alertDiv
+ * @param {Function} setTextContent
  * @param {string} insights
  * @param {number[]} insightsArray
  * @param {number} [focusedData]
@@ -20,7 +20,7 @@ import { rounding } from "../../utils/maths";
  */
 export function insightsComparer(
 	event: React.KeyboardEvent,
-	alertDiv: HTMLElement,
+	setTextContent: Function,
 	insights: string,
 	insightsArray: number[],
 	focusedData?: number,
@@ -33,9 +33,9 @@ export function insightsComparer(
 		(nativeEvent.code === "KeyK" || nativeEvent.code === "KeyL" || nativeEvent.code === "KeyJ") &&
 		insights === ""
 	) {
-		alertDiv.textContent = "That shortcut does not work in this chart";
+		setTextContent("That shortcut does not work in this chart");
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000); // 1000 milliseconds = 1 second
 	}
 
@@ -47,12 +47,12 @@ export function insightsComparer(
 		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
-			alertDiv.textContent = `This shortcut only works inside a chart`;
+			setTextContent(`This shortcut only works inside a chart`);
 			return;
 		}
-		alertDiv.textContent = messageCreator("average", insightsArray[1], focusedData);
+		setTextContent(messageCreator("average", insightsArray[1], focusedData));
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 	}
 	// Data point vs max
@@ -63,12 +63,12 @@ export function insightsComparer(
 		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
-			alertDiv.textContent = "This shortcut only works inside a chart";
+			setTextContent("This shortcut only works inside a chart");
 			return;
 		}
-		alertDiv.textContent = messageCreator("maximum value", insightsArray[2], focusedData);
+		setTextContent(messageCreator("maximum value", insightsArray[2], focusedData));
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 	}
 	// Data point vs min
@@ -79,12 +79,12 @@ export function insightsComparer(
 		insights !== ""
 	) {
 		if (typeof focusedData === "undefined") {
-			alertDiv.textContent = "This shortcut only works inside a chart";
+			setTextContent("This shortcut only works inside a chart");
 			return;
 		}
-		alertDiv.textContent = messageCreator("minimum value", insightsArray[3], focusedData);
+		setTextContent(messageCreator("minimum value", insightsArray[3], focusedData));
 		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
+			setTextContent("\u00A0");
 		}, 1000);
 	}
 }
