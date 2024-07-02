@@ -34,7 +34,7 @@ export function navigationKeyHandler({
 	event: React.KeyboardEvent;
 	number: number;
 	ref: React.RefObject<HTMLElement>;
-	elements: any;
+	elements: HTMLElement[];
 	setTextContent: Function;
 	selectedSeries: string;
 	series: string[];
@@ -42,7 +42,7 @@ export function navigationKeyHandler({
 	multiSeries?: string | undefined;
 	nextSeries?: () => void;
 }): number {
-	const { altKey, code } = event.nativeEvent;
+	const { altKey, key, code } = event.nativeEvent;
 	number = xSetter({ event, type, number, setTextContent });
 	skip({ event, ref, selectorType, selectedSeries });
 
@@ -80,9 +80,10 @@ export function navigationKeyHandler({
 			nextSeries();
 			switchSeries({ ref, selectorType, selectedSeries, series });
 		}
+		return number;
 	}
 
-	switch (code) {
+	switch (key) {
 		case "ArrowDown":
 			event.preventDefault();
 			if (
@@ -101,6 +102,7 @@ export function navigationKeyHandler({
 			}
 			switchToDataLevel({ ref, selectorType, selectedSeries });
 			break;
+
 		case "ArrowUp":
 			event.preventDefault();
 			if (
@@ -119,6 +121,7 @@ export function navigationKeyHandler({
 			}
 			switchToChartLevel(ref);
 			break;
+
 		case "Escape":
 			event.preventDefault();
 			if (
@@ -130,14 +133,9 @@ export function navigationKeyHandler({
 				return number;
 			}
 			break;
-		default:
-			break;
-	}
-	switch (event.key) {
-		case "?":
-			// eslint-disable-next-line no-case-declarations
-			const modal = document.getElementsByClassName("a11y_modal")[0];
 
+		case "?":
+			const modal = document.getElementsByClassName("a11y_modal")[0];
 			if (modal !== undefined) {
 				event.preventDefault();
 				if (
