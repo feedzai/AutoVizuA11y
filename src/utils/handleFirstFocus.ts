@@ -12,26 +12,26 @@ import React from "react";
  *
  * @param {(React.ReactNode | null)} alertDiv
  * @param {React.RefObject<HTMLDivElement>} ref
- * @param {} alertDivRef
+ * @param {React.RefObject<HTMLElement>} alertDivRef
  */
 export const handleFirstFocus = (
 	alertDiv: React.ReactNode | null,
 	ref: React.RefObject<HTMLDivElement>,
-	alertDivRef,
+	alertDivRef: React.RefObject<HTMLElement>,
 ) => {
 	ref.current!.classList.add("focused");
 
 	let toolTutorial = localStorage.getItem("toolTutorial");
 	if (toolTutorial === "true") {
 		if (alertDiv) {
-			alertDivRef.current.textContent =
+			alertDivRef.current!.textContent =
 				"You just entered an AutoVizually chart." +
 				" For information on how to interact with it, press the question mark key" +
 				" to open the shortcut guide";
 		}
 		setTimeout(function () {
 			if (alertDiv) {
-				alertDivRef.current.textContent = "\u00A0";
+				alertDivRef.current!.textContent = "\u00A0";
 			}
 		}, 1000);
 		localStorage.setItem("toolTutorial", "false");

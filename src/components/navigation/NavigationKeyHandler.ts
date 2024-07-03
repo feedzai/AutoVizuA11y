@@ -35,7 +35,7 @@ export function navigationKeyHandler({
 	number: number;
 	ref: React.RefObject<HTMLElement>;
 	elements: HTMLElement[];
-	alertDivRef;
+	alertDivRef: React.RefObject<HTMLElement>;
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
@@ -64,16 +64,16 @@ export function navigationKeyHandler({
 			return number;
 		}
 		if (document.activeElement?.classList.contains("a11y_desc")) {
-			alertDivRef.current.textContent = "You can only change series while focused on a data point";
+			alertDivRef.current!.textContent = "You can only change series while focused on a data point";
 			setTimeout(() => {
-				alertDivRef.current.textContent = "\u00A0";
+				alertDivRef.current!.textContent = "\u00A0";
 			}, 1000);
 			return number;
 		}
 		if (!multiSeries) {
-			alertDivRef.current.textContent = "This chart only has one series of data";
+			alertDivRef.current!.textContent = "This chart only has one series of data";
 			setTimeout(() => {
-				alertDivRef.current.textContent = "\u00A0";
+				alertDivRef.current!.textContent = "\u00A0";
 			}, 1000);
 			return number;
 		} else if (nextSeries && selectorType && selectedSeries && series) {
@@ -94,9 +94,9 @@ export function navigationKeyHandler({
 				break;
 			}
 			if (!document.activeElement?.classList.contains("a11y_desc")) {
-				alertDivRef.current.textContent = "You are already at the data level";
+				alertDivRef.current!.textContent = "You are already at the data level";
 				setTimeout(() => {
-					alertDivRef.current.textContent = "\u00A0";
+					alertDivRef.current!.textContent = "\u00A0";
 				}, 1000);
 				break;
 			}
@@ -113,9 +113,9 @@ export function navigationKeyHandler({
 				break;
 			}
 			if (document.activeElement?.classList.contains("a11y_desc")) {
-				alertDivRef.current.textContent = "You are already at the chart level";
+				alertDivRef.current!.textContent = "You are already at the chart level";
 				setTimeout(() => {
-					alertDivRef.current.textContent = "\u00A0";
+					alertDivRef.current!.textContent = "\u00A0";
 				}, 1000);
 				break;
 			}

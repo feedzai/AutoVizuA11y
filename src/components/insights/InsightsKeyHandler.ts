@@ -22,7 +22,7 @@ export function insightsKeyHandler({
 }: {
 	event: React.KeyboardEvent;
 	elements: HTMLElement[];
-	alertDivRef;
+	alertDivRef: React.RefObject<HTMLElement>;
 	insights: string;
 	insightsArray: number[];
 	arrayConverted: number[] | undefined;
@@ -37,9 +37,9 @@ export function insightsKeyHandler({
 		const { nativeEvent } = event;
 
 		function showMessage(message) {
-			alertDivRef.current.textContent = message;
+			alertDivRef.current!.textContent = message;
 			setTimeout(() => {
-				alertDivRef.current.textContent = "\u00A0";
+				alertDivRef.current!.textContent = "\u00A0";
 			}, 1000);
 		}
 
