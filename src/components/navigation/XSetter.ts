@@ -12,14 +12,14 @@
  * @param {React.KeyboardEvent} event
  * @param {string} type
  * @param {number} number
- * @param {} alertDivRef
+ * @param {React.RefObject<HTMLElement>} alertDivRef
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
 export function xSetter(
 	event: React.KeyboardEvent,
 	type: string,
 	number: number,
-	alertDivRef,
+	alertDivRef: React.RefObject<HTMLElement>,
 ): number {
 	const { nativeEvent } = event;
 
@@ -31,18 +31,18 @@ export function xSetter(
 		if (input !== null && input !== "") {
 			const parsedInput = parseInt(input);
 			if (!isNaN(parsedInput) && parsedInput > 0) {
-				alertDivRef.current.textContent =
+				alertDivRef.current!.textContent =
 					"You are now jumping " + parsedInput + " data points at a time inside the " + type;
 				setTimeout(function () {
-					alertDivRef.current.textContent = "\u00A0";
+					alertDivRef.current!.textContent = "\u00A0";
 				}, 1000);
 				const newNumber = parsedInput;
 				activeElement.focus(); // Re-focus the stored element
 				return newNumber;
 			} else {
-				alertDivRef.current.textContent = "Invalid input. Please enter a number.";
+				alertDivRef.current!.textContent = "Invalid input. Please enter a number.";
 				setTimeout(function () {
-					alertDivRef.current.textContent = "\u00A0";
+					alertDivRef.current!.textContent = "\u00A0";
 				}, 1000);
 				activeElement.focus(); // Re-focus the stored element
 			}
@@ -57,20 +57,20 @@ export function xSetter(
 		if (number === 1) {
 			return number;
 		}
-		alertDivRef.current.textContent =
+		alertDivRef.current!.textContent =
 			"You are now jumping " + (number - 1) + " data points at a time inside the " + type;
 		setTimeout(function () {
-			alertDivRef.current.textContent = "\u00A0";
+			alertDivRef.current!.textContent = "\u00A0";
 		}, 1000);
 		return number - 1;
 	}
 
 	// Add one to X
 	if (nativeEvent.key === "+") {
-		alertDivRef.current.textContent =
+		alertDivRef.current!.textContent =
 			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;
 		setTimeout(function () {
-			alertDivRef.current.textContent = "\u00A0";
+			alertDivRef.current!.textContent = "\u00A0";
 		}, 1000);
 		return number + 1;
 	}

@@ -24,7 +24,7 @@ type SelectorType = {
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
  *
  * @param {React.KeyboardEvent<HTMLDivElement>} event
- * @param {} alertDivRef
+ * @param {React.RefObject<HTMLElement>} alertDivRef
  * @param {string} type
  * @param {number} number
  * @param {React.RefObject<HTMLDivElement>} ref
@@ -45,7 +45,7 @@ type SelectorType = {
  */
 export const handleKeyDown = (
 	event: React.KeyboardEvent<HTMLDivElement>,
-	alertDivRef,
+	alertDivRef: React.RefObject<HTMLElement>,
 	type: string,
 	number: number,
 	ref: React.RefObject<HTMLDivElement>,
