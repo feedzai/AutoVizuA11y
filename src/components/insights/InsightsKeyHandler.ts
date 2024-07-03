@@ -13,7 +13,7 @@ import { messageInsights, messageOverall } from "./MessageGenerator";
  * @export
  * @param {React.KeyboardEvent} event
  * @param {HTMLElement[]} elements
- * @param {Function} setTextContent
+ * @param {} alertDivRef
  * @param {string} insights
  * @param {number[]} insightsArray
  * @param {(number[] | undefined)} arrayConverted
@@ -22,7 +22,7 @@ import { messageInsights, messageOverall } from "./MessageGenerator";
 export function insightsKeyHandler(
 	event: React.KeyboardEvent,
 	elements: HTMLElement[],
-	setTextContent: Function,
+	alertDivRef,
 	insights: string,
 	insightsArray: number[],
 	arrayConverted: number[] | undefined,
@@ -37,9 +37,9 @@ export function insightsKeyHandler(
 		const { nativeEvent } = event;
 
 		function showMessage(message) {
-			setTextContent(message);
+			alertDivRef.current.textContent = message;
 			setTimeout(() => {
-				setTextContent("\u00A0");
+				alertDivRef.current.textContent = "\u00A0";
 			}, 1000);
 		}
 
