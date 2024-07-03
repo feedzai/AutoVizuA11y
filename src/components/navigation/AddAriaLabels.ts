@@ -13,8 +13,8 @@
  * @param {(string | undefined)} descriptor
  * @param {{ element?: string; className?: string }} selectorType
  * @param {object[]} data
- * @param {(string | undefined)} multiSeries
- * @return {*}  {void}
+ * @param {string} multiSeries
+ * @return {void}
  */
 export function addAriaLabels(
 	ref: React.RefObject<HTMLElement>,

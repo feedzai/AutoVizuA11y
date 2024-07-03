@@ -12,7 +12,7 @@ import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
 
 /**
- * Listens for navigation related keypresses and handles the outcomes.
+ * Listens for navigation related keypresses in charts/data elements and handles the outcomes.
  *
  * @export
  * @param {string} type
@@ -40,7 +40,7 @@ export function navigationKeyHandler(
 	series: string[],
 	selectorType: { element?: string; className?: string },
 	multiSeries?: string | undefined,
-	nextSeries?: () => void,
+	nextSeries?: Function,
 ): number {
 	const { altKey, key, code } = event;
 	number = xSetter(event, type, number, setTextContent);
@@ -122,30 +122,10 @@ export function navigationKeyHandler(
 			switchToChartLevel(ref);
 			break;
 
-		case "Escape":
-			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
-			) {
-				returnGuide(ref);
-				return number;
-			}
-			break;
-
 		case "?":
 			const modal = document.getElementsByClassName("a11y_modal")[0];
 			if (modal !== undefined) {
 				event.preventDefault();
-				if (
-					document.activeElement?.classList.contains("a11y_modal_content") ||
-					document.activeElement?.classList.contains("a11y_row") ||
-					document.activeElement?.id === "guide_close"
-				) {
-					returnGuide(ref);
-					return number;
-				}
 				levelGuide(ref);
 				break;
 			}
@@ -153,13 +133,6 @@ export function navigationKeyHandler(
 
 		default:
 			break;
-	}
-
-	const span = document.getElementById("guide_close");
-	if (span !== null) {
-		span.onclick = () => {
-			returnGuide(ref);
-		};
 	}
 
 	return number;
@@ -195,26 +168,6 @@ function levelGuide(ref: React.RefObject<HTMLElement>): void {
 	shortcutGuide.pastFocus = ref?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	document.body.classList.add("a11y_no_scroll");
 	shortcutGuide.focus();
-}
-
-/**
- * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
- *
- * @param {React.RefObject<HTMLElement>} ref
- */
-function returnGuide(ref: React.RefObject<HTMLElement>): void {
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].removeAttribute("tabIndex");
-	}
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-	shortcutGuide.removeAttribute("tabIndex");
-	switchToChartLevel(ref);
-	if (shortcutGuide.pastFocus) shortcutGuide.pastFocus.focus();
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "none";
 }
 
 /**
