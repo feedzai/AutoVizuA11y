@@ -6,14 +6,8 @@
  */
 
 import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom/client";
 
-import {
-	addAriaLabels,
-	insightsKeyHandler,
-	switchToChartLevel,
-	navigationKeyHandler,
-} from "./components";
+import { addAriaLabels, switchToChartLevel } from "./components";
 import { arrayConverter, newId } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
@@ -22,6 +16,10 @@ import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsChanger } from "./components/descriptions/DescriptionsChanger";
 
 import "./assets/style/AutoVizuA11y.css";
+import { handleFirstFocus } from "./utils/handleFirstFocus";
+import { handleBlur } from "./utils/handleBlur";
+import { handleKeyDown } from "./utils/handleKeyDown";
+import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -167,32 +165,6 @@ const AutoVizuA11y = ({
 	const storedLongerKey = `oldLonger_${componentId}`;
 	const storedSmallerKey = `oldSmaller_${componentId}`;
 
-	const handleFocus = (alertDiv: React.ReactNode | null) => {
-		//css
-		ref.current!.classList.add("focused");
-		let toolTutorial = localStorage.getItem("toolTutorial");
-		if (toolTutorial === "true") {
-			if (alertDiv) {
-				setTextContent(
-					"You just entered an AutoVizually chart." +
-						" For information on how to interact with it, press the question mark key" +
-						" to open the shortcut guide",
-				);
-			}
-			setTimeout(function () {
-				if (alertDiv) {
-					setTextContent("\u00A0");
-				}
-			}, 1000);
-			localStorage.setItem("toolTutorial", "false");
-			toolTutorial = "false";
-		}
-	};
-
-	const handleBlur = () => {
-		ref.current!.classList.remove("focused");
-	};
-
 	let [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 	let chartDescription: React.ReactNode = (
 		<p
@@ -200,9 +172,9 @@ const AutoVizuA11y = ({
 			className="a11y_desc visually-hidden"
 			data-testid="a11y_desc"
 			onFocus={() => {
-				handleFocus(alertDiv);
+				handleFirstFocus(alertDiv, ref, setTextContent);
 			}}
-			onBlur={handleBlur}
+			onBlur={(_) => handleBlur(ref)}
 			aria-label={descriptionContent}
 		>
 			{descriptionContent}
@@ -302,70 +274,42 @@ const AutoVizuA11y = ({
 				}
 			});
 
-			//wipes the old tabindex present in the child components
+			// sets the navigation onto the charts first
 			switchToChartLevel(ref, true);
 		}, 500);
 	}, [ref]);
-
-	// sets the appropriate navigation keys in the ShortcutGuide
-	function handleNav(event: React.KeyboardEvent<HTMLDivElement>) {
-		navigationKeyHandler({
-			type,
-			event,
-			number,
-			ref,
-			elements,
-			setTextContent,
-			selectedSeries,
-			series,
-			selectorType,
-			multiSeries,
-			nextSeries,
-		});
-	}
-
-	//sets the appropriate navigation keys and shortcuts in the charts and data
-	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, setTextContent: Function) {
-		let numberAux = navigationKeyHandler({
-			type,
-			event,
-			number,
-			ref,
-			elements,
-			setTextContent,
-			selectedSeries,
-			series,
-			selectorType,
-			multiSeries,
-			nextSeries,
-		});
-		setNumber(numberAux);
-		insightsKeyHandler({
-			type,
-			event,
-			elements,
-			setTextContent,
-			ref,
-			setDescriptionContent,
-			insights,
-			insightsArray,
-			arrayConverted,
-			title,
-			descs,
-			autoDescriptions,
-		});
-	}
 
 	// features exclusive to bar charts (might be able to turn this more modular)
 	if (!selectorType) {
 		console.log("Type of chart not supported or no type given");
 	}
+
 	return (
 		<>
 			<div
 				ref={ref}
 				onKeyDown={(event) => {
-					handleKeyDown(event, setTextContent);
+					handleKeyDown(
+						event,
+						setTextContent,
+						type,
+						number,
+						ref,
+						elements,
+						selectedSeries,
+						series,
+						selectorType,
+						nextSeries,
+						setNumber,
+						setDescriptionContent,
+						insights,
+						insightsArray,
+						arrayConverted,
+						title,
+						descs,
+						autoDescriptions,
+						multiSeries,
+					);
 				}}
 				className="a11y_chart"
 				data-testid="a11y_chart"
@@ -377,7 +321,13 @@ const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
-			<div ref={shortcutGuideRef} onKeyDown={handleNav} id="a11y_nav_guide">
+			<div
+				ref={shortcutGuideRef}
+				onKeyDown={(event) => {
+					guideKeyHandler(event, ref);
+				}}
+				id="a11y_nav_guide"
+			>
 				<ShortcutGuide />
 			</div>
 		</>

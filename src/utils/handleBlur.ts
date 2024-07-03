@@ -5,11 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export * from "./arrayConverter";
-export * from "./insightsCalculator";
-export * from "./maths";
-export * from "./newId";
-export * from "./wiper";
-export * from "./handleBlur";
-export * from "./handleFirstFocus";
-export * from "./handleKeyDown";
+import React from "react";
+
+/**
+ * Removes the 'focus' class when the element loses focus
+ *
+ * @param {React.RefObject<HTMLDivElement>} ref
+ */
+export const handleBlur = (ref: React.RefObject<HTMLDivElement>) => {
+	ref.current!.classList.remove("focused");
+};

@@ -21,7 +21,7 @@ export function addAriaLabels({
 	descriptor: string | undefined;
 	selectorType: { element?: string; className?: string };
 	data: object[];
-	multiSeries: string | undefined;
+	multiSeries: string;
 }): void {
 	if (!ref.current) return;
 
