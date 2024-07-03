@@ -6,7 +6,7 @@
  */
 
 import React from "react";
-import { insightsKeyHandler, navigationKeyHandler } from "../components";
+import { descriptionsKeyHandler, insightsKeyHandler, navigationKeyHandler } from "../components";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -78,18 +78,6 @@ export const handleKeyDown = (
 		nextSeries,
 	);
 	setNumber(numberAux);
-	insightsKeyHandler(
-		type,
-		event,
-		elements,
-		setTextContent,
-		ref,
-		setDescriptionContent,
-		insights,
-		insightsArray,
-		arrayConverted,
-		title,
-		descs,
-		autoDescriptions,
-	);
+	descriptionsKeyHandler(ref, setDescriptionContent, type, descs, title, autoDescriptions, event);
+	insightsKeyHandler(event, elements, setTextContent, insights, insightsArray, arrayConverted);
 };

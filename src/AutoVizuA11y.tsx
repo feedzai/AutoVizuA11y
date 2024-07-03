@@ -13,7 +13,7 @@ import { arrayConverter, newId } from "./utils";
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { insightsCalculator } from "./utils/insightsCalculator";
-import { descriptionsChanger } from "./components/descriptions/DescriptionsChanger";
+import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
 import "./assets/style/AutoVizuA11y.css";
 import { handleFirstFocus } from "./utils/handleFirstFocus";
@@ -237,13 +237,20 @@ const AutoVizuA11y = ({
 				if (storedLonger !== null && storedSmaller !== null) {
 					descsAux = [storedLonger, storedSmaller];
 					setDescs([storedLonger, storedSmaller]);
-					descriptionsChanger(ref, setDescriptionContent, type, descsAux, title, autoDescriptions);
+					descriptionsKeyHandler(
+						ref,
+						setDescriptionContent,
+						type,
+						descsAux,
+						title,
+						autoDescriptions,
+					);
 				} else {
 					generateDescriptions(title, data, averageAux, context, apiKey, model, temperature).then(
 						function (result) {
 							descsAux = result; // Output: [longerDescValue, smallerDescValue]
 							setDescs(result); // Output: [longerDescValue, smallerDescValue]
-							descriptionsChanger(
+							descriptionsKeyHandler(
 								ref,
 								setDescriptionContent,
 								type,

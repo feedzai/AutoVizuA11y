@@ -5,49 +5,27 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { insightsComparer } from "./InsightsComparer";
-import { insightsSetter } from "./InsightsSetter";
-import { overallComparer } from "./OverallComparer";
-import { descriptionsChanger } from "../descriptions/DescriptionsChanger";
-
-type AutoDescriptionsProps = {
-	dynamicDescriptions?: boolean;
-	apiKey: string;
-	model?: string;
-	temperature?: number;
-};
+import { messageInsights, messageOverall } from "./MessageGenerator";
 
 /**
  * Listens for keypresses and handles the outcomes.
  *
  * @export
- * @param {string} type
  * @param {React.KeyboardEvent} event
  * @param {HTMLElement[]} elements
- * @param {Function} setDescriptionContent
  * @param {Function} setTextContent
- * @param {React.RefObject<HTMLElement>} ref
  * @param {string} insights
  * @param {number[]} insightsArray
  * @param {(number[] | undefined)} arrayConverted
- * @param {string} title
- * @param {string[]} descs
- * @param {AutoDescriptionsProps} [autoDescOptions]
  * @return {void}
  */
 export function insightsKeyHandler(
-	type: string,
 	event: React.KeyboardEvent,
 	elements: HTMLElement[],
 	setTextContent: Function,
-	ref: React.RefObject<HTMLElement>,
-	setDescriptionContent: Function,
 	insights: string,
 	insightsArray: number[],
 	arrayConverted: number[] | undefined,
-	title: string,
-	descs: string[],
-	autoDescOptions?: AutoDescriptionsProps,
 ) {
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
@@ -56,11 +34,84 @@ export function insightsKeyHandler(
 		);
 
 		const focusedData = arrayConverted[focusedIndex];
+		const { nativeEvent } = event;
 
-		insightsSetter(event, setTextContent, insights, insightsArray);
-		insightsComparer(event, setTextContent, insights, insightsArray, focusedData);
-		overallComparer(event, setTextContent, insights, arrayConverted, focusedData);
-		descriptionsChanger(ref, setDescriptionContent, type, descs, title, autoDescOptions, event);
+		function showMessage(message) {
+			setTextContent(message);
+			setTimeout(() => {
+				setTextContent("\u00A0");
+			}, 1000);
+		}
+
+		switch (true) {
+			// Comparison between a data element and statistical insights
+			case nativeEvent.altKey &&
+				nativeEvent.shiftKey &&
+				(nativeEvent.code === "KeyK" ||
+					nativeEvent.code === "KeyL" ||
+					nativeEvent.code === "KeyJ") &&
+				insights === "":
+				showMessage("That shortcut does not work in this chart");
+				break;
+			case nativeEvent.altKey &&
+				nativeEvent.shiftKey &&
+				nativeEvent.code === "KeyK" &&
+				insights !== "":
+				if (typeof focusedData === "undefined") {
+					showMessage("This shortcut only works inside a chart");
+				} else {
+					showMessage(messageInsights("average", insightsArray[1], focusedData));
+				}
+				break;
+			case nativeEvent.altKey &&
+				nativeEvent.shiftKey &&
+				nativeEvent.code === "KeyL" &&
+				insights !== "":
+				if (typeof focusedData === "undefined") {
+					showMessage("This shortcut only works inside a chart");
+				} else {
+					showMessage(messageInsights("maximum value", insightsArray[2], focusedData));
+				}
+				break;
+			case nativeEvent.altKey &&
+				nativeEvent.shiftKey &&
+				nativeEvent.code === "KeyJ" &&
+				insights !== "":
+				if (typeof focusedData === "undefined") {
+					showMessage("This shortcut only works inside a chart");
+				} else {
+					showMessage(messageInsights("minimum value", insightsArray[3], focusedData));
+				}
+				break;
+			// Statistical insights from chart
+			case nativeEvent.altKey &&
+				(nativeEvent.code === "KeyK" ||
+					nativeEvent.code === "KeyL" ||
+					nativeEvent.code === "KeyJ") &&
+				insights === "":
+				showMessage("That shortcut does not work in this chart");
+				break;
+			case nativeEvent.altKey && nativeEvent.code === "KeyK" && insights !== "":
+				showMessage("The average is " + insightsArray[1]);
+				break;
+			case nativeEvent.altKey && nativeEvent.code === "KeyL" && insights !== "":
+				showMessage("The maximum is " + insightsArray[2]);
+				break;
+			case nativeEvent.altKey && nativeEvent.code === "KeyJ" && insights !== "":
+				showMessage("The minimum is " + insightsArray[3]);
+				break;
+			// Comparison between a data element and all others in a chart
+			case nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights === "":
+				showMessage("That shortcut does not work in this chart");
+				break;
+			case nativeEvent.altKey && nativeEvent.code === "KeyZ" && insights !== "":
+				if (typeof focusedData === "undefined") {
+					showMessage("This shortcut only works inside a chart");
+				} else {
+					showMessage(messageOverall(arrayConverted, focusedData));
+				}
+				break;
+		}
 	}
 
 	return;

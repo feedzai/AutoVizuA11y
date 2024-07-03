@@ -25,7 +25,7 @@ type AutoDescriptionsProps = {
  * @param {React.KeyboardEvent} [event]
  * @return {void}
  */
-export function descriptionsChanger(
+export function descriptionsKeyHandler(
 	ref: React.RefObject<HTMLElement>,
 	setDescriptionContent: Function,
 	type: string,
