@@ -17,7 +17,7 @@ type AutoDescriptionsProps = {
  *
  * @export
  */
-export function descriptionsChanger({
+export function descriptionsKeyHandler({
 	ref,
 	setDescriptionContent,
 	type,

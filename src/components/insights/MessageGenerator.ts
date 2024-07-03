@@ -5,56 +5,36 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { median, getOrdinalNumber } from "../../utils/maths";
+import { getOrdinalNumber, median, rounding } from "../../utils";
 
 /**
- * Handles the comparison between a value and all others from the same chart.
+ * Creates the message regarding the insight requested.
  *
  * @export
+ * @param {string} code
+ * @param {number} insight
+ * @param {number} focusedData
+ * @return {(string | null)}
  */
-export function overallComparer({
-	event,
-	setTextContent,
-	insights,
-	arrayConverted,
-	focusedData,
-}: {
-	event: React.KeyboardEvent;
-	setTextContent: Function;
-	insights: string;
-	arrayConverted: number[];
-	focusedData: number | undefined;
-}): void {
-	const { altKey, code } = event;
+export function messageInsights(code: string, insight: number, focusedData: number): string | null {
+	if (insight > focusedData)
+		return "The value is " + rounding(insight - focusedData) + " below the " + code;
+	if (insight < focusedData)
+		return "The value is " + rounding(focusedData - insight) + " above the " + code;
+	if (insight === focusedData) return "The value is the same as the " + code;
 
-	if (altKey && code === "KeyZ" && insights === "") {
-		setTextContent("That shortcut does not work in this chart");
-		setTimeout(function () {
-			setTextContent("\u00A0");
-		}, 1000);
-		return;
-	}
-	if (altKey && code === "KeyZ" && insights !== "") {
-		if (typeof focusedData === "undefined") {
-			setTextContent("This shortcut only works inside a chart");
-			setTimeout(function () {
-				setTextContent("\u00A0");
-			}, 1000);
-			return;
-		}
-		setTextContent(messagecreator(arrayConverted, focusedData));
-		setTimeout(function () {
-			setTextContent("\u00A0");
-		}, 1000);
-	}
+	return null;
 }
 
 /**
- * Produces a message based on the comparison between a value and all others from the same chart.
+ * Creates the message regarding the comparison between a data element and all others.
  *
- * @return The message as a string.
+ * @export
+ * @param {number[]} arrayConverted
+ * @param {number} focusedData
+ * @return {string}
  */
-function messagecreator(arrayConverted: number[], focusedData: number): string {
+export function messageOverall(arrayConverted: number[], focusedData: number): string {
 	const dataSuperConverted = trimAndSort(arrayConverted);
 	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
 	const med = median(dataSuperConverted);
@@ -74,7 +54,8 @@ function messagecreator(arrayConverted: number[], focusedData: number): string {
 /**
  * Trims and sorts an array of numbers.
  *
- * @return Array of trimmed and sorted numbers.
+ * @param {number[]} arrayConverted
+ * @return {number[]}
  */
 function trimAndSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];

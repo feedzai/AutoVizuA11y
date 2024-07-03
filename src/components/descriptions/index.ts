@@ -5,5 +5,5 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export * from "./DescriptionsChanger";
+export * from "./DescriptionsKeyHandler";
 export * from "./DescriptionsGenerator";

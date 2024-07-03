@@ -11,3 +11,4 @@ export * from "./NavigationKeyHandler";
 export * from "./JumpX";
 export * from "./XSetter";
 export * from "./Skip";
+export * from "./GuideKeyHandler";
