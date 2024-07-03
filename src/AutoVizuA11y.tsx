@@ -105,8 +105,8 @@ const AutoVizuA11y = ({
 	children,
 }: AutoVizuA11yProps) => {
 	let chart = React.Children.map(children, (child) => <div>{child}</div>);
-	const ref = React.useRef<HTMLDivElement>(null);
-	const shortcutGuideRef = React.useRef<HTMLDivElement>(null);
+	const ref = useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
 	let storedLonger: string | null;
 	let storedSmaller: string | null;
@@ -126,10 +126,15 @@ const AutoVizuA11y = ({
 
 	let elements: HTMLElement[] = [];
 
-	let [textContent, setTextContent] = useState<string>("\u00A0");
+	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = (
-		<div className="a11y_alert visually-hidden" role="alert" aria-live="assertive">
-			{textContent}
+		<div
+			ref={alertDivRef}
+			className="a11y_alert visually-hidden"
+			role="alert"
+			aria-live="assertive"
+		>
+			{"\u00A0"}
 		</div>
 	);
 
@@ -172,7 +177,7 @@ const AutoVizuA11y = ({
 			className="a11y_desc visually-hidden"
 			data-testid="a11y_desc"
 			onFocus={() => {
-				handleFirstFocus(alertDiv, ref, setTextContent);
+				handleFirstFocus(alertDiv, ref, alertDivRef);
 			}}
 			onBlur={(_) => handleBlur(ref)}
 			aria-label={descriptionContent}
@@ -291,7 +296,7 @@ const AutoVizuA11y = ({
 				onKeyDown={(event) => {
 					handleKeyDown(
 						event,
-						setTextContent,
+						alertDivRef,
 						type,
 						number,
 						ref,

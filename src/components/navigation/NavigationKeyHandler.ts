@@ -23,7 +23,7 @@ export function navigationKeyHandler({
 	number,
 	ref,
 	elements,
-	setTextContent,
+	alertDivRef,
 	selectedSeries,
 	series,
 	selectorType,
@@ -35,7 +35,7 @@ export function navigationKeyHandler({
 	number: number;
 	ref: React.RefObject<HTMLElement>;
 	elements: HTMLElement[];
-	setTextContent: Function;
+	alertDivRef;
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
@@ -43,7 +43,7 @@ export function navigationKeyHandler({
 	nextSeries?: Function;
 }): number {
 	const { altKey, key, code } = event.nativeEvent;
-	number = xSetter({ event, type, number, setTextContent });
+	number = xSetter({ event, type, number, alertDivRef });
 	skip({ event, ref, selectorType, selectedSeries });
 
 	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
@@ -64,16 +64,16 @@ export function navigationKeyHandler({
 			return number;
 		}
 		if (document.activeElement?.classList.contains("a11y_desc")) {
-			setTextContent("You can only change series while focused on a data point");
+			alertDivRef.current.textContent = "You can only change series while focused on a data point";
 			setTimeout(() => {
-				setTextContent("\u00A0");
+				alertDivRef.current.textContent = "\u00A0";
 			}, 1000);
 			return number;
 		}
 		if (!multiSeries) {
-			setTextContent("This chart only has one series of data");
+			alertDivRef.current.textContent = "This chart only has one series of data";
 			setTimeout(() => {
-				setTextContent("\u00A0");
+				alertDivRef.current.textContent = "\u00A0";
 			}, 1000);
 			return number;
 		} else if (nextSeries && selectorType && selectedSeries && series) {
@@ -94,9 +94,9 @@ export function navigationKeyHandler({
 				break;
 			}
 			if (!document.activeElement?.classList.contains("a11y_desc")) {
-				setTextContent("You are already at the data level");
+				alertDivRef.current.textContent = "You are already at the data level";
 				setTimeout(() => {
-					setTextContent("\u00A0");
+					alertDivRef.current.textContent = "\u00A0";
 				}, 1000);
 				break;
 			}
@@ -113,9 +113,9 @@ export function navigationKeyHandler({
 				break;
 			}
 			if (document.activeElement?.classList.contains("a11y_desc")) {
-				setTextContent("You are already at the chart level");
+				alertDivRef.current.textContent = "You are already at the chart level";
 				setTimeout(() => {
-					setTextContent("\u00A0");
+					alertDivRef.current.textContent = "\u00A0";
 				}, 1000);
 				break;
 			}

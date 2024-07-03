@@ -15,12 +15,12 @@ export function xSetter({
 	event,
 	type,
 	number,
-	setTextContent,
+	alertDivRef,
 }: {
 	event: React.KeyboardEvent;
 	type: string;
 	number: number;
-	setTextContent: Function;
+	alertDivRef;
 }): number {
 	const { nativeEvent } = event;
 
@@ -32,19 +32,18 @@ export function xSetter({
 		if (input !== null && input !== "") {
 			const parsedInput = parseInt(input);
 			if (!isNaN(parsedInput) && parsedInput > 0) {
-				setTextContent(
-					"You are now jumping " + parsedInput + " data points at a time inside the " + type,
-				);
+				alertDivRef.current.textContent =
+					"You are now jumping " + parsedInput + " data points at a time inside the " + type;
 				setTimeout(function () {
-					setTextContent("\u00A0");
+					alertDivRef.current.textContent = "\u00A0";
 				}, 1000);
 				const newNumber = parsedInput;
 				activeElement.focus(); // Re-focus the stored element
 				return newNumber;
 			} else {
-				setTextContent("Invalid input. Please enter a number.");
+				alertDivRef.current.textContent = "Invalid input. Please enter a number.";
 				setTimeout(function () {
-					setTextContent("\u00A0");
+					alertDivRef.current.textContent = "\u00A0";
 				}, 1000);
 				activeElement.focus(); // Re-focus the stored element
 			}
@@ -59,22 +58,20 @@ export function xSetter({
 		if (number === 1) {
 			return number;
 		}
-		setTextContent(
-			"You are now jumping " + (number - 1) + " data points at a time inside the " + type,
-		);
+		alertDivRef.current.textContent =
+			"You are now jumping " + (number - 1) + " data points at a time inside the " + type;
 		setTimeout(function () {
-			setTextContent("\u00A0");
+			alertDivRef.current.textContent = "\u00A0";
 		}, 1000);
 		return number - 1;
 	}
 
 	// Add one to X
 	if (nativeEvent.key === "+") {
-		setTextContent(
-			"You are now jumping " + (number + 1) + " data points at a time inside the " + type,
-		);
+		alertDivRef.current.textContent =
+			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;
 		setTimeout(function () {
-			setTextContent("\u00A0");
+			alertDivRef.current.textContent = "\u00A0";
 		}, 1000);
 		return number + 1;
 	}
