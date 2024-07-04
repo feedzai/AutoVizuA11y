@@ -25,7 +25,7 @@ import { xSetter } from "./XSetter";
  * @param {string[]} series
  * @param {{ element?: string; className?: string }} selectorType
  * @param {(string | undefined)} [multiSeries]
- * @param {() => void} [nextSeries]
+ * @param {() => void} [setSelectedSeries]
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
 
@@ -40,7 +40,7 @@ export function navigationKeyHandler(
 	series: string[],
 	selectorType: { element?: string; className?: string },
 	multiSeries?: string | undefined,
-	nextSeries?: Function,
+	setSelectedSeries?: Function,
 ): number {
 	const { altKey, key, code } = event;
 	number = xSetter(event, type, number, alertDivRef);
@@ -76,8 +76,10 @@ export function navigationKeyHandler(
 				alertDivRef.current!.textContent = "\u00A0";
 			}, 1000);
 			return number;
-		} else if (nextSeries && selectorType && selectedSeries && series) {
-			nextSeries();
+		} else if (setSelectedSeries && selectorType && selectedSeries && series) {
+			let currentPos = series.indexOf(selectedSeries);
+			let nextPos = (currentPos + 1) % series.length;
+			setSelectedSeries(series[nextPos]);
 			switchSeries(ref, selectorType, selectedSeries, series);
 		}
 		return number;
