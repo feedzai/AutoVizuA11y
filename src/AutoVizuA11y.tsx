@@ -104,27 +104,17 @@ const AutoVizuA11y = ({
 	autoDescriptions,
 	children,
 }: AutoVizuA11yProps) => {
-	let chart = React.Children.map(children, (child) => <div>{child}</div>);
-	const ref = useRef<HTMLDivElement>(null);
-	const shortcutGuideRef = useRef<HTMLDivElement>(null);
-
-	let storedLonger: string | null;
-	let storedSmaller: string | null;
-
-	let toolTutorial;
-
-	let apiKey: string;
-	let model: string | undefined;
-	let temperature: number | undefined;
-
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
 	const [insightsArray, setInsightsArray] = useState<number[]>([]);
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
+	const [componentId, setComponentId] = useState<string>("");
+	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 
-	let elements: HTMLElement[] = [];
+	const ref = useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = (
@@ -137,6 +127,34 @@ const AutoVizuA11y = ({
 			{"\u00A0"}
 		</div>
 	);
+
+	let chartDescription: React.ReactNode = (
+		<p
+			style={{ textIndent: "-10000px" }}
+			className="a11y_desc visually-hidden"
+			data-testid="a11y_desc"
+			onFocus={() => {
+				handleFirstFocus(alertDiv, ref, alertDivRef);
+			}}
+			onBlur={(_) => handleBlur(ref)}
+			aria-label={descriptionContent}
+		>
+			{descriptionContent}
+		</p>
+	);
+
+	let chart = React.Children.map(children, (child) => <div>{child}</div>);
+
+	let storedLonger: string | null;
+	let storedSmaller: string | null;
+
+	let toolTutorial;
+
+	let apiKey: string;
+	let model: string | undefined;
+	let temperature: number | undefined;
+
+	let elements: HTMLElement[] = [];
 
 	if (ref.current) {
 		if (selectorType.element !== undefined) {
@@ -158,33 +176,16 @@ const AutoVizuA11y = ({
 		insights = "";
 	}
 
-	// Generate a unique identifier for this component
-	const [componentId, setComponentId] = useState<string>("");
+	// features exclusive to bar charts (might be able to turn this more modular)
+	if (!selectorType) {
+		console.log("Type of chart not supported or no type given");
+	}
 
 	useEffect(() => {
 		if (componentId === "") {
 			setComponentId(newId(""));
 		}
 	}, [componentId]);
-
-	const storedLongerKey = `oldLonger_${componentId}`;
-	const storedSmallerKey = `oldSmaller_${componentId}`;
-
-	let [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
-	let chartDescription: React.ReactNode = (
-		<p
-			style={{ textIndent: "-10000px" }}
-			className="a11y_desc visually-hidden"
-			data-testid="a11y_desc"
-			onFocus={() => {
-				handleFirstFocus(alertDiv, ref, alertDivRef);
-			}}
-			onBlur={(_) => handleBlur(ref)}
-			aria-label={descriptionContent}
-		>
-			{descriptionContent}
-		</p>
-	);
 
 	useEffect(() => {
 		// Retrieve the value of toolTutorial to check if it has been shown before
@@ -195,6 +196,9 @@ const AutoVizuA11y = ({
 			localStorage.setItem("toolTutorial", "true");
 			toolTutorial = "true";
 		}
+
+		const storedLongerKey = `oldLonger_${componentId}`;
+		const storedSmallerKey = `oldSmaller_${componentId}`;
 
 		//in case of using static descriptions
 		if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
@@ -270,11 +274,6 @@ const AutoVizuA11y = ({
 			switchToChartLevel(ref, true);
 		}, 500);
 	}, [ref]);
-
-	// features exclusive to bar charts (might be able to turn this more modular)
-	if (!selectorType) {
-		console.log("Type of chart not supported or no type given");
-	}
 
 	return (
 		<>
