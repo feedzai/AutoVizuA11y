@@ -5,7 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 import { arrayConverter, newId } from "./utils";
@@ -111,66 +111,72 @@ const AutoVizuA11y = ({
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
 	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
+	const [elements, setElements] = useState<HTMLElement[]>([]);
 
 	const ref = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
-	let alertDiv: React.ReactNode = (
-		<div
-			ref={alertDivRef}
-			className="a11y_alert visually-hidden"
-			role="alert"
-			aria-live="assertive"
-		>
-			{"\u00A0"}
-		</div>
+	let alertDiv: React.ReactNode = useMemo(
+		() => (
+			<div
+				ref={alertDivRef}
+				className="a11y_alert visually-hidden"
+				role="alert"
+				aria-live="assertive"
+			>
+				{"\u00A0"}
+			</div>
+		),
+		[],
 	);
 
-	let chartDescription: React.ReactNode = (
-		<p
-			style={{ textIndent: "-10000px" }}
-			className="a11y_desc visually-hidden"
-			data-testid="a11y_desc"
-			onFocus={() => {
-				handleFirstFocus(alertDiv, ref, alertDivRef);
-			}}
-			onBlur={(_) => handleBlur(ref)}
-			aria-label={descriptionContent}
-		>
-			{descriptionContent}
-		</p>
+	let chartDescription: React.ReactNode = useMemo(
+		() => (
+			<p
+				style={{ textIndent: "-10000px" }}
+				className="a11y_desc visually-hidden"
+				data-testid="a11y_desc"
+				onFocus={() => {
+					handleFirstFocus(alertDiv, ref, alertDivRef);
+				}}
+				onBlur={(_) => handleBlur(ref)}
+				aria-label={descriptionContent}
+			>
+				{descriptionContent}
+			</p>
+		),
+		[descriptionContent],
 	);
 
-	let chart = React.Children.map(children, (child) => <div>{child}</div>);
-
+	let chart = useMemo(
+		() => React.Children.map(children, (child) => <div>{child}</div>),
+		[children],
+	);
 	let storedLonger: string | null;
 	let storedSmaller: string | null;
 
-	let toolTutorial;
+	let toolTutorial: string | null;
 
 	let apiKey: string;
 	let model: string | undefined;
 	let temperature: number | undefined;
 
-	let elements: HTMLElement[] = [];
+	let componentId: string = "";
 
-	let componentId = "";
-
-	if (ref.current) {
-		if (selectorType.element !== undefined) {
-			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
-		} else {
-			elements = Array.from(
-				ref.current.getElementsByClassName(selectorType.className || ""),
-			) as HTMLElement[];
+	useEffect(() => {
+		if (ref.current) {
+			let newElements: HTMLElement[] = [];
+			if (selectorType.element !== undefined) {
+				newElements = Array.from(ref.current.querySelectorAll(selectorType.element));
+			} else {
+				newElements = Array.from(
+					ref.current.getElementsByClassName(selectorType.className || ""),
+				) as HTMLElement[];
+			}
+			setElements(newElements);
 		}
-	}
-
-	// verify if an insights key was passed and it exists in the data
-	if (insights == undefined || !(insights in data[0])) {
-		insights = "";
-	}
+	}, [ref, selectorType]);
 
 	useEffect(() => {
 		// generate an unique id for this instance of AutoVizuA11y
@@ -186,6 +192,11 @@ const AutoVizuA11y = ({
 		// features exclusive to bar charts (might be able to turn this more modular)
 		if (!selectorType) {
 			console.log("Type of chart not supported or no type given");
+		}
+
+		// verify if an insights key was passed and it exists in the data
+		if (insights == undefined || !(insights in data[0])) {
+			insights = "";
 		}
 	}, []);
 
