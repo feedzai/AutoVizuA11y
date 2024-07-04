@@ -32,7 +32,7 @@ type SelectorType = {
  * @param {string} selectedSeries
  * @param {string[]} series
  * @param {SelectorType} selectorType
- * @param {Function} nextSeries
+ * @param {Function} setSelectedSeries
  * @param {Function} setNumber
  * @param {Function} setDescriptionContent
  * @param {string} insights
@@ -53,7 +53,7 @@ export const handleKeyDown = (
 	selectedSeries: string,
 	series: string[],
 	selectorType: SelectorType,
-	nextSeries: Function,
+	setSelectedSeries: Function,
 	setNumber: Function,
 	setDescriptionContent: Function,
 	insights: string,
@@ -75,7 +75,7 @@ export const handleKeyDown = (
 		series,
 		selectorType,
 		multiSeries,
-		nextSeries,
+		setSelectedSeries,
 	);
 	setNumber(numberAux);
 	descriptionsKeyHandler(ref, setDescriptionContent, type, descs, title, autoDescriptions, event);

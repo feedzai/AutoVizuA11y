@@ -186,13 +186,6 @@ const AutoVizuA11y = ({
 		</p>
 	);
 
-	// Function to add an object to the array
-	const nextSeries = () => {
-		let currentPos = series.indexOf(selectedSeries);
-		let nextPos = (currentPos + 1) % series.length;
-		setSelectedSeries(series[nextPos]);
-	};
-
 	useEffect(() => {
 		// Retrieve the value of toolTutorial to check if it has been shown before
 		toolTutorial = localStorage.getItem("toolTutorial");
@@ -304,7 +297,7 @@ const AutoVizuA11y = ({
 						selectedSeries,
 						series,
 						selectorType,
-						nextSeries,
+						setSelectedSeries,
 						setNumber,
 						setDescriptionContent,
 						insights,
