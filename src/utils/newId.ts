@@ -14,11 +14,7 @@ let prefix = "id";
  * @export
  * @return An ID.
  */
-export function newId(componentId) {
-	if (componentId !== "") {
-		return componentId;
-	} else {
-		lastId++;
-		return `${prefix}${lastId}`;
-	}
+export function newId() {
+	lastId++;
+	return `${prefix}${lastId}`;
 }
