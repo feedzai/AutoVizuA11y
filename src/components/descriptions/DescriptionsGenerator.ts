@@ -27,14 +27,14 @@ export async function generateDescriptions(
 	model?: string,
 	temperature?: number,
 ): Promise<string[]> {
-	data = JSON.stringify(data);
+	const dataString = JSON.stringify(data);
 	const key = apiKey;
 	const adjustedModel = model ?? "gpt-3.5-turbo";
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one
 	const longerDesc = await longerDescription(
-		data as string,
+		dataString,
 		title,
 		average,
 		context,
@@ -53,7 +53,7 @@ export async function generateDescriptions(
 /**
  * Calls the GPT API to generate the longer description.
  *
- * @param {string} data
+ * @param {string} dataString
  * @param {string} title
  * @param {number} average
  * @param {string} context
@@ -63,7 +63,7 @@ export async function generateDescriptions(
  * @return {Promise<string>} Longer chart description.
  */
 async function longerDescription(
-	data: string,
+	dataString: string,
 	title: string,
 	average: number,
 	context: string,
@@ -71,15 +71,15 @@ async function longerDescription(
 	adjustedModel: string,
 	adjustedTemperature: number,
 ): Promise<string> {
-	average = JSON.stringify(average);
+	const averageString = JSON.stringify(average);
 	const prompt =
 		"Knowing that the chart below is from a " +
 		context +
 		" and the data represents " +
 		title +
-		(average ? " with an average of " + average : "") +
+		(average ? " with an average of " + averageString : "") +
 		", make a description (do not use abbreviations) with the trends in the data, starting with the conclusion:" +
-		data;
+		dataString;
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
