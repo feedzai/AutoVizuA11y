@@ -110,7 +110,6 @@ const AutoVizuA11y = ({
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
-	const [componentId, setComponentId] = useState<string>("");
 	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 
 	const ref = useRef<HTMLDivElement>(null);
@@ -156,6 +155,8 @@ const AutoVizuA11y = ({
 
 	let elements: HTMLElement[] = [];
 
+	let componentId = "";
+
 	if (ref.current) {
 		if (selectorType.element !== undefined) {
 			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
@@ -166,26 +167,27 @@ const AutoVizuA11y = ({
 		}
 	}
 
-	if (autoDescriptions) {
-		apiKey = autoDescriptions.apiKey;
-		model = autoDescriptions.model;
-		temperature = autoDescriptions.temperature;
-	}
-
+	// verify if an insights key was passed and it exists in the data
 	if (insights == undefined || !(insights in data[0])) {
 		insights = "";
 	}
 
-	// features exclusive to bar charts (might be able to turn this more modular)
-	if (!selectorType) {
-		console.log("Type of chart not supported or no type given");
-	}
-
 	useEffect(() => {
-		if (componentId === "") {
-			setComponentId(newId(""));
+		// generate an unique id for this instance of AutoVizuA11y
+		componentId = newId();
+
+		// verify if autoDescriptions was chosen
+		if (autoDescriptions) {
+			apiKey = autoDescriptions.apiKey;
+			model = autoDescriptions.model;
+			temperature = autoDescriptions.temperature;
 		}
-	}, [componentId]);
+
+		// features exclusive to bar charts (might be able to turn this more modular)
+		if (!selectorType) {
+			console.log("Type of chart not supported or no type given");
+		}
+	}, []);
 
 	useEffect(() => {
 		// Retrieve the value of toolTutorial to check if it has been shown before
@@ -197,8 +199,8 @@ const AutoVizuA11y = ({
 			toolTutorial = "true";
 		}
 
-		const storedLongerKey = `oldLonger_${componentId}`;
-		const storedSmallerKey = `oldSmaller_${componentId}`;
+		let storedLongerKey = `oldLonger_${componentId}`;
+		let storedSmallerKey = `oldSmaller_${componentId}`;
 
 		//in case of using static descriptions
 		if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
