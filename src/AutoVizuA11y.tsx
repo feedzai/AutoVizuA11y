@@ -164,19 +164,24 @@ const AutoVizuA11y = ({
 
 	let componentId: string = "";
 
-	useEffect(() => {
+	const newElements = useMemo(() => {
 		if (ref.current) {
-			let newElements: HTMLElement[] = [];
+			let elements: HTMLElement[] = [];
 			if (selectorType.element !== undefined) {
-				newElements = Array.from(ref.current.querySelectorAll(selectorType.element));
+				elements = Array.from(ref.current.querySelectorAll(selectorType.element));
 			} else {
-				newElements = Array.from(
+				elements = Array.from(
 					ref.current.getElementsByClassName(selectorType.className || ""),
 				) as HTMLElement[];
 			}
-			setElements(newElements);
+			return elements;
 		}
+		return [];
 	}, [ref, selectorType]);
+
+	useEffect(() => {
+		setElements(newElements);
+	}, [newElements, setElements]);
 
 	useEffect(() => {
 		// generate an unique id for this instance of AutoVizuA11y
