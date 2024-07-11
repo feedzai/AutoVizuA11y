@@ -116,18 +116,6 @@ const AutoVizuA11y = ({
 	const ref = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
-	// let storedLonger: string | null;
-	// let storedSmaller: string | null;
-
-	// const [storedLonger, setStoredLonger] = useState<string>("");
-	// const [storedSmaller, setStoredSmaller] = useState<string>("");
-
-	// let toolTutorial: string | null;
-
-	// let apiKey: string;
-	// let model: string | undefined;
-	// let temperature: number | undefined;
-
 	let componentId: string = "";
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
@@ -186,13 +174,6 @@ const AutoVizuA11y = ({
 		// generate an unique id for this instance of AutoVizuA11y
 		componentId = newId();
 
-		// // verify if autoDescriptions was chosen
-		// if (autoDescriptions) {
-		// 	apiKey = autoDescriptions.apiKey;
-		// 	model = autoDescriptions.model;
-		// 	temperature = autoDescriptions.temperature;
-		// }
-
 		// features exclusive to bar charts (might be able to turn this more modular)
 		if (!selectorType) {
 			console.log("Type of chart not supported or no type given");
@@ -216,17 +197,6 @@ const AutoVizuA11y = ({
 
 		let storedLongerKey = `oldLonger_${componentId}`;
 		let storedSmallerKey = `oldSmaller_${componentId}`;
-
-		// //in case of using static descriptions
-		// if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
-		// 	// Retrieve the descs from localStorage when the component mounts
-		// 	storedLonger = localStorage.getItem(storedLongerKey);
-		// 	storedSmaller = localStorage.getItem(storedSmallerKey);
-		// } else if (manualDescriptions !== undefined) {
-		// 	// Retrieve the descs from the manualDescriptions prop
-		// 	storedLonger = manualDescriptions.longer;
-		// 	storedSmaller = manualDescriptions.shorter;
-		// }
 
 		if (multiSeries && multiSeries != "") {
 			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
