@@ -8,7 +8,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
-import { arrayConverter, newId } from "./utils";
+import { arrayConverter } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
@@ -20,6 +20,8 @@ import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
 import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
+
+import { useAutoId } from "@feedzai/js-utilities/hooks";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -116,7 +118,7 @@ const AutoVizuA11y = ({
 	const ref = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
-	let componentId: string = "";
+	let componentId = useAutoId();
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = useMemo(
@@ -171,9 +173,6 @@ const AutoVizuA11y = ({
 	}, [ref, selectorType]);
 
 	useEffect(() => {
-		// generate an unique id for this instance of AutoVizuA11y
-		componentId = newId();
-
 		// features exclusive to bar charts (might be able to turn this more modular)
 		if (!selectorType) {
 			console.log("Type of chart not supported or no type given");
