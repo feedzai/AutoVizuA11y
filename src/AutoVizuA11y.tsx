@@ -116,6 +116,20 @@ const AutoVizuA11y = ({
 	const ref = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
+	// let storedLonger: string | null;
+	// let storedSmaller: string | null;
+
+	// const [storedLonger, setStoredLonger] = useState<string>("");
+	// const [storedSmaller, setStoredSmaller] = useState<string>("");
+
+	// let toolTutorial: string | null;
+
+	// let apiKey: string;
+	// let model: string | undefined;
+	// let temperature: number | undefined;
+
+	let componentId: string = "";
+
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = useMemo(
 		() => (
@@ -153,46 +167,31 @@ const AutoVizuA11y = ({
 		() => React.Children.map(children, (child) => <div>{child}</div>),
 		[children],
 	);
-	let storedLonger: string | null;
-	let storedSmaller: string | null;
 
-	let toolTutorial: string | null;
-
-	let apiKey: string;
-	let model: string | undefined;
-	let temperature: number | undefined;
-
-	let componentId: string = "";
-
-	const newElements = useMemo(() => {
+	useEffect(() => {
 		if (ref.current) {
-			let elements: HTMLElement[] = [];
+			let newElements: HTMLElement[] = [];
 			if (selectorType.element !== undefined) {
-				elements = Array.from(ref.current.querySelectorAll(selectorType.element));
+				newElements = Array.from(ref.current.querySelectorAll(selectorType.element));
 			} else {
-				elements = Array.from(
+				newElements = Array.from(
 					ref.current.getElementsByClassName(selectorType.className || ""),
 				) as HTMLElement[];
 			}
-			return elements;
+			setElements(newElements);
 		}
-		return [];
 	}, [ref, selectorType]);
-
-	useEffect(() => {
-		setElements(newElements);
-	}, [newElements, setElements]);
 
 	useEffect(() => {
 		// generate an unique id for this instance of AutoVizuA11y
 		componentId = newId();
 
-		// verify if autoDescriptions was chosen
-		if (autoDescriptions) {
-			apiKey = autoDescriptions.apiKey;
-			model = autoDescriptions.model;
-			temperature = autoDescriptions.temperature;
-		}
+		// // verify if autoDescriptions was chosen
+		// if (autoDescriptions) {
+		// 	apiKey = autoDescriptions.apiKey;
+		// 	model = autoDescriptions.model;
+		// 	temperature = autoDescriptions.temperature;
+		// }
 
 		// features exclusive to bar charts (might be able to turn this more modular)
 		if (!selectorType) {
@@ -207,7 +206,7 @@ const AutoVizuA11y = ({
 
 	useEffect(() => {
 		// Retrieve the value of toolTutorial to check if it has been shown before
-		toolTutorial = localStorage.getItem("toolTutorial");
+		let toolTutorial = localStorage.getItem("toolTutorial");
 
 		//If it does not exist, set it to true to show it the first time
 		if (!toolTutorial) {
@@ -218,16 +217,16 @@ const AutoVizuA11y = ({
 		let storedLongerKey = `oldLonger_${componentId}`;
 		let storedSmallerKey = `oldSmaller_${componentId}`;
 
-		//in case of using static descriptions
-		if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
-			// Retrieve the descs from localStorage when the component mounts
-			storedLonger = localStorage.getItem(storedLongerKey);
-			storedSmaller = localStorage.getItem(storedSmallerKey);
-		} else if (manualDescriptions !== undefined) {
-			// Retrieve the descs from the manualDescriptions prop
-			storedLonger = manualDescriptions.longer;
-			storedSmaller = manualDescriptions.shorter;
-		}
+		// //in case of using static descriptions
+		// if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
+		// 	// Retrieve the descs from localStorage when the component mounts
+		// 	storedLonger = localStorage.getItem(storedLongerKey);
+		// 	storedSmaller = localStorage.getItem(storedSmallerKey);
+		// } else if (manualDescriptions !== undefined) {
+		// 	// Retrieve the descs from the manualDescriptions prop
+		// 	storedLonger = manualDescriptions.longer;
+		// 	storedSmaller = manualDescriptions.shorter;
+		// }
 
 		if (multiSeries && multiSeries != "") {
 			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
@@ -236,7 +235,6 @@ const AutoVizuA11y = ({
 			setSelectedSeries(uniqueValues[0]);
 		}
 
-		let descsAux;
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {
 			//converts the data into a dictionary
@@ -254,14 +252,27 @@ const AutoVizuA11y = ({
 
 				addAriaLabels({ ref, descriptor, selectorType, data, multiSeries });
 
-				if (storedLonger !== null && storedSmaller !== null) {
-					descsAux = [storedLonger, storedSmaller];
-					setDescs([storedLonger, storedSmaller]);
+				let chartDescriptions: string[] = [];
+
+				//in case of using static descriptions
+				if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
+					// Retrieve the descs from localStorage when the component mounts
+					chartDescriptions = [
+						localStorage.getItem(storedLongerKey)!,
+						localStorage.getItem(storedSmallerKey)!,
+					];
+				} else if (manualDescriptions !== undefined) {
+					// Retrieve the descs from the manualDescriptions prop
+					chartDescriptions = [manualDescriptions.longer, manualDescriptions.shorter];
+				}
+
+				if (chartDescriptions[0] !== null && chartDescriptions[1] !== null) {
+					setDescs(chartDescriptions);
 					descriptionsKeyHandler({
 						ref,
 						setDescriptionContent,
 						type,
-						descs: descsAux,
+						descs: chartDescriptions,
 						title,
 						autoDescriptions,
 					});
@@ -271,24 +282,24 @@ const AutoVizuA11y = ({
 						data,
 						average: averageAux,
 						context,
-						apiKey,
-						model,
-						temperature,
+						apiKey: autoDescriptions?.apiKey,
+						model: autoDescriptions?.model,
+						temperature: autoDescriptions?.temperature,
 					}).then(function (result) {
-						descsAux = result; // Output: [longerDescValue, smallerDescValue]
+						chartDescriptions = result; // Output: [longerDescValue, smallerDescValue]
 						setDescs(result); // Output: [longerDescValue, smallerDescValue]
 						descriptionsKeyHandler({
 							ref,
 							setDescriptionContent,
 							type,
-							descs: descsAux,
+							descs: chartDescriptions,
 							title,
 							autoDescriptions,
 						});
 
 						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
-							localStorage.setItem(storedLongerKey, descsAux[0]);
-							localStorage.setItem(storedSmallerKey, descsAux[1]);
+							localStorage.setItem(storedLongerKey, chartDescriptions[0]);
+							localStorage.setItem(storedSmallerKey, chartDescriptions[1]);
 						}
 					});
 				}
