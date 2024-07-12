@@ -115,7 +115,7 @@ const AutoVizuA11y = ({
 	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 	const [elements, setElements] = useState<HTMLElement[]>([]);
 
-	const ref = useRef<HTMLDivElement>(null);
+	const chartRef = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
 	let componentId = useAutoId();
@@ -142,9 +142,9 @@ const AutoVizuA11y = ({
 				className="a11y_desc visually-hidden"
 				data-testid="a11y_desc"
 				onFocus={() => {
-					handleFirstFocus(alertDiv, ref, alertDivRef);
+					handleFirstFocus(alertDiv, chartRef, alertDivRef);
 				}}
-				onBlur={(_) => handleBlur(ref)}
+				onBlur={(_) => handleBlur(chartRef)}
 				aria-label={descriptionContent}
 			>
 				{descriptionContent}
@@ -159,18 +159,18 @@ const AutoVizuA11y = ({
 	);
 
 	useEffect(() => {
-		if (ref.current) {
+		if (chartRef.current) {
 			let newElements: HTMLElement[] = [];
 			if (selectorType.element !== undefined) {
-				newElements = Array.from(ref.current.querySelectorAll(selectorType.element));
+				newElements = Array.from(chartRef.current.querySelectorAll(selectorType.element));
 			} else {
 				newElements = Array.from(
-					ref.current.getElementsByClassName(selectorType.className || ""),
+					chartRef.current.getElementsByClassName(selectorType.className || ""),
 				) as HTMLElement[];
 			}
 			setElements(newElements);
 		}
-	}, [ref, selectorType]);
+	}, [chartRef, selectorType]);
 
 	useEffect(() => {
 		// features exclusive to bar charts (might be able to turn this more modular)
@@ -219,7 +219,7 @@ const AutoVizuA11y = ({
 					averageAux = insightsArrayAux[1];
 				}
 
-				addAriaLabels(ref, descriptor, selectorType, data, multiSeries);
+				addAriaLabels(chartRef, descriptor, selectorType, data, multiSeries);
 
 				let chartDescriptions: string[] = [];
 
@@ -238,7 +238,7 @@ const AutoVizuA11y = ({
 				if (chartDescriptions[0] !== null && chartDescriptions[1] !== null) {
 					setDescs(chartDescriptions);
 					descriptionsKeyHandler(
-						ref,
+						chartRef,
 						setDescriptionContent,
 						type,
 						chartDescriptions,
@@ -258,7 +258,7 @@ const AutoVizuA11y = ({
 						chartDescriptions = result; // Output: [longerDescValue, smallerDescValue]
 						setDescs(result); // Output: [longerDescValue, smallerDescValue]
 						descriptionsKeyHandler(
-							ref,
+							chartRef,
 							setDescriptionContent,
 							type,
 							chartDescriptions,
@@ -275,21 +275,21 @@ const AutoVizuA11y = ({
 			});
 
 			// sets the navigation onto the charts first
-			switchToChartLevel(ref, true);
+			switchToChartLevel(chartRef, true);
 		}, 500);
-	}, [ref]);
+	}, [chartRef]);
 
 	return (
 		<>
 			<div
-				ref={ref}
+				ref={chartRef}
 				onKeyDown={(event) => {
 					handleKeyDown(
 						event,
 						alertDivRef,
 						type,
 						number,
-						ref,
+						chartRef,
 						elements,
 						selectedSeries,
 						series,
@@ -319,7 +319,7 @@ const AutoVizuA11y = ({
 			<div
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler(event, ref);
+					guideKeyHandler(event, chartRef);
 				}}
 				id="a11y_nav_guide"
 			>

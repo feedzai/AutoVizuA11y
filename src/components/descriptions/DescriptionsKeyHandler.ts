@@ -16,7 +16,7 @@ type AutoDescriptionsProps = {
  * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {Function} setDescriptionContent
  * @param {string} type
  * @param {string[]} descs
@@ -26,7 +26,7 @@ type AutoDescriptionsProps = {
  * @return {void}
  */
 export function descriptionsKeyHandler(
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	setDescriptionContent: Function,
 	type: string,
 	descs: string[],
@@ -38,7 +38,7 @@ export function descriptionsKeyHandler(
 		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
 
 	// When pressed reads the smaller description
-	if (ref.current !== null) {
+	if (chartRef.current !== null) {
 		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
 			setDescriptionContent(title.concat(descs[1]));
 			return;

@@ -18,7 +18,7 @@ import { xSetter } from "./XSetter";
  * @param {string} type
  * @param {React.KeyboardEvent} event
  * @param {number} number
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {HTMLElement[]} elements
  * @param {React.RefObject<HTMLElement>} alertDivRef
  * @param {string} selectedSeries
@@ -33,7 +33,7 @@ export function navigationKeyHandler(
 	type: string,
 	event: React.KeyboardEvent,
 	number: number,
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	elements: HTMLElement[],
 	alertDivRef: React.RefObject<HTMLElement>,
 	selectedSeries: string,
@@ -44,10 +44,10 @@ export function navigationKeyHandler(
 ): number {
 	const { altKey, key, code } = event;
 	number = xSetter(event, type, number, alertDivRef);
-	skip(event, ref, selectorType, selectedSeries);
+	skip(event, chartRef, selectorType, selectedSeries);
 
 	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
-	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	const chart = chartRef.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	if (chart === document.activeElement && charts.includes(chart)) {
 		jumpXcharts(event, charts, chart);
 	} else {
@@ -80,7 +80,7 @@ export function navigationKeyHandler(
 			let currentPos = series.indexOf(selectedSeries);
 			let nextPos = (currentPos + 1) % series.length;
 			setSelectedSeries(series[nextPos]);
-			switchSeries(ref, selectorType, selectedSeries, series);
+			switchSeries(chartRef, selectorType, selectedSeries, series);
 		}
 		return number;
 	}
@@ -102,7 +102,7 @@ export function navigationKeyHandler(
 				}, 1000);
 				break;
 			}
-			switchToDataLevel(ref, selectorType, selectedSeries);
+			switchToDataLevel(chartRef, selectorType, selectedSeries);
 			break;
 
 		case "ArrowUp":
@@ -121,14 +121,14 @@ export function navigationKeyHandler(
 				}, 1000);
 				break;
 			}
-			switchToChartLevel(ref);
+			switchToChartLevel(chartRef);
 			break;
 
 		case "?":
 			const modal = document.getElementsByClassName("a11y_modal")[0];
 			if (modal !== undefined) {
 				event.preventDefault();
-				levelGuide(ref);
+				levelGuide(chartRef);
 				break;
 			}
 			break;
@@ -147,11 +147,11 @@ interface ExtendedHTMLElement extends HTMLElement {
 /**
  * Displays the ShortcutGuide and gives it keyboard focus.
  *
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  */
-function levelGuide(ref: React.RefObject<HTMLElement>): void {
+function levelGuide(chartRef: React.RefObject<HTMLElement>): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
-	wiper(ref);
+	wiper(chartRef);
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
@@ -167,7 +167,9 @@ function levelGuide(ref: React.RefObject<HTMLElement>): void {
 	modal.style.display = "block";
 
 	shortcutGuide.setAttribute("tabIndex", "0");
-	shortcutGuide.pastFocus = ref?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	shortcutGuide.pastFocus = chartRef?.current?.getElementsByClassName(
+		"a11y_desc",
+	)[0] as HTMLElement;
 	document.body.classList.add("a11y_no_scroll");
 	shortcutGuide.focus();
 }
@@ -176,39 +178,39 @@ function levelGuide(ref: React.RefObject<HTMLElement>): void {
  * Enables navigation on the chart level.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {boolean} [first]
  * @return {void}
  */
-export function switchToChartLevel(ref: React.RefObject<HTMLElement>, first?: boolean): void {
+export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first?: boolean): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
-	if (ref) {
-		wiper(ref, first);
+	if (chartRef) {
+		wiper(chartRef, first);
 	}
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].setAttribute("tabIndex", "0");
 	}
 
 	if (first) {
-		wiper(ref, first);
+		wiper(chartRef, first);
 		return;
 	}
 
 	document.body.classList.remove("a11y_no_scroll");
 
-	const chart = ref?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	const chart = chartRef?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	chart.focus();
 }
 
 /**
  * Enables navigation on the data level.
  *
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {{ element?: string; className?: string }} [selectorType]
  * @param {string} [selectedSeries]
  */
 function switchToDataLevel(
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	selectorType?: { element?: string; className?: string },
 	selectedSeries?: string,
 ): void {
@@ -216,21 +218,21 @@ function switchToDataLevel(
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
-	wiper(ref);
+	wiper(chartRef);
 	// const defaultSelectorType = { element: "defaultElement", className: "defaultClassName" };
-	addDataNavigation(ref, selectorType, selectedSeries);
+	addDataNavigation(chartRef, selectorType, selectedSeries);
 }
 
 /**
  * Enables navigation between data series.
  *
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {{ element?: string; className?: string }} selectorType
  * @param {string} selectedSeries
  * @param {string[]} series
  */
 function switchSeries(
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	selectorType: { element?: string; className?: string },
 	selectedSeries: string,
 	series: string[],
@@ -241,9 +243,9 @@ function switchSeries(
 	//what is the index of previously focused point?
 	let elements: NodeListOf<HTMLElement> | undefined;
 	if (selectorType.element !== undefined) {
-		elements = ref?.current?.querySelectorAll(selectorType.element) as NodeListOf<HTMLElement>;
+		elements = chartRef?.current?.querySelectorAll(selectorType.element) as NodeListOf<HTMLElement>;
 	} else if (selectorType.className !== undefined) {
-		elements = ref?.current?.getElementsByClassName(selectorType.className) as
+		elements = chartRef?.current?.getElementsByClassName(selectorType.className) as
 			| NodeListOf<HTMLElement>
 			| undefined;
 	}
@@ -277,7 +279,7 @@ function switchSeries(
 		}
 	}
 
-	wiper(ref);
+	wiper(chartRef);
 
-	addDataNavigation(ref, selectorType, currentSeriesName, currentSeries[previousIndex]);
+	addDataNavigation(chartRef, selectorType, currentSeriesName, currentSeries[previousIndex]);
 }

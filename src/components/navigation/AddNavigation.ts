@@ -9,21 +9,21 @@
  * Adds navigation between data elements inside a chart.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {{ element?: string; className?: string }} [selectorType]
  * @param {(string | string[])} [selectedSeries]
  * @param {(HTMLElement | null)} [focusPoint]
  * @return {void}
  */
 export function addDataNavigation(
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	selectorType?: { element?: string; className?: string },
 	selectedSeries?: string | string[],
 	focusPoint?: HTMLElement | null,
 ): void {
-	if (!ref.current) return;
+	if (!chartRef.current) return;
 
-	const elements = getElements(ref.current, selectorType, selectedSeries);
+	const elements = getElements(chartRef.current, selectorType, selectedSeries);
 	if (!elements.length) return;
 
 	addTabIndex(elements);

@@ -9,7 +9,7 @@
  * Adds aria-labels to data elements inside a chart.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {(string | undefined)} descriptor
  * @param {{ element?: string; className?: string }} selectorType
  * @param {object[]} data
@@ -17,21 +17,21 @@
  * @return {void}
  */
 export function addAriaLabels(
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 	descriptor: string | undefined,
 	selectorType: { element?: string; className?: string },
 	data: object[],
 	multiSeries: string | undefined,
 ): void {
-	if (!ref.current) return;
+	if (!chartRef.current) return;
 
 	let elements: HTMLElement[] = [];
 	//either the data points are set given their tag (element) or class (className)
 	if (selectorType.element !== undefined) {
-		elements = Array.from(ref.current.querySelectorAll(selectorType.element)); // e.g.<rect>
+		elements = Array.from(chartRef.current.querySelectorAll(selectorType.element)); // e.g.<rect>
 	} else if (selectorType.className !== undefined) {
 		elements = Array.from(
-			ref.current.getElementsByClassName(selectorType.className),
+			chartRef.current.getElementsByClassName(selectorType.className),
 		) as HTMLElement[]; //e.g."device-group"
 	}
 
