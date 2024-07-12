@@ -12,23 +12,23 @@ import React from "react";
  *
  * @export
  */
-export function wiper(ref: React.RefObject<HTMLElement>, first?: boolean): void {
+export function wiper(chartRef: React.RefObject<HTMLElement>, first?: boolean): void {
 	//wipes possible features not set by the tool (only the first time)
 	if (first) {
-		if (ref.current !== null) {
-			const elementsWithAriaLabel = ref.current.querySelectorAll("[aria-label]");
+		if (chartRef.current !== null) {
+			const elementsWithAriaLabel = chartRef.current.querySelectorAll("[aria-label]");
 			//wipes aria-labels
 			elementsWithAriaLabel.forEach((element: Element) => {
 				element.removeAttribute("aria-label");
 			});
 
-			const elementsWithAriaDesc = ref.current.querySelectorAll("[aria-describedby]");
+			const elementsWithAriaDesc = chartRef.current.querySelectorAll("[aria-describedby]");
 			//wipes aria-describedby
 			elementsWithAriaDesc.forEach((element: Element) => {
 				element.removeAttribute("aria-describedby");
 			});
 
-			const elementsWithLabelBy = ref.current.querySelectorAll("[aria-labelledby]");
+			const elementsWithLabelBy = chartRef.current.querySelectorAll("[aria-labelledby]");
 			//wipes aria-labelledby
 			elementsWithLabelBy.forEach((element: Element) => {
 				element.removeAttribute("aria-labelledby");
@@ -39,15 +39,15 @@ export function wiper(ref: React.RefObject<HTMLElement>, first?: boolean): void 
 	}
 
 	let buttons: NodeListOf<HTMLButtonElement> | null;
-	if (ref.current !== null) {
-		buttons = ref.current.querySelectorAll("button");
+	if (chartRef.current !== null) {
+		buttons = chartRef.current.querySelectorAll("button");
 		//wipes the natural navigation of a button
 		buttons.forEach((button: HTMLButtonElement) => {
 			button.setAttribute("tabIndex", "-1");
 		});
 
 		//wipes everything with a tabindex
-		const elementsWithTabIndex = ref.current.querySelectorAll('[tabindex="0"]');
+		const elementsWithTabIndex = chartRef.current.querySelectorAll('[tabindex="0"]');
 		elementsWithTabIndex.forEach((element: Element) => {
 			element.removeAttribute("tabindex");
 		});

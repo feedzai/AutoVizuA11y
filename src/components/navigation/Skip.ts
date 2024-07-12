@@ -12,12 +12,12 @@
  */
 export function skip({
 	event,
-	ref,
+	chartRef,
 	selectorType,
 	selectedSeries,
 }: {
 	event: React.KeyboardEvent;
-	ref: React.RefObject<HTMLElement>;
+	chartRef: React.RefObject<HTMLElement>;
 	selectorType: {
 		element?: string;
 		className?: string;
@@ -29,13 +29,13 @@ export function skip({
 	const { nativeEvent } = event;
 
 	if (selectorType.element !== undefined) {
-		const result = ref?.current?.querySelectorAll<HTMLElement>(selectorType.element);
+		const result = chartRef?.current?.querySelectorAll<HTMLElement>(selectorType.element);
 
 		if (result) {
 			elements = Array.from(result);
 		}
 	} else {
-		const result = ref?.current?.getElementsByClassName(selectorType.className!);
+		const result = chartRef?.current?.getElementsByClassName(selectorType.className!);
 
 		if (result) {
 			elements = Array.from(result) as HTMLElement[];

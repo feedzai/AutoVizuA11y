@@ -11,19 +11,19 @@
  * @export
  */
 export function addDataNavigation({
-	ref,
+	chartRef,
 	selectorType,
 	selectedSeries,
 	focusPoint,
 }: {
-	ref: React.RefObject<HTMLElement>;
+	chartRef: React.RefObject<HTMLElement>;
 	selectorType?: { element?: string; className?: string };
 	selectedSeries?: string | string[];
 	focusPoint?: HTMLElement | null;
 }): void {
-	if (!ref.current) return;
+	if (!chartRef.current) return;
 
-	const elements = getElements({ container: ref.current, selectorType, selectedSeries });
+	const elements = getElements({ container: chartRef.current, selectorType, selectedSeries });
 	if (!elements.length) return;
 
 	addTabIndex(elements);

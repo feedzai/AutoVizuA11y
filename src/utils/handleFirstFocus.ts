@@ -11,15 +11,15 @@ import React from "react";
  * Handles the first focus of an AutoVizuA11y chart.
  *
  * @param {(React.ReactNode | null)} alertDiv
- * @param {React.RefObject<HTMLDivElement>} ref
+ * @param {React.RefObject<HTMLDivElement>} chartRef
  * @param {React.RefObject<HTMLElement>} alertDivRef
  */
 export const handleFirstFocus = (
 	alertDiv: React.ReactNode | null,
-	ref: React.RefObject<HTMLDivElement>,
+	chartRef: React.RefObject<HTMLDivElement>,
 	alertDivRef: React.RefObject<HTMLElement>,
 ) => {
-	ref.current!.classList.add("focused");
+	chartRef.current!.classList.add("focused");
 
 	let toolTutorial = localStorage.getItem("toolTutorial");
 	if (toolTutorial === "true") {

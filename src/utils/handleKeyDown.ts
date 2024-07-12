@@ -27,7 +27,7 @@ type SelectorType = {
  * @param {React.RefObject<HTMLElement>} alertDivRef
  * @param {string} type
  * @param {number} number
- * @param {React.RefObject<HTMLDivElement>} ref
+ * @param {React.RefObject<HTMLDivElement>} chartRef
  * @param {HTMLElement[]} elements
  * @param {string} selectedSeries
  * @param {string[]} series
@@ -48,7 +48,7 @@ export const handleKeyDown = (
 	alertDivRef: React.RefObject<HTMLElement>,
 	type: string,
 	number: number,
-	ref: React.RefObject<HTMLDivElement>,
+	chartRef: React.RefObject<HTMLDivElement>,
 	elements: HTMLElement[],
 	selectedSeries: string,
 	series: string[],
@@ -68,7 +68,7 @@ export const handleKeyDown = (
 		type,
 		event,
 		number,
-		ref,
+		chartRef,
 		elements,
 		alertDivRef,
 		selectedSeries,
@@ -78,6 +78,14 @@ export const handleKeyDown = (
 		setSelectedSeries,
 	);
 	setNumber(numberAux);
-	descriptionsKeyHandler(ref, setDescriptionContent, type, descs, title, autoDescriptions, event);
+	descriptionsKeyHandler(
+		chartRef,
+		setDescriptionContent,
+		type,
+		descs,
+		title,
+		autoDescriptions,
+		event,
+	);
 	insightsKeyHandler(event, elements, alertDivRef, insights, insightsArray, arrayConverted);
 };

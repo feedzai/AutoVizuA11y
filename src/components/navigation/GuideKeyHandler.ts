@@ -16,7 +16,7 @@ import { xSetter } from "./XSetter";
  * @param {string} type
  * @param {React.KeyboardEvent} event
  * @param {number} number
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  * @param {Function} setTextContent
  * @param {string} selectedSeries
  * @param {{ element?: string; className?: string }} selectorType
@@ -24,7 +24,7 @@ import { xSetter } from "./XSetter";
  */
 export function guideKeyHandler(
 	event: React.KeyboardEvent,
-	ref: React.RefObject<HTMLElement>,
+	chartRef: React.RefObject<HTMLElement>,
 ): void {
 	const { key } = event;
 
@@ -36,7 +36,7 @@ export function guideKeyHandler(
 				document.activeElement?.classList.contains("a11y_row") ||
 				document.activeElement?.id === "guide_close"
 			) {
-				returnGuide(ref);
+				returnGuide(chartRef);
 				break;
 			}
 			break;
@@ -50,7 +50,7 @@ export function guideKeyHandler(
 					document.activeElement?.classList.contains("a11y_row") ||
 					document.activeElement?.id === "guide_close"
 				) {
-					returnGuide(ref);
+					returnGuide(chartRef);
 					break;
 				}
 			}
@@ -63,7 +63,7 @@ export function guideKeyHandler(
 	const span = document.getElementById("guide_close");
 	if (span !== null) {
 		span.onclick = () => {
-			returnGuide(ref);
+			returnGuide(chartRef);
 		};
 	}
 
@@ -77,9 +77,9 @@ interface ExtendedHTMLElement extends HTMLElement {
 /**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
  *
- * @param {React.RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} chartRef
  */
-function returnGuide(ref: React.RefObject<HTMLElement>): void {
+function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
 	const allShortcuts = document.getElementsByClassName("a11y_row");
 	for (let i = 0; i < allShortcuts.length; i++) {
 		allShortcuts[i].removeAttribute("tabIndex");
@@ -88,7 +88,7 @@ function returnGuide(ref: React.RefObject<HTMLElement>): void {
 		"a11y_modal_content",
 	)[0] as ExtendedHTMLElement;
 	shortcutGuide.removeAttribute("tabIndex");
-	switchToChartLevel(ref);
+	switchToChartLevel(chartRef);
 	if (shortcutGuide.pastFocus) shortcutGuide.pastFocus.focus();
 	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
 	modal.style.display = "none";
