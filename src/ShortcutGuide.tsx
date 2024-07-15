@@ -22,7 +22,7 @@ const ShortcutGuide: React.FC = () => {
 
 	return (
 		<>
-			<div className="a11y_modal" data-testId="a11y_modal" role="button">
+			<div className="a11y_modal" data-testid="a11y_modal" role="button">
 				<div
 					className="a11y_modal_content"
 					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
