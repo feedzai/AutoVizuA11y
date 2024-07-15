@@ -10,7 +10,7 @@
  *
  * @export
  */
-export function jumpXelements({
+export function jumpXElements({
 	event,
 	number,
 	elements,
@@ -90,7 +90,7 @@ export function jumpXelements({
  *
  * @export
  */
-export function jumpXcharts({
+export function jumpXCharts({
 	event,
 	charts,
 	chart,

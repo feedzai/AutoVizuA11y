@@ -7,7 +7,7 @@
 
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
-import { jumpXcharts, jumpXelements } from "./JumpX";
+import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
 
@@ -49,9 +49,9 @@ export function navigationKeyHandler({
 	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
 	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	if (chart === document.activeElement && charts.includes(chart)) {
-		jumpXcharts({ event, charts, chart });
+		jumpXCharts({ event, charts, chart });
 	} else {
-		jumpXelements({ event, number, elements, selectedSeries, series });
+		jumpXElements({ event, number, elements, selectedSeries, series });
 	}
 
 	if (altKey && code === "KeyM") {
