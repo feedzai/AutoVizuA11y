@@ -28,29 +28,41 @@ import { xSetter } from "./XSetter";
  * @param {() => void} [nextSeries]
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
-export function navigationKeyHandler(
-	type: string,
-	event: React.KeyboardEvent,
-	number: number,
-	ref: React.RefObject<HTMLElement>,
-	elements: any,
-	alertDiv: HTMLDivElement,
-	selectedSeries: string,
-	series: string[],
-	selectorType: { element?: string; className?: string },
-	multiSeries?: string | undefined,
-	nextSeries?: () => void,
-): number {
+export function navigationKeyHandler({
+	type,
+	event,
+	number,
+	ref,
+	elements,
+	alertDiv,
+	selectedSeries,
+	series,
+	selectorType,
+	multiSeries,
+	nextSeries,
+}: {
+	type: string;
+	event: React.KeyboardEvent;
+	number: number;
+	ref: React.RefObject<HTMLElement>;
+	elements: any;
+	alertDiv: HTMLDivElement;
+	selectedSeries: string;
+	series: string[];
+	selectorType: { element?: string; className?: string };
+	multiSeries?: string | undefined;
+	nextSeries?: () => void;
+}): number {
 	const { altKey, code } = event.nativeEvent;
-	number = xSetter(event, type, number, alertDiv);
-	skip(event, ref, selectorType, selectedSeries);
+	number = xSetter({ event, type, number, alertDiv });
+	skip({ event, ref, selectorType, selectedSeries });
 
 	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
 	const chart = ref.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	if (chart === document.activeElement && charts.includes(chart)) {
-		jumpXcharts(event, charts, chart);
+		jumpXcharts({ event, charts, chart });
 	} else {
-		jumpXelements(event, number, elements as HTMLElement[], selectedSeries, series);
+		jumpXelements({ event, number, elements, selectedSeries, series });
 	}
 
 	if (altKey && code === "KeyM") {
@@ -77,7 +89,7 @@ export function navigationKeyHandler(
 			return number;
 		} else if (nextSeries && selectorType && selectedSeries && series) {
 			nextSeries();
-			switchSeries(ref, selectorType, selectedSeries, series);
+			switchSeries({ ref, selectorType, selectedSeries, series });
 		}
 	}
 
@@ -98,7 +110,7 @@ export function navigationKeyHandler(
 				}, 1000);
 				break;
 			}
-			switchToDataLevel(ref, selectorType, selectedSeries);
+			switchToDataLevel({ ref, selectorType, selectedSeries });
 			break;
 		case "ArrowUp":
 			event.preventDefault();
@@ -253,18 +265,22 @@ export function switchToChartLevel(ref: React.RefObject<HTMLElement>, first?: bo
  * @param {{ element?: string; className?: string }} [selectorType]
  * @param {string} [selectedSeries]
  */
-function switchToDataLevel(
-	ref: React.RefObject<HTMLElement>,
-	selectorType?: { element?: string; className?: string },
-	selectedSeries?: string,
-): void {
+function switchToDataLevel({
+	ref,
+	selectorType,
+	selectedSeries,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	selectorType?: { element?: string; className?: string };
+	selectedSeries?: string;
+}): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
 	wiper(ref);
 	// const defaultSelectorType = { element: "defaultElement", className: "defaultClassName" };
-	addDataNavigation(ref, selectorType, selectedSeries);
+	addDataNavigation({ ref, selectorType, selectedSeries });
 }
 
 /**
@@ -275,12 +291,17 @@ function switchToDataLevel(
  * @param {string} selectedSeries
  * @param {string[]} series
  */
-function switchSeries(
-	ref: React.RefObject<HTMLElement>,
-	selectorType: { element?: string; className?: string },
-	selectedSeries: string,
-	series: string[],
-): void {
+function switchSeries({
+	ref,
+	selectorType,
+	selectedSeries,
+	series,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	selectorType: { element?: string; className?: string };
+	selectedSeries: string;
+	series: string[];
+}): void {
 	//what was the previously focused point?
 	const previousPoint = document.activeElement as HTMLElement;
 
@@ -325,5 +346,10 @@ function switchSeries(
 
 	wiper(ref);
 
-	addDataNavigation(ref, selectorType, currentSeriesName, currentSeries[previousIndex]);
+	addDataNavigation({
+		ref,
+		selectorType,
+		selectedSeries: currentSeriesName,
+		focusPoint: currentSeries[previousIndex],
+	});
 }

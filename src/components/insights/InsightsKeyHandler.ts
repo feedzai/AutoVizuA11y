@@ -31,22 +31,34 @@ type AutoDescriptionsProps = {
  * @param {(number[] | undefined)} arrayConverted
  * @param {string} title
  * @param {string[]} descs
- * @param {AutoDescriptionsProps} [autoDescOptions]
+ * @param {AutoDescriptionsProps} [autoDescriptions]
  * @return {void}
  */
-export function insightsKeyHandler(
-	type: string,
-	event: React.KeyboardEvent,
-	elements: HTMLElement[],
-	alertDiv: HTMLDivElement,
-	ref: React.RefObject<HTMLElement>,
-	insights: string,
-	insightsArray: number[],
-	arrayConverted: number[] | undefined,
-	title: string,
-	descs: string[],
-	autoDescOptions?: AutoDescriptionsProps,
-) {
+export function insightsKeyHandler({
+	type,
+	event,
+	elements,
+	alertDiv,
+	ref,
+	insights,
+	insightsArray,
+	arrayConverted,
+	title,
+	descs,
+	autoDescriptions,
+}: {
+	type: string;
+	event: React.KeyboardEvent;
+	elements: HTMLElement[];
+	alertDiv: HTMLDivElement;
+	ref: React.RefObject<HTMLElement>;
+	insights: string;
+	insightsArray: number[];
+	arrayConverted: number[] | undefined;
+	title: string;
+	descs: string[];
+	autoDescriptions?: AutoDescriptionsProps;
+}) {
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(
 			elements,
@@ -55,10 +67,10 @@ export function insightsKeyHandler(
 
 		const focusedData = arrayConverted[focusedIndex];
 
-		insightsSetter(event, alertDiv, insights, insightsArray);
-		insightsComparer(event, alertDiv, insights, insightsArray, focusedData);
-		overallComparer(event, alertDiv, insights, arrayConverted, focusedData);
-		descriptionsChanger(ref, type, descs, title, autoDescOptions, event);
+		insightsSetter({ event, alertDiv, insights, insightsArray });
+		insightsComparer({ event, alertDiv, insights, insightsArray, focusedData });
+		overallComparer({ event, alertDiv, insights, arrayConverted, focusedData });
+		descriptionsChanger({ ref, type, descs, title, autoDescriptions, event });
 	}
 
 	return;

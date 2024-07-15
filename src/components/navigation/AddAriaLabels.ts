@@ -16,13 +16,19 @@
  * @param {(string | undefined)} multiSeries
  * @return {*}  {void}
  */
-export function addAriaLabels(
-	ref: React.RefObject<HTMLElement>,
-	descriptor: string | undefined,
-	selectorType: { element?: string; className?: string },
-	data: object[],
-	multiSeries: string | undefined,
-): void {
+export function addAriaLabels({
+	ref,
+	descriptor,
+	selectorType,
+	data,
+	multiSeries,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	descriptor: string | undefined;
+	selectorType: { element?: string; className?: string };
+	data: object[];
+	multiSeries: string | undefined;
+}): void {
 	if (!ref.current) return;
 
 	let elements: HTMLElement[] = [];

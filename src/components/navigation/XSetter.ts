@@ -15,12 +15,17 @@
  * @param {HTMLElement} alertDiv
  * @return {number} Number of points being jumped at a time inside the wrapped chart.
  */
-export function xSetter(
-	event: React.KeyboardEvent,
-	type: string,
-	number: number,
-	alertDiv: HTMLElement,
-): number {
+export function xSetter({
+	event,
+	type,
+	number,
+	alertDiv,
+}: {
+	event: React.KeyboardEvent;
+	type: string;
+	number: number;
+	alertDiv: HTMLElement;
+}): number {
 	const { nativeEvent } = event;
 
 	// Show form for Alt (option) + X key combination

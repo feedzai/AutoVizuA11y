@@ -24,14 +24,21 @@ type AutoDescriptionsProps = {
  * @param {React.KeyboardEvent} [event]
  * @return {void}
  */
-export function descriptionsChanger(
-	ref: React.RefObject<HTMLElement>,
-	type: string,
-	descs: string[],
-	title: string,
-	autoDescriptions?: AutoDescriptionsProps,
-	event?: React.KeyboardEvent,
-): void {
+export function descriptionsChanger({
+	ref,
+	type,
+	descs,
+	title,
+	autoDescriptions,
+	event,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	type: string;
+	descs: string[];
+	title: string;
+	autoDescriptions?: AutoDescriptionsProps;
+	event?: React.KeyboardEvent;
+}): void {
 	title =
 		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
 

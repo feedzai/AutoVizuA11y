@@ -18,13 +18,19 @@ import { median, getOrdinalNumber } from "../../utils/maths";
  * @param {(number | undefined)} focusedData
  * @return {void}
  */
-export function overallComparer(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLDivElement,
-	insights: string,
-	arrayConverted: number[],
-	focusedData: number | undefined,
-): void {
+export function overallComparer({
+	event,
+	alertDiv,
+	insights,
+	arrayConverted,
+	focusedData,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLDivElement;
+	insights: string;
+	arrayConverted: number[];
+	focusedData: number | undefined;
+}): void {
 	const { altKey, code } = event;
 
 	if (altKey && code === "KeyZ" && insights === "") {

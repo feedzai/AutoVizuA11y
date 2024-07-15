@@ -261,25 +261,31 @@ const AutoVizuA11y = ({
 					averageAux = insightsArrayAux[1];
 				}
 
-				addAriaLabels(ref, descriptor, selectorType, data, multiSeries);
+				addAriaLabels({ ref, descriptor, selectorType, data, multiSeries });
 
 				if (storedLonger !== null && storedSmaller !== null) {
 					descsAux = [storedLonger, storedSmaller];
 					setDescs([storedLonger, storedSmaller]);
-					descriptionsChanger(ref, type, descsAux, title, autoDescriptions);
+					descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
 				} else {
-					generateDescriptions(title, data, averageAux, context, apiKey, model, temperature).then(
-						function (result) {
-							descsAux = result; // Output: [longerDescValue, smallerDescValue]
-							setDescs(result); // Output: [longerDescValue, smallerDescValue]
-							descriptionsChanger(ref, type, descsAux, title, autoDescriptions);
+					generateDescriptions({
+						title,
+						data,
+						average: averageAux,
+						context,
+						apiKey,
+						model,
+						temperature,
+					}).then(function (result) {
+						descsAux = result; // Output: [longerDescValue, smallerDescValue]
+						setDescs(result); // Output: [longerDescValue, smallerDescValue]
+						descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
 
-							if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
-								localStorage.setItem(storedLongerKey, descsAux[0]);
-								localStorage.setItem(storedSmallerKey, descsAux[1]);
-							}
-						},
-					);
+						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
+							localStorage.setItem(storedLongerKey, descsAux[0]);
+							localStorage.setItem(storedSmallerKey, descsAux[1]);
+						}
+					});
 				}
 			});
 
@@ -293,7 +299,7 @@ const AutoVizuA11y = ({
 
 	// sets the appropriate navigation keys in the ShortcutGuide
 	function handleNav(event: React.KeyboardEvent<HTMLDivElement>) {
-		navigationKeyHandler(
+		navigationKeyHandler({
 			type,
 			event,
 			number,
@@ -305,12 +311,12 @@ const AutoVizuA11y = ({
 			selectorType,
 			multiSeries,
 			nextSeries,
-		);
+		});
 	}
 
 	//sets the appropriate navigation keys and shortcuts in the charts and data
 	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, alertDiv: HTMLDivElement) {
-		let numberAux = navigationKeyHandler(
+		let numberAux = navigationKeyHandler({
 			type,
 			event,
 			number,
@@ -322,9 +328,9 @@ const AutoVizuA11y = ({
 			selectorType,
 			multiSeries,
 			nextSeries,
-		);
+		});
 		setNumber(numberAux);
-		insightsKeyHandler(
+		insightsKeyHandler({
 			type,
 			event,
 			elements,
@@ -336,7 +342,7 @@ const AutoVizuA11y = ({
 			title,
 			descs,
 			autoDescriptions,
-		);
+		});
 	}
 
 	// features exclusive to bar charts (might be able to turn this more modular)

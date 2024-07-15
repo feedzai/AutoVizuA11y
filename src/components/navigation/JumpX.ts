@@ -16,13 +16,19 @@
  * @param {string[]} series
  * @return {void}
  */
-export function jumpXelements(
-	event: React.KeyboardEvent,
-	number: number,
-	elements: HTMLElement[],
-	selectedSeries: string,
-	series: string[],
-): void {
+export function jumpXelements({
+	event,
+	number,
+	elements,
+	selectedSeries,
+	series,
+}: {
+	event: React.KeyboardEvent;
+	number: number;
+	elements: HTMLElement[];
+	selectedSeries: string;
+	series: string[];
+}): void {
 	const { key, nativeEvent } = event;
 
 	// In case of having multiple series
@@ -94,11 +100,15 @@ export function jumpXelements(
  * @param {HTMLElement} chart
  * @return {void}
  */
-export function jumpXcharts(
-	event: React.KeyboardEvent,
-	charts: Element[],
-	chart: HTMLElement,
-): void {
+export function jumpXcharts({
+	event,
+	charts,
+	chart,
+}: {
+	event: React.KeyboardEvent;
+	charts: Element[];
+	chart: HTMLElement;
+}): void {
 	if (chart === document.activeElement && charts.includes(chart)) {
 		const currentPosition = charts.indexOf(chart);
 

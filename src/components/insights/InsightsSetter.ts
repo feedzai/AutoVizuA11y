@@ -14,12 +14,17 @@
  * @param {string} insights
  * @param {number[]} insightsArray
  */
-export function insightsSetter(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLElement,
-	insights: string,
-	insightsArray: number[],
-): void {
+export function insightsSetter({
+	event,
+	alertDiv,
+	insights,
+	insightsArray,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLElement;
+	insights: string;
+	insightsArray: number[];
+}): void {
 	const { nativeEvent } = event;
 
 	if (

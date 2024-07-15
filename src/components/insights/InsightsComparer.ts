@@ -18,13 +18,19 @@ import { rounding } from "../../utils/maths";
  * @param {number} [focusedData]
  * @return {void}
  */
-export function insightsComparer(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLElement,
-	insights: string,
-	insightsArray: number[],
-	focusedData?: number,
-): void {
+export function insightsComparer({
+	event,
+	alertDiv,
+	insights,
+	insightsArray,
+	focusedData,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLElement;
+	insights: string;
+	insightsArray: number[];
+	focusedData?: number;
+}): void {
 	const { nativeEvent } = event;
 
 	if (

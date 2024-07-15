@@ -15,15 +15,20 @@
  * @param {(HTMLElement | null)} [focusPoint]
  * @return {void}
  */
-export function addDataNavigation(
-	ref: React.RefObject<HTMLElement>,
-	selectorType?: { element?: string; className?: string },
-	selectedSeries?: string | string[],
-	focusPoint?: HTMLElement | null,
-): void {
+export function addDataNavigation({
+	ref,
+	selectorType,
+	selectedSeries,
+	focusPoint,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	selectorType?: { element?: string; className?: string };
+	selectedSeries?: string | string[];
+	focusPoint?: HTMLElement | null;
+}): void {
 	if (!ref.current) return;
 
-	const elements = getElements(ref.current, selectorType, selectedSeries);
+	const elements = getElements({ container: ref.current, selectorType, selectedSeries });
 	if (!elements.length) return;
 
 	addTabIndex(elements);
@@ -38,11 +43,15 @@ export function addDataNavigation(
  * @param {(string | string[])} [selectedSeries]
  * @return {HTMLElement[]} Array with HTML elements representing the chart data.
  */
-function getElements(
-	container: HTMLElement,
-	selectorType?: { element?: string; className?: string },
-	selectedSeries?: string | string[],
-): HTMLElement[] {
+function getElements({
+	container,
+	selectorType,
+	selectedSeries,
+}: {
+	container: HTMLElement;
+	selectorType?: { element?: string; className?: string };
+	selectedSeries?: string | string[];
+}): HTMLElement[] {
 	let elements: NodeListOf<HTMLElement> | HTMLCollectionOf<Element>;
 	if (selectorType?.element !== undefined) {
 		elements = container.querySelectorAll(selectorType.element);
