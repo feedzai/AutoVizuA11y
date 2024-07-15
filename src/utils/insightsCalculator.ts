@@ -12,8 +12,7 @@ import { sum, avg, max, min } from "./maths";
  *
  * @export
  * @template T
- * @param {T[]} arrayConverted
- * @return {number[]} Array with the sum, average, maximum and minimum values.
+ * @return Array with the sum, average, maximum and minimum values.
  */
 export function insightsCalculator<T extends number>(arrayConverted: T[]): number[] {
 	if (arrayConverted === undefined) {

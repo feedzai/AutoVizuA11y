@@ -16,13 +16,6 @@ type AutoDescriptionsProps = {
  * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
- * @param {string} type
- * @param {string[]} descs
- * @param {string} title
- * @param {AutoDescriptionsProps} [autoDescriptions]
- * @param {React.KeyboardEvent} [event]
- * @return {void}
  */
 export function descriptionsChanger({
 	ref,

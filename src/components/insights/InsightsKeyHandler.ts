@@ -21,18 +21,6 @@ type AutoDescriptionsProps = {
  * Listens for keypresses and handles the outcomes.
  *
  * @export
- * @param {string} type
- * @param {React.KeyboardEvent} event
- * @param {HTMLElement[]} elements
- * @param {HTMLDivElement} alertDiv
- * @param {React.RefObject<HTMLElement>} ref
- * @param {string} insights
- * @param {number[]} insightsArray
- * @param {(number[] | undefined)} arrayConverted
- * @param {string} title
- * @param {string[]} descs
- * @param {AutoDescriptionsProps} [autoDescriptions]
- * @return {void}
  */
 export function insightsKeyHandler({
 	type,

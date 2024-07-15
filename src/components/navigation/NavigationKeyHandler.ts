@@ -15,18 +15,7 @@ import { xSetter } from "./XSetter";
  * Listens for navigation related keypresses and handles the outcomes.
  *
  * @export
- * @param {string} type
- * @param {React.KeyboardEvent} event
- * @param {number} number
- * @param {React.RefObject<HTMLElement>} ref
- * @param {*} elements
- * @param {HTMLDivElement} alertDiv
- * @param {string} selectedSeries
- * @param {string[]} series
- * @param {{ element?: string; className?: string }} selectorType
- * @param {(string | undefined)} [multiSeries]
- * @param {() => void} [nextSeries]
- * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ * @return Number of points being jumped at a time inside the wrapped chart.
  */
 export function navigationKeyHandler({
 	type,
@@ -184,8 +173,6 @@ interface ExtendedHTMLElement extends HTMLElement {
 
 /**
  * Displays the ShortcutGuide and gives it keyboard focus.
- *
- * @param {React.RefObject<HTMLElement>} ref
  */
 function levelGuide(ref: React.RefObject<HTMLElement>): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
@@ -212,8 +199,6 @@ function levelGuide(ref: React.RefObject<HTMLElement>): void {
 
 /**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
- *
- * @param {React.RefObject<HTMLElement>} ref
  */
 function returnGuide(ref: React.RefObject<HTMLElement>): void {
 	const allShortcuts = document.getElementsByClassName("a11y_row");
@@ -234,9 +219,6 @@ function returnGuide(ref: React.RefObject<HTMLElement>): void {
  * Enables navigation on the chart level.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
- * @param {boolean} [first]
- * @return {void}
  */
 export function switchToChartLevel(ref: React.RefObject<HTMLElement>, first?: boolean): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
@@ -260,10 +242,6 @@ export function switchToChartLevel(ref: React.RefObject<HTMLElement>, first?: bo
 
 /**
  * Enables navigation on the data level.
- *
- * @param {React.RefObject<HTMLElement>} ref
- * @param {{ element?: string; className?: string }} [selectorType]
- * @param {string} [selectedSeries]
  */
 function switchToDataLevel({
 	ref,
@@ -285,11 +263,6 @@ function switchToDataLevel({
 
 /**
  * Enables navigation between data series.
- *
- * @param {React.RefObject<HTMLElement>} ref
- * @param {{ element?: string; className?: string }} selectorType
- * @param {string} selectedSeries
- * @param {string[]} series
  */
 function switchSeries({
 	ref,

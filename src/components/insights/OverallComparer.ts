@@ -11,12 +11,6 @@ import { median, getOrdinalNumber } from "../../utils/maths";
  * Handles the comparison between a value and all others from the same chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {HTMLDivElement} alertDiv
- * @param {string} insights
- * @param {number[]} arrayConverted
- * @param {(number | undefined)} focusedData
- * @return {void}
  */
 export function overallComparer({
 	event,
@@ -58,9 +52,7 @@ export function overallComparer({
 /**
  * Produces a message based on the comparison between a value and all others from the same chart.
  *
- * @param {number[]} arrayConverted
- * @param {number} focusedData
- * @return {string} The message as a string.
+ * @return The message as a string.
  */
 function messagecreator(arrayConverted: number[], focusedData: number): string {
 	const dataSuperConverted = trimAndSort(arrayConverted);
@@ -82,8 +74,7 @@ function messagecreator(arrayConverted: number[], focusedData: number): string {
 /**
  * Trims and sorts an array of numbers.
  *
- * @param {number[]} arrayConverted
- * @return {*}  {number[]} Array of trimmed and sorted numbers.
+ * @return Array of trimmed and sorted numbers.
  */
 function trimAndSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];

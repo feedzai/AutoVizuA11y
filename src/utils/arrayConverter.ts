@@ -10,9 +10,7 @@
  *
  * @export
  * @template T
- * @param {object[]} data
- * @param {string} insights
- * @return {Promise<number[]>} Array with numerical values.
+ * @return Array with numerical values.
  */
 export async function arrayConverter<T>(data: object[], insights: string): Promise<number[]> {
 	if (insights && typeof insights === "string") {

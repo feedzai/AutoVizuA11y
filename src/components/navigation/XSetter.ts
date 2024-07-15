@@ -9,11 +9,7 @@
  * Handles the X number of data elements to be jumped inside a chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {string} type
- * @param {number} number
- * @param {HTMLElement} alertDiv
- * @return {number} Number of points being jumped at a time inside the wrapped chart.
+ * @return Number of points being jumped at a time inside the wrapped chart.
  */
 export function xSetter({
 	event,

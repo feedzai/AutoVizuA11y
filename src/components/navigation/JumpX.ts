@@ -9,12 +9,6 @@
  * Handles the navigation between X data elements inside a chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {number} number
- * @param {HTMLElement[]} elements
- * @param {string} selectedSeries
- * @param {string[]} series
- * @return {void}
  */
 export function jumpXelements({
 	event,
@@ -95,10 +89,6 @@ export function jumpXelements({
  * Handles the navigation between charts.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {Element[]} charts
- * @param {HTMLElement} chart
- * @return {void}
  */
 export function jumpXcharts({
 	event,

@@ -9,14 +9,6 @@
  * Enables the navigation to the end/beginning of a chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {React.RefObject<HTMLElement>} ref
- * @param {{
- * 		element?: string;
- * 		className?: string;
- * 	}} selectorType
- * @param {string} selectedSeries
- * @return {void}
  */
 export function skip({
 	event,

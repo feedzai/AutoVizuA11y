@@ -9,12 +9,6 @@
  * Adds aria-labels to data elements inside a chart.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
- * @param {(string | undefined)} descriptor
- * @param {{ element?: string; className?: string }} selectorType
- * @param {object[]} data
- * @param {(string | undefined)} multiSeries
- * @return {*}  {void}
  */
 export function addAriaLabels({
 	ref,

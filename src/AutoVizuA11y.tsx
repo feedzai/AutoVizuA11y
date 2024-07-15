@@ -70,7 +70,7 @@ type AutoVizuA11yProps = {
  * 	autoDescriptions, - object with properties to automatically write the chart descriptions;
  * 	children, - wrapped chart.
  * }
- * @return {JSX.Element} Rendered chart with AutoVizuA11y features.
+ * @return Rendered chart with AutoVizuA11y features.
  *
  * @example
  * // SingleSeries with automatic descriptions

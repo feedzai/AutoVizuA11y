@@ -11,12 +11,6 @@ import { rounding } from "../../utils/maths";
  * Compares the value of the focused data element against various statistical insights.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {HTMLElement} alertDiv
- * @param {string} insights
- * @param {number[]} insightsArray
- * @param {number} [focusedData]
- * @return {void}
  */
 export function insightsComparer({
 	event,
@@ -98,10 +92,7 @@ export function insightsComparer({
 /**
  * Produces a message based on the comparison between a value and a statistical insight.
  *
- * @param {string} code
- * @param {number} insight
- * @param {number} focusedData
- * @return {(string | null)} The message as a string.
+ * @return The message as a string.
  */
 function messageCreator(code: string, insight: number, focusedData: number): string | null {
 	if (insight > focusedData)
