@@ -251,9 +251,9 @@ const AutoVizuA11y = ({
 						data,
 						average: averageAux,
 						context,
-						apiKey: autoDescriptions?.apiKey,
-						model: autoDescriptions?.model,
-						temperature: autoDescriptions?.temperature,
+						apiKey: autoDescriptions!.apiKey,
+						model: autoDescriptions!.model,
+						temperature: autoDescriptions!.temperature,
 					}).then(function (result) {
 						chartDescriptions = result; // Output: [longerDescValue, smallerDescValue]
 						setDescs(result); // Output: [longerDescValue, smallerDescValue]
