@@ -142,7 +142,7 @@ const AutoVizuA11y = ({
 				className="a11y_desc visually-hidden"
 				data-testid="a11y_desc"
 				onFocus={() => {
-					handleFirstFocus(alertDiv, chartRef, alertDivRef);
+					handleFirstFocus({ alertDiv, chartRef, alertDivRef });
 				}}
 				onBlur={(_) => handleBlur(chartRef)}
 				aria-label={descriptionContent}
