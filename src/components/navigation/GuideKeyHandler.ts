@@ -13,14 +13,6 @@ import { xSetter } from "./XSetter";
  * Listens for shortcutGuide related keypresses and handles the outcomes.
  *
  * @export
- * @param {string} type
- * @param {React.KeyboardEvent} event
- * @param {number} number
- * @param {React.RefObject<HTMLElement>} chartRef
- * @param {Function} setTextContent
- * @param {string} selectedSeries
- * @param {{ element?: string; className?: string }} selectorType
- * @return {void}
  */
 export function guideKeyHandler(
 	event: React.KeyboardEvent,
@@ -76,8 +68,6 @@ interface ExtendedHTMLElement extends HTMLElement {
 
 /**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
- *
- * @param {React.RefObject<HTMLElement>} chartRef
  */
 function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
 	const allShortcuts = document.getElementsByClassName("a11y_row");

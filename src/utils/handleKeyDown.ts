@@ -22,26 +22,6 @@ type SelectorType = {
 
 /**
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
- *
- * @param {React.KeyboardEvent<HTMLDivElement>} event
- * @param {React.RefObject<HTMLElement>} alertDivRef
- * @param {string} type
- * @param {number} number
- * @param {React.RefObject<HTMLDivElement>} chartRef
- * @param {HTMLElement[]} elements
- * @param {string} selectedSeries
- * @param {string[]} series
- * @param {SelectorType} selectorType
- * @param {Function} setSelectedSeries
- * @param {Function} setNumber
- * @param {Function} setDescriptionContent
- * @param {string} insights
- * @param {number[]} insightsArray
- * @param {number[]} arrayConverted
- * @param {string} title
- * @param {string[]} descs
- * @param {AutoDescriptionsProps} [autoDescriptions]
- * @param {(string | undefined)} [multiSeries]
  */
 export const handleKeyDown = (
 	event: React.KeyboardEvent<HTMLDivElement>,
@@ -64,7 +44,7 @@ export const handleKeyDown = (
 	autoDescriptions?: AutoDescriptionsProps,
 	multiSeries?: string | undefined,
 ) => {
-	let numberAux = navigationKeyHandler(
+	let numberAux = navigationKeyHandler({
 		type,
 		event,
 		number,
@@ -76,9 +56,9 @@ export const handleKeyDown = (
 		selectorType,
 		multiSeries,
 		setSelectedSeries,
-	);
+	});
 	setNumber(numberAux);
-	descriptionsKeyHandler(
+	descriptionsKeyHandler({
 		chartRef,
 		setDescriptionContent,
 		type,
@@ -86,6 +66,6 @@ export const handleKeyDown = (
 		title,
 		autoDescriptions,
 		event,
-	);
-	insightsKeyHandler(event, elements, alertDivRef, insights, insightsArray, arrayConverted);
+	});
+	insightsKeyHandler({ event, elements, alertDivRef, insights, insightsArray, arrayConverted });
 };

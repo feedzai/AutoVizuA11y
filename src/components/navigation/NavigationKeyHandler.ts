@@ -95,8 +95,8 @@ export function navigationKeyHandler({
 			) {
 				break;
 			}
-			if (!document.activeElement?.classList.contains("a11y_desc") && alertDiv) {
-				alertDiv.textContent = "You are already at the data level";
+			if (!document.activeElement?.classList.contains("a11y_desc")) {
+				alertDivRef.current!.textContent = "You are already at the data level";
 				setTimeout(() => {
 					alertDivRef.current!.textContent = "\u00A0";
 					alertDivRef.current!.textContent = "\u00A0";
@@ -105,7 +105,6 @@ export function navigationKeyHandler({
 			}
 			switchToDataLevel({ chartRef, selectorType, selectedSeries });
 			break;
-
 
 		case "ArrowUp":
 			event.preventDefault();
@@ -125,7 +124,6 @@ export function navigationKeyHandler({
 			}
 			switchToChartLevel(chartRef);
 			break;
-
 
 		case "?":
 			const modal = document.getElementsByClassName("a11y_modal")[0];
@@ -191,7 +189,6 @@ export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first
 
 	if (first) {
 		wiper(chartRef, first);
-+		return;
 	}
 
 	document.body.classList.remove("a11y_no_scroll");

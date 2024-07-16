@@ -238,7 +238,7 @@ const AutoVizuA11y = ({
 				if (chartDescriptions[0] !== null && chartDescriptions[1] !== null) {
 					setDescs(chartDescriptions);
 					descriptionsKeyHandler({
-						ref: chartRef,
+						chartRef,
 						setDescriptionContent,
 						type,
 						descs: chartDescriptions,
@@ -258,7 +258,7 @@ const AutoVizuA11y = ({
 						chartDescriptions = result; // Output: [longerDescValue, smallerDescValue]
 						setDescs(result); // Output: [longerDescValue, smallerDescValue]
 						descriptionsKeyHandler({
-							ref: chartRef,
+							chartRef,
 							setDescriptionContent,
 							type,
 							descs: chartDescriptions,

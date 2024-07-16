@@ -11,9 +11,6 @@ import { getOrdinalNumber, median, rounding } from "../../utils";
  * Creates the message regarding the insight requested.
  *
  * @export
- * @param {string} code
- * @param {number} insight
- * @param {number} focusedData
  * @return {(string | null)}
  */
 export function messageInsights(code: string, insight: number, focusedData: number): string | null {
@@ -30,8 +27,6 @@ export function messageInsights(code: string, insight: number, focusedData: numb
  * Creates the message regarding the comparison between a data element and all others.
  *
  * @export
- * @param {number[]} arrayConverted
- * @param {number} focusedData
  * @return {string}
  */
 export function messageOverall(arrayConverted: number[], focusedData: number): string {
@@ -53,9 +48,6 @@ export function messageOverall(arrayConverted: number[], focusedData: number): s
 
 /**
  * Trims and sorts an array of numbers.
- *
- * @param {number[]} arrayConverted
- * @return {number[]}
  */
 function trimAndSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];

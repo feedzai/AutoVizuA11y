@@ -18,7 +18,7 @@ type AutoDescriptionsProps = {
  * @export
  */
 export function descriptionsKeyHandler({
-	ref,
+	chartRef,
 	setDescriptionContent,
 	type,
 	descs,
@@ -26,7 +26,7 @@ export function descriptionsKeyHandler({
 	autoDescriptions,
 	event,
 }: {
-	ref: React.RefObject<HTMLElement>;
+	chartRef: React.RefObject<HTMLElement>;
 	setDescriptionContent: Function;
 	type: string;
 	descs: string[];
@@ -38,7 +38,7 @@ export function descriptionsKeyHandler({
 		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
 
 	// When pressed reads the smaller description
-	if (ref.current !== null) {
+	if (chartRef.current !== null) {
 		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
 			setDescriptionContent(title.concat(descs[1]));
 			return;
