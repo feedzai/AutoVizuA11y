@@ -284,7 +284,7 @@ const AutoVizuA11y = ({
 			<div
 				ref={chartRef}
 				onKeyDown={(event) => {
-					handleKeyDown(
+					handleKeyDown({
 						event,
 						alertDivRef,
 						type,
@@ -304,7 +304,7 @@ const AutoVizuA11y = ({
 						descs,
 						autoDescriptions,
 						multiSeries,
-					);
+					});
 				}}
 				className="a11y_chart"
 				data-testid="a11y_chart"

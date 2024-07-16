@@ -23,27 +23,47 @@ type SelectorType = {
 /**
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
  */
-export const handleKeyDown = (
-	event: React.KeyboardEvent<HTMLDivElement>,
-	alertDivRef: React.RefObject<HTMLElement>,
-	type: string,
-	number: number,
-	chartRef: React.RefObject<HTMLDivElement>,
-	elements: HTMLElement[],
-	selectedSeries: string,
-	series: string[],
-	selectorType: SelectorType,
-	setSelectedSeries: Function,
-	setNumber: Function,
-	setDescriptionContent: Function,
-	insights: string,
-	insightsArray: number[],
-	arrayConverted: number[],
-	title: string,
-	descs: string[],
-	autoDescriptions?: AutoDescriptionsProps,
-	multiSeries?: string | undefined,
-) => {
+export const handleKeyDown = ({
+	event,
+	alertDivRef,
+	type,
+	number,
+	chartRef,
+	elements,
+	selectedSeries,
+	series,
+	selectorType,
+	setSelectedSeries,
+	setNumber,
+	setDescriptionContent,
+	insights,
+	insightsArray,
+	arrayConverted,
+	title,
+	descs,
+	autoDescriptions,
+	multiSeries,
+}: {
+	event: React.KeyboardEvent<HTMLDivElement>;
+	alertDivRef: React.RefObject<HTMLElement>;
+	type: string;
+	number: number;
+	chartRef: React.RefObject<HTMLDivElement>;
+	elements: HTMLElement[];
+	selectedSeries: string;
+	series: string[];
+	selectorType: SelectorType;
+	setSelectedSeries: Function;
+	setNumber: Function;
+	setDescriptionContent: Function;
+	insights: string;
+	insightsArray: number[];
+	arrayConverted: number[];
+	title: string;
+	descs: string[];
+	autoDescriptions?: AutoDescriptionsProps;
+	multiSeries?: string | undefined;
+}) => {
 	let numberAux = navigationKeyHandler({
 		type,
 		event,
