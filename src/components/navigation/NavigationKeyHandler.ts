@@ -26,6 +26,7 @@ interface NavigationKeyHandlerParams {
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
+	openShortcutGuide?: any;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
 }
@@ -57,6 +58,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		selectedSeries,
 		series,
 		selectorType,
+		openShortcutGuide,
 		multiSeries,
 		setSelectedSeries,
 	} = params;
@@ -106,7 +108,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				handleArrowUp(event, chartRef, alertDivRef);
 				break;
 			case "?":
-				handleQuestionMark(event, chartRef);
+				handleQuestionMark(event, chartRef, openShortcutGuide);
 				break;
 		}
 
@@ -201,12 +203,13 @@ function handleArrowUp(
 function handleQuestionMark(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
+	openShortcutGuide: any,
 ): void {
 	const modal = document.getElementsByClassName("a11y_modal")[0];
 
 	if (modal) {
 		event.preventDefault();
-		levelGuide(chartRef);
+		levelGuide(chartRef, openShortcutGuide);
 	}
 }
 
@@ -294,31 +297,11 @@ export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first
 /**
  * Displays the ShortcutGuide and gives it keyboard focus.
  */
-function levelGuide(chartRef: React.RefObject<HTMLElement>): void {
+function levelGuide(chartRef: React.RefObject<HTMLElement>, openShortcutGuide: any): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	wiper(chartRef);
-
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
-
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].setAttribute("tabIndex", "0");
-	}
-
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "block";
-
-	shortcutGuide.setAttribute("tabIndex", "0");
-	shortcutGuide.pastFocus = chartRef?.current?.getElementsByClassName(
-		"a11y_desc",
-	)[0] as HTMLElement;
-
-	document.body.classList.add("a11y_no_scroll");
-	shortcutGuide.focus();
+	openShortcutGuide();
 }

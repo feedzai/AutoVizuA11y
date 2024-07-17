@@ -50,6 +50,7 @@ type AutoVizuA11yProps = {
 	type: string;
 	title: string;
 	context: string;
+	shortcutGuide: React.ReactNode;
 	insights: string;
 	descriptor?: string;
 	multiSeries?: string;
@@ -106,6 +107,7 @@ const AutoVizuA11y = ({
 	multiSeries,
 	insights,
 	context,
+	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
 	children,
@@ -120,6 +122,8 @@ const AutoVizuA11y = ({
 
 	const dataString = useMemo(() => JSON.stringify(data), data);
 
+	const [visibleShortcutGuide, setVisibleShortcutGuide] = useState(false);
+
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
 	const [insightsArray, setInsightsArray] = useState<number[]>([]);
@@ -133,6 +137,24 @@ const AutoVizuA11y = ({
 	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
 	let componentId = useAutoId();
+
+	function closeShortcutGuide() {
+		setVisibleShortcutGuide(false);
+	}
+
+	function openShortcutGuide() {
+		setVisibleShortcutGuide(true);
+	}
+
+	// TODO
+	useEffect(() => {
+		if (visibleShortcutGuide) {
+			let teste = shortcutGuideRef.current!.getElementsByClassName(
+				"a11y_modal_content",
+			)[0] as HTMLElement;
+			teste.focus;
+		}
+	}, [visibleShortcutGuide]);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = useMemo(
@@ -285,6 +307,7 @@ const AutoVizuA11y = ({
 				arrayConverted,
 				title,
 				descs,
+				openShortcutGuide,
 				autoDescriptions,
 				multiSeries,
 			};
@@ -310,14 +333,21 @@ const AutoVizuA11y = ({
 			<div
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler(event, chartRef);
+					guideKeyHandler({ event, chartRef, closeShortcutGuide, visibleShortcutGuide });
 				}}
 				id="a11y_nav_guide"
 			>
-				<ShortcutGuide />
+				{visibleShortcutGuide &&
+					//@ts-ignore
+					shortcutGuide}
 			</div>
 		</>
 	);
+};
+
+// Default props for the component
+AutoVizuA11y.defaultProps = {
+	shortcutGuide: <ShortcutGuide closeShortcutGuide />,
 };
 
 export default AutoVizuA11y;

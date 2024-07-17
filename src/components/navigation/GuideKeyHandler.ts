@@ -17,10 +17,17 @@ export interface ExtendedHTMLElement extends HTMLElement {
  * @param {React.KeyboardEvent} event - The keyboard event.
  * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
-export function guideKeyHandler(
-	event: React.KeyboardEvent,
-	chartRef: React.RefObject<HTMLElement>,
-): void {
+export function guideKeyHandler({
+	event,
+	chartRef,
+	closeShortcutGuide,
+	visibleShortcutGuide,
+}: {
+	event: React.KeyboardEvent;
+	chartRef: React.RefObject<HTMLElement>;
+	closeShortcutGuide: any;
+	visibleShortcutGuide: any;
+}): void {
 	const { key } = event;
 	const activeElement = document.activeElement as HTMLElement;
 
@@ -34,7 +41,7 @@ export function guideKeyHandler(
 		case "?":
 			if (shouldHandleKey) {
 				event.preventDefault();
-				returnGuide(chartRef);
+				returnGuide(chartRef, closeShortcutGuide);
 			}
 			break;
 		default:
@@ -43,7 +50,7 @@ export function guideKeyHandler(
 
 	const closeButton = document.getElementById("guide_close");
 	if (closeButton) {
-		closeButton.onclick = () => returnGuide(chartRef);
+		closeButton.onclick = () => returnGuide(chartRef, closeShortcutGuide);
 	}
 }
 
@@ -52,21 +59,7 @@ export function guideKeyHandler(
  *
  * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
-function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	Array.from(allShortcuts).forEach((element) => element.removeAttribute("tabIndex"));
-	const shortcutGuide = document.querySelector(".a11y_modal_content") as ExtendedHTMLElement;
-
-	if (shortcutGuide) {
-		shortcutGuide.removeAttribute("tabIndex");
-		if (shortcutGuide.pastFocus) {
-			shortcutGuide.pastFocus.focus();
-		}
-	}
-
+function returnGuide(chartRef: React.RefObject<HTMLElement>, closeShortcutGuide: any): void {
 	switchToChartLevel(chartRef);
-	const modal = document.querySelector(".a11y_modal") as HTMLElement;
-	if (modal) {
-		modal.style.display = "none";
-	}
+	closeShortcutGuide();
 }
