@@ -7,7 +7,7 @@
 
 /* The Modal (background) */
 .a11y_modal {
-	display: none; /* Hidden by default */
+	display: block;
 	position: fixed; /* Stay in place */
 	z-index: 1000; /* Placed on top */
 	left: 0;

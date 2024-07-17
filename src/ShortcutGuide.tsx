@@ -13,7 +13,7 @@ import "./assets/style/ShortcutGuideStyle.css";
  *
  * @return Shortcut guide.
  */
-const ShortcutGuide: React.FC = () => {
+const ShortcutGuide = ({ closeShortcutGuide }) => {
 	const refNav = useRef(null);
 	useEffect(() => {
 		//needs a slight delay since some elements take time to load
@@ -25,6 +25,7 @@ const ShortcutGuide: React.FC = () => {
 			<div className="a11y_modal" data-testId="a11y_modal" role="button">
 				<div
 					className="a11y_modal_content"
+					tabIndex={0}
 					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
           charts and underlying data elements using just the keyboard. When focused on a chart,
           a description regarding the data will be provided — you might receive a notification
@@ -34,7 +35,11 @@ const ShortcutGuide: React.FC = () => {
 					<div id="guide_container">
 						<h2 id="guide_title">Shortcut Guide</h2>
 						<p id="guide_close_sc">? or Esc</p>
-						<button id="guide_close" aria-label="Close shortcut guide">
+						<button
+							onClick={() => closeShortcutGuide()}
+							id="guide_close"
+							aria-label="Close shortcut guide"
+						>
 							&times;
 						</button>
 					</div>
@@ -44,7 +49,7 @@ const ShortcutGuide: React.FC = () => {
 							<table role={"group"}>
 								<tbody>
 									<div className="a11y_empty_row"></div>
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -56,6 +61,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Enter shortcut guide: Question mark"
 										role={"listitem"}
 									>
@@ -64,6 +70,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Leave shortcut guide: Question mark or Escape"
 										role={"listitem"}
 									>
@@ -72,7 +79,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<div className="a11y_empty_row"></div>
 
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -84,6 +91,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Get into a chart: Down Arrow"
 										role={"listitem"}
 									>
@@ -92,6 +100,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Get out of a chart: Up Arrow"
 										role={"listitem"}
 									>
@@ -100,6 +109,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Move forward in a page element: Right Arrow"
 										role={"listitem"}
 									>
@@ -108,6 +118,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Move backward in a page element: Left Arrow"
 										role={"listitem"}
 									>
@@ -116,6 +127,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Move between series of data inside the chart: Alt (option) + M"
 										role={"listitem"}
 									>
@@ -125,7 +137,7 @@ const ShortcutGuide: React.FC = () => {
 										</th>
 									</tr>
 									<div className="a11y_empty_row"></div>
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -137,6 +149,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Jump to the beginning of a chart: Home or Alt (option) + Q "
 										role={"listitem"}
 									>
@@ -145,6 +158,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Jump to the end of a chart: End or Alt (option) + W "
 										role={"listitem"}
 									>
@@ -153,6 +167,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Define the number of data points to be jumped at a time: Alt (option) + X"
 										role={"listitem"}
 									>
@@ -163,6 +178,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Add one number to the data points to be jumped at a time: Plus symbol"
 										role={"listitem"}
 									>
@@ -173,6 +189,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Subtract one number to the data points to be jumped at a
                       time: Minus symbol"
 										role={"listitem"}
@@ -190,7 +207,7 @@ const ShortcutGuide: React.FC = () => {
 							<table role={"group"}>
 								<tbody>
 									<div className="a11y_empty_row"></div>
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -200,20 +217,35 @@ const ShortcutGuide: React.FC = () => {
 											Statistical insights (works when navigating a chart)
 										</th>
 									</tr>
-									<tr className="a11y_row" aria-label="Minimum: Alt (option) + J" role={"listitem"}>
+									<tr
+										className="a11y_row"
+										tabIndex={0}
+										aria-label="Minimum: Alt (option) + J"
+										role={"listitem"}
+									>
 										<th className="a11y_shortcut">Alt (option) + J</th>
 										<th className="a11y_explanation">Minimum</th>
 									</tr>
-									<tr className="a11y_row" aria-label="Average: Alt (option) + K" role={"listitem"}>
+									<tr
+										className="a11y_row"
+										tabIndex={0}
+										aria-label="Average: Alt (option) + K"
+										role={"listitem"}
+									>
 										<th className="a11y_shortcut">Alt (option) + K</th>
 										<th className="a11y_explanation">Average</th>
 									</tr>
-									<tr className="a11y_row" aria-label="Maximum: Alt (option) + L" role={"listitem"}>
+									<tr
+										className="a11y_row"
+										tabIndex={0}
+										aria-label="Maximum: Alt (option) + L"
+										role={"listitem"}
+									>
 										<th className="a11y_shortcut">Alt (option) + L</th>
 										<th className="a11y_explanation">Maximum</th>
 									</tr>
 									<div className="a11y_empty_row"></div>
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -226,6 +258,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Compare current data element to minimum value: Alt (option) + Shift + J"
 										role={"listitem"}
 									>
@@ -236,6 +269,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Compare current data element to average value: Alt (option) + Shift + K"
 										role={"listitem"}
 									>
@@ -246,6 +280,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Compare current data element to maximum value: Alt (option) + Shift + L"
 										role={"listitem"}
 									>
@@ -256,6 +291,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Compare current data element to the rest of the chart: Alt (option) + Z"
 										role={"listitem"}
 									>
@@ -265,7 +301,7 @@ const ShortcutGuide: React.FC = () => {
 										</th>
 									</tr>
 									<div className="a11y_empty_row"></div>
-									<tr className="a11y_row">
+									<tr className="a11y_row" tabIndex={0}>
 										<th></th>
 										<th
 											className="a11y_title"
@@ -277,6 +313,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Set longer description of the chart: Alt (option) + B"
 										role={"listitem"}
 									>
@@ -285,6 +322,7 @@ const ShortcutGuide: React.FC = () => {
 									</tr>
 									<tr
 										className="a11y_row"
+										tabIndex={0}
 										aria-label="Set shorter description of the chart: Alt (option) + S"
 										role={"listitem"}
 									>

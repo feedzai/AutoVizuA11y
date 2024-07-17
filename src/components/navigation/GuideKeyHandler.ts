@@ -14,10 +14,17 @@ import { xSetter } from "./XSetter";
  *
  * @export
  */
-export function guideKeyHandler(
-	event: React.KeyboardEvent,
-	chartRef: React.RefObject<HTMLElement>,
-): void {
+export function guideKeyHandler({
+	event,
+	chartRef,
+	closeShortcutGuide,
+	visibleShortcutGuide,
+}: {
+	event: React.KeyboardEvent;
+	chartRef: React.RefObject<HTMLElement>;
+	closeShortcutGuide: any;
+	visibleShortcutGuide: any;
+}): void {
 	const { key } = event;
 
 	switch (key) {
@@ -28,25 +35,21 @@ export function guideKeyHandler(
 				document.activeElement?.classList.contains("a11y_row") ||
 				document.activeElement?.id === "guide_close"
 			) {
-				returnGuide(chartRef);
+				returnGuide(chartRef, closeShortcutGuide);
 				break;
 			}
 			break;
 
 		case "?":
-			const modal = document.getElementsByClassName("a11y_modal")[0];
-			if (modal !== undefined) {
-				event.preventDefault();
-				if (
-					document.activeElement?.classList.contains("a11y_modal_content") ||
-					document.activeElement?.classList.contains("a11y_row") ||
-					document.activeElement?.id === "guide_close"
-				) {
-					returnGuide(chartRef);
-					break;
-				}
+			event.preventDefault();
+			if (
+				document.activeElement?.classList.contains("a11y_modal_content") ||
+				document.activeElement?.classList.contains("a11y_row") ||
+				document.activeElement?.id === "guide_close"
+			) {
+				returnGuide(chartRef, closeShortcutGuide);
+				break;
 			}
-			break;
 
 		default:
 			break;
@@ -55,7 +58,7 @@ export function guideKeyHandler(
 	const span = document.getElementById("guide_close");
 	if (span !== null) {
 		span.onclick = () => {
-			returnGuide(chartRef);
+			returnGuide(chartRef, closeShortcutGuide);
 		};
 	}
 
@@ -69,17 +72,7 @@ interface ExtendedHTMLElement extends HTMLElement {
 /**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
  */
-function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].removeAttribute("tabIndex");
-	}
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-	shortcutGuide.removeAttribute("tabIndex");
+function returnGuide(chartRef: React.RefObject<HTMLElement>, closeShortcutGuide: any): void {
 	switchToChartLevel(chartRef);
-	if (shortcutGuide.pastFocus) shortcutGuide.pastFocus.focus();
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "none";
+	closeShortcutGuide();
 }

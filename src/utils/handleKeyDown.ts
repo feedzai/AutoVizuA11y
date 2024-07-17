@@ -41,6 +41,7 @@ export const handleKeyDown = ({
 	arrayConverted,
 	title,
 	descs,
+	openShortcutGuide,
 	autoDescriptions,
 	multiSeries,
 }: {
@@ -61,6 +62,7 @@ export const handleKeyDown = ({
 	arrayConverted: number[];
 	title: string;
 	descs: string[];
+	openShortcutGuide: any;
 	autoDescriptions?: AutoDescriptionsProps;
 	multiSeries?: string | undefined;
 }) => {
@@ -72,6 +74,7 @@ export const handleKeyDown = ({
 		elements,
 		alertDivRef,
 		selectedSeries,
+		openShortcutGuide,
 		series,
 		selectorType,
 		multiSeries,
