@@ -147,14 +147,13 @@ const AutoVizuA11y = ({
 
 	let componentId = useAutoId();
 
-	// TODO
 	useEffect(() => {
-		// if (visibleShortcutGuide) {
-		// 	let teste = shortcutGuideRef.current!.getElementsByClassName(
-		// 		"a11y_modal_content",
-		// 	)[0] as HTMLElement;
-		// 	teste.focus;
-		// }
+		if (visibleShortcutGuide) {
+			let modalContent = shortcutGuideRef.current!.getElementsByClassName(
+				"a11y_modal_content",
+			)[0] as HTMLElement;
+			modalContent.focus();
+		}
 	}, [visibleShortcutGuide]);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
