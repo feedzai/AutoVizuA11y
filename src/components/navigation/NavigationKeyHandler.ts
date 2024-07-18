@@ -26,7 +26,7 @@ export function navigationKeyHandler({
 	alertDivRef,
 	selectedSeries,
 	series,
-	openShortcutGuide,
+	setVisibleShortcutGuide,
 	selectorType,
 	multiSeries,
 	setSelectedSeries,
@@ -40,7 +40,7 @@ export function navigationKeyHandler({
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
-	openShortcutGuide: any;
+	setVisibleShortcutGuide: Function;
 	multiSeries?: string | undefined;
 	setSelectedSeries?: Function;
 }): number {
@@ -129,7 +129,7 @@ export function navigationKeyHandler({
 
 		case "?":
 			event.preventDefault();
-			levelGuide(chartRef, openShortcutGuide);
+			levelGuide(chartRef, setVisibleShortcutGuide);
 			break;
 
 		default:
@@ -146,13 +146,16 @@ interface ExtendedHTMLElement extends HTMLElement {
 /**
  * Displays the ShortcutGuide and gives it keyboard focus.
  */
-function levelGuide(chartRef: React.RefObject<HTMLElement>, openShortcutGuide: any): void {
+function levelGuide(
+	chartRef: React.RefObject<HTMLElement>,
+	setVisibleShortcutGuide: Function,
+): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	wiper(chartRef);
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
-	openShortcutGuide();
+	setVisibleShortcutGuide(true);
 }
 
 /**

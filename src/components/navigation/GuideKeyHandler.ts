@@ -17,13 +17,11 @@ import { xSetter } from "./XSetter";
 export function guideKeyHandler({
 	event,
 	chartRef,
-	closeShortcutGuide,
-	visibleShortcutGuide,
+	setVisibleShortcutGuide,
 }: {
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
-	closeShortcutGuide: any;
-	visibleShortcutGuide: any;
+	setVisibleShortcutGuide: Function;
 }): void {
 	const { key } = event;
 
@@ -35,7 +33,7 @@ export function guideKeyHandler({
 				document.activeElement?.classList.contains("a11y_row") ||
 				document.activeElement?.id === "guide_close"
 			) {
-				returnGuide(chartRef, closeShortcutGuide);
+				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
 			}
 			break;
@@ -47,19 +45,12 @@ export function guideKeyHandler({
 				document.activeElement?.classList.contains("a11y_row") ||
 				document.activeElement?.id === "guide_close"
 			) {
-				returnGuide(chartRef, closeShortcutGuide);
+				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
 			}
 
 		default:
 			break;
-	}
-
-	const span = document.getElementById("guide_close");
-	if (span !== null) {
-		span.onclick = () => {
-			returnGuide(chartRef, closeShortcutGuide);
-		};
 	}
 
 	return;
@@ -72,7 +63,10 @@ interface ExtendedHTMLElement extends HTMLElement {
 /**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
  */
-function returnGuide(chartRef: React.RefObject<HTMLElement>, closeShortcutGuide: any): void {
+export function returnGuide(
+	chartRef: React.RefObject<HTMLElement>,
+	setVisibleShortcutGuide: Function,
+): void {
 	switchToChartLevel(chartRef);
-	closeShortcutGuide();
+	setVisibleShortcutGuide(false);
 }
