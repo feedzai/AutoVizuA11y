@@ -36,7 +36,7 @@ test("Display style of the shortcut guide should change when keys are pressed", 
 		</>,
 	);
 
-	const targetElement = screen.getByTestId("a11y_modal");
+	const targetElement = screen.getByTestId("shortcut-guide");
 	const autoviz = screen.getByTestId("a11y_chart");
 
 	// Assert the shortcut guide is displayed when ? is pressed

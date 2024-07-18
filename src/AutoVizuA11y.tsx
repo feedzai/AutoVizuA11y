@@ -135,7 +135,7 @@ const AutoVizuA11y = ({
 	useEffect(() => {
 		if (visibleShortcutGuide) {
 			let modalContent = shortcutGuideRef.current!.getElementsByClassName(
-				"a11y_modal_content",
+				"shortcut-guide__container",
 			)[0] as HTMLElement;
 			modalContent.focus();
 		}

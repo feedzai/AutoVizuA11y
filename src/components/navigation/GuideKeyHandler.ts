@@ -29,9 +29,9 @@ export function guideKeyHandler({
 		case "Escape":
 			event.preventDefault();
 			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
+				document.activeElement?.classList.contains("shortcut-guide__container") ||
+				document.activeElement?.classList.contains("shortcut-guide__row") ||
+				document.activeElement?.id === "shortcut-guide__button"
 			) {
 				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
@@ -41,9 +41,9 @@ export function guideKeyHandler({
 		case "?":
 			event.preventDefault();
 			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
+				document.activeElement?.classList.contains("shortcut-guide__container") ||
+				document.activeElement?.classList.contains("shortcut-guide__row") ||
+				document.activeElement?.id === "shortcut-guide__button"
 			) {
 				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
