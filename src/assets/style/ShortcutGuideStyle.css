@@ -33,7 +33,7 @@
 }
 
 /* The Close Button */
-#shortcut-guide__button {
+.shortcut-guide__button {
 	color: #aaa;
 	font-size: 25px;
 	background: transparent no-repeat;
@@ -43,22 +43,22 @@
 	margin: 0;
 }
 
-#shortcut-guide__button:hover,
-#shortcut-guide__button:focus {
+.shortcut-guide__button:hover,
+.shortcut-guide__button:focus {
 	color: black;
 	text-decoration: none;
 }
 
-#shortcut-guide__title {
-	margin: auto;
+.shortcut-guide__title {
+	margin-right: auto;
 }
 
-#shortcut-guide__button-label {
+.shortcut-guide__button-label {
 	margin-right: 0.5rem;
 	font-weight: lighter;
 }
 
-#shortcut-guide__header {
+.shortcut-guide__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

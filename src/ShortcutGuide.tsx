@@ -36,11 +36,11 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
           indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is
           recommended to turn Focus mode before navigating the data using the arrow keys."
 				>
-					<div id="shortcut-guide__header">
-						<h2 id="shortcut-guide__title">Shortcut Guide</h2>
-						<p id="shortcut-guide__button-label">? or Esc</p>
+					<div className="shortcut-guide__header">
+						<h2 className="shortcut-guide__title">Shortcut Guide</h2>
+						<p className="shortcut-guide__button-label">? or Esc</p>
 						<button
-							id="shortcut-guide__button"
+							className="shortcut-guide__button"
 							aria-label="Close shortcut guide"
 							onClick={() => closeShortcutGuide()}
 						>
