@@ -6,99 +6,83 @@
  */
 
 /* The Modal (background) */
-.a11y_modal {
+.shortcut-guide {
 	display: block;
-	position: fixed; /* Stay in place */
-	z-index: 1000; /* Placed on top */
+	position: fixed;
+	z-index: 1000;
 	left: 0;
 	top: 0;
-	width: 100%; /* Full width */
-	height: 100%; /* Full height */
-	overflow: auto; /* Enable scroll if needed */
-	background-color: rgb(0, 0, 0); /* Fallback color */
-	background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
 	font-family: "Open Sans", sans-serif;
 	font-size: small;
 	color: #f5f5ff;
 }
 
-.a11y_no_scroll {
-	overflow: hidden; /* disable scrolling on the main content */
-}
-
 /* Modal Content/Box */
-.a11y_modal_content {
-	border-radius: 25px;
-	margin: 7% auto; /* 15% from the top and centered */
-	padding: 1rem;
-	padding-right: 2rem;
-	padding-left: 2rem;
+.shortcut-guide__container {
+	margin: 7% auto; /* 7% from the top and centered */
+	padding: 1rem 2rem; /* 1rem padding top/bottom and 2rem left/right */
 	border: 1px solid #888;
-	width: 80%; /* Could be more or less, depending on screen size */
+	width: 80%; /* Adjust based on screen size */
 	border-radius: 21px;
 	background: rgba(0, 0, 0, 0.77);
 	backdrop-filter: blur(6.5px);
 }
 
 /* The Close Button */
-#guide_close {
+#shortcut-guide__button {
 	color: #aaa;
 	font-size: 25px;
-	background-color: transparent;
-	background-repeat: no-repeat;
+	background: transparent no-repeat;
 	border: none;
 	height: 2rem;
-}
-
-#guide_close:hover,
-#guide_close:focus {
-	color: black;
-	text-decoration: none;
 	cursor: pointer;
-}
-
-#guide_close,
-#guide_title,
-#guide_close_sc {
 	margin: 0;
 }
 
-#guide_title {
-	margin-right: auto;
+#shortcut-guide__button:hover,
+#shortcut-guide__button:focus {
+	color: black;
+	text-decoration: none;
 }
 
-#guide_close_sc {
+#shortcut-guide__title {
+	margin: auto;
+}
+
+#shortcut-guide__button-label {
 	margin-right: 0.5rem;
 	font-weight: lighter;
 }
 
-#guide_container {
+#shortcut-guide__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 }
 
-.a11y_flex_container {
+.shortcut-guide__content {
 	display: flex;
-	flex-direction: row;
 	justify-content: space-evenly;
 }
 
-.a11y_title {
+.shortcut-guide__cell--title,
+.shortcut-guide__cell--explanation {
 	text-align: left;
 	padding-left: 1rem;
 }
 
-.a11y_explanation {
-	text-align: left;
-	padding-left: 1rem;
+.shortcut-guide__cell--explanation {
 	font-weight: lighter;
 }
 
-.a11y_shortcut {
+.shortcut-guide__cell--shortcut {
 	text-align: right;
 }
 
-.a11y_empty_row {
+.shortcut-guide__row--empty {
 	padding-top: 1rem;
 }
