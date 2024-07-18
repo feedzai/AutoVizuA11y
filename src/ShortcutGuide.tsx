@@ -8,12 +8,16 @@
 import React, { useRef, useEffect } from "react";
 import "./assets/style/ShortcutGuideStyle.css";
 
+export interface ShortcutGuideProps {
+	closeShortcutGuide: () => void;
+}
+
 /**
  * Component that renders the list of all AutoVizuA11y shortcuts.
  *
  * @return Shortcut guide.
  */
-const ShortcutGuide = ({ closeShortcutGuide }) => {
+const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => {
 	const refNav = useRef(null);
 	useEffect(() => {
 		//needs a slight delay since some elements take time to load
@@ -36,9 +40,9 @@ const ShortcutGuide = ({ closeShortcutGuide }) => {
 						<h2 id="guide_title">Shortcut Guide</h2>
 						<p id="guide_close_sc">? or Esc</p>
 						<button
-							onClick={() => closeShortcutGuide()}
 							id="guide_close"
 							aria-label="Close shortcut guide"
+							onClick={() => closeShortcutGuide()}
 						>
 							&times;
 						</button>

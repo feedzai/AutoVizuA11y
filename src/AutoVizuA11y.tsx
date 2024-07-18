@@ -5,18 +5,27 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+	useCallback,
+	cloneElement,
+	isValidElement,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+	ReactElement,
+} from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 
-import ShortcutGuide from "./ShortcutGuide";
+import ShortcutGuide, { ShortcutGuideProps } from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
 import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
-import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
+import { guideKeyHandler, returnGuide } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
 import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
@@ -50,7 +59,7 @@ type AutoVizuA11yProps = {
 	type: string;
 	title: string;
 	context: string;
-	shortcutGuide: React.ReactNode;
+	shortcutGuide: ReactElement<ShortcutGuideProps> | null;
 	insights: string;
 	descriptor?: string;
 	multiSeries?: string;
@@ -138,22 +147,14 @@ const AutoVizuA11y = ({
 
 	let componentId = useAutoId();
 
-	function closeShortcutGuide() {
-		setVisibleShortcutGuide(false);
-	}
-
-	function openShortcutGuide() {
-		setVisibleShortcutGuide(true);
-	}
-
 	// TODO
 	useEffect(() => {
-		if (visibleShortcutGuide) {
-			let teste = shortcutGuideRef.current!.getElementsByClassName(
-				"a11y_modal_content",
-			)[0] as HTMLElement;
-			teste.focus;
-		}
+		// if (visibleShortcutGuide) {
+		// 	let teste = shortcutGuideRef.current!.getElementsByClassName(
+		// 		"a11y_modal_content",
+		// 	)[0] as HTMLElement;
+		// 	teste.focus;
+		// }
 	}, [visibleShortcutGuide]);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
@@ -199,6 +200,10 @@ const AutoVizuA11y = ({
 		() => React.Children.map(children, (child) => <div>{child}</div>),
 		[children],
 	);
+
+	function closeShortcutGuide() {
+		returnGuide(chartRef, setVisibleShortcutGuide);
+	}
 
 	useEffect(() => {
 		if (!chartRef.current) {
@@ -287,6 +292,12 @@ const AutoVizuA11y = ({
 		asyncEffect();
 	}, [chartRef]);
 
+	if (!isValidElement(shortcutGuide)) {
+		shortcutGuide = <ShortcutGuide closeShortcutGuide={closeShortcutGuide} />;
+	} else {
+		shortcutGuide = cloneElement(shortcutGuide, { closeShortcutGuide });
+	}
+
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const DATA = {
@@ -307,7 +318,7 @@ const AutoVizuA11y = ({
 				arrayConverted,
 				title,
 				descs,
-				openShortcutGuide,
+				setVisibleShortcutGuide,
 				autoDescriptions,
 				multiSeries,
 			};
@@ -333,21 +344,14 @@ const AutoVizuA11y = ({
 			<div
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler({ event, chartRef, closeShortcutGuide, visibleShortcutGuide });
+					guideKeyHandler({ event, chartRef, setVisibleShortcutGuide });
 				}}
 				id="a11y_nav_guide"
 			>
-				{visibleShortcutGuide &&
-					//@ts-ignore
-					shortcutGuide}
+				{visibleShortcutGuide && shortcutGuide}
 			</div>
 		</>
 	);
-};
-
-// Default props for the component
-AutoVizuA11y.defaultProps = {
-	shortcutGuide: <ShortcutGuide closeShortcutGuide />,
 };
 
 export default AutoVizuA11y;

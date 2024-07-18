@@ -26,7 +26,7 @@ interface NavigationKeyHandlerParams {
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
-	openShortcutGuide?: any;
+	setVisibleShortcutGuide?: Function;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
 }
@@ -58,8 +58,8 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		selectedSeries,
 		series,
 		selectorType,
-		openShortcutGuide,
 		multiSeries,
+		setVisibleShortcutGuide,
 		setSelectedSeries,
 	} = params;
 
@@ -108,7 +108,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				handleArrowUp(event, chartRef, alertDivRef);
 				break;
 			case "?":
-				handleQuestionMark(event, chartRef, openShortcutGuide);
+				handleQuestionMark(event, chartRef, setVisibleShortcutGuide!);
 				break;
 		}
 
@@ -203,13 +203,13 @@ function handleArrowUp(
 function handleQuestionMark(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
-	openShortcutGuide: any,
+	setVisibleShortcutGuide: Function,
 ): void {
 	const modal = document.getElementsByClassName("a11y_modal")[0];
 
 	if (modal) {
 		event.preventDefault();
-		levelGuide(chartRef, openShortcutGuide);
+		levelGuide(chartRef, setVisibleShortcutGuide);
 	}
 }
 
@@ -297,11 +297,14 @@ export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first
 /**
  * Displays the ShortcutGuide and gives it keyboard focus.
  */
-function levelGuide(chartRef: React.RefObject<HTMLElement>, openShortcutGuide: any): void {
+function levelGuide(
+	chartRef: React.RefObject<HTMLElement>,
+	setVisibleShortcutGuide: Function,
+): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
 	wiper(chartRef);
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
-	openShortcutGuide();
+	setVisibleShortcutGuide(true);
 }

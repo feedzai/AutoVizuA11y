@@ -34,7 +34,7 @@ interface HandleKeyDownProps {
 	arrayConverted: number[];
 	title: string;
 	descs: string[];
-	openShortcutGuide?: any;
+	setVisibleShortcutGuide?: Function;
 	autoDescriptions?: AutoDescriptionsProps;
 	multiSeries?: string;
 }
@@ -60,7 +60,7 @@ export async function handleKeyDown(
 		arrayConverted,
 		title,
 		descs,
-		openShortcutGuide,
+		setVisibleShortcutGuide,
 		autoDescriptions,
 		multiSeries,
 	}: HandleKeyDownProps,
@@ -73,7 +73,7 @@ export async function handleKeyDown(
 		elements,
 		alertDivRef,
 		selectedSeries,
-		openShortcutGuide,
+		setVisibleShortcutGuide,
 		series,
 		selectorType,
 		multiSeries,
