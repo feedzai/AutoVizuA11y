@@ -23,7 +23,7 @@ export function overallComparer({
 	alertDiv: HTMLDivElement;
 	insights: string;
 	arrayConverted: number[];
-	focusedData: number | undefined;
+	focusedData?: number;
 }): void {
 	const { altKey, code } = event;
 

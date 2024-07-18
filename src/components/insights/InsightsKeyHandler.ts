@@ -42,9 +42,9 @@ export function insightsKeyHandler({
 	ref: React.RefObject<HTMLElement>;
 	insights: string;
 	insightsArray: number[];
-	arrayConverted: number[] | undefined;
 	title: string;
 	descs: string[];
+	arrayConverted?: number[];
 	autoDescriptions?: AutoDescriptionsProps;
 }) {
 	if (arrayConverted) {
