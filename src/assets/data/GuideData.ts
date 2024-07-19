@@ -24,7 +24,7 @@ export const guideData: Guide[] = [
 			{ keys: "→", description: "Move forward in a page element" },
 			{ keys: "←", description: "Move backward in a page element" },
 			{
-				keys: "Alt (option) + M",
+				keys: "Alt + M",
 				description: "Move between series of data inside the chart",
 			},
 		],
@@ -33,15 +33,15 @@ export const guideData: Guide[] = [
 		title: "Chart navigation shortcuts",
 		shortcuts: [
 			{
-				keys: "Home or Alt (option) + Q",
+				keys: "Home or Alt + Q",
 				description: "Jump to the beginning of a chart",
 			},
 			{
-				keys: "End or Alt (option) + W",
+				keys: "End or Alt + W",
 				description: "Jump to the end of a chart",
 			},
 			{
-				keys: "Alt (option) + X",
+				keys: "Alt + X",
 				description: "Define the number of data points to be jumped at a time",
 			},
 			{
@@ -57,28 +57,28 @@ export const guideData: Guide[] = [
 	{
 		title: "Statistical insights (works when navigating a chart)",
 		shortcuts: [
-			{ keys: "Alt (option) + J", description: "Minimum" },
-			{ keys: "Alt (option) + K", description: "Average" },
-			{ keys: "Alt (option) + L", description: "Maximum" },
+			{ keys: "Alt + J", description: "Minimum" },
+			{ keys: "Alt + K", description: "Average" },
+			{ keys: "Alt + L", description: "Maximum" },
 		],
 	},
 	{
 		title: "Statistical insights (works when a chart element is focused)",
 		shortcuts: [
 			{
-				keys: "Alt (option) + Shift + J",
+				keys: "Alt + Shift + J",
 				description: "Compare current data element to minimum value",
 			},
 			{
-				keys: "Alt (option) + Shift + K",
+				keys: "Alt + Shift + K",
 				description: "Compare current data element to average value",
 			},
 			{
-				keys: "Alt (option) + Shift + L",
+				keys: "Alt + Shift + L",
 				description: "Compare current data element to maximum value",
 			},
 			{
-				keys: "Alt (option) + Z",
+				keys: "Alt + Z",
 				description: "Compare current data element to the rest of the chart",
 			},
 		],
@@ -87,11 +87,11 @@ export const guideData: Guide[] = [
 		title: "Change chart descriptions",
 		shortcuts: [
 			{
-				keys: "Alt (option) + B",
+				keys: "Alt + B",
 				description: "Set longer description of the chart",
 			},
 			{
-				keys: "Alt (option) + S",
+				keys: "Alt + S",
 				description: "Set shorter description of the chart (default)",
 			},
 		],
