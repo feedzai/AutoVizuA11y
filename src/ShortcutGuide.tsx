@@ -7,6 +7,7 @@
 
 import React, { useRef, useEffect } from "react";
 import "./assets/style/ShortcutGuideStyle.css";
+import { guideData } from "./assets/data/GuideData";
 
 export interface ShortcutGuideProps {
 	closeShortcutGuide: () => void;
@@ -23,6 +24,11 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {}, 500);
 	}, [refNav]);
+
+	// Split the guideData into two equal parts for the two tables
+	const midIndex = Math.ceil(guideData.length / 2);
+	const firstHalf = guideData.slice(0, midIndex);
+	const secondHalf = guideData.slice(midIndex);
 
 	return (
 		<>
@@ -49,348 +55,46 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 					</div>
 					<hr className="shortcut-guide__break" />
 					<div className="shortcut-guide__content">
-						<div className="shortcut-guide__column">
-							<table className="shortcut-guide__table" role={"group"}>
-								<tbody className="shortcut-guide__table-body">
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Access the guide"
-											role={"listitem"}
-										>
-											Access the guide
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Enter shortcut guide: Question mark"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">?</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Enter shortcut guide
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Leave shortcut guide: Question mark or Escape"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											? or Esc
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Leave shortcut guide
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Move between page elements"
-											role={"listitem"}
-										>
-											Move between page elements
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Get into a chart: Down Arrow"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">↓</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Get into a chart
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Get out of a chart: Up Arrow"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">↑</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Get out of a chart
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Move forward in a page element: Right Arrow"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">→</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Move forward in a page element
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Move backward in a page element: Left Arrow"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">←</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Move backward in a page element
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Move between series of data inside the chart: Alt (option) + M"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + M
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Move between series of data inside the chart
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Chart navigation shortcuts"
-											role={"listitem"}
-										>
-											Chart navigation shortcuts
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Jump to the beginning of a chart: Home or Alt (option) + Q "
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Home or Alt (option) + Q
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Jump to the beginning of a chart
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Jump to the end of a chart: End or Alt (option) + W "
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											End or Alt (option) + W
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Jump to the end of a chart
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Define the number of data points to be jumped at a time: Alt (option) + X"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + X
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Define the number of data points to be jumped at a time
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Add one number to the data points to be jumped at a time: Plus symbol"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">+</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Add one number to the data points to be jumped at a time
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Subtract one number to the data points to be jumped at a
-                      time: Minus symbol"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">-</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Subtract one number to the data points to be jumped at a time
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-								</tbody>
-							</table>
-						</div>
-						<div className="shortcut-guide__column">
-							<table className="shortcut-guide__table" role={"group"}>
-								<tbody className="shortcut-guide__table-body">
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Statistical insights (works when navigating a chart)"
-											role={"listitem"}
-										>
-											Statistical insights (works when navigating a chart)
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Minimum: Alt (option) + J"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + J
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Minimum
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Average: Alt (option) + K"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + K
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Average
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Maximum: Alt (option) + L"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + L
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Maximum
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Statistical insights (works when a chart element is
-                      focused)"
-											role={"listitem"}
-										>
-											Statistical insights (works when a chart element is focused)
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Compare current data element to minimum value: Alt (option) + Shift + J"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + Shift + J
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Compare current data element to minimum value
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Compare current data element to average value: Alt (option) + Shift + K"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + Shift + K
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Compare current data element to average value
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Compare current data element to maximum value: Alt (option) + Shift + L"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + Shift + L
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Compare current data element to maximum value
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Compare current data element to the rest of the chart: Alt (option) + Z"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + Z
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Compare current data element to the rest of the chart
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-									<tr className="shortcut-guide__row" tabIndex={0}>
-										<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-										<th
-											className="shortcut-guide__cell shortcut-guide__cell--title"
-											aria-label="Section: Change chart descriptions"
-											role={"listitem"}
-										>
-											Change chart descriptions
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Set longer description of the chart: Alt (option) + B"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + B
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Set longer description of the chart
-										</th>
-									</tr>
-									<tr
-										className="shortcut-guide__row"
-										tabIndex={0}
-										aria-label="Set shorter description of the chart: Alt (option) + S"
-										role={"listitem"}
-									>
-										<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-											Alt (option) + S
-										</th>
-										<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-											Set shorter description of the chart (default)
-										</th>
-									</tr>
-									<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-								</tbody>
-							</table>
-						</div>
+						{[firstHalf, secondHalf].map((sectionGroup, groupIndex) => (
+							<div className="shortcut-guide__column" key={groupIndex}>
+								<table className="shortcut-guide__table" role="group">
+									<tbody className="shortcut-guide__table-body">
+										{sectionGroup.map((section) => (
+											<>
+												<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
+												<tr className="shortcut-guide__row" tabIndex={0}>
+													<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
+													<th
+														className="shortcut-guide__cell shortcut-guide__cell--title"
+														aria-label={`Section: ${section.title}`}
+														role="listitem"
+													>
+														{section.title}
+													</th>
+												</tr>
+												{section.shortcuts.map((shortcut, shortcutIndex) => (
+													<tr
+														key={shortcutIndex}
+														className="shortcut-guide__row"
+														tabIndex={0}
+														aria-label={`${shortcut.description}: ${shortcut.keys}`}
+														role="listitem"
+													>
+														<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
+															{shortcut.keys}
+														</th>
+														<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
+															{shortcut.description}
+														</th>
+													</tr>
+												))}
+												<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
+											</>
+										))}
+									</tbody>
+								</table>
+							</div>
+						))}
 					</div>
 				</div>
 			</div>
