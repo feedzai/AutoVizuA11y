@@ -25,11 +25,6 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 		setTimeout(() => {}, 500);
 	}, [refNav]);
 
-	// Split the guideData into two equal parts for the two tables
-	const midIndex = Math.ceil(guideData.length / 2);
-	const firstHalf = guideData.slice(0, midIndex);
-	const secondHalf = guideData.slice(midIndex);
-
 	return (
 		<>
 			<div className="shortcut-guide" data-testid="shortcut-guide">
@@ -54,48 +49,41 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 						</button>
 					</div>
 					<hr className="shortcut-guide__break" />
-					<div className="shortcut-guide__content">
-						{[firstHalf, secondHalf].map((sectionGroup, groupIndex) => (
-							<div className="shortcut-guide__column" key={groupIndex}>
-								<table className="shortcut-guide__table" role="group">
-									<tbody className="shortcut-guide__table-body">
-										{sectionGroup.map((section) => (
-											<>
-												<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-												<tr className="shortcut-guide__row" tabIndex={0}>
-													<th className="shortcut-guide__cell shortcut-guide__cell--empty"></th>
-													<th
-														className="shortcut-guide__cell shortcut-guide__cell--title"
-														aria-label={`Section: ${section.title}`}
-														role="listitem"
-													>
-														{section.title}
-													</th>
-												</tr>
-												{section.shortcuts.map((shortcut, shortcutIndex) => (
-													<tr
-														key={shortcutIndex}
-														className="shortcut-guide__row"
-														tabIndex={0}
-														aria-label={`${shortcut.description}: ${shortcut.keys}`}
-														role="listitem"
-													>
-														<th className="shortcut-guide__cell shortcut-guide__cell--shortcut">
-															{shortcut.keys}
-														</th>
-														<th className="shortcut-guide__cell shortcut-guide__cell--explanation">
-															{shortcut.description}
-														</th>
-													</tr>
-												))}
-												<div className="shortcut-guide__row shortcut-guide__row--empty"></div>
-											</>
+					{[guideData].map((sectionGroup, groupIndex) => (
+						<div className="shortcut-guide__body" key={groupIndex}>
+							{sectionGroup.map((section) => (
+								<>
+									<div className="shortcut-guide__section">
+										<div className="shortcut-guide__row" tabIndex={0}>
+											<div
+												className="shortcut-guide__cell shortcut-guide__cell--title"
+												aria-label={`Section: ${section.title}`}
+												role="listitem"
+											>
+												{section.title}
+											</div>
+										</div>
+										{section.shortcuts.map((shortcut, shortcutIndex) => (
+											<div
+												key={shortcutIndex}
+												className="shortcut-guide__row"
+												tabIndex={0}
+												aria-label={`${shortcut.description}: ${shortcut.keys}`}
+												role="listitem"
+											>
+												<div className="shortcut-guide__cell shortcut-guide__cell--shortcut">
+													{shortcut.keys}
+												</div>
+												<div className="shortcut-guide__cell shortcut-guide__cell--explanation">
+													{shortcut.description}
+												</div>
+											</div>
 										))}
-									</tbody>
-								</table>
-							</div>
-						))}
-					</div>
+									</div>
+								</>
+							))}
+						</div>
+					))}
 				</div>
 			</div>
 		</>

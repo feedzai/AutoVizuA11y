@@ -4,8 +4,8 @@
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
-/* The Modal (background) */
 .shortcut-guide {
 	display: block;
 	position: fixed;
@@ -15,24 +15,22 @@
 	width: 100%;
 	height: 100%;
 	overflow: auto;
-	background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
-	font-family: "Open Sans", sans-serif;
+	background-color: rgba(0, 15, 58, 0.35);
+	font-family: "Roboto";
 	font-size: small;
-	color: #f5f5ff;
+	color: #000f3a;
 }
 
-/* Modal Content/Box */
 .shortcut-guide__container {
-	margin: 7% auto; /* 7% from the top and centered */
-	padding: 1rem 2rem; /* 1rem padding top/bottom and 2rem left/right */
-	border: 1px solid #888;
-	width: 80%; /* Adjust based on screen size */
-	border-radius: 21px;
-	background: rgba(0, 0, 0, 0.77);
+	margin: 10% auto;
+	padding: 0;
+	border: none;
+	width: 90%;
+	border-radius: 7px 7px;
+	background: #ffffff;
 	backdrop-filter: blur(6.5px);
 }
 
-/* The Close Button */
 .shortcut-guide__button {
 	color: #aaa;
 	font-size: 25px;
@@ -51,38 +49,93 @@
 
 .shortcut-guide__title {
 	margin-right: auto;
+	font-size: 16px;
+	font-weight: 700;
 }
 
 .shortcut-guide__button-label {
+	display: none;
 	margin-right: 0.5rem;
 	font-weight: lighter;
+}
+
+.shortcut-guide__break {
+	display: none;
 }
 
 .shortcut-guide__header {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	background-color: #f5f5f7;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 7px 7px 0 0;
+	border: none;
 }
 
-.shortcut-guide__content {
-	display: flex;
-	justify-content: space-evenly;
+.shortcut-guide__cell--empty {
+	display: none;
 }
 
 .shortcut-guide__cell--title,
 .shortcut-guide__cell--explanation {
 	text-align: left;
-	padding-left: 1rem;
+	padding-left: 0;
 }
 
-.shortcut-guide__cell--explanation {
-	font-weight: lighter;
+.shortcut-guide__cell--title,
+.shortcut-guide__cell--shortcut {
+	font-size: 12px;
+}
+
+.shortcut-guide__cell--title {
+	max-width: 100px;
+	white-space: nowrap;
+	font-weight: 700;
 }
 
 .shortcut-guide__cell--shortcut {
-	text-align: right;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #f5f5f7;
+	font-weight: bold;
+	border-radius: 2px;
+	height: 24px;
+	width: 100px;
+}
+
+.shortcut-guide__cell--explanation {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 400;
+	font-size: 11px;
+	padding-left: 12px;
 }
 
 .shortcut-guide__row--empty {
 	padding-top: 1rem;
+}
+
+.shortcut-guide__row {
+	border-collapse: separate;
+	margin: 8px 0;
+	display: flex;
+	flex-direction: row;
+}
+
+.shortcut-guide__body {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-content: safe space-around;
+	max-height: 400px;
+	width: 100%;
+	overflow-y: auto;
+}
+
+.shortcut-guide__section {
+	margin: 8px 24px auto;
 }
