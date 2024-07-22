@@ -18,10 +18,10 @@ export function addAriaLabels({
 	multiSeries,
 }: {
 	chartRef: React.RefObject<HTMLElement>;
-	descriptor: string | undefined;
 	selectorType: { element?: string; className?: string };
 	data: object[];
-	multiSeries: string | undefined;
+	descriptor?: string;
+	multiSeries?: string;
 }): void {
 	if (!chartRef.current) return;
 

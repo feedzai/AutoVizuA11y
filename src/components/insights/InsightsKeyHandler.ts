@@ -25,7 +25,7 @@ export function insightsKeyHandler({
 	alertDivRef: React.RefObject<HTMLElement>;
 	insights: string;
 	insightsArray: number[];
-	arrayConverted: number[] | undefined;
+	arrayConverted?: number[];
 }) {
 	if (arrayConverted) {
 		const focusedIndex = Array.prototype.findIndex.call(

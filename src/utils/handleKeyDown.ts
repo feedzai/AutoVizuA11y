@@ -62,7 +62,7 @@ export const handleKeyDown = ({
 	title: string;
 	descs: string[];
 	autoDescriptions?: AutoDescriptionsProps;
-	multiSeries?: string | undefined;
+	multiSeries?: string;
 }) => {
 	let numberAux = navigationKeyHandler({
 		type,

@@ -39,7 +39,7 @@ export function navigationKeyHandler({
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
-	multiSeries?: string | undefined;
+	multiSeries?: string;
 	setSelectedSeries?: Function;
 }): number {
 	const { altKey, key, code } = event.nativeEvent;
