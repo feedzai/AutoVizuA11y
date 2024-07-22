@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Replaced jest with vitest
 - Converted Javascript to Typescript
 - Added documentation
+- Revised the file structure
 
 ## 1.0.3 - 2024-01-09
 

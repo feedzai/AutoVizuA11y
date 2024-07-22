@@ -9,42 +9,48 @@
  * Generates the automatic descriptions.
  *
  * @export
- * @param {string} title
- * @param {object[]} data
- * @param {number} average
- * @param {string} context
- * @param {string} apiKey
- * @param {string} [model]
- * @param {number} [temperature]
- * @return {Promise<string[]>} An array with both longer and smaller descriptions.
+ * @return An array with both longer and smaller descriptions.
  */
-export async function generateDescriptions(
-	title: string,
-	data: object[],
-	average: number,
-	context: string,
-	apiKey: string,
-	model?: string,
-	temperature?: number,
-): Promise<string[]> {
+export async function generateDescriptions({
+	title,
+	data,
+	average,
+	context,
+	apiKey,
+	model,
+	temperature,
+}: {
+	title: string;
+	data: object[];
+	average: number;
+	context: string;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+}): Promise<string[]> {
 	data = JSON.stringify(data);
 	const key = apiKey;
 	const adjustedModel = model ?? "gpt-3.5-turbo";
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one
-	const longerDesc = await longerDescription(
-		data as string,
+	const longerDesc = await longerDescription({
+		data,
 		title,
 		average,
 		context,
 		key,
 		adjustedModel,
 		adjustedTemperature,
-	);
+	});
 
 	// Generates the smaller one
-	const smallerDesc = await smallerDescription(longerDesc, key, adjustedModel, adjustedTemperature);
+	const smallerDesc = await smallerDescription({
+		desc: longerDesc,
+		key,
+		adjustedModel,
+		adjustedTemperature,
+	});
 	const descs = [longerDesc, smallerDesc];
 
 	return descs;
@@ -53,24 +59,25 @@ export async function generateDescriptions(
 /**
  * Calls the GPT API to generate the longer description.
  *
- * @param {string} data
- * @param {string} title
- * @param {number} average
- * @param {string} context
- * @param {string} key
- * @param {string} adjustedModel
- * @param {number} adjustedTemperature
- * @return {Promise<string>} Longer chart description.
+ * @return Longer chart description.
  */
-async function longerDescription(
-	data: string,
-	title: string,
-	average: number,
-	context: string,
-	key: string,
-	adjustedModel: string,
-	adjustedTemperature: number,
-): Promise<string> {
+async function longerDescription({
+	data,
+	title,
+	average,
+	context,
+	key,
+	adjustedModel,
+	adjustedTemperature,
+}: {
+	data: string;
+	title: string;
+	average: number;
+	context: string;
+	key: string;
+	adjustedModel: string;
+	adjustedTemperature: number;
+}): Promise<string> {
 	average = JSON.stringify(average);
 	const prompt =
 		"Knowing that the chart below is from a " +
@@ -105,18 +112,19 @@ async function longerDescription(
 /**
  * Calls the GPT API to generate the smaller description.
  *
- * @param {string} desc
- * @param {string} key
- * @param {string} adjustedModel
- * @param {number} adjustedTemperature
- * @return {Promise<string[]>} Smaller chart description.
+ * @return Smaller chart description.
  */
-async function smallerDescription(
-	desc: string,
-	key: string,
-	adjustedModel: string,
-	adjustedTemperature: number,
-): Promise<string> {
+async function smallerDescription({
+	desc,
+	key,
+	adjustedModel,
+	adjustedTemperature,
+}: {
+	desc: string;
+	key: string;
+	adjustedModel: string;
+	adjustedTemperature: number;
+}): Promise<string> {
 	const prompt = "Summarize (in less than 60 words) the following:" + desc;
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {

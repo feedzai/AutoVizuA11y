@@ -9,21 +9,21 @@
  * Adds navigation between data elements inside a chart.
  *
  * @export
- * @param {React.RefObject<HTMLElement>} ref
- * @param {{ element?: string; className?: string }} [selectorType]
- * @param {(string | string[])} [selectedSeries]
- * @param {(HTMLElement | null)} [focusPoint]
- * @return {void}
  */
-export function addDataNavigation(
-	ref: React.RefObject<HTMLElement>,
-	selectorType?: { element?: string; className?: string },
-	selectedSeries?: string | string[],
-	focusPoint?: HTMLElement | null,
-): void {
+export function addDataNavigation({
+	ref,
+	selectorType,
+	selectedSeries,
+	focusPoint,
+}: {
+	ref: React.RefObject<HTMLElement>;
+	selectorType?: { element?: string; className?: string };
+	selectedSeries?: string | string[];
+	focusPoint?: HTMLElement | null;
+}): void {
 	if (!ref.current) return;
 
-	const elements = getElements(ref.current, selectorType, selectedSeries);
+	const elements = getElements({ container: ref.current, selectorType, selectedSeries });
 	if (!elements.length) return;
 
 	addTabIndex(elements);
@@ -33,16 +33,17 @@ export function addDataNavigation(
 /**
  * Get elements based on selector type and selected series.
  *
- * @param {HTMLElement} container
- * @param {{ element?: string; className?: string }} [selectorType]
- * @param {(string | string[])} [selectedSeries]
- * @return {HTMLElement[]} Array with HTML elements representing the chart data.
+ * @return Array with HTML elements representing the chart data.
  */
-function getElements(
-	container: HTMLElement,
-	selectorType?: { element?: string; className?: string },
-	selectedSeries?: string | string[],
-): HTMLElement[] {
+function getElements({
+	container,
+	selectorType,
+	selectedSeries,
+}: {
+	container: HTMLElement;
+	selectorType?: { element?: string; className?: string };
+	selectedSeries?: string | string[];
+}): HTMLElement[] {
 	let elements: NodeListOf<HTMLElement> | HTMLCollectionOf<Element>;
 	if (selectorType?.element !== undefined) {
 		elements = container.querySelectorAll(selectorType.element);
@@ -63,8 +64,6 @@ function getElements(
 
 /**
  * Adds a tabindex attribute to an array of HTML elements.
- *
- * @param {HTMLElement[]} elements
  */
 function addTabIndex(elements: HTMLElement[]): void {
 	elements.forEach((element) => {
@@ -74,9 +73,6 @@ function addTabIndex(elements: HTMLElement[]): void {
 
 /**
  * Adds keyboard focus to a data element.
- *
- * @param {HTMLElement[]} elements
- * @param {(HTMLElement | null)} [focusPoint]
  */
 function focusFirstElement(elements: HTMLElement[], focusPoint?: HTMLElement | null): void {
 	if (focusPoint) {

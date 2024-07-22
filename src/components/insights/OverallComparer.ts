@@ -11,20 +11,20 @@ import { median, getOrdinalNumber } from "../../utils/maths";
  * Handles the comparison between a value and all others from the same chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {HTMLDivElement} alertDiv
- * @param {string} insights
- * @param {number[]} arrayConverted
- * @param {(number | undefined)} focusedData
- * @return {void}
  */
-export function overallComparer(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLDivElement,
-	insights: string,
-	arrayConverted: number[],
-	focusedData: number | undefined,
-): void {
+export function overallComparer({
+	event,
+	alertDiv,
+	insights,
+	arrayConverted,
+	focusedData,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLDivElement;
+	insights: string;
+	arrayConverted: number[];
+	focusedData?: number;
+}): void {
 	const { altKey, code } = event;
 
 	if (altKey && code === "KeyZ" && insights === "") {
@@ -42,7 +42,7 @@ export function overallComparer(
 			}, 1000);
 			return;
 		}
-		alertDiv.textContent = comparer(arrayConverted, focusedData);
+		alertDiv.textContent = messagecreator(arrayConverted, focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -52,12 +52,10 @@ export function overallComparer(
 /**
  * Produces a message based on the comparison between a value and all others from the same chart.
  *
- * @param {number[]} arrayConverted
- * @param {number} focusedData
- * @return {string} The message as a string.
+ * @return The message as a string.
  */
-function comparer(arrayConverted: number[], focusedData: number): string {
-	const dataSuperConverted = trimSort(arrayConverted);
+function messagecreator(arrayConverted: number[], focusedData: number): string {
+	const dataSuperConverted = trimAndSort(arrayConverted);
 	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
 	const med = median(dataSuperConverted);
 
@@ -76,10 +74,9 @@ function comparer(arrayConverted: number[], focusedData: number): string {
 /**
  * Trims and sorts an array of numbers.
  *
- * @param {number[]} arrayConverted
- * @return {*}  {number[]} Array of trimmed and sorted numbers.
+ * @return Array of trimmed and sorted numbers.
  */
-function trimSort(arrayConverted: number[]): number[] {
+function trimAndSort(arrayConverted: number[]): number[] {
 	arrayConverted = [...new Set(arrayConverted)];
 	arrayConverted.sort((a, b) => a - b);
 	return arrayConverted;

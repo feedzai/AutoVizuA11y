@@ -9,17 +9,18 @@
  * Sets an alert with the statistical insight requested.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {HTMLElement} alertDiv
- * @param {string} insights
- * @param {number[]} insightsArray
  */
-export function insightsSetter(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLElement,
-	insights: string,
-	insightsArray: number[],
-): void {
+export function insightsSetter({
+	event,
+	alertDiv,
+	insights,
+	insightsArray,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLElement;
+	insights: string;
+	insightsArray: number[];
+}): void {
 	const { nativeEvent } = event;
 
 	if (

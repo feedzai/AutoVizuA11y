@@ -9,8 +9,7 @@
  * Rounds a given number to two decimal places.
  *
  * @export
- * @param {number} number
- * @return {number} Rounded number.
+ * @return Rounded number.
  */
 export function rounding(number: number) {
 	return Math.round(number * 100) / 100;
@@ -20,8 +19,7 @@ export function rounding(number: number) {
  * Calculates the median value of an array of numbers.
  *
  * @export
- * @param {number[]} arr
- * @return {number} Median value.
+ * @return Median value.
  */
 export function median(arr: number[]) {
 	const sortedArr = arr.sort((a, b) => a - b);
@@ -37,8 +35,7 @@ export function median(arr: number[]) {
  * Transforms number to ordinal.
  *
  * @export
- * @param {number} number
- * @return {string} Ordinal number.
+ * @return Ordinal number.
  */
 export function getOrdinalNumber(number: number) {
 	// 1 would return "1st lowest" or "1st highest"
@@ -55,8 +52,7 @@ export function getOrdinalNumber(number: number) {
  * Calculates the sum of an array of numbers.
  *
  * @export
- * @param {number[]} array
- * @return {number} Sum of values.
+ * @return Sum of values.
  */
 export function sum(array: number[]) {
 	return Math.round(array.reduce((a, b) => a + b, 0) * 100) / 100;
@@ -66,9 +62,7 @@ export function sum(array: number[]) {
  * Calculates the average of an array of numbers.
  *
  * @export
- * @param {number[]} array
- * @param {number} sum
- * @return {number} Average value.
+ * @return Average value.
  */
 export function avg(array: number[], sum: number) {
 	return Math.round((sum / array.length || 0) * 100) / 100;
@@ -78,8 +72,7 @@ export function avg(array: number[], sum: number) {
  * Calculates the max of an array of numbers.
  *
  * @export
- * @param {number[]} array
- * @return {number} Maximum value.
+ * @return Maximum value.
  */
 export function max(array: number[]) {
 	return Math.round(Math.max(...array) * 100) / 100;
@@ -89,8 +82,7 @@ export function max(array: number[]) {
  * Calculates the min of an array of numbers.
  *
  * @export
- * @param {number[]} array
- * @return {number} Minimum value.
+ * @return Minimum value.
  */
 export function min(array: number[]) {
 	return Math.round(Math.min(...array) * 100) / 100;

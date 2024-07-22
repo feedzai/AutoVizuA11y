@@ -6,23 +6,23 @@
  */
 
 /**
- * Handles the navigation between data elements inside a chart.
+ * Handles the navigation between X data elements inside a chart.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {number} number
- * @param {HTMLElement[]} elements
- * @param {string} selectedSeries
- * @param {string[]} series
- * @return {void}
  */
-export function jumpXpoints(
-	event: React.KeyboardEvent,
-	number: number,
-	elements: HTMLElement[],
-	selectedSeries: string,
-	series: string[],
-): void {
+export function jumpXElements({
+	event,
+	number,
+	elements,
+	selectedSeries,
+	series,
+}: {
+	event: React.KeyboardEvent;
+	number: number;
+	elements: HTMLElement[];
+	selectedSeries: string;
+	series: string[];
+}): void {
 	const { key, nativeEvent } = event;
 
 	// In case of having multiple series
@@ -89,16 +89,16 @@ export function jumpXpoints(
  * Handles the navigation between charts.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {Element[]} charts
- * @param {HTMLElement} chart
- * @return {void}
  */
-export function jumpXcharts(
-	event: React.KeyboardEvent,
-	charts: Element[],
-	chart: HTMLElement,
-): void {
+export function jumpXCharts({
+	event,
+	charts,
+	chart,
+}: {
+	event: React.KeyboardEvent;
+	charts: Element[];
+	chart: HTMLElement;
+}): void {
 	if (chart === document.activeElement && charts.includes(chart)) {
 		const currentPosition = charts.indexOf(chart);
 

@@ -11,20 +11,20 @@ import { rounding } from "../../utils/maths";
  * Compares the value of the focused data element against various statistical insights.
  *
  * @export
- * @param {React.KeyboardEvent} event
- * @param {HTMLElement} alertDiv
- * @param {string} insights
- * @param {number[]} insightsArray
- * @param {number} [focusedData]
- * @return {void}
  */
-export function insightsComparer(
-	event: React.KeyboardEvent,
-	alertDiv: HTMLElement,
-	insights: string,
-	insightsArray: number[],
-	focusedData?: number,
-): void {
+export function insightsComparer({
+	event,
+	alertDiv,
+	insights,
+	insightsArray,
+	focusedData,
+}: {
+	event: React.KeyboardEvent;
+	alertDiv: HTMLElement;
+	insights: string;
+	insightsArray: number[];
+	focusedData?: number;
+}): void {
 	const { nativeEvent } = event;
 
 	if (
@@ -50,7 +50,7 @@ export function insightsComparer(
 			alertDiv.textContent = `This shortcut only works inside a chart`;
 			return;
 		}
-		alertDiv.textContent = comparer("average", insightsArray[1], focusedData);
+		alertDiv.textContent = messageCreator("average", insightsArray[1], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -66,7 +66,7 @@ export function insightsComparer(
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;
 		}
-		alertDiv.textContent = comparer("maximum value", insightsArray[2], focusedData);
+		alertDiv.textContent = messageCreator("maximum value", insightsArray[2], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -82,7 +82,7 @@ export function insightsComparer(
 			alertDiv.textContent = "This shortcut only works inside a chart";
 			return;
 		}
-		alertDiv.textContent = comparer("minimum value", insightsArray[3], focusedData);
+		alertDiv.textContent = messageCreator("minimum value", insightsArray[3], focusedData);
 		setTimeout(function () {
 			alertDiv.textContent = "\u00A0";
 		}, 1000);
@@ -92,12 +92,9 @@ export function insightsComparer(
 /**
  * Produces a message based on the comparison between a value and a statistical insight.
  *
- * @param {string} code
- * @param {number} insight
- * @param {number} focusedData
- * @return {(string | null)} The message as a string.
+ * @return The message as a string.
  */
-function comparer(code: string, insight: number, focusedData: number): string | null {
+function messageCreator(code: string, insight: number, focusedData: number): string | null {
 	if (insight > focusedData)
 		return "The value is " + rounding(insight - focusedData) + " below the " + code;
 	if (insight < focusedData)

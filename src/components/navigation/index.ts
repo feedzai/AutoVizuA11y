@@ -6,5 +6,8 @@
  */
 
 export * from "./AddNavigation";
-export * from "./AriaLabels";
-export * from "./LevelNavigation";
+export * from "./AddAriaLabels";
+export * from "./NavigationKeyHandler";
+export * from "./JumpX";
+export * from "./XSetter";
+export * from "./Skip";
