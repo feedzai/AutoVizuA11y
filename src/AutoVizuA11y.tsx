@@ -5,7 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 import { arrayConverter } from "./utils";
@@ -15,13 +15,14 @@ import { generateDescriptions } from "./components/descriptions/DescriptionsGene
 import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
-import "./assets/style/AutoVizuA11y.css";
 import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
 import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
+
+import "./assets/style/AutoVizuA11y.css";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -135,22 +136,28 @@ const AutoVizuA11y = ({
 		[],
 	);
 
+	const onFocusHandler = useCallback(() => {
+		handleFirstFocus({ alertDiv, chartRef, alertDivRef });
+	}, [alertDiv, chartRef, alertDivRef]);
+
+	const onBlurHandler = useCallback(() => {
+		handleBlur(chartRef);
+	}, [chartRef]);
+
 	let chartDescription: React.ReactNode = useMemo(
 		() => (
 			<p
 				style={{ textIndent: "-10000px" }}
 				className="a11y_desc visually-hidden"
 				data-testid="a11y_desc"
-				onFocus={() => {
-					handleFirstFocus({ alertDiv, chartRef, alertDivRef });
-				}}
-				onBlur={(_) => handleBlur(chartRef)}
+				onFocus={onFocusHandler}
+				onBlur={onBlurHandler}
 				aria-label={descriptionContent}
 			>
 				{descriptionContent}
 			</p>
 		),
-		[descriptionContent],
+		[descriptionContent, onFocusHandler, onBlurHandler],
 	);
 
 	let chart = useMemo(
