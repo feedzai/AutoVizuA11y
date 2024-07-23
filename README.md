@@ -172,7 +172,7 @@ You can check a series of examples built using AutoVizuA11y [here](https://diogo
 
 ## Shortcut Guide
 
-The Shortcut Guide can be acessed by the user, using the <kbd>?</kbd> key, while having keyboard focus either on an AutoVizuA11y chart or an underlying data element. As a developer, you may override this component with [your own](#shortcutGuideProp) and or change its [styling](#shortcutGuideStyle).
+The Shortcut Guide can be acessed by the user, using the <kbd>?</kbd> key, while having keyboard focus either on an AutoVizuA11y chart or an underlying data element. As a developer, you may override this component with [your own](#shortcutGuideProp) or change its [styling](#shortcutGuideStyle).
 
 ### Shortcut keys
 
