@@ -59,8 +59,8 @@ type AutoVizuA11yProps = {
 	type: string;
 	title: string;
 	context: string;
-	shortcutGuide: ReactElement<ShortcutGuideProps> | null;
 	insights: string;
+	shortcutGuide?: ReactElement<ShortcutGuideProps>;
 	descriptor?: string;
 	multiSeries?: string;
 	autoDescriptions?: AutoDescriptionsProps;
@@ -152,7 +152,7 @@ const AutoVizuA11y = ({
 			let modalContent = shortcutGuideRef.current!.getElementsByClassName(
 				"shortcut-guide__container",
 			)[0] as HTMLElement;
-			modalContent.focus();
+			modalContent?.focus();
 		}
 	}, [visibleShortcutGuide]);
 
@@ -343,7 +343,7 @@ const AutoVizuA11y = ({
 			<div
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler({ event, chartRef, setVisibleShortcutGuide });
+					guideKeyHandler({ event, chartRef, setVisibleShortcutGuide, shortcutGuideRef });
 				}}
 				id="a11y_nav_guide"
 			>

@@ -21,10 +21,12 @@ export function guideKeyHandler({
 	event,
 	chartRef,
 	setVisibleShortcutGuide,
+	shortcutGuideRef,
 }: {
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
 	setVisibleShortcutGuide: Function;
+	shortcutGuideRef;
 }): void {
 	const { key } = event;
 	const activeElement = document.activeElement as HTMLElement;
