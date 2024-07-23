@@ -21,8 +21,12 @@ import { handleKeyDown } from "./utils/handleKeyDown";
 import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
+import { getLSItem, setLSItem } from "@feedzai/js-utilities";
+
+import * as constants from "./constants";
 
 import "./assets/style/AutoVizuA11y.css";
+import { initToolTutorial } from "./utils/initToolTutorial";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -107,6 +111,14 @@ const AutoVizuA11y = ({
 	autoDescriptions,
 	children,
 }: AutoVizuA11yProps) => {
+	const validatedInsights = useMemo(() => {
+		if (!selectorType) {
+			console.warn("Type of chart not supported or no type given");
+			return "";
+		}
+		return insights && insights in data[0] ? insights : "";
+	}, [selectorType, insights, data]);
+
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
 	const [insightsArray, setInsightsArray] = useState<number[]>([]);
@@ -166,40 +178,16 @@ const AutoVizuA11y = ({
 	);
 
 	useEffect(() => {
-		if (chartRef.current) {
-			let newElements: HTMLElement[] = [];
-			if (selectorType.element !== undefined) {
-				newElements = Array.from(chartRef.current.querySelectorAll(selectorType.element));
-			} else {
-				newElements = Array.from(
-					chartRef.current.getElementsByClassName(selectorType.className || ""),
-				) as HTMLElement[];
-			}
-			setElements(newElements);
+		if (!chartRef.current) {
+			return;
 		}
+		const SELECTOR = selectorType.element || `.${selectorType.className ?? ""}`;
+		const NEW_ELEMENTS = Array.from(chartRef.current.querySelectorAll(SELECTOR)) as HTMLElement[];
+		setElements(NEW_ELEMENTS);
 	}, [chartRef, selectorType]);
 
 	useEffect(() => {
-		// features exclusive to bar charts (might be able to turn this more modular)
-		if (!selectorType) {
-			console.log("Type of chart not supported or no type given");
-		}
-
-		// verify if an insights key was passed and it exists in the data
-		if (insights == undefined || !(insights in data[0])) {
-			insights = "";
-		}
-	}, []);
-
-	useEffect(() => {
-		// Retrieve the value of toolTutorial to check if it has been shown before
-		let toolTutorial = localStorage.getItem("toolTutorial");
-
-		//If it does not exist, set it to true to show it the first time
-		if (!toolTutorial) {
-			localStorage.setItem("toolTutorial", "true");
-			toolTutorial = "true";
-		}
+		initToolTutorial();
 
 		let storedLongerKey = `oldLonger_${componentId}`;
 		let storedSmallerKey = `oldSmaller_${componentId}`;
@@ -214,12 +202,12 @@ const AutoVizuA11y = ({
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {
 			//converts the data into a dictionary
-			arrayConverter(data, insights).then(function (result) {
+			arrayConverter(data, validatedInsights).then(function (result) {
 				//result = [2,3,5] or []
 				let insightsArrayAux: number[] = [];
 				let averageAux = 0;
 				setArrayConverted(result);
-				if (insights !== "") {
+				if (validatedInsights !== "") {
 					insightsArrayAux = insightsCalculator(result);
 					setInsightsArray(insightsArrayAux);
 
@@ -233,10 +221,7 @@ const AutoVizuA11y = ({
 				//in case of using static descriptions
 				if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
 					// Retrieve the descs from localStorage when the component mounts
-					chartDescriptions = [
-						localStorage.getItem(storedLongerKey)!,
-						localStorage.getItem(storedSmallerKey)!,
-					];
+					chartDescriptions = [getLSItem(storedLongerKey)!, getLSItem(storedSmallerKey)!];
 				} else if (manualDescriptions !== undefined) {
 					// Retrieve the descs from the manualDescriptions prop
 					chartDescriptions = [manualDescriptions.longer, manualDescriptions.shorter];
@@ -274,8 +259,8 @@ const AutoVizuA11y = ({
 						});
 
 						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
-							localStorage.setItem(storedLongerKey, chartDescriptions[0]);
-							localStorage.setItem(storedSmallerKey, chartDescriptions[1]);
+							setLSItem(storedLongerKey, chartDescriptions[0]);
+							setLSItem(storedSmallerKey, chartDescriptions[1]);
 						}
 					});
 				}
@@ -283,7 +268,7 @@ const AutoVizuA11y = ({
 
 			// sets the navigation onto the charts first
 			switchToChartLevel(chartRef, true);
-		}, 500);
+		}, constants.TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS);
 	}, [chartRef]);
 
 	return (
@@ -304,7 +289,7 @@ const AutoVizuA11y = ({
 						setSelectedSeries,
 						setNumber,
 						setDescriptionContent,
-						insights,
+						insights: validatedInsights,
 						insightsArray,
 						arrayConverted,
 						title,

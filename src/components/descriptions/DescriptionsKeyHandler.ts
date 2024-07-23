@@ -5,12 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { template } from "@feedzai/js-utilities";
+
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
 	model?: string;
 	temperature?: number;
 };
+
+interface DescriptionsKeyHandlerParams {
+	chartRef: React.RefObject<HTMLElement>;
+	setDescriptionContent: Function;
+	type: string;
+	descs: string[];
+	title: string;
+	autoDescriptions?: AutoDescriptionsProps;
+	event?: React.KeyboardEvent;
+}
 
 /**
  * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
@@ -25,27 +37,28 @@ export function descriptionsKeyHandler({
 	title,
 	autoDescriptions,
 	event,
-}: {
-	chartRef: React.RefObject<HTMLElement>;
-	setDescriptionContent: Function;
-	type: string;
-	descs: string[];
-	title: string;
-	autoDescriptions?: AutoDescriptionsProps;
-	event?: React.KeyboardEvent;
-}): void {
-	title =
-		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
+}: DescriptionsKeyHandlerParams): void {
+	if (!chartRef.current) return;
 
-	// When pressed reads the smaller description
-	if (chartRef.current !== null) {
-		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
-			setDescriptionContent(title.concat(descs[1]));
-			return;
-		} else if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyB") {
-			setDescriptionContent(title.concat(descs[0]));
-			return;
-		}
+	const isItAutomatic = autoDescriptions ? "Automatic description: " : "";
+
+	const fullTitle = template("{{title}}, {{type}}. {{isItAutomatic}}", {
+		title,
+		type,
+		isItAutomatic,
+	});
+	if (!event) {
+		setDescriptionContent(fullTitle + descs[1]);
 		return;
+	}
+	if (event.altKey) {
+		switch (event.code) {
+			case "KeyS":
+				setDescriptionContent(fullTitle + descs[1]);
+				break;
+			case "KeyB":
+				setDescriptionContent(fullTitle + descs[0]);
+				break;
+		}
 	}
 }
