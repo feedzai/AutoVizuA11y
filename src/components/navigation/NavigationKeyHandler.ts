@@ -58,13 +58,7 @@ export function navigationKeyHandler({
 
 	if (altKey && code === "KeyM") {
 		event.preventDefault();
-		if (
-			document.activeElement?.classList.contains("shortcut-guide__container") ||
-			document.activeElement?.classList.contains("shortcut-guide__row") ||
-			document.activeElement?.id === "shortcut-guide__button"
-		) {
-			return number;
-		}
+
 		if (document.activeElement?.classList.contains("a11y_desc")) {
 			alertDivRef.current!.textContent = "You can only change series while focused on a data point";
 			setTimeout(() => {
@@ -90,13 +84,7 @@ export function navigationKeyHandler({
 	switch (key) {
 		case "ArrowDown":
 			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("shortcut-guide__container") ||
-				document.activeElement?.classList.contains("shortcut-guide__row") ||
-				document.activeElement?.id === "shortcut-guide__button"
-			) {
-				break;
-			}
+
 			if (!document.activeElement?.classList.contains("a11y_desc")) {
 				alertDivRef.current!.textContent = "You are already at the data level";
 				setTimeout(() => {
@@ -110,13 +98,7 @@ export function navigationKeyHandler({
 
 		case "ArrowUp":
 			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("shortcut-guide__container") ||
-				document.activeElement?.classList.contains("shortcut-guide__row") ||
-				document.activeElement?.id === "shortcut-guide__button"
-			) {
-				break;
-			}
+
 			if (document.activeElement?.classList.contains("a11y_desc")) {
 				alertDivRef.current!.textContent = "You are already at the chart level";
 				setTimeout(() => {

@@ -18,21 +18,19 @@ export function guideKeyHandler({
 	event,
 	chartRef,
 	setVisibleShortcutGuide,
+	shortcutGuideRef,
 }: {
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
 	setVisibleShortcutGuide: Function;
+	shortcutGuideRef;
 }): void {
 	const { key } = event;
 
 	switch (key) {
 		case "Escape":
 			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("shortcut-guide__container") ||
-				document.activeElement?.classList.contains("shortcut-guide__row") ||
-				document.activeElement?.id === "shortcut-guide__button"
-			) {
+			if (shortcutGuideRef.current.contains(document.activeElement)) {
 				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
 			}
@@ -40,11 +38,7 @@ export function guideKeyHandler({
 
 		case "?":
 			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("shortcut-guide__container") ||
-				document.activeElement?.classList.contains("shortcut-guide__row") ||
-				document.activeElement?.id === "shortcut-guide__button"
-			) {
+			if (shortcutGuideRef.current.contains(document.activeElement)) {
 				returnGuide(chartRef, setVisibleShortcutGuide);
 				break;
 			}

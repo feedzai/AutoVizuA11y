@@ -27,7 +27,7 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 
 	return (
 		<>
-			<div className="shortcut-guide" data-testId="shortcut-guide" role="button">
+			<div className="shortcut-guide__background" data-testId="shortcut-guide" role="button">
 				<div
 					className="shortcut-guide__container"
 					tabIndex={0}
@@ -39,9 +39,9 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 				>
 					<div className="shortcut-guide__header">
 						<h2 className="shortcut-guide__title">Shortcut Guide</h2>
-						<p className="shortcut-guide__button-label">? or Esc</p>
+						<p className="shortcut-guide__action-label">? or Esc</p>
 						<button
-							className="shortcut-guide__button"
+							className="shortcut-guide__button-close"
 							aria-label="Close shortcut guide"
 							onClick={() => closeShortcutGuide()}
 						>
