@@ -7,50 +7,45 @@
 
 import { getOrdinalNumber, median, rounding } from "../../utils";
 
+type InsightCode = "average" | "maximum value" | "minimum value";
+
 /**
  * Creates the message regarding the insight requested.
- *
- * @export
- * @return {(string | null)}
  */
-export function messageInsights(code: string, insight: number, focusedData: number): string {
-	if (insight > focusedData)
-		return "The value is " + rounding(insight - focusedData) + " below the " + code;
-	if (insight < focusedData)
-		return "The value is " + rounding(focusedData - insight) + " above the " + code;
-	if (insight === focusedData) return "The value is the same as the " + code;
-
-	return "";
+export function messageInsights(code: InsightCode, insight: number, focusedData: number): string {
+	const difference = Math.abs(insight - focusedData);
+	const roundedDifference = rounding(difference);
+	if (insight > focusedData) {
+		return `The value is ${roundedDifference} below the ${code}`;
+	}
+	if (insight < focusedData) {
+		return `The value is ${roundedDifference} above the ${code}`;
+	}
+	return `The value is the same as the ${code}`;
 }
-
 /**
  * Creates the message regarding the comparison between a data element and all others.
- *
- * @export
- * @return {string}
  */
 export function messageOverall(arrayConverted: number[], focusedData: number): string {
 	const dataSuperConverted = trimAndSort(arrayConverted);
-	const positionValue = dataSuperConverted.findIndex((item) => item === focusedData);
+	const positionValue = dataSuperConverted.indexOf(focusedData);
 	const med = median(dataSuperConverted);
-
-	if (focusedData === med) return "This is the median value";
-
-	if (focusedData > med)
-		return (
-			"This is " + getOrdinalNumber(dataSuperConverted.length - positionValue) + " highest value."
-		);
-
-	if (focusedData < med) return "This is " + getOrdinalNumber(positionValue + 1) + " lowest value.";
-
+	if (focusedData === med) {
+		return "This is the median value";
+	}
+	if (focusedData > med) {
+		const rank = dataSuperConverted.length - positionValue;
+		return `This is ${getOrdinalNumber(rank)} highest value.`;
+	}
+	if (focusedData < med) {
+		const rank = positionValue + 1;
+		return `This is ${getOrdinalNumber(rank)} lowest value.`;
+	}
 	return "";
 }
-
 /**
  * Trims and sorts an array of numbers.
  */
 function trimAndSort(arrayConverted: number[]): number[] {
-	arrayConverted = [...new Set(arrayConverted)];
-	arrayConverted.sort((a, b) => a - b);
-	return arrayConverted;
+	return Array.from(new Set(arrayConverted)).sort((a, b) => a - b);
 }
