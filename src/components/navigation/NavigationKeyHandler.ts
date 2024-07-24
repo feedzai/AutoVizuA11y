@@ -5,31 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { wait } from "@feedzai/js-utilities";
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
 import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
+import { ExtendedHTMLElement } from "./GuideKeyHandler";
 
-/**
- * Listens for navigation related keypresses in charts/data elements and handles the outcomes.
- *
- * @export
- * @return Number of points being jumped at a time inside the wrapped chart.
- */
-export function navigationKeyHandler({
-	type,
-	event,
-	number,
-	chartRef,
-	elements,
-	alertDivRef,
-	selectedSeries,
-	series,
-	selectorType,
-	multiSeries,
-	setSelectedSeries,
-}: {
+import * as constants from "../../constants";
+
+interface NavigationKeyHandlerParams {
 	type: string;
 	event: React.KeyboardEvent;
 	number: number;
@@ -40,161 +26,223 @@ export function navigationKeyHandler({
 	series: string[];
 	selectorType: { element?: string; className?: string };
 	multiSeries?: string;
-	setSelectedSeries?: Function;
-}): number {
+	setSelectedSeries?: (series: string) => void;
+}
+interface SwitchSeriesParams {
+	chartRef: React.RefObject<HTMLElement>;
+	selectorType: { element?: string; className?: string };
+	selectedSeries: string;
+	series: string[];
+}
+
+const isModalElement = (element: Element | null): boolean =>
+	element?.classList.contains(constants.MODAL_CONTENT_CLASS) ||
+	element?.classList.contains(constants.ROW_CLASS) ||
+	element?.id === constants.GUIDE_CLOSE_ID;
+
+/**
+ * Handles navigation key events for chart interaction.
+ * @param {NavigationKeyHandlerParams} params - The parameters for navigation key handling.
+ * @returns {number} The updated number of points to jump.
+ */
+export function navigationKeyHandler(params: NavigationKeyHandlerParams): number {
+	const {
+		type,
+		event,
+		number,
+		chartRef,
+		elements,
+		alertDivRef,
+		selectedSeries,
+		series,
+		selectorType,
+		multiSeries,
+		setSelectedSeries,
+	} = params;
+
 	const { altKey, key, code } = event.nativeEvent;
-	number = xSetter({ event, type, number, alertDivRef });
-	skip({ event, chartRef, selectorType, selectedSeries });
 
-	const charts = Array.from(document.getElementsByClassName("a11y_desc")) as HTMLElement[];
-	const chart = chartRef.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
-	if (chart === document.activeElement && charts.includes(chart)) {
-		jumpXCharts({ event, charts, chart });
-	} else {
-		jumpXElements({ event, number, elements, selectedSeries, series });
+	try {
+		const updatedNumber = xSetter({ event, type, number, alertDivRef });
+		skip({ event, chartRef, selectorType, selectedSeries });
+
+		const charts = Array.from(
+			document.getElementsByClassName(constants.DESC_CLASS),
+		) as HTMLElement[];
+		const chart = chartRef.current?.getElementsByClassName(constants.DESC_CLASS)[0] as HTMLElement;
+
+		if (chart === document.activeElement && charts.includes(chart)) {
+			jumpXCharts({ event, charts, chart });
+		} else {
+			jumpXElements({ event, number: updatedNumber, elements, selectedSeries, series });
+		}
+
+		if (altKey && code === "KeyM") {
+			event.preventDefault();
+			return handleAltM({
+				number: updatedNumber,
+				selectedSeries,
+				series,
+				selectorType,
+				setSelectedSeries,
+				chartRef,
+				multiSeries,
+				alertDivRef,
+			});
+		}
+
+		switch (key) {
+			case "ArrowDown":
+				handleArrowDown(event, chartRef, selectorType, selectedSeries, alertDivRef);
+				break;
+			case "ArrowUp":
+				handleArrowUp(event, chartRef, alertDivRef);
+				break;
+			case "?":
+				handleQuestionMark(event, chartRef);
+				break;
+		}
+
+		return updatedNumber;
+	} catch (error) {
+		console.error("Error in navigationKeyHandler:", error);
+		return number;
 	}
+}
 
-	if (altKey && code === "KeyM") {
-		event.preventDefault();
-		if (
-			document.activeElement?.classList.contains("a11y_modal_content") ||
-			document.activeElement?.classList.contains("a11y_row") ||
-			document.activeElement?.id === "guide_close"
-		) {
-			return number;
-		}
-		if (document.activeElement?.classList.contains("a11y_desc")) {
-			alertDivRef.current!.textContent = "You can only change series while focused on a data point";
-			setTimeout(() => {
-				alertDivRef.current!.textContent = "\u00A0";
-			}, 1000);
-			return number;
-		}
-		if (!multiSeries) {
-			alertDivRef.current!.textContent = "This chart only has one series of data";
-			setTimeout(() => {
-				alertDivRef.current!.textContent = "\u00A0";
-			}, 1000);
-			return number;
-		} else if (setSelectedSeries && selectorType && selectedSeries && series) {
-			let currentPos = series.indexOf(selectedSeries);
-			let nextPos = (currentPos + 1) % series.length;
-			setSelectedSeries(series[nextPos]);
-			switchSeries({ chartRef, selectorType, selectedSeries, series });
-		}
+function handleAltM(
+	params: Omit<NavigationKeyHandlerParams, "type" | "event" | "elements">,
+): number {
+	const {
+		number,
+		selectedSeries,
+		series,
+		selectorType,
+		setSelectedSeries,
+		chartRef,
+		multiSeries,
+		alertDivRef,
+	} = params;
+
+	if (isModalElement(document.activeElement)) return number;
+
+	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
+		showAlert(alertDivRef, "You can only change series while focused on a data point");
 		return number;
 	}
 
-	switch (key) {
-		case "ArrowDown":
-			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
-			) {
-				break;
-			}
-			if (!document.activeElement?.classList.contains("a11y_desc")) {
-				alertDivRef.current!.textContent = "You are already at the data level";
-				setTimeout(() => {
-					alertDivRef.current!.textContent = "\u00A0";
-					alertDivRef.current!.textContent = "\u00A0";
-				}, 1000);
-				break;
-			}
-			switchToDataLevel({ chartRef, selectorType, selectedSeries });
-			break;
+	if (!multiSeries) {
+		showAlert(alertDivRef, "This chart only has one series of data");
+		return number;
+	}
 
-		case "ArrowUp":
-			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
-			) {
-				break;
-			}
-			if (document.activeElement?.classList.contains("a11y_desc")) {
-				alertDivRef.current!.textContent = "You are already at the chart level";
-				setTimeout(() => {
-					alertDivRef.current!.textContent = "\u00A0";
-				}, 1000);
-				break;
-			}
-			switchToChartLevel(chartRef);
-			break;
-
-		case "?":
-			const modal = document.getElementsByClassName("a11y_modal")[0];
-			if (modal !== undefined) {
-				event.preventDefault();
-				levelGuide(chartRef);
-				break;
-			}
-			break;
-
-		default:
-			break;
+	if (setSelectedSeries && selectorType && selectedSeries && series.length > 0) {
+		const currentPos = series.indexOf(selectedSeries);
+		const nextPos = (currentPos + 1) % series.length;
+		setSelectedSeries(series[nextPos]);
+		switchSeries({ chartRef, selectorType, selectedSeries, series });
 	}
 
 	return number;
 }
 
-interface ExtendedHTMLElement extends HTMLElement {
-	pastFocus?: HTMLElement | null;
+function handleArrowDown(
+	event: React.KeyboardEvent,
+	chartRef: React.RefObject<HTMLElement>,
+	selectorType: { element?: string; className?: string },
+	selectedSeries: string,
+	alertDivRef: React.RefObject<HTMLElement>,
+): void {
+	event.preventDefault();
+
+	if (isModalElement(document.activeElement)) return;
+
+	if (!document.activeElement?.classList.contains(constants.DESC_CLASS)) {
+		showAlert(alertDivRef, "You are already at the data level");
+		return;
+	}
+	switchToDataLevel({ chartRef, selectorType, selectedSeries });
 }
 
-/**
- * Displays the ShortcutGuide and gives it keyboard focus.
- */
-function levelGuide(chartRef: React.RefObject<HTMLElement>): void {
-	const allCharts = document.getElementsByClassName("a11y_desc");
+function handleArrowUp(
+	event: React.KeyboardEvent,
+	chartRef: React.RefObject<HTMLElement>,
+	alertDivRef: React.RefObject<HTMLElement>,
+): void {
+	event.preventDefault();
+
+	if (isModalElement(document.activeElement)) return;
+	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
+		showAlert(alertDivRef, "You are already at the chart level");
+		return;
+	}
+	switchToChartLevel(chartRef);
+}
+
+function handleQuestionMark(
+	event: React.KeyboardEvent,
+	chartRef: React.RefObject<HTMLElement>,
+): void {
+	const modal = document.getElementsByClassName("a11y_modal")[0];
+
+	if (modal) {
+		event.preventDefault();
+		levelGuide(chartRef);
+	}
+}
+
+async function showAlert(
+	alertDivRef: React.RefObject<HTMLElement>,
+	message: string,
+): Promise<void> {
+	if (alertDivRef.current) {
+		alertDivRef.current.textContent = message;
+		await wait(1000);
+		alertDivRef.current.textContent = "\u00A0";
+	}
+}
+
+function switchSeries({
+	chartRef,
+	selectorType,
+	selectedSeries,
+	series,
+}: SwitchSeriesParams): void {
+	const previousPoint = document.activeElement as HTMLElement;
+	const elements = getElements(chartRef, selectorType);
+
+	const previousSeries =
+		elements?.filter((element) => element.classList.contains(`series:${selectedSeries}`)) ?? [];
+	const previousIndex = previousSeries.indexOf(previousPoint);
+	const previousSeriesPos = series.indexOf(selectedSeries);
+
+	const currentSeriesPos = (previousSeriesPos + 1) % series.length;
+	const currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
+	const currentSeries =
+		elements?.filter((element) => element.classList.contains(`series:${currentSeriesName}`)) ?? [];
+
 	wiper(chartRef);
-	for (let i = 0; i < allCharts.length; i++) {
-		allCharts[i].removeAttribute("tabIndex");
-	}
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].setAttribute("tabIndex", "0");
-	}
 
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "block";
-
-	shortcutGuide.setAttribute("tabIndex", "0");
-	shortcutGuide.pastFocus = chartRef?.current?.getElementsByClassName(
-		"a11y_desc",
-	)[0] as HTMLElement;
-	document.body.classList.add("a11y_no_scroll");
-	shortcutGuide.focus();
+	addDataNavigation({
+		chartRef,
+		selectorType,
+		selectedSeries: currentSeriesName,
+		focusPoint: currentSeries[previousIndex],
+	});
 }
 
-/**
- * Enables navigation on the chart level.
- *
- * @export
- */
-export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first?: boolean): void {
-	const allCharts = document.getElementsByClassName("a11y_desc");
-	if (chartRef) {
-		wiper(chartRef, first);
+function getElements(
+	chartRef: React.RefObject<HTMLElement>,
+	selectorType: { element?: string; className?: string },
+): HTMLElement[] {
+	if (selectorType.element && chartRef.current) {
+		return Array.from(chartRef.current.querySelectorAll(selectorType.element)) as HTMLElement[];
+	} else if (selectorType.className && chartRef.current) {
+		return Array.from(
+			chartRef.current.getElementsByClassName(selectorType.className),
+		) as HTMLElement[];
 	}
-	for (let i = 0; i < allCharts.length; i++) {
-		allCharts[i].setAttribute("tabIndex", "0");
-	}
-
-	if (first) {
-		wiper(chartRef, first);
-	}
-
-	document.body.classList.remove("a11y_no_scroll");
-
-	const chart = chartRef?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
-	chart.focus();
+	return [];
 }
 
 /**
@@ -210,76 +258,70 @@ function switchToDataLevel({
 	selectedSeries?: string;
 }): void {
 	const allCharts = document.getElementsByClassName("a11y_desc");
+
 	for (let i = 0; i < allCharts.length; i++) {
 		allCharts[i].removeAttribute("tabIndex");
 	}
+
 	wiper(chartRef);
-	// const defaultSelectorType = { element: "defaultElement", className: "defaultClassName" };
+
 	addDataNavigation({ chartRef, selectorType, selectedSeries });
 }
 
 /**
- * Enables navigation between data series.
+ * Enables navigation on the chart level.
+ *
+ * @export
  */
-function switchSeries({
-	chartRef,
-	selectorType,
-	selectedSeries,
-	series,
-}: {
-	chartRef: React.RefObject<HTMLElement>;
-	selectorType: { element?: string; className?: string };
-	selectedSeries: string;
-	series: string[];
-}): void {
-	//what was the previously focused point?
-	const previousPoint = document.activeElement as HTMLElement;
+export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first?: boolean): void {
+	const allCharts = document.getElementsByClassName("a11y_desc");
 
-	//what is the index of previously focused point?
-	let elements: NodeListOf<HTMLElement> | undefined;
-	if (selectorType.element !== undefined) {
-		elements = chartRef?.current?.querySelectorAll(selectorType.element) as NodeListOf<HTMLElement>;
-	} else if (selectorType.className !== undefined) {
-		elements = chartRef?.current?.getElementsByClassName(selectorType.className) as
-			| NodeListOf<HTMLElement>
-			| undefined;
+	if (chartRef) {
+		wiper(chartRef, first);
 	}
 
-	const previousSeries: HTMLElement[] = [];
-	if (elements) {
-		for (let i = 0; i < elements.length; i++) {
-			const element = elements[i] as HTMLElement;
-			const a = `series:${selectedSeries}`;
-			if (element.classList.contains(a)) {
-				previousSeries.push(element);
-			}
-		}
+	for (let i = 0; i < allCharts.length; i++) {
+		allCharts[i].setAttribute("tabIndex", "0");
 	}
 
-	const previousIndex = previousSeries.indexOf(previousPoint);
-
-	//what is the point in the new series with that index?
-	const previousSeriesPos = series.indexOf(selectedSeries);
-	const currentSeriesPos = (previousSeriesPos + 1) % series.length;
-	const currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
-
-	const currentSeries: HTMLElement[] = [];
-	if (elements) {
-		for (let i = 0; i < elements.length; i++) {
-			const element = elements[i] as HTMLElement;
-			const a = `series:${currentSeriesName}`;
-			if (element.classList.contains(a)) {
-				currentSeries.push(element);
-			}
-		}
+	if (first) {
+		wiper(chartRef, first);
 	}
 
+	document.body.classList.remove("a11y_no_scroll");
+
+	const chart = chartRef?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
+	chart.focus();
+}
+
+/**
+ * Displays the ShortcutGuide and gives it keyboard focus.
+ */
+function levelGuide(chartRef: React.RefObject<HTMLElement>): void {
+	const allCharts = document.getElementsByClassName("a11y_desc");
 	wiper(chartRef);
 
-	addDataNavigation({
-		chartRef,
-		selectorType,
-		selectedSeries: currentSeriesName,
-		focusPoint: currentSeries[previousIndex],
-	});
+	for (let i = 0; i < allCharts.length; i++) {
+		allCharts[i].removeAttribute("tabIndex");
+	}
+
+	const allShortcuts = document.getElementsByClassName("a11y_row");
+	for (let i = 0; i < allShortcuts.length; i++) {
+		allShortcuts[i].setAttribute("tabIndex", "0");
+	}
+
+	const shortcutGuide = document.getElementsByClassName(
+		"a11y_modal_content",
+	)[0] as ExtendedHTMLElement;
+
+	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
+	modal.style.display = "block";
+
+	shortcutGuide.setAttribute("tabIndex", "0");
+	shortcutGuide.pastFocus = chartRef?.current?.getElementsByClassName(
+		"a11y_desc",
+	)[0] as HTMLElement;
+
+	document.body.classList.add("a11y_no_scroll");
+	shortcutGuide.focus();
 }

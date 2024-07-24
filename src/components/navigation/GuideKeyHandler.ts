@@ -7,7 +7,7 @@
 
 import { switchToChartLevel } from "./NavigationKeyHandler";
 
-interface ExtendedHTMLElement extends HTMLElement {
+export interface ExtendedHTMLElement extends HTMLElement {
 	pastFocus?: HTMLElement | null;
 }
 
