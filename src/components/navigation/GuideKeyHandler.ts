@@ -6,80 +6,67 @@
  */
 
 import { switchToChartLevel } from "./NavigationKeyHandler";
-import { skip } from "./Skip";
-import { xSetter } from "./XSetter";
-
-/**
- * Listens for shortcutGuide related keypresses and handles the outcomes.
- *
- * @export
- */
-export function guideKeyHandler(
-	event: React.KeyboardEvent,
-	chartRef: React.RefObject<HTMLElement>,
-): void {
-	const { key } = event;
-
-	switch (key) {
-		case "Escape":
-			event.preventDefault();
-			if (
-				document.activeElement?.classList.contains("a11y_modal_content") ||
-				document.activeElement?.classList.contains("a11y_row") ||
-				document.activeElement?.id === "guide_close"
-			) {
-				returnGuide(chartRef);
-				break;
-			}
-			break;
-
-		case "?":
-			const modal = document.getElementsByClassName("a11y_modal")[0];
-			if (modal !== undefined) {
-				event.preventDefault();
-				if (
-					document.activeElement?.classList.contains("a11y_modal_content") ||
-					document.activeElement?.classList.contains("a11y_row") ||
-					document.activeElement?.id === "guide_close"
-				) {
-					returnGuide(chartRef);
-					break;
-				}
-			}
-			break;
-
-		default:
-			break;
-	}
-
-	const span = document.getElementById("guide_close");
-	if (span !== null) {
-		span.onclick = () => {
-			returnGuide(chartRef);
-		};
-	}
-
-	return;
-}
 
 interface ExtendedHTMLElement extends HTMLElement {
 	pastFocus?: HTMLElement | null;
 }
 
 /**
+ * Listens for shortcutGuide related keypresses and handles the outcomes.
+ *
+ * @param {React.KeyboardEvent} event - The keyboard event.
+ * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
+ */
+export function guideKeyHandler(
+	event: React.KeyboardEvent,
+	chartRef: React.RefObject<HTMLElement>,
+): void {
+	const { key } = event;
+	const activeElement = document.activeElement as HTMLElement;
+
+	const shouldHandleKey =
+		activeElement?.classList.contains("a11y_modal_content") ||
+		activeElement?.classList.contains("a11y_row") ||
+		activeElement?.id === "guide_close";
+
+	switch (key) {
+		case "Escape":
+		case "?":
+			if (shouldHandleKey) {
+				event.preventDefault();
+				returnGuide(chartRef);
+			}
+			break;
+		default:
+			break;
+	}
+
+	const closeButton = document.getElementById("guide_close");
+	if (closeButton) {
+		closeButton.onclick = () => returnGuide(chartRef);
+	}
+}
+
+/**
  * Hides the ShortcutGuide and gives keyboard focus to the previously focused element.
+ *
+ * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
 function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
 	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].removeAttribute("tabIndex");
+	Array.from(allShortcuts).forEach((element) => element.removeAttribute("tabIndex"));
+	const shortcutGuide = document.querySelector(".a11y_modal_content") as ExtendedHTMLElement;
+
+	if (shortcutGuide) {
+		shortcutGuide.removeAttribute("tabIndex");
+		if (shortcutGuide.pastFocus) {
+			shortcutGuide.pastFocus.focus();
+		}
 	}
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-	shortcutGuide.removeAttribute("tabIndex");
+
 	switchToChartLevel(chartRef);
-	if (shortcutGuide.pastFocus) shortcutGuide.pastFocus.focus();
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "none";
+	const modal = document.querySelector(".a11y_modal") as HTMLElement;
+	if (modal) {
+		modal.style.display = "none";
+	}
 }
