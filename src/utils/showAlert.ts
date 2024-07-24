@@ -15,7 +15,7 @@ export async function showAlert(
 ): Promise<void> {
 	if (alertDivRef.current) {
 		alertDivRef.current.textContent = message;
-		await wait(constants.TIMEOUT_DURATION);
+		await wait(constants.ALERT_DURATION);
 		alertDivRef.current.textContent = "\u00A0";
 	}
 }

@@ -12,3 +12,5 @@ export * from "./wiper";
 export * from "./handleBlur";
 export * from "./handleFirstFocus";
 export * from "./handleKeyDown";
+export * from "./showAlert";
+export * from "./initToolTutorial";

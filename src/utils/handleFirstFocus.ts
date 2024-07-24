@@ -6,35 +6,32 @@
  */
 
 import React from "react";
+import { wait, getLSItem, setLSItem } from "@feedzai/js-utilities";
+
+import * as constants from "./../constants";
+
+interface HandleFirstFocusProps {
+	alertDiv: React.ReactNode | null;
+	chartRef: React.RefObject<HTMLDivElement>;
+	alertDivRef: React.RefObject<HTMLElement>;
+}
 
 /**
  * Handles the first focus of an AutoVizuA11y chart.
  */
-export const handleFirstFocus = ({
-	alertDiv,
-	chartRef,
-	alertDivRef,
-}: {
-	alertDiv: React.ReactNode | null;
-	chartRef: React.RefObject<HTMLDivElement>;
-	alertDivRef: React.RefObject<HTMLElement>;
-}) => {
-	chartRef.current!.classList.add("focused");
-
-	let toolTutorial = localStorage.getItem("toolTutorial");
-	if (toolTutorial === "true") {
-		if (alertDiv) {
-			alertDivRef.current!.textContent =
-				"You just entered an AutoVizually chart." +
-				" For information on how to interact with it, press the question mark key" +
-				" to open the shortcut guide";
-		}
-		setTimeout(function () {
-			if (alertDiv) {
-				alertDivRef.current!.textContent = "\u00A0";
-			}
-		}, 1000);
-		localStorage.setItem("toolTutorial", "false");
-		toolTutorial = "false";
+export async function handleFirstFocus({ alertDiv, chartRef, alertDivRef }: HandleFirstFocusProps) {
+	const chart = chartRef.current;
+	const alertElement = alertDivRef.current;
+	if (!chart || !alertElement) {
+		console.warn("Chart or alert element not found");
+		return;
 	}
-};
+	chart.classList.add(constants.FOCUS_CLASS);
+	const toolTutorial = getLSItem(constants.TOOL_TUTORIAL_KEY);
+	if (toolTutorial === "true" && alertDiv) {
+		alertElement.textContent = constants.ALERT_MESSAGE;
+		await wait(constants.ALERT_DURATION);
+		alertElement.textContent = "\u00A0";
+		setLSItem(constants.TOOL_TUTORIAL_KEY, "false");
+	}
+}
