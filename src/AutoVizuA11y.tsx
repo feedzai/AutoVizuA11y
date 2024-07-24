@@ -119,6 +119,8 @@ const AutoVizuA11y = ({
 		return insights && insights in data[0] ? insights : "";
 	}, [selectorType, insights, data]);
 
+	const dataString = useMemo(() => JSON.stringify(data), data);
+
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
 	const [insightsArray, setInsightsArray] = useState<number[]>([]);
@@ -240,7 +242,7 @@ const AutoVizuA11y = ({
 				} else {
 					generateDescriptions({
 						title,
-						data,
+						dataString,
 						average: averageAux,
 						context,
 						apiKey: autoDescriptions!.apiKey,

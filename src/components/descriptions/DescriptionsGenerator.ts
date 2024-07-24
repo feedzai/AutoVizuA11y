@@ -11,7 +11,7 @@ import * as constants from "../../constants";
 
 interface GenerateDescriptionsParams {
 	title: string;
-	data: object[];
+	dataString: string;
 	average: number;
 	context: string;
 	apiKey: string;
@@ -44,14 +44,13 @@ interface SmallerDescriptionsParam {
  */
 export async function generateDescriptions({
 	title,
-	data,
+	dataString,
 	average,
 	context,
 	apiKey: key,
 	model,
 	temperature,
 }: GenerateDescriptionsParams): Promise<string[]> {
-	const dataString = JSON.stringify(data);
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
 	const adjustedTemperature = temperature ?? 0;
 
@@ -99,8 +98,6 @@ async function longerDescription({
 			" make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
 		{ context, title, averageString, data },
 	);
-
-	console.log(prompt);
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
