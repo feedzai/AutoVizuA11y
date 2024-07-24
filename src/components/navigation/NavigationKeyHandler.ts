@@ -46,7 +46,7 @@ export function navigationKeyHandler({
 	number = xSetter({ event, type, number, alertDivRef });
 	skip({ event, chartRef, selectorType, selectedSeries });
 
-	const charts = Array.from(document.getElementsByClassName("a11y_desc"));
+	const charts = Array.from(document.getElementsByClassName("a11y_desc")) as HTMLElement[];
 	const chart = chartRef.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	if (chart === document.activeElement && charts.includes(chart)) {
 		jumpXCharts({ event, charts, chart });

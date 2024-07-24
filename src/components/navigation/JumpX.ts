@@ -74,9 +74,11 @@ export function jumpXElements({
  */
 export function jumpXCharts({ event, charts, chart }: JumpXChartsParams): void {
 	if (chart !== document.activeElement || !charts.includes(chart)) return;
+
 	const currentPosition = charts.indexOf(chart);
 	const { key, nativeEvent } = event;
 	let newPosition = currentPosition;
+
 	switch (key) {
 		case "ArrowLeft":
 			if (currentPosition === 0) return;
