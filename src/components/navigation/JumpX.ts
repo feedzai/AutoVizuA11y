@@ -5,10 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import React from "react";
+
+interface JumpXElementsParams {
+	event: React.KeyboardEvent;
+	number: number;
+	elements: HTMLElement[];
+	selectedSeries: string;
+	series: string[];
+}
+interface JumpXChartsParams {
+	event: React.KeyboardEvent;
+	charts: HTMLElement[];
+	chart: HTMLElement;
+}
 /**
  * Handles the navigation between X data elements inside a chart.
  *
- * @export
+ * @param {JumpXElementsParams} params - The parameters for jumping between elements.
  */
 export function jumpXElements({
 	event,
@@ -16,116 +30,66 @@ export function jumpXElements({
 	elements,
 	selectedSeries,
 	series,
-}: {
-	event: React.KeyboardEvent;
-	number: number;
-	elements: HTMLElement[];
-	selectedSeries: string;
-	series: string[];
-}): void {
+}: JumpXElementsParams): void {
 	const { key, nativeEvent } = event;
 
-	// In case of having multiple series
-	if (series.length !== 0 && selectedSeries.length !== 0) {
-		const currentSeriesPos = series.indexOf(selectedSeries);
-		const currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
-
-		const currentSeries: HTMLElement[] = [];
-		for (const element of elements) {
-			const a = `series:${currentSeriesName}`;
-			if (element.classList.contains(a)) {
-				currentSeries.push(element);
-			}
-		}
-		elements = currentSeries;
+	// Filter elements for the selected series
+	if (series.length > 0 && selectedSeries) {
+		const currentSeriesName = selectedSeries.replace(/ /g, "-");
+		elements = elements.filter((element) =>
+			element.classList.contains(`series:${currentSeriesName}`),
+		);
 	}
 
-	// Going backward
-	if (key === "ArrowLeft" && document.activeElement && Array.isArray(elements)) {
-		let currentPosition = elements.indexOf(document.activeElement as HTMLElement);
+	const activeElement = document.activeElement as HTMLElement;
 
-		// Returns to normal while on the first element
-		if (currentPosition === 0 || currentPosition === -1) {
-			nativeEvent.returnValue = true;
+	if (!activeElement || !Array.isArray(elements)) return;
+
+	const currentPosition = elements.indexOf(activeElement);
+
+	if (currentPosition === -1) return;
+
+	let newPosition = currentPosition;
+
+	switch (key) {
+		case "ArrowLeft":
+			if (currentPosition === 0) return;
+			nativeEvent.preventDefault();
+			newPosition = Math.max(0, currentPosition - number);
+			break;
+		case "ArrowRight":
+			if (currentPosition === elements.length - 1) return;
+			nativeEvent.preventDefault();
+			newPosition = Math.min(elements.length - 1, currentPosition + number);
+			break;
+		default:
 			return;
-		}
-
-		// Checks if it's possible to jump X number, otherwise stops at first
-		nativeEvent.preventDefault();
-		for (let index = 0; index < number; index++) {
-			if (elements[currentPosition - 1] !== undefined) {
-				currentPosition--;
-			}
-		}
-
-		elements[currentPosition].focus();
-		return;
 	}
-
-	// Going forward
-	if (key === "ArrowRight" && document.activeElement && Array.isArray(elements)) {
-		let currentPosition = elements.indexOf(document.activeElement as HTMLElement);
-
-		// Returns to normal while on the last element
-		if (currentPosition === elements.length - 1 || currentPosition === -1) {
-			nativeEvent.returnValue = true;
-			return;
-		}
-
-		// Checks if it's possible to jump X number, otherwise stops at last
-		nativeEvent.preventDefault();
-		for (let index = 0; index < number; index++) {
-			if (elements[currentPosition + 1] !== undefined) {
-				currentPosition++;
-			}
-		}
-
-		elements[currentPosition].focus();
-		return;
-	}
+	elements[newPosition].focus();
 }
-
 /**
  * Handles the navigation between charts.
  *
- * @export
+ * @param {JumpXChartsParams} params - The parameters for jumping between charts.
  */
-export function jumpXCharts({
-	event,
-	charts,
-	chart,
-}: {
-	event: React.KeyboardEvent;
-	charts: Element[];
-	chart: HTMLElement;
-}): void {
-	if (chart === document.activeElement && charts.includes(chart)) {
-		const currentPosition = charts.indexOf(chart);
-
-		const { key, nativeEvent } = event;
-
-		if (key === "ArrowLeft") {
+export function jumpXCharts({ event, charts, chart }: JumpXChartsParams): void {
+	if (chart !== document.activeElement || !charts.includes(chart)) return;
+	const currentPosition = charts.indexOf(chart);
+	const { key, nativeEvent } = event;
+	let newPosition = currentPosition;
+	switch (key) {
+		case "ArrowLeft":
+			if (currentPosition === 0) return;
 			nativeEvent.preventDefault();
-			if (currentPosition === 0 || currentPosition === -1) {
-				nativeEvent.returnValue = true;
-				return;
-			}
-			if (charts[currentPosition - 1] !== null) {
-				(charts[currentPosition - 1] as HTMLElement).focus();
-			}
-			return;
-		}
-
-		if (key === "ArrowRight") {
+			newPosition = currentPosition - 1;
+			break;
+		case "ArrowRight":
+			if (currentPosition === charts.length - 1) return;
 			nativeEvent.preventDefault();
-			if (currentPosition === charts.length - 1) {
-				nativeEvent.returnValue = true;
-				return;
-			}
-			if (charts[currentPosition + 1] !== null) {
-				(charts[currentPosition + 1] as HTMLElement).focus();
-			}
+			newPosition = currentPosition + 1;
+			break;
+		default:
 			return;
-		}
 	}
+	charts[newPosition].focus();
 }
