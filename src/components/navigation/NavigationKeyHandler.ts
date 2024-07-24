@@ -5,13 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { wait } from "@feedzai/js-utilities";
 import { wiper } from "../../utils/wiper";
 import { addDataNavigation } from "./AddNavigation";
 import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
 import { ExtendedHTMLElement } from "./GuideKeyHandler";
+import { showAlert } from "../../utils/showAlert";
 
 import * as constants from "../../constants";
 
@@ -45,7 +45,7 @@ const isModalElement = (element: Element | null): boolean =>
  * @param {NavigationKeyHandlerParams} params - The parameters for navigation key handling.
  * @returns {number} The updated number of points to jump.
  */
-export function navigationKeyHandler(params: NavigationKeyHandlerParams): number {
+export async function navigationKeyHandler(params: NavigationKeyHandlerParams): Promise<number> {
 	const {
 		type,
 		event,
@@ -63,7 +63,7 @@ export function navigationKeyHandler(params: NavigationKeyHandlerParams): number
 	const { altKey, key, code } = event.nativeEvent;
 
 	try {
-		const updatedNumber = xSetter({ event, type, number, alertDivRef });
+		const updatedNumber = await xSetter({ event, type, number, alertDivRef });
 		skip({ event, chartRef, selectorType, selectedSeries });
 
 		const charts = Array.from(
@@ -74,7 +74,13 @@ export function navigationKeyHandler(params: NavigationKeyHandlerParams): number
 		if (chart === document.activeElement && charts.includes(chart)) {
 			jumpXCharts({ event, charts, chart });
 		} else {
-			jumpXElements({ event, number: updatedNumber, elements, selectedSeries, series });
+			jumpXElements({
+				event,
+				number: updatedNumber,
+				elements,
+				selectedSeries,
+				series,
+			});
 		}
 
 		if (altKey && code === "KeyM") {
@@ -188,17 +194,6 @@ function handleQuestionMark(
 	if (modal) {
 		event.preventDefault();
 		levelGuide(chartRef);
-	}
-}
-
-async function showAlert(
-	alertDivRef: React.RefObject<HTMLElement>,
-	message: string,
-): Promise<void> {
-	if (alertDivRef.current) {
-		alertDivRef.current.textContent = message;
-		await wait(1000);
-		alertDivRef.current.textContent = "\u00A0";
 	}
 }
 

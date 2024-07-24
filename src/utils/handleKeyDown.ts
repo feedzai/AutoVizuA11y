@@ -7,23 +7,41 @@
 
 import React from "react";
 import { descriptionsKeyHandler, insightsKeyHandler, navigationKeyHandler } from "../components";
-
-type AutoDescriptionsProps = {
+interface AutoDescriptionsProps {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
 	model?: string;
 	temperature?: number;
-};
-
-type SelectorType = {
+}
+interface SelectorType {
 	element?: string;
 	className?: string;
-};
-
+}
+interface HandleKeyDownProps {
+	event: React.KeyboardEvent<HTMLDivElement>;
+	alertDivRef: React.RefObject<HTMLElement>;
+	type: string;
+	number: number;
+	chartRef: React.RefObject<HTMLDivElement>;
+	elements: HTMLElement[];
+	selectedSeries: string;
+	series: string[];
+	selectorType: SelectorType;
+	setSelectedSeries: (series: string) => void;
+	setNumber: (num: number) => void;
+	setDescriptionContent: (content: string) => void;
+	insights: string;
+	insightsArray: number[];
+	arrayConverted: number[];
+	title: string;
+	descs: string[];
+	autoDescriptions?: AutoDescriptionsProps;
+	multiSeries?: string;
+}
 /**
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
  */
-export const handleKeyDown = ({
+export async function handleKeyDown({
 	event,
 	alertDivRef,
 	type,
@@ -43,28 +61,8 @@ export const handleKeyDown = ({
 	descs,
 	autoDescriptions,
 	multiSeries,
-}: {
-	event: React.KeyboardEvent<HTMLDivElement>;
-	alertDivRef: React.RefObject<HTMLElement>;
-	type: string;
-	number: number;
-	chartRef: React.RefObject<HTMLDivElement>;
-	elements: HTMLElement[];
-	selectedSeries: string;
-	series: string[];
-	selectorType: SelectorType;
-	setSelectedSeries: Function;
-	setNumber: Function;
-	setDescriptionContent: Function;
-	insights: string;
-	insightsArray: number[];
-	arrayConverted: number[];
-	title: string;
-	descs: string[];
-	autoDescriptions?: AutoDescriptionsProps;
-	multiSeries?: string;
-}) => {
-	let numberAux = navigationKeyHandler({
+}: HandleKeyDownProps): Promise<void> {
+	const newNumber = await navigationKeyHandler({
 		type,
 		event,
 		number,
@@ -77,7 +75,7 @@ export const handleKeyDown = ({
 		multiSeries,
 		setSelectedSeries,
 	});
-	setNumber(numberAux);
+	setNumber(newNumber);
 	descriptionsKeyHandler({
 		chartRef,
 		setDescriptionContent,
@@ -87,5 +85,12 @@ export const handleKeyDown = ({
 		autoDescriptions,
 		event,
 	});
-	insightsKeyHandler({ event, elements, alertDivRef, insights, insightsArray, arrayConverted });
-};
+	insightsKeyHandler({
+		event,
+		elements,
+		alertDivRef,
+		insights,
+		insightsArray,
+		arrayConverted,
+	});
+}

@@ -5,17 +5,9 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-/**
- * Enables the navigation to the end/beginning of a chart.
- *
- * @export
- */
-export function skip({
-	event,
-	chartRef,
-	selectorType,
-	selectedSeries,
-}: {
+import React from "react";
+
+interface SkipParams {
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
 	selectorType: {
@@ -23,47 +15,62 @@ export function skip({
 		className?: string;
 	};
 	selectedSeries: string;
-}): void {
-	let elements: HTMLElement[] = [];
-	const activeElement: HTMLElement | null = document.activeElement as HTMLElement | null;
-	const { nativeEvent } = event;
+}
 
-	if (selectorType.element !== undefined) {
-		const result = chartRef?.current?.querySelectorAll<HTMLElement>(selectorType.element);
+/**
+ * Enables the navigation to the end/beginning of a chart.
+ *
+ * @param {SkipParams} params - The parameters for the skip function.
+ */
+export function skip({ event, chartRef, selectorType, selectedSeries }: SkipParams): void {
+	const elements = getElements(chartRef, selectorType, selectedSeries);
+	const activeElement = document.activeElement as HTMLElement | null;
 
-		if (result) {
-			elements = Array.from(result);
-		}
-	} else {
-		const result = chartRef?.current?.getElementsByClassName(selectorType.className!);
-
-		if (result) {
-			elements = Array.from(result) as HTMLElement[];
-		}
-	}
-
-	if (selectedSeries.length !== 0) {
-		const filteredElements = elements.filter((element) => {
-			const a = `series:${selectedSeries}`;
-			return element.classList.contains(a);
-		});
-		elements = filteredElements;
-	}
-
-	// If the elements are focusable (e.g., buttons), it would work at the chart level
 	if (!activeElement || !elements.includes(activeElement)) {
 		return;
 	}
+	const { nativeEvent } = event;
 
-	// Skips to the beginning
-	if ((nativeEvent.altKey && nativeEvent.code === "KeyQ") || nativeEvent.code === "Home") {
+	if (isSkipToBeginning(nativeEvent)) {
 		nativeEvent.preventDefault();
 		elements[0]?.focus();
-	}
-
-	// Skips to the end
-	if ((nativeEvent.altKey && nativeEvent.code === "KeyW") || nativeEvent.code === "End") {
+	} else if (isSkipToEnd(nativeEvent)) {
 		nativeEvent.preventDefault();
 		elements[elements.length - 1]?.focus();
 	}
+}
+
+function getElements(
+	chartRef: React.RefObject<HTMLElement>,
+	selectorType: { element?: string; className?: string },
+	selectedSeries: string,
+): HTMLElement[] {
+	let elements: HTMLElement[] = [];
+
+	if (selectorType.element && chartRef.current) {
+		elements = Array.from(chartRef.current.querySelectorAll<HTMLElement>(selectorType.element));
+	} else if (selectorType.className && chartRef.current) {
+		elements = Array.from(
+			chartRef.current.getElementsByClassName(selectorType.className),
+		) as HTMLElement[];
+	}
+
+	if (selectedSeries) {
+		elements = elements.filter((element) => element.classList.contains(`series:${selectedSeries}`));
+	}
+	return elements;
+}
+
+function isSkipToBeginning(nativeEvent: Event): boolean {
+	return (
+		nativeEvent instanceof KeyboardEvent &&
+		((nativeEvent.altKey && nativeEvent.code === "KeyQ") || nativeEvent.code === "Home")
+	);
+}
+
+function isSkipToEnd(nativeEvent: Event): boolean {
+	return (
+		nativeEvent instanceof KeyboardEvent &&
+		((nativeEvent.altKey && nativeEvent.code === "KeyW") || nativeEvent.code === "End")
+	);
 }

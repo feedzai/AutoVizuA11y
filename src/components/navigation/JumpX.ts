@@ -24,13 +24,13 @@ interface JumpXChartsParams {
  *
  * @param {JumpXElementsParams} params - The parameters for jumping between elements.
  */
-export function jumpXElements({
+export async function jumpXElements({
 	event,
 	number,
 	elements,
 	selectedSeries,
 	series,
-}: JumpXElementsParams): void {
+}: JumpXElementsParams): Promise<void> {
 	const { key, nativeEvent } = event;
 
 	// Filter elements for the selected series
