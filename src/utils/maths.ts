@@ -5,85 +5,86 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import * as constants from "./../constants";
+
 /**
  * Rounds a given number to two decimal places.
  *
- * @export
- * @return Rounded number.
+ * @param {number} number - The number to round.
+ * @return {number} Rounded number.
  */
-export function rounding(number: number) {
-	return Math.round(number * 100) / 100;
+export function rounding(number: number): number {
+	return Math.round(number * constants.ROUNDING_FACTOR) / constants.ROUNDING_FACTOR;
 }
 
 /**
  * Calculates the median value of an array of numbers.
  *
- * @export
- * @return Median value.
+ * @param {number[]} arr - The array of numbers.
+ * @return {number} Median value.
  */
-export function median(arr: number[]) {
-	const sortedArr = arr.sort((a, b) => a - b);
+export function median(arr: number[]): number {
+	if (arr.length === 0) return 0;
+
+	const sortedArr = [...arr].sort((a, b) => a - b);
 	const mid = Math.floor(sortedArr.length / 2);
-	if (sortedArr.length % 2 === 0) {
-		return (sortedArr[mid - 1] + sortedArr[mid]) / 2;
-	} else {
-		return sortedArr[mid];
-	}
+
+	return sortedArr.length % 2 === 0 ? (sortedArr[mid - 1] + sortedArr[mid]) / 2 : sortedArr[mid];
 }
 
 /**
  * Transforms number to ordinal.
  *
- * @export
- * @return Ordinal number.
+ * @param {number} number - The number to transform.
+ * @return {string} Ordinal number.
  */
-export function getOrdinalNumber(number: number) {
-	// 1 would return "1st lowest" or "1st highest"
-	if (number === 1) {
-		return "";
-	}
+export function getOrdinalNumber(number: number): string {
+	if (number === 1) return "";
+
 	const suffixes = ["th", "st", "nd", "rd"];
-	const lastDigit = number % 10;
-	const suffix = suffixes[lastDigit] || suffixes[0];
-	return number + suffix;
+	const lastTwoDigits = number % 100;
+	const suffix =
+		lastTwoDigits >= 11 && lastTwoDigits <= 13 ? suffixes[0] : suffixes[number % 10] || suffixes[0];
+
+	return `${number}${suffix}`;
 }
 
 /**
  * Calculates the sum of an array of numbers.
  *
- * @export
- * @return Sum of values.
+ * @param {number[]} array - The array of numbers.
+ * @return {number} Sum of values.
  */
-export function sum(array: number[]) {
-	return Math.round(array.reduce((a, b) => a + b, 0) * 100) / 100;
+export function sum(array: number[]): number {
+	return rounding(array.reduce((a, b) => a + b, 0));
 }
 
 /**
  * Calculates the average of an array of numbers.
  *
- * @export
- * @return Average value.
+ * @param {number[]} array - The array of numbers.
+ * @return {number} Average value.
  */
-export function avg(array: number[], sum: number) {
-	return Math.round((sum / array.length || 0) * 100) / 100;
+export function avg(array: number[]): number {
+	return array.length ? rounding(sum(array) / array.length) : 0;
 }
 
 /**
  * Calculates the max of an array of numbers.
  *
- * @export
- * @return Maximum value.
+ * @param {number[]} array - The array of numbers.
+ * @return {number} Maximum value.
  */
-export function max(array: number[]) {
-	return Math.round(Math.max(...array) * 100) / 100;
+export function max(array: number[]): number {
+	return array.length ? rounding(Math.max(...array)) : 0;
 }
 
 /**
  * Calculates the min of an array of numbers.
  *
- * @export
- * @return Minimum value.
+ * @param {number[]} array - The array of numbers.
+ * @return {number} Minimum value.
  */
-export function min(array: number[]) {
-	return Math.round(Math.min(...array) * 100) / 100;
+export function min(array: number[]): number {
+	return array.length ? rounding(Math.min(...array)) : 0;
 }

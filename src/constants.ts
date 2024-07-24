@@ -5,6 +5,8 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+const DECIMAL_PLACES = 2;
+
 export const TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS = 500;
 export const OPENAI_MODEL = "gpt-3.5-turbo";
 export const OPENAI_LINK = "https://api.openai.com/v1/chat/completions";
@@ -13,3 +15,6 @@ export const MODAL_CONTENT_CLASS = "a11y_modal_content";
 export const ROW_CLASS = "a11y_row";
 export const GUIDE_CLOSE_ID = "guide_close";
 export const DESC_CLASS = "a11y_desc";
+export const ROUNDING_FACTOR = 10 ** DECIMAL_PLACES;
+export const ATTRIBUTES_TO_REMOVE = ["aria-label", "aria-describedby", "aria-labelledby"];
+export const TABINDEX_ZERO = '[tabindex="0"]';

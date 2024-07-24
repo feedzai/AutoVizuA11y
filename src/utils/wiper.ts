@@ -7,48 +7,28 @@
 
 import React from "react";
 
+import * as constants from "./../constants";
+
 /**
  * Wipes attributes from the chart and underlying data elements.
  *
- * @export
+ * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element
+ * @param {boolean} [first=false] - Whether this is the first run
  */
-export function wiper(chartRef: React.RefObject<HTMLElement>, first?: boolean): void {
-	//wipes possible features not set by the tool (only the first time)
+export function wiper(chartRef: React.RefObject<HTMLElement>, first: boolean = false): void {
+	const chart = chartRef.current;
+	if (!chart) return;
 	if (first) {
-		if (chartRef.current !== null) {
-			const elementsWithAriaLabel = chartRef.current.querySelectorAll("[aria-label]");
-			//wipes aria-labels
-			elementsWithAriaLabel.forEach((element: Element) => {
-				element.removeAttribute("aria-label");
+		constants.ATTRIBUTES_TO_REMOVE.forEach((attr) => {
+			chart.querySelectorAll(`[${attr}]`).forEach((element) => {
+				element.removeAttribute(attr);
 			});
-
-			const elementsWithAriaDesc = chartRef.current.querySelectorAll("[aria-describedby]");
-			//wipes aria-describedby
-			elementsWithAriaDesc.forEach((element: Element) => {
-				element.removeAttribute("aria-describedby");
-			});
-
-			const elementsWithLabelBy = chartRef.current.querySelectorAll("[aria-labelledby]");
-			//wipes aria-labelledby
-			elementsWithLabelBy.forEach((element: Element) => {
-				element.removeAttribute("aria-labelledby");
-			});
-			return;
-		}
-		return;
-	}
-
-	let buttons: NodeListOf<HTMLButtonElement> | null;
-	if (chartRef.current !== null) {
-		buttons = chartRef.current.querySelectorAll("button");
-		//wipes the natural navigation of a button
-		buttons.forEach((button: HTMLButtonElement) => {
-			button.setAttribute("tabIndex", "-1");
 		});
-
-		//wipes everything with a tabindex
-		const elementsWithTabIndex = chartRef.current.querySelectorAll('[tabindex="0"]');
-		elementsWithTabIndex.forEach((element: Element) => {
+	} else {
+		// chart.querySelectorAll("button").forEach((button: HTMLButtonElement) => {
+		// 	button.setAttribute("tabIndex", "-1");
+		// });
+		chart.querySelectorAll(constants.TABINDEX_ZERO).forEach((element) => {
 			element.removeAttribute("tabindex");
 		});
 	}
