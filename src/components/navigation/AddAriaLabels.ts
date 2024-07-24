@@ -5,47 +5,65 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+type SelectorType = {
+	element?: string;
+	className?: string;
+};
+
+interface AddAriaLabelsProps {
+	chartRef: React.RefObject<HTMLElement>;
+	selectorType: SelectorType;
+	data: Record<string, any>[];
+	descriptor?: string;
+	multiSeries?: string;
+}
+
+function getElements(chart: HTMLElement, selectorType: SelectorType): HTMLElement[] {
+	if (selectorType.element) {
+		return Array.from(chart.querySelectorAll(selectorType.element));
+	} else if (selectorType.className) {
+		return Array.from(chart.getElementsByClassName(selectorType.className)) as HTMLElement[];
+	}
+	return [];
+}
+
+function setElementAttributes(
+	element: HTMLElement,
+	item: Record<string, any>,
+	descriptor: string,
+): void {
+	const ariaLabel = Object.values(item).join(", ");
+	element.setAttribute("aria-label", ariaLabel);
+	element.setAttribute("role", "");
+	element.setAttribute("aria-roledescription", descriptor);
+}
+
+function addSeriesClass(element: HTMLElement, seriesValue: string): void {
+	const seriesClass = seriesValue.replace(/ /g, "-");
+	element.classList.add(`series:${seriesClass}`);
+}
+
 /**
  * Adds aria-labels to data elements inside a chart.
- *
- * @export
  */
 export function addAriaLabels({
 	chartRef,
-	descriptor,
 	selectorType,
 	data,
-	multiSeries,
-}: {
-	chartRef: React.RefObject<HTMLElement>;
-	selectorType: { element?: string; className?: string };
-	data: object[];
-	descriptor?: string;
-	multiSeries?: string;
-}): void {
-	if (!chartRef.current) return;
-
-	let elements: HTMLElement[] = [];
-	//either the data points are set given their tag (element) or class (className)
-	if (selectorType.element !== undefined) {
-		elements = Array.from(chartRef.current.querySelectorAll(selectorType.element)); // e.g.<rect>
-	} else if (selectorType.className !== undefined) {
-		elements = Array.from(
-			chartRef.current.getElementsByClassName(selectorType.className),
-		) as HTMLElement[]; //e.g."device-group"
-	}
+	descriptor = "",
+	multiSeries = "",
+}: AddAriaLabelsProps): void {
+	const chart = chartRef.current;
+	if (!chart) return;
+	const elements = getElements(chart, selectorType);
 
 	data.forEach((item, i) => {
-		const ariaLabel = Object.values(item).join(", "); // join all values with a comma and space
 		const element = elements[i];
-		if (element !== undefined) {
-			element.setAttribute("aria-label", ariaLabel);
-			element.setAttribute("role", "");
-			element.setAttribute("aria-roledescription", descriptor ? descriptor : "");
-			if (multiSeries && multiSeries !== "") {
-				const seriesClass = (item as any)[multiSeries].replace(/ /g, "-");
-				element.classList.add(`series:${seriesClass}`);
-			}
+		if (!element) return;
+		setElementAttributes(element, item, descriptor);
+
+		if (multiSeries) {
+			addSeriesClass(element, item[multiSeries]);
 		}
 	});
 }

@@ -7,7 +7,7 @@
 
 import { getOrdinalNumber, median, rounding } from "../../utils";
 
-type InsightCode = "average" | "maximum value" | "minimum value";
+export type InsightCode = "average" | "maximum value" | "minimum value";
 
 /**
  * Creates the message regarding the insight requested.

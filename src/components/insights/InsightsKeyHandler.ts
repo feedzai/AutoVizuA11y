@@ -7,7 +7,7 @@
 
 import { wait, isUndefined } from "@feedzai/js-utilities";
 
-import { messageInsights, messageOverall } from "./MessageGenerator";
+import { InsightCode, messageInsights, messageOverall } from "./MessageGenerator";
 
 import * as constants from "../../constants";
 
@@ -52,7 +52,7 @@ export function insightsKeyHandler({
 		alertDivRef.current!.textContent = "\u00A0";
 	}
 
-	const handleInsightComparison = (type: string, value: number) => {
+	const handleInsightComparison = (type: InsightCode, value: number) => {
 		if (typeof focusedData === "undefined") {
 			showMessage("This shortcut only works inside a chart");
 		} else {
