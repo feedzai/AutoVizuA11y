@@ -8,3 +8,4 @@
 export const TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS = 500;
 export const OPENAI_MODEL = "gpt-3.5-turbo";
 export const OPENAI_LINK = "https://api.openai.com/v1/chat/completions";
+export const TIMEOUT_DURATION = 1000;

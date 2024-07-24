@@ -13,14 +13,14 @@ import { getOrdinalNumber, median, rounding } from "../../utils";
  * @export
  * @return {(string | null)}
  */
-export function messageInsights(code: string, insight: number, focusedData: number): string | null {
+export function messageInsights(code: string, insight: number, focusedData: number): string {
 	if (insight > focusedData)
 		return "The value is " + rounding(insight - focusedData) + " below the " + code;
 	if (insight < focusedData)
 		return "The value is " + rounding(focusedData - insight) + " above the " + code;
 	if (insight === focusedData) return "The value is the same as the " + code;
 
-	return null;
+	return "";
 }
 
 /**
