@@ -14,3 +14,4 @@ export * from "./handleFirstFocus";
 export * from "./handleKeyDown";
 export * from "./showAlert";
 export * from "./initToolTutorial";
+export * from "./processData";
