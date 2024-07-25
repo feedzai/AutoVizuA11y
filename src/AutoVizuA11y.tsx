@@ -8,11 +8,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
-import { arrayConverter } from "./utils";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
-import { insightsCalculator } from "./utils/insightsCalculator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
 import { handleFirstFocus } from "./utils/handleFirstFocus";
@@ -21,12 +19,13 @@ import { handleKeyDown } from "./utils/handleKeyDown";
 import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
-import { getLSItem, setLSItem } from "@feedzai/js-utilities";
+import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
 
 import * as constants from "./constants";
 
 import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
+import { processData } from "./utils/processData";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -46,7 +45,7 @@ type SelectorType = {
 };
 
 type AutoVizuA11yProps = {
-	data: object[];
+	data: Record<string, unknown>[];
 	selectorType: SelectorType;
 	type: string;
 	title: string;
@@ -189,120 +188,118 @@ const AutoVizuA11y = ({
 	}, [chartRef, selectorType]);
 
 	useEffect(() => {
+		const initSeries = () => {
+			if (multiSeries) {
+				const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
+				setSeries(uniqueValues);
+				setSelectedSeries(uniqueValues[0]);
+			}
+		};
+
+		const averageAux = processData({
+			data,
+			validatedInsights,
+			setArrayConverted,
+			setInsightsArray,
+		});
+
 		initToolTutorial();
+		initSeries();
+		addAriaLabels({ chartRef, descriptor, selectorType, data, multiSeries });
 
-		let storedLongerKey = `oldLonger_${componentId}`;
-		let storedSmallerKey = `oldSmaller_${componentId}`;
+		const asyncEffect = async () => {
+			const timer = await wait(constants.TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS);
 
-		if (multiSeries && multiSeries != "") {
-			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
-			const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
-			setSeries(uniqueValues);
-			setSelectedSeries(uniqueValues[0]);
-		}
+			let storedLongerKey = `oldLonger_${componentId}`;
+			let storedSmallerKey = `oldSmaller_${componentId}`;
+			let chartDescriptions: string[] = [];
 
-		//needs a slight delay since some elements take time to load
-		setTimeout(() => {
-			//converts the data into a dictionary
-			arrayConverter(data, validatedInsights).then(function (result) {
-				//result = [2,3,5] or []
-				let insightsArrayAux: number[] = [];
-				let averageAux = 0;
-				setArrayConverted(result);
-				if (validatedInsights !== "") {
-					insightsArrayAux = insightsCalculator(result);
-					setInsightsArray(insightsArrayAux);
+			if (autoDescriptions?.dynamicDescriptions === false) {
+				chartDescriptions = [getLSItem(storedLongerKey)!, getLSItem(storedSmallerKey)!];
+			} else if (manualDescriptions) {
+				chartDescriptions = [manualDescriptions.longer, manualDescriptions.shorter];
+			}
 
-					averageAux = insightsArrayAux[1];
+			if (chartDescriptions[0] && chartDescriptions[1]) {
+				setDescs(chartDescriptions);
+				descriptionsKeyHandler({
+					chartRef,
+					setDescriptionContent,
+					type,
+					descs: chartDescriptions,
+					title,
+					autoDescriptions,
+				});
+			} else {
+				const generatedDescriptions = await generateDescriptions({
+					title,
+					dataString,
+					average: averageAux,
+					context,
+					apiKey: autoDescriptions!.apiKey,
+					model: autoDescriptions!.model,
+					temperature: autoDescriptions!.temperature,
+				});
+				chartDescriptions = generatedDescriptions;
+				setDescs(generatedDescriptions);
+				descriptionsKeyHandler({
+					chartRef,
+					setDescriptionContent,
+					type,
+					descs: chartDescriptions,
+					title,
+					autoDescriptions,
+				});
+
+				if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
+					setLSItem(storedLongerKey, chartDescriptions[0]);
+					setLSItem(storedSmallerKey, chartDescriptions[1]);
 				}
+			}
 
-				addAriaLabels({ chartRef, descriptor, selectorType, data, multiSeries });
-
-				let chartDescriptions: string[] = [];
-
-				//in case of using static descriptions
-				if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
-					// Retrieve the descs from localStorage when the component mounts
-					chartDescriptions = [getLSItem(storedLongerKey)!, getLSItem(storedSmallerKey)!];
-				} else if (manualDescriptions !== undefined) {
-					// Retrieve the descs from the manualDescriptions prop
-					chartDescriptions = [manualDescriptions.longer, manualDescriptions.shorter];
-				}
-
-				if (chartDescriptions[0] !== null && chartDescriptions[1] !== null) {
-					setDescs(chartDescriptions);
-					descriptionsKeyHandler({
-						chartRef,
-						setDescriptionContent,
-						type,
-						descs: chartDescriptions,
-						title,
-						autoDescriptions,
-					});
-				} else {
-					generateDescriptions({
-						title,
-						dataString,
-						average: averageAux,
-						context,
-						apiKey: autoDescriptions!.apiKey,
-						model: autoDescriptions!.model,
-						temperature: autoDescriptions!.temperature,
-					}).then(function (result) {
-						chartDescriptions = result; // Output: [longerDescValue, smallerDescValue]
-						setDescs(result); // Output: [longerDescValue, smallerDescValue]
-						descriptionsKeyHandler({
-							chartRef,
-							setDescriptionContent,
-							type,
-							descs: chartDescriptions,
-							title,
-							autoDescriptions,
-						});
-
-						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
-							setLSItem(storedLongerKey, chartDescriptions[0]);
-							setLSItem(storedSmallerKey, chartDescriptions[1]);
-						}
-					});
-				}
-			});
-
-			// sets the navigation onto the charts first
+			// sets the navigation onto the charts
 			switchToChartLevel(chartRef, true);
-		}, constants.TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS);
+
+			return () => clearTimeout(timer);
+		};
+		asyncEffect();
 	}, [chartRef]);
+
+	const handleOnKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLDivElement>) => {
+			const DATA = {
+				event,
+				alertDivRef,
+				type,
+				number,
+				chartRef,
+				elements,
+				selectedSeries,
+				series,
+				selectorType,
+				setSelectedSeries,
+				setNumber,
+				setDescriptionContent,
+				insights: validatedInsights,
+				insightsArray,
+				arrayConverted,
+				title,
+				descs,
+				autoDescriptions,
+				multiSeries,
+			};
+			handleKeyDown(event, DATA);
+		},
+		[event],
+	);
 
 	return (
 		<>
 			<div
 				ref={chartRef}
-				onKeyDown={(event) => {
-					handleKeyDown({
-						event,
-						alertDivRef,
-						type,
-						number,
-						chartRef,
-						elements,
-						selectedSeries,
-						series,
-						selectorType,
-						setSelectedSeries,
-						setNumber,
-						setDescriptionContent,
-						insights: validatedInsights,
-						insightsArray,
-						arrayConverted,
-						title,
-						descs,
-						autoDescriptions,
-						multiSeries,
-					});
-				}}
+				onKeyDown={handleOnKeyDown}
 				className="a11y_chart"
 				data-testid="a11y_chart"
-				role="form"
 				key={`a11y_chart_${componentId}`}
 			>
 				{chartDescription}

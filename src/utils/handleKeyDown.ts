@@ -18,7 +18,6 @@ interface SelectorType {
 	className?: string;
 }
 interface HandleKeyDownProps {
-	event: React.KeyboardEvent<HTMLDivElement>;
 	alertDivRef: React.RefObject<HTMLElement>;
 	type: string;
 	number: number;
@@ -41,27 +40,29 @@ interface HandleKeyDownProps {
 /**
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
  */
-export async function handleKeyDown({
-	event,
-	alertDivRef,
-	type,
-	number,
-	chartRef,
-	elements,
-	selectedSeries,
-	series,
-	selectorType,
-	setSelectedSeries,
-	setNumber,
-	setDescriptionContent,
-	insights,
-	insightsArray,
-	arrayConverted,
-	title,
-	descs,
-	autoDescriptions,
-	multiSeries,
-}: HandleKeyDownProps): Promise<void> {
+export async function handleKeyDown(
+	event: React.KeyboardEvent<HTMLDivElement>,
+	{
+		alertDivRef,
+		type,
+		number,
+		chartRef,
+		elements,
+		selectedSeries,
+		series,
+		selectorType,
+		setSelectedSeries,
+		setNumber,
+		setDescriptionContent,
+		insights,
+		insightsArray,
+		arrayConverted,
+		title,
+		descs,
+		autoDescriptions,
+		multiSeries,
+	}: HandleKeyDownProps,
+): Promise<void> {
 	const newNumber = await navigationKeyHandler({
 		type,
 		event,

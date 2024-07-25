@@ -16,7 +16,7 @@ export const ROW_CLASS = "a11y_row";
 export const GUIDE_CLOSE_ID = "guide_close";
 export const DESC_CLASS = "a11y_desc";
 export const ROUNDING_FACTOR = 10 ** DECIMAL_PLACES;
-export const ATTRIBUTES_TO_REMOVE = ["aria-label", "aria-describedby", "aria-labelledby"];
+export const ATTRIBUTES_TO_REMOVE = ["aria-describedby", "aria-labelledby"];
 export const TABINDEX_ZERO = '[tabindex="0"]';
 export const TOOL_TUTORIAL_KEY = "toolTutorial";
 export const FOCUS_CLASS = "focused";

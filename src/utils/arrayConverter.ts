@@ -15,10 +15,10 @@
  * @return {Promise<number[]>} Promise resolving to an array with numerical values.
  * @throws {Error} If the insight key does not exist in the data objects or if the value is not a number.
  */
-export async function arrayConverter<T extends Record<string, unknown>>(
+export function arrayConverter<T extends Record<string, unknown>>(
 	data: T[],
 	insight: keyof T,
-): Promise<number[]> {
+): number[] {
 	try {
 		if (!insight || typeof insight !== "string") {
 			throw new Error("Invalid insight key provided");
