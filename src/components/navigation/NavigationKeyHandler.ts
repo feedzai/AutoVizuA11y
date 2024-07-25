@@ -281,11 +281,11 @@ export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first
 		allCharts[i].setAttribute("tabIndex", "0");
 	}
 
-	if (first) {
-		wiper(chartRef, first);
-	}
-
 	document.body.classList.remove("a11y_no_scroll");
+
+	if (first) {
+		return;
+	}
 
 	const chart = chartRef?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	chart.focus();
