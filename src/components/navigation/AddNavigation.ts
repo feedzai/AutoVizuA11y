@@ -6,6 +6,7 @@
  */
 
 import React from "react";
+import { getElements } from "../../utils/getElements";
 
 interface SelectorType {
 	element?: string;
@@ -16,11 +17,6 @@ interface AddDataNavigationParams {
 	selectorType?: SelectorType;
 	selectedSeries?: string | string[];
 	focusPoint?: HTMLElement | null;
-}
-interface GetElementsParams {
-	container: HTMLElement;
-	selectorType?: SelectorType;
-	selectedSeries?: string | string[];
 }
 
 /**
@@ -43,7 +39,7 @@ export function addDataNavigation({
 		return;
 	}
 
-	const elements = getElements({ container: chartRef.current, selectorType, selectedSeries });
+	const elements = getElements({ chartRef, selectorType, selectedSeries });
 
 	if (!elements.length) {
 		console.warn("No elements found for navigation");
@@ -52,43 +48,6 @@ export function addDataNavigation({
 
 	addTabIndex(elements);
 	focusFirstElement(elements, focusPoint);
-}
-
-/**
- * Get elements based on selector type and selected series.
- *
- * @param {Object} params - The parameters for getting elements.
- * @param {HTMLElement} params.container - The container to search for elements.
- * @param {SelectorType} [params.selectorType] - Type of selector to use.
- * @param {string | string[]} [params.selectedSeries] - Selected series to filter elements.
- * @return {HTMLElement[]} Array with HTML elements representing the chart data.
- */
-function getElements({
-	container,
-	selectorType,
-	selectedSeries,
-}: GetElementsParams): HTMLElement[] {
-	let elements: NodeListOf<HTMLElement> | HTMLCollectionOf<Element>;
-
-	if (selectorType?.element) {
-		elements = container.querySelectorAll(selectorType.element);
-	} else if (selectorType?.className) {
-		elements = container.getElementsByClassName(selectorType.className);
-	} else {
-		console.warn("No valid selector type provided");
-		return [];
-	}
-
-	const elementsArray = Array.from(elements) as HTMLElement[];
-
-	if (!selectedSeries || (Array.isArray(selectedSeries) && selectedSeries.length === 0)) {
-		return elementsArray;
-	}
-
-	const seriesArray = Array.isArray(selectedSeries) ? selectedSeries : [selectedSeries];
-	return elementsArray.filter((element) =>
-		seriesArray.some((series) => element.classList.contains(`series:${series}`)),
-	);
 }
 
 /**

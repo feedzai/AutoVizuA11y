@@ -6,6 +6,7 @@
  */
 
 import React from "react";
+import { getElements } from "../../utils/getElements";
 
 interface SkipParams {
 	event: React.KeyboardEvent;
@@ -23,7 +24,7 @@ interface SkipParams {
  * @param {SkipParams} params - The parameters for the skip function.
  */
 export function skip({ event, chartRef, selectorType, selectedSeries }: SkipParams): void {
-	const elements = getElements(chartRef, selectorType, selectedSeries);
+	const elements = getElements({ chartRef, selectorType, selectedSeries });
 	const activeElement = document.activeElement as HTMLElement | null;
 
 	if (!activeElement || !elements.includes(activeElement)) {
@@ -38,30 +39,6 @@ export function skip({ event, chartRef, selectorType, selectedSeries }: SkipPara
 		nativeEvent.preventDefault();
 		elements[elements.length - 1]?.focus();
 	}
-}
-
-/**
- * Retrieves the DOM elements corresponding to the data elements.
- */
-function getElements(
-	chartRef: React.RefObject<HTMLElement>,
-	selectorType: { element?: string; className?: string },
-	selectedSeries: string,
-): HTMLElement[] {
-	let elements: HTMLElement[] = [];
-
-	if (selectorType.element && chartRef.current) {
-		elements = Array.from(chartRef.current.querySelectorAll<HTMLElement>(selectorType.element));
-	} else if (selectorType.className && chartRef.current) {
-		elements = Array.from(
-			chartRef.current.getElementsByClassName(selectorType.className),
-		) as HTMLElement[];
-	}
-
-	if (selectedSeries) {
-		elements = elements.filter((element) => element.classList.contains(`series:${selectedSeries}`));
-	}
-	return elements;
 }
 
 /**

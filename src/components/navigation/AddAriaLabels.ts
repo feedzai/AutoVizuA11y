@@ -5,6 +5,8 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { getElements } from "../../utils/getElements";
+
 type SelectorType = {
 	element?: string;
 	className?: string;
@@ -16,18 +18,6 @@ interface AddAriaLabelsProps {
 	data: Record<string, any>[];
 	descriptor?: string;
 	multiSeries?: string;
-}
-
-/**
- * Retrieves the DOM elements corresponding to the data elements.
- */
-function getElements(chart: HTMLElement, selectorType: SelectorType): HTMLElement[] {
-	if (selectorType.element) {
-		return Array.from(chart.querySelectorAll(selectorType.element));
-	} else if (selectorType.className) {
-		return Array.from(chart.getElementsByClassName(selectorType.className)) as HTMLElement[];
-	}
-	return [];
 }
 
 /**
@@ -66,9 +56,8 @@ export function addAriaLabels({
 	descriptor = "",
 	multiSeries = "",
 }: AddAriaLabelsProps): void {
-	const chart = chartRef.current;
-	if (!chart) return;
-	const elements = getElements(chart, selectorType);
+	if (!chartRef.current) return;
+	const elements = getElements({ chartRef, selectorType });
 
 	data.forEach((item, i) => {
 		const element = elements[i];

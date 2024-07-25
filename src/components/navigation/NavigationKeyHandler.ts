@@ -14,6 +14,7 @@ import { ExtendedHTMLElement } from "./GuideKeyHandler";
 import { showAlert } from "../../utils/showAlert";
 
 import * as constants from "../../constants";
+import { getElements } from "../../utils/getElements";
 
 interface NavigationKeyHandlerParams {
 	type: string;
@@ -219,7 +220,7 @@ function switchSeries({
 	series,
 }: SwitchSeriesParams): void {
 	const previousPoint = document.activeElement as HTMLElement;
-	const elements = getElements(chartRef, selectorType);
+	const elements = getElements({ chartRef, selectorType });
 
 	const previousSeries =
 		elements?.filter((element) => element.classList.contains(`series:${selectedSeries}`)) ?? [];
@@ -239,23 +240,6 @@ function switchSeries({
 		selectedSeries: currentSeriesName,
 		focusPoint: currentSeries[previousIndex],
 	});
-}
-
-/**
- * Retrieves the DOM elements corresponding to the data elements.
- */
-function getElements(
-	chartRef: React.RefObject<HTMLElement>,
-	selectorType: { element?: string; className?: string },
-): HTMLElement[] {
-	if (selectorType.element && chartRef.current) {
-		return Array.from(chartRef.current.querySelectorAll(selectorType.element)) as HTMLElement[];
-	} else if (selectorType.className && chartRef.current) {
-		return Array.from(
-			chartRef.current.getElementsByClassName(selectorType.className),
-		) as HTMLElement[];
-	}
-	return [];
 }
 
 /**
