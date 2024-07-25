@@ -12,8 +12,9 @@ import * as constants from "./../constants";
 /**
  * Wipes attributes from the chart and underlying data elements.
  *
- * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element
- * @param {boolean} [first=false] - Whether this is the first run
+ * @export
+ * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
+ * @param {boolean} [first=false] - Whether this is the first run.
  */
 export function wiper(chartRef: React.RefObject<HTMLElement>, first: boolean = false): void {
 	const chart = chartRef.current;
@@ -25,9 +26,6 @@ export function wiper(chartRef: React.RefObject<HTMLElement>, first: boolean = f
 			});
 		});
 	} else {
-		// chart.querySelectorAll("button").forEach((button: HTMLButtonElement) => {
-		// 	button.setAttribute("tabIndex", "-1");
-		// });
 		chart.querySelectorAll(constants.TABINDEX_ZERO).forEach((element) => {
 			element.removeAttribute("tabindex");
 		});

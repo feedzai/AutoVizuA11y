@@ -18,6 +18,9 @@ interface AddAriaLabelsProps {
 	multiSeries?: string;
 }
 
+/**
+ * Retrieves the DOM elements corresponding to the data elements.
+ */
 function getElements(chart: HTMLElement, selectorType: SelectorType): HTMLElement[] {
 	if (selectorType.element) {
 		return Array.from(chart.querySelectorAll(selectorType.element));
@@ -27,6 +30,9 @@ function getElements(chart: HTMLElement, selectorType: SelectorType): HTMLElemen
 	return [];
 }
 
+/**
+ * Sets a series of attributes on the retrieved DOM elements.
+ */
 function setElementAttributes(
 	element: HTMLElement,
 	item: Record<string, any>,
@@ -45,6 +51,13 @@ function addSeriesClass(element: HTMLElement, seriesValue: string): void {
 
 /**
  * Adds aria-labels to data elements inside a chart.
+ *
+ * @export
+ * @param {React.RefObject<HTMLElement>} chartRef - The React reference of the chart.
+ * @param {SelectorType} selectorType - The selector to be used when retrieving the data elements.
+ * @param {Record<string, any>[]} data - Chart data.
+ * @param {string} descriptor - Data descriptor.
+ * @param {string} multiSeries - Key in the data object that defines each series;.
  */
 export function addAriaLabels({
 	chartRef,

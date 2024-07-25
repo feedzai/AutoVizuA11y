@@ -17,7 +17,15 @@ interface ProcessDataProps {
 
 /**
  * Processes the data, by setting the values of the calculated insights
+ *
+ * @export
+ * @param {Record<string, unknown>[]} data - Chart data.
+ * @param {string} validatedInsights - Data key from which insights should be calculated.
+ * @param {Function} setArrayConverted - Setter function for the converted array of values.
+ * @param {Function} setInsightsArray - Setter function for the converted array of insights.
+ * @return {number} Average of the data values.
  */
+
 export function processData({
 	data,
 	validatedInsights,

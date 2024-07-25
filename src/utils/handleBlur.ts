@@ -9,6 +9,9 @@ import React from "react";
 
 /**
  * Removes the 'focus' class when the element loses focus
+ *
+ * @export
+ * @param {React.RefObject<HTMLDivElement>} chartRef - The React reference of the chart.
  */
 export const handleBlur = (chartRef: React.RefObject<HTMLDivElement>) => {
 	chartRef.current!.classList.remove("focused");

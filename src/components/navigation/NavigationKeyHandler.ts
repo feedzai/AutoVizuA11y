@@ -116,6 +116,9 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 	}
 }
 
+/**
+ * Handles the pressing of the Alt + M keys.
+ */
 function handleAltM(
 	params: Omit<NavigationKeyHandlerParams, "type" | "event" | "elements">,
 ): number {
@@ -152,6 +155,9 @@ function handleAltM(
 	return number;
 }
 
+/**
+ * Handles the pressing of down arrow key.
+ */
 function handleArrowDown(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
@@ -170,6 +176,9 @@ function handleArrowDown(
 	switchToDataLevel({ chartRef, selectorType, selectedSeries });
 }
 
+/**
+ * Handles the pressing of up arrow key.
+ */
 function handleArrowUp(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
@@ -185,6 +194,9 @@ function handleArrowUp(
 	switchToChartLevel(chartRef);
 }
 
+/**
+ * Handles the pressing of the question mark key.
+ */
 function handleQuestionMark(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
@@ -197,6 +209,9 @@ function handleQuestionMark(
 	}
 }
 
+/**
+ * Switches series of data.
+ */
 function switchSeries({
 	chartRef,
 	selectorType,
@@ -226,6 +241,9 @@ function switchSeries({
 	});
 }
 
+/**
+ * Retrieves the DOM elements corresponding to the data elements.
+ */
 function getElements(
 	chartRef: React.RefObject<HTMLElement>,
 	selectorType: { element?: string; className?: string },

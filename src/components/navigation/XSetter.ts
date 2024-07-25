@@ -50,6 +50,9 @@ export async function xSetter({
 	}
 }
 
+/**
+ * Handles the pressing of the Alt + X keys.
+ */
 async function handleAltX(
 	event: React.KeyboardEvent,
 	type: string,
@@ -86,6 +89,9 @@ async function handleAltX(
 	}
 }
 
+/**
+ * Handles the pressing of the - (minus) key.
+ */
 async function handleMinus(
 	type: string,
 	number: number,
@@ -103,6 +109,9 @@ async function handleMinus(
 	return number - 1;
 }
 
+/**
+ * Handles the pressing of the + (plus) key.
+ */
 async function handlePlus(
 	type: string,
 	number: number,

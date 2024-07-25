@@ -7,6 +7,11 @@
 
 import { getLSItem, setLSItem } from "@feedzai/js-utilities";
 
+/**
+ * Ensures the tutorial is heard the first time a chart is focused
+ *
+ * @export
+ */
 export function initToolTutorial() {
 	let toolTutorial = getLSItem("toolTutorial");
 

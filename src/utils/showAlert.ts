@@ -9,6 +9,13 @@ import { wait } from "@feedzai/js-utilities";
 
 import * as constants from "./../constants";
 
+/**
+ * Sets a message in div with the 'alert' role and cleans it after some time
+ *
+ * @export
+ * @param {React.ReactNode | null} alertDiv - Div where the alerts are set.
+ * @param {string} message - The message to be set.
+ */
 export async function showAlert(
 	alertDivRef: React.RefObject<HTMLElement>,
 	message: string,

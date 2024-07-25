@@ -40,6 +40,9 @@ export function skip({ event, chartRef, selectorType, selectedSeries }: SkipPara
 	}
 }
 
+/**
+ * Retrieves the DOM elements corresponding to the data elements.
+ */
 function getElements(
 	chartRef: React.RefObject<HTMLElement>,
 	selectorType: { element?: string; className?: string },
@@ -61,6 +64,9 @@ function getElements(
 	return elements;
 }
 
+/**
+ * Checks if the Q or Home keys are being pressed.
+ */
 function isSkipToBeginning(nativeEvent: Event): boolean {
 	return (
 		nativeEvent instanceof KeyboardEvent &&
@@ -68,6 +74,9 @@ function isSkipToBeginning(nativeEvent: Event): boolean {
 	);
 }
 
+/**
+ * Checks if the W or End keys are being pressed.
+ */
 function isSkipToEnd(nativeEvent: Event): boolean {
 	return (
 		nativeEvent instanceof KeyboardEvent &&

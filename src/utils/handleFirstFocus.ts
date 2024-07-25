@@ -18,6 +18,11 @@ interface HandleFirstFocusProps {
 
 /**
  * Handles the first focus of an AutoVizuA11y chart.
+ *
+ * @export
+ * @param {React.ReactNode | null} alertDiv - Div where the alerts are set.
+ * @param {React.RefObject<HTMLDivElement>} chartRef - React reference of the chart.
+ * @param {React.RefObject<HTMLElement>} alertDivRef - React reference of the alertDiv.
  */
 export async function handleFirstFocus({ alertDiv, chartRef, alertDivRef }: HandleFirstFocusProps) {
 	const chart = chartRef.current;
