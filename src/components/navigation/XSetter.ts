@@ -5,75 +5,121 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-/**
- * Handles the X number of data elements to be jumped inside a chart.
- *
- * @export
- * @return Number of points being jumped at a time inside the wrapped chart.
- */
-export function xSetter({
-	event,
-	type,
-	number,
-	alertDiv,
-}: {
+import React from "react";
+import { showAlert } from "../../utils/showAlert";
+
+interface XSetterParams {
 	event: React.KeyboardEvent;
 	type: string;
 	number: number;
-	alertDiv: HTMLElement;
-}): number {
-	const { nativeEvent } = event;
+	alertDivRef: React.RefObject<HTMLElement>;
+}
 
-	// Show form for Alt (option) + X key combination
-	if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
-		nativeEvent.preventDefault(); // Prevent default behavior of Alt (option) + X
-		const activeElement = document.activeElement as HTMLElement; // Store reference to currently focused element
-		const input = prompt("Enter a number above 0:");
-		if (input !== null && input !== "") {
-			const parsedInput = parseInt(input);
-			if (!isNaN(parsedInput) && parsedInput > 0) {
-				alertDiv.textContent =
-					"You are now jumping " + parsedInput + " data points at a time inside the " + type;
-				setTimeout(function () {
-					alertDiv.textContent = "\u00A0";
-				}, 1000);
-				const newNumber = parsedInput;
-				activeElement.focus(); // Re-focus the stored element
-				return newNumber;
-			} else {
-				alertDiv.textContent = "Invalid input. Please enter a number.";
-				setTimeout(function () {
-					alertDiv.textContent = "\u00A0";
-				}, 1000);
-				activeElement.focus(); // Re-focus the stored element
+/**
+ * Handles the X number of data elements to be jumped inside a chart.
+ *
+ * @param {XSetterParams} params - The parameters for the xSetter function.
+ * @return {Promise<number>} Number of points being jumped at a time inside the wrapped chart.
+ */
+export async function xSetter({
+	event,
+	type,
+	number,
+	alertDivRef,
+}: XSetterParams): Promise<number> {
+	try {
+		const { nativeEvent } = event;
+
+		if (nativeEvent instanceof KeyboardEvent) {
+			if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
+				return await handleAltX(event, type, number, alertDivRef);
 			}
-		} else {
-			activeElement.focus(); // Re-focus the stored element
+			if (nativeEvent.key === "-") {
+				return await handleMinus(type, number, alertDivRef);
+			}
+			if (nativeEvent.key === "+") {
+				return await handlePlus(type, number, alertDivRef);
+			}
 		}
+
+		return number;
+	} catch (error) {
+		console.error("Error in xSetter:", error);
+
+		return number;
+	}
+}
+
+/**
+ * Handles the pressing of the Alt + X keys.
+ */
+async function handleAltX(
+	event: React.KeyboardEvent,
+	type: string,
+	number: number,
+	alertDivRef: React.RefObject<HTMLElement>,
+): Promise<number> {
+	try {
+		event.preventDefault();
+		const activeElement = document.activeElement as HTMLElement | null;
+		const input = prompt("Enter a number above 0:");
+
+		if (input !== null && input !== "") {
+			const parsedInput = parseInt(input, 10);
+
+			if (!isNaN(parsedInput) && parsedInput > 0) {
+				showAlert(
+					alertDivRef,
+					`You are now jumping ${parsedInput} data points at a time inside the ${type}`,
+				);
+				activeElement?.focus();
+				return parsedInput;
+			} else {
+				showAlert(alertDivRef, "Invalid input. Please enter a number.");
+			}
+		}
+
+		activeElement?.focus();
+
+		return number;
+	} catch (error) {
+		console.error("Error in handleAltX:", error);
+
+		return number;
+	}
+}
+
+/**
+ * Handles the pressing of the - (minus) key.
+ */
+async function handleMinus(
+	type: string,
+	number: number,
+	alertDivRef: React.RefObject<HTMLElement>,
+): Promise<number> {
+	if (number === 1) {
 		return number;
 	}
 
-	// Subtract one from X
-	if (nativeEvent.key === "-") {
-		if (number === 1) {
-			return number;
-		}
-		alertDiv.textContent =
-			"You are now jumping " + (number - 1) + " data points at a time inside the " + type;
-		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
-		}, 1000);
-		return number - 1;
-	}
+	showAlert(
+		alertDivRef,
+		`You are now jumping ${number - 1} data points at a time inside the ${type}`,
+	);
 
-	// Add one to X
-	if (nativeEvent.key === "+") {
-		alertDiv.textContent =
-			"You are now jumping " + (number + 1) + " data points at a time inside the " + type;
-		setTimeout(function () {
-			alertDiv.textContent = "\u00A0";
-		}, 1000);
-		return number + 1;
-	}
-	return number;
+	return number - 1;
+}
+
+/**
+ * Handles the pressing of the + (plus) key.
+ */
+async function handlePlus(
+	type: string,
+	number: number,
+	alertDivRef: React.RefObject<HTMLElement>,
+): Promise<number> {
+	showAlert(
+		alertDivRef,
+		`You are now jumping ${number + 1} data points at a time inside the ${type}`,
+	);
+	return number + 1;
 }

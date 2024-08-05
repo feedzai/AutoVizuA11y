@@ -10,12 +10,28 @@
  *
  * @export
  * @template T
- * @return Array with numerical values.
+ * @param {T[]} data - The array of data objects to convert.
+ * @param {keyof T} insight - The key of the numerical value to extract.
+ * @return {Promise<number[]>} Promise resolving to an array with numerical values.
+ * @throws {Error} If the insight key does not exist in the data objects or if the value is not a number.
  */
-export async function arrayConverter<T>(data: object[], insights: string): Promise<number[]> {
-	if (insights && typeof insights === "string") {
-		return data.map((item) => (item as any)[insights]);
-	} else {
-		return [];
+export function arrayConverter<T extends Record<string, unknown>>(
+	data: T[],
+	insight: keyof T,
+): number[] {
+	try {
+		if (!insight || typeof insight !== "string") {
+			throw new Error("Invalid insight key provided");
+		}
+		return data.map((item, index) => {
+			const value = item[insight];
+			if (typeof value !== "number") {
+				throw new Error(`Invalid value at index ${index}: expected number, got ${typeof value}`);
+			}
+			return value;
+		});
+	} catch (error) {
+		console.error("Error in arrayConverter:", error);
+		throw error;
 	}
 }

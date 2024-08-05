@@ -5,16 +5,19 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { insightsComparer } from "./InsightsComparer";
-import { insightsSetter } from "./InsightsSetter";
-import { overallComparer } from "./OverallComparer";
-import { descriptionsChanger } from "../descriptions/DescriptionsChanger";
+import { wait, isUndefined } from "@feedzai/js-utilities";
 
-type AutoDescriptionsProps = {
-	dynamicDescriptions?: boolean;
-	apiKey: string;
-	model?: string;
-	temperature?: number;
+import { InsightCode, messageInsights, messageOverall } from "./MessageGenerator";
+
+import * as constants from "../../constants";
+
+type InsightsKeyHandlerProps = {
+	event: React.KeyboardEvent;
+	elements: HTMLElement[];
+	alertDivRef: React.RefObject<HTMLElement>;
+	insights: string;
+	insightsArray: number[];
+	arrayConverted?: number[];
 };
 
 /**
@@ -23,42 +26,78 @@ type AutoDescriptionsProps = {
  * @export
  */
 export function insightsKeyHandler({
-	type,
 	event,
 	elements,
-	alertDiv,
-	ref,
+	alertDivRef,
 	insights,
 	insightsArray,
 	arrayConverted,
-	title,
-	descs,
-	autoDescriptions,
-}: {
-	type: string;
-	event: React.KeyboardEvent;
-	elements: HTMLElement[];
-	alertDiv: HTMLDivElement;
-	ref: React.RefObject<HTMLElement>;
-	insights: string;
-	insightsArray: number[];
-	title: string;
-	descs: string[];
-	arrayConverted?: number[];
-	autoDescriptions?: AutoDescriptionsProps;
-}) {
-	if (arrayConverted) {
-		const focusedIndex = Array.prototype.findIndex.call(
-			elements,
-			(el: HTMLElement) => el === document.activeElement,
-		);
+}: InsightsKeyHandlerProps) {
+	if (!arrayConverted || !alertDivRef.current) return;
 
-		const focusedData = arrayConverted[focusedIndex];
+	const { altKey, shiftKey, code } = event.nativeEvent;
 
-		insightsSetter({ event, alertDiv, insights, insightsArray });
-		insightsComparer({ event, alertDiv, insights, insightsArray, focusedData });
-		overallComparer({ event, alertDiv, insights, arrayConverted, focusedData });
-		descriptionsChanger({ ref, type, descs, title, autoDescriptions, event });
+	const focusedIndex = Array.prototype.findIndex.call(
+		elements,
+		(el: HTMLElement) => el === document.activeElement,
+	);
+
+	const focusedData = arrayConverted[focusedIndex];
+
+	async function showMessage(message: string) {
+		alertDivRef.current!.textContent = message;
+
+		await wait(constants.TIMEOUT_DURATION);
+
+		alertDivRef.current!.textContent = "\u00A0";
+	}
+
+	const handleInsightComparison = (type: InsightCode, value: number) => {
+		if (typeof focusedData === "undefined") {
+			showMessage("This shortcut only works inside a chart");
+		} else {
+			showMessage(messageInsights(type, value, focusedData));
+		}
+	};
+
+	const handleStatisticalInsight = (message: string) => {
+		showMessage(message);
+	};
+
+	if (insights === "") {
+		showMessage("That shortcut does not work in this chart");
+		return;
+	}
+
+	if (altKey && shiftKey) {
+		switch (code) {
+			case "KeyK":
+				handleInsightComparison("average", insightsArray[1]);
+				break;
+			case "KeyL":
+				handleInsightComparison("maximum value", insightsArray[2]);
+				break;
+			case "KeyJ":
+				handleInsightComparison("minimum value", insightsArray[3]);
+				break;
+		}
+	} else if (altKey) {
+		switch (code) {
+			case "KeyK":
+				handleStatisticalInsight(`The average is ${insightsArray[1]}`);
+				break;
+			case "KeyL":
+				handleStatisticalInsight(`The maximum is ${insightsArray[2]}`);
+				break;
+			case "KeyJ":
+				handleStatisticalInsight(`The minimum is ${insightsArray[3]}`);
+				break;
+			case "KeyZ":
+				isUndefined(focusedData)
+					? showMessage("This shortcut only works inside a chart")
+					: showMessage(messageOverall(arrayConverted, focusedData));
+				break;
+		}
 	}
 
 	return;

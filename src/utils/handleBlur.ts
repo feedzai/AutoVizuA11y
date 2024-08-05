@@ -10,24 +10,11 @@ import React from "react";
 import * as constants from "./../constants";
 
 /**
- * Wipes attributes from the chart and underlying data elements.
+ * Removes the 'focus' class when the element loses focus
  *
  * @export
- * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
- * @param {boolean} [first=false] - Whether this is the first run.
+ * @param {React.RefObject<HTMLDivElement>} chartRef - The React reference of the chart.
  */
-export function wiper(chartRef: React.RefObject<HTMLElement>, first: boolean = false): void {
-	const chart = chartRef.current;
-	if (!chart) return;
-	if (first) {
-		constants.ATTRIBUTES_TO_REMOVE.forEach((attr) => {
-			chart.querySelectorAll(`[${attr}]`).forEach((element) => {
-				element.removeAttribute(attr);
-			});
-		});
-	} else {
-		chart.querySelectorAll(constants.TABINDEX_ZERO).forEach((element) => {
-			element.removeAttribute("tabindex");
-		});
-	}
-}
+export const handleBlur = (chartRef: React.RefObject<HTMLDivElement>) => {
+	chartRef.current!.classList.remove(constants.FOCUS_CLASS);
+};

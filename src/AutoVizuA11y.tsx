@@ -5,23 +5,27 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom/client";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import {
-	addAriaLabels,
-	insightsKeyHandler,
-	switchToChartLevel,
-	navigationKeyHandler,
-} from "./components";
-import { arrayConverter, newId } from "./utils";
+import { addAriaLabels, switchToChartLevel } from "./components";
 
 import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
-import { insightsCalculator } from "./utils/insightsCalculator";
-import { descriptionsChanger } from "./components/descriptions/DescriptionsChanger";
+import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
+
+import { handleFirstFocus } from "./utils/handleFirstFocus";
+import { handleBlur } from "./utils/handleBlur";
+import { handleKeyDown } from "./utils/handleKeyDown";
+import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
+
+import { useAutoId } from "@feedzai/js-utilities/hooks";
+import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
+
+import * as constants from "./constants";
 
 import "./assets/style/AutoVizuA11y.css";
+import { initToolTutorial } from "./utils/initToolTutorial";
+import { processData } from "./utils/processData";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -41,7 +45,7 @@ type SelectorType = {
 };
 
 type AutoVizuA11yProps = {
-	data: object[];
+	data: Record<string, unknown>[];
 	selectorType: SelectorType;
 	type: string;
 	title: string;
@@ -106,17 +110,15 @@ const AutoVizuA11y = ({
 	autoDescriptions,
 	children,
 }: AutoVizuA11yProps) => {
-	let chart = React.Children.map(children, (child) => <div>{child}</div>);
-	const ref = React.useRef<HTMLDivElement>(null);
+	const validatedInsights = useMemo(() => {
+		if (!selectorType) {
+			console.warn("Type of chart not supported or no type given");
+			return "";
+		}
+		return insights && insights in data[0] ? insights : "";
+	}, [selectorType, insights, data]);
 
-	let storedLonger: string | null;
-	let storedSmaller: string | null;
-
-	let toolTutorial;
-
-	let apiKey: string;
-	let model: string | undefined;
-	let temperature: number | undefined;
+	const dataString = useMemo(() => JSON.stringify(data), data);
 
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
@@ -124,259 +126,197 @@ const AutoVizuA11y = ({
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
+	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
+	const [elements, setElements] = useState<HTMLElement[]>([]);
 
-	let elements: HTMLElement[] = [];
-	let alertDiv: HTMLDivElement;
+	const chartRef = useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = useRef<HTMLDivElement>(null);
 
-	if (ref.current) {
-		if (selectorType.element !== undefined) {
-			elements = Array.from(ref.current.querySelectorAll(selectorType.element));
-		} else {
-			elements = Array.from(
-				ref.current.getElementsByClassName(selectorType.className || ""),
-			) as HTMLElement[];
-		}
-		alertDiv = ref.current.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-	} else {
-		alertDiv = document.createElement("div"); // Dummy alert div
-	}
+	let componentId = useAutoId();
 
-	if (autoDescriptions) {
-		apiKey = autoDescriptions.apiKey;
-		model = autoDescriptions.model;
-		temperature = autoDescriptions.temperature;
-	}
+	let alertDivRef = useRef<HTMLDivElement>(null);
+	let alertDiv: React.ReactNode = useMemo(
+		() => (
+			<div
+				ref={alertDivRef}
+				className="a11y_alert visually-hidden"
+				role="alert"
+				aria-live="assertive"
+			>
+				{"\u00A0"}
+			</div>
+		),
+		[],
+	);
 
-	if (insights == undefined || !(insights in data[0])) {
-		insights = "";
-	}
+	const onFocusHandler = useCallback(() => {
+		handleFirstFocus({ alertDiv, chartRef, alertDivRef });
+	}, [alertDiv, chartRef, alertDivRef]);
 
-	// Generate a unique identifier for this component
-	const componentId = newId();
+	const onBlurHandler = useCallback(() => {
+		handleBlur(chartRef);
+	}, [chartRef]);
 
-	const storedLongerKey = `oldLonger_${componentId}`;
-	const storedSmallerKey = `oldSmaller_${componentId}`;
-
-	const handleFocus = (alertDiv: HTMLDivElement | null) => {
-		//css
-		ref.current!.classList.add("focused");
-		let toolTutorial = localStorage.getItem("toolTutorial");
-		if (toolTutorial === "true") {
-			if (alertDiv) {
-				alertDiv.textContent =
-					"You just entered an AutoVizually chart." +
-					" For information on how to interact with it, press the question mark key" +
-					" to open the shortcut guide";
-			}
-			setTimeout(function () {
-				if (alertDiv) {
-					alertDiv.textContent = "\u00A0";
-				}
-			}, 1000);
-			localStorage.setItem("toolTutorial", "false");
-			toolTutorial = "false";
-		}
-	};
-
-	const handleBlur = () => {
-		ref.current!.classList.remove("focused");
-	};
-
-	// Function to add an object to the array
-	const nextSeries = () => {
-		let currentPos = series.indexOf(selectedSeries);
-		let nextPos = (currentPos + 1) % series.length;
-		setSelectedSeries(series[nextPos]);
-	};
-
-	useEffect(() => {
-		// Retrieve the value of toolTutorial to check if it has been shown before
-		toolTutorial = localStorage.getItem("toolTutorial");
-
-		//If it does not exist, set it to true to show it the first time
-		if (!toolTutorial) {
-			localStorage.setItem("toolTutorial", "true");
-			toolTutorial = "true";
-		}
-
-		//in case of using static descriptions
-		if (autoDescriptions !== undefined && autoDescriptions.dynamicDescriptions === false) {
-			// Retrieve the descs from localStorage when the component mounts
-			storedLonger = localStorage.getItem(storedLongerKey);
-			storedSmaller = localStorage.getItem(storedSmallerKey);
-		} else if (manualDescriptions !== undefined) {
-			// Retrieve the descs from the manualDescriptions prop
-			storedLonger = manualDescriptions.longer;
-			storedSmaller = manualDescriptions.shorter;
-		}
-
-		if (multiSeries && multiSeries != "") {
-			//maps to a new array of only the keys, then a set with unique keys, and finally spreads them
-			const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
-			setSeries(uniqueValues);
-			setSelectedSeries(uniqueValues[0]);
-		}
-	}, []);
-
-	//creates a singular ShortcutGuide
-	function createShortcutGuide() {
-		let checker = document.getElementById("a11y_nav_guide");
-		if (checker === null) {
-			const nav = (
-				<div onKeyDown={handleNav} id="a11y_nav_guide">
-					<ShortcutGuide />
-				</div>
-			);
-			const container = document.createElement("div");
-			const root = document.getElementById("root");
-			const reactRoot = ReactDOM.createRoot(container);
-			reactRoot.render(<React.StrictMode>{nav}</React.StrictMode>);
-
-			if (root) {
-				const next = root.firstChild?.nextSibling;
-
-				if (next) {
-					root.insertBefore(container, next);
-				} else {
-					root.appendChild(container);
-				}
-			}
-		}
-	}
-
-	useEffect(() => {
-		let descsAux;
-		//needs a slight delay since some elements take time to load
-		setTimeout(() => {
-			//converts the data into a dictionary
-			arrayConverter(data, insights).then(function (result) {
-				//result = [2,3,5] or []
-				let insightsArrayAux = [];
-				let averageAux = 0;
-				setArrayConverted(result);
-				if (insights !== "") {
-					insightsArrayAux = insightsCalculator(result);
-					setInsightsArray(insightsArrayAux);
-
-					averageAux = insightsArrayAux[1];
-				}
-
-				addAriaLabels({ ref, descriptor, selectorType, data, multiSeries });
-
-				if (storedLonger !== null && storedSmaller !== null) {
-					descsAux = [storedLonger, storedSmaller];
-					setDescs([storedLonger, storedSmaller]);
-					descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
-				} else {
-					generateDescriptions({
-						title,
-						data,
-						average: averageAux,
-						context,
-						apiKey,
-						model,
-						temperature,
-					}).then(function (result) {
-						descsAux = result; // Output: [longerDescValue, smallerDescValue]
-						setDescs(result); // Output: [longerDescValue, smallerDescValue]
-						descriptionsChanger({ ref, type, descs: descsAux, title, autoDescriptions });
-
-						if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
-							localStorage.setItem(storedLongerKey, descsAux[0]);
-							localStorage.setItem(storedSmallerKey, descsAux[1]);
-						}
-					});
-				}
-			});
-
-			//wipes the old tabindex present in the child components
-			switchToChartLevel(ref, true);
-		}, 500);
-
-		//creates the ShortcutGuide
-		createShortcutGuide();
-	}, [ref]);
-
-	// sets the appropriate navigation keys in the ShortcutGuide
-	function handleNav(event: React.KeyboardEvent<HTMLDivElement>) {
-		navigationKeyHandler({
-			type,
-			event,
-			number,
-			ref,
-			elements,
-			alertDiv,
-			selectedSeries,
-			series,
-			selectorType,
-			multiSeries,
-			nextSeries,
-		});
-	}
-
-	//sets the appropriate navigation keys and shortcuts in the charts and data
-	function handleKeyDown(event: React.KeyboardEvent<HTMLDivElement>, alertDiv: HTMLDivElement) {
-		let numberAux = navigationKeyHandler({
-			type,
-			event,
-			number,
-			ref,
-			elements,
-			alertDiv,
-			selectedSeries,
-			series,
-			selectorType,
-			multiSeries,
-			nextSeries,
-		});
-		setNumber(numberAux);
-		insightsKeyHandler({
-			type,
-			event,
-			elements,
-			alertDiv,
-			ref,
-			insights,
-			insightsArray,
-			arrayConverted,
-			title,
-			descs,
-			autoDescriptions,
-		});
-	}
-
-	// features exclusive to bar charts (might be able to turn this more modular)
-	if (!selectorType) {
-		console.log("Type of chart not supported or no type given");
-	}
-	return (
-		<div
-			ref={ref}
-			onKeyDown={(event) => {
-				const alertDiv = ref.current?.getElementsByClassName("a11y_alert")[0] as HTMLDivElement;
-				handleKeyDown(event, alertDiv);
-			}}
-			className="a11y_chart"
-			data-testid="a11y_chart"
-			role="form"
-		>
+	let chartDescription: React.ReactNode = useMemo(
+		() => (
 			<p
 				style={{ textIndent: "-10000px" }}
 				className="a11y_desc visually-hidden"
 				data-testid="a11y_desc"
-				onFocus={() => {
-					handleFocus(alertDiv);
-				}}
-				onBlur={handleBlur}
+				onFocus={onFocusHandler}
+				onBlur={onBlurHandler}
+				aria-label={descriptionContent}
 			>
-				Generating description...
+				{descriptionContent}
 			</p>
-			<div id="a11y_number" aria-hidden="true"></div>
-			<div className="a11y_alert visually-hidden" role="alert" aria-live="assertive">
-				{"\u00A0"}
+		),
+		[descriptionContent, onFocusHandler, onBlurHandler],
+	);
+
+	let chart = useMemo(
+		() => React.Children.map(children, (child) => <div>{child}</div>),
+		[children],
+	);
+
+	useEffect(() => {
+		if (!chartRef.current) {
+			return;
+		}
+		const SELECTOR = selectorType.element || `.${selectorType.className ?? ""}`;
+		const NEW_ELEMENTS = Array.from(chartRef.current.querySelectorAll(SELECTOR)) as HTMLElement[];
+		setElements(NEW_ELEMENTS);
+	}, [chartRef, selectorType]);
+
+	useEffect(() => {
+		const initSeries = () => {
+			if (multiSeries) {
+				const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
+				setSeries(uniqueValues);
+				setSelectedSeries(uniqueValues[0]);
+			}
+		};
+
+		const averageAux = processData({
+			data,
+			validatedInsights,
+			setArrayConverted,
+			setInsightsArray,
+		});
+
+		initToolTutorial();
+		initSeries();
+		addAriaLabels({ chartRef, descriptor, selectorType, data, multiSeries });
+
+		const asyncEffect = async () => {
+			const timer = await wait(constants.TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS);
+
+			let storedLongerKey = `oldLonger_${componentId}`;
+			let storedSmallerKey = `oldSmaller_${componentId}`;
+			let chartDescriptions: string[] = [];
+
+			if (autoDescriptions?.dynamicDescriptions === false) {
+				chartDescriptions = [getLSItem(storedLongerKey)!, getLSItem(storedSmallerKey)!];
+			} else if (manualDescriptions) {
+				chartDescriptions = [manualDescriptions.longer, manualDescriptions.shorter];
+			}
+
+			if (chartDescriptions[0] && chartDescriptions[1]) {
+				setDescs(chartDescriptions);
+				descriptionsKeyHandler({
+					chartRef,
+					setDescriptionContent,
+					type,
+					descs: chartDescriptions,
+					title,
+					autoDescriptions,
+				});
+			} else {
+				const generatedDescriptions = await generateDescriptions({
+					title,
+					dataString,
+					average: averageAux,
+					context,
+					apiKey: autoDescriptions!.apiKey,
+					model: autoDescriptions!.model,
+					temperature: autoDescriptions!.temperature,
+				});
+				chartDescriptions = generatedDescriptions;
+				setDescs(generatedDescriptions);
+				descriptionsKeyHandler({
+					chartRef,
+					setDescriptionContent,
+					type,
+					descs: chartDescriptions,
+					title,
+					autoDescriptions,
+				});
+
+				if (autoDescriptions && autoDescriptions.dynamicDescriptions === false) {
+					setLSItem(storedLongerKey, chartDescriptions[0]);
+					setLSItem(storedSmallerKey, chartDescriptions[1]);
+				}
+			}
+
+			// sets the navigation onto the charts
+			switchToChartLevel(chartRef, true);
+
+			return () => clearTimeout(timer);
+		};
+		asyncEffect();
+	}, [chartRef]);
+
+	const handleOnKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLDivElement>) => {
+			const DATA = {
+				event,
+				alertDivRef,
+				type,
+				number,
+				chartRef,
+				elements,
+				selectedSeries,
+				series,
+				selectorType,
+				setSelectedSeries,
+				setNumber,
+				setDescriptionContent,
+				insights: validatedInsights,
+				insightsArray,
+				arrayConverted,
+				title,
+				descs,
+				autoDescriptions,
+				multiSeries,
+			};
+			handleKeyDown(event, DATA);
+		},
+		[event],
+	);
+
+	return (
+		<>
+			<div
+				ref={chartRef}
+				onKeyDown={handleOnKeyDown}
+				className="a11y_chart"
+				data-testid="a11y_chart"
+				key={`a11y_chart_${componentId}`}
+			>
+				{chartDescription}
+				<div id="a11y_number" aria-hidden="true"></div>
+				{alertDiv}
+				{chart}
 			</div>
-			{chart}
-		</div>
+			<div
+				ref={shortcutGuideRef}
+				onKeyDown={(event) => {
+					guideKeyHandler(event, chartRef);
+				}}
+				id="a11y_nav_guide"
+			>
+				<ShortcutGuide />
+			</div>
+		</>
 	);
 };
 

@@ -5,65 +5,55 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import React from "react";
+import { getElements } from "../../utils/getElements";
+
+interface SelectorType {
+	element?: string;
+	className?: string;
+}
+interface AddDataNavigationParams {
+	chartRef: React.RefObject<HTMLElement>;
+	selectorType?: SelectorType;
+	selectedSeries?: string | string[];
+	focusPoint?: HTMLElement | null;
+}
+
 /**
  * Adds navigation between data elements inside a chart.
  *
- * @export
+ * @param {Object} params - The parameters for adding data navigation.
+ * @param {React.RefObject<HTMLElement>} params.chartRef - Reference to the chart container.
+ * @param {SelectorType} [params.selectorType] - Type of selector to use for finding elements.
+ * @param {string | string[]} [params.selectedSeries] - Selected series to filter elements.
+ * @param {HTMLElement | null} [params.focusPoint] - Specific element to focus on.
  */
 export function addDataNavigation({
-	ref,
+	chartRef,
 	selectorType,
 	selectedSeries,
 	focusPoint,
-}: {
-	ref: React.RefObject<HTMLElement>;
-	selectorType?: { element?: string; className?: string };
-	selectedSeries?: string | string[];
-	focusPoint?: HTMLElement | null;
-}): void {
-	if (!ref.current) return;
+}: AddDataNavigationParams): void {
+	if (!chartRef.current) {
+		console.warn("Chart reference is not available");
+		return;
+	}
 
-	const elements = getElements({ container: ref.current, selectorType, selectedSeries });
-	if (!elements.length) return;
+	const elements = getElements({ chartRef, selectorType, selectedSeries });
+
+	if (!elements.length) {
+		console.warn("No elements found for navigation");
+		return;
+	}
 
 	addTabIndex(elements);
 	focusFirstElement(elements, focusPoint);
 }
 
 /**
- * Get elements based on selector type and selected series.
- *
- * @return Array with HTML elements representing the chart data.
- */
-function getElements({
-	container,
-	selectorType,
-	selectedSeries,
-}: {
-	container: HTMLElement;
-	selectorType?: { element?: string; className?: string };
-	selectedSeries?: string | string[];
-}): HTMLElement[] {
-	let elements: NodeListOf<HTMLElement> | HTMLCollectionOf<Element>;
-	if (selectorType?.element !== undefined) {
-		elements = container.querySelectorAll(selectorType.element);
-	} else if (selectorType?.className !== undefined) {
-		elements = container.getElementsByClassName(selectorType.className);
-	} else {
-		return [];
-	}
-
-	if (selectedSeries?.length === 0) {
-		return Array.from(elements) as HTMLElement[];
-	}
-
-	return Array.from(elements).filter((element) =>
-		element.classList.contains(`series:${selectedSeries}`),
-	) as HTMLElement[];
-}
-
-/**
  * Adds a tabindex attribute to an array of HTML elements.
+ *
+ * @param {HTMLElement[]} elements - The elements to add tabindex to.
  */
 function addTabIndex(elements: HTMLElement[]): void {
 	elements.forEach((element) => {
@@ -73,11 +63,16 @@ function addTabIndex(elements: HTMLElement[]): void {
 
 /**
  * Adds keyboard focus to a data element.
+ *
+ * @param {HTMLElement[]} elements - The array of elements to potentially focus.
+ * @param {HTMLElement | null} [focusPoint] - Specific element to focus on.
  */
 function focusFirstElement(elements: HTMLElement[], focusPoint?: HTMLElement | null): void {
 	if (focusPoint) {
 		focusPoint.focus();
-	} else {
+	} else if (elements.length > 0) {
 		elements[0].focus();
+	} else {
+		console.warn("No elements available to focus");
 	}
 }

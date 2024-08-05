@@ -5,6 +5,37 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { template } from "@feedzai/js-utilities";
+
+import * as constants from "../../constants";
+
+interface GenerateDescriptionsParams {
+	title: string;
+	dataString: string;
+	average: number;
+	context: string;
+	apiKey: string;
+	model?: string;
+	temperature?: number;
+}
+
+interface LongerDescriptionsParam {
+	data: string;
+	title: string;
+	average: number;
+	context: string;
+	key: string;
+	adjustedModel: string;
+	adjustedTemperature: number;
+}
+
+interface SmallerDescriptionsParam {
+	desc: string;
+	key: string;
+	adjustedModel: string;
+	adjustedTemperature: number;
+}
+
 /**
  * Generates the automatic descriptions.
  *
@@ -13,29 +44,19 @@
  */
 export async function generateDescriptions({
 	title,
-	data,
+	dataString,
 	average,
 	context,
-	apiKey,
+	apiKey: key,
 	model,
 	temperature,
-}: {
-	title: string;
-	data: object[];
-	average: number;
-	context: string;
-	apiKey: string;
-	model?: string;
-	temperature?: number;
-}): Promise<string[]> {
-	data = JSON.stringify(data);
-	const key = apiKey;
-	const adjustedModel = model ?? "gpt-3.5-turbo";
+}: GenerateDescriptionsParams): Promise<string[]> {
+	const adjustedModel = model ?? constants.OPENAI_MODEL;
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one
 	const longerDesc = await longerDescription({
-		data,
+		data: dataString,
 		title,
 		average,
 		context,
@@ -69,24 +90,14 @@ async function longerDescription({
 	key,
 	adjustedModel,
 	adjustedTemperature,
-}: {
-	data: string;
-	title: string;
-	average: number;
-	context: string;
-	key: string;
-	adjustedModel: string;
-	adjustedTemperature: number;
-}): Promise<string> {
-	average = JSON.stringify(average);
-	const prompt =
-		"Knowing that the chart below is from a " +
-		context +
-		" and the data represents " +
-		title +
-		(average ? " with an average of " + average : "") +
-		", make a description (do not use abbreviations) with the trends in the data, starting with the conclusion:" +
-		data;
+}: LongerDescriptionsParam): Promise<string> {
+	const averageString = average ? " with an average of " + JSON.stringify(average) : "";
+
+	const prompt = template(
+		"Knowing that the chart below is from a {{context}} and the data represents {{title}} {{average}}," +
+			" make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
+		{ context, title, averageString, data },
+	);
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
@@ -119,15 +130,10 @@ async function smallerDescription({
 	key,
 	adjustedModel,
 	adjustedTemperature,
-}: {
-	desc: string;
-	key: string;
-	adjustedModel: string;
-	adjustedTemperature: number;
-}): Promise<string> {
+}: SmallerDescriptionsParam): Promise<string> {
 	const prompt = "Summarize (in less than 60 words) the following:" + desc;
 
-	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+	const response = await fetch(constants.OPENAI_LINK, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

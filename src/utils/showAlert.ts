@@ -5,29 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React from "react";
+import { wait } from "@feedzai/js-utilities";
 
 import * as constants from "./../constants";
 
 /**
- * Wipes attributes from the chart and underlying data elements.
+ * Sets a message in div with the 'alert' role and cleans it after some time
  *
  * @export
- * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
- * @param {boolean} [first=false] - Whether this is the first run.
+ * @param {React.ReactNode | null} alertDiv - Div where the alerts are set.
+ * @param {string} message - The message to be set.
  */
-export function wiper(chartRef: React.RefObject<HTMLElement>, first: boolean = false): void {
-	const chart = chartRef.current;
-	if (!chart) return;
-	if (first) {
-		constants.ATTRIBUTES_TO_REMOVE.forEach((attr) => {
-			chart.querySelectorAll(`[${attr}]`).forEach((element) => {
-				element.removeAttribute(attr);
-			});
-		});
-	} else {
-		chart.querySelectorAll(constants.TABINDEX_ZERO).forEach((element) => {
-			element.removeAttribute("tabindex");
-		});
+export async function showAlert(
+	alertDivRef: React.RefObject<HTMLElement>,
+	message: string,
+): Promise<void> {
+	if (alertDivRef.current) {
+		alertDivRef.current.textContent = message;
+		await wait(constants.ALERT_DURATION);
+		alertDivRef.current.textContent = "\u00A0";
 	}
 }

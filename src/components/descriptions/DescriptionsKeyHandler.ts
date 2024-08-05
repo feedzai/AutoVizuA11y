@@ -5,6 +5,8 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { template } from "@feedzai/js-utilities";
+
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
@@ -12,44 +14,51 @@ type AutoDescriptionsProps = {
 	temperature?: number;
 };
 
-/**
- * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
- *
- * @export
- */
-export function descriptionsChanger({
-	ref,
-	type,
-	descs,
-	title,
-	autoDescriptions,
-	event,
-}: {
-	ref: React.RefObject<HTMLElement>;
+interface DescriptionsKeyHandlerParams {
+	chartRef: React.RefObject<HTMLElement>;
+	setDescriptionContent: Function;
 	type: string;
 	descs: string[];
 	title: string;
 	autoDescriptions?: AutoDescriptionsProps;
 	event?: React.KeyboardEvent;
-}): void {
-	title =
-		title + ", " + type + ". " + (autoDescriptions !== undefined ? "Automatic description: " : "");
+}
 
-	// When pressed reads the smaller description
-	if (ref.current !== null) {
-		if (event === undefined || (event.nativeEvent.altKey && event.nativeEvent.code === "KeyS")) {
-			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[1]);
-			ref.current
-				.getElementsByClassName("a11y_desc")[0]
-				.setAttribute("aria-label", title.concat(descs[1]));
-			return;
-		} else if (event.nativeEvent.altKey && event.nativeEvent.code === "KeyB") {
-			ref.current.getElementsByClassName("a11y_desc")[0].innerHTML = title.concat(descs[0]);
-			ref.current
-				.getElementsByClassName("a11y_desc")[0]
-				.setAttribute("aria-label", title.concat(descs[0]));
-			return;
-		}
+/**
+ * Handles the longer and shorter description change when Alt (option) + B or Alt (option) + S are pressed, respectively.
+ *
+ * @export
+ */
+export function descriptionsKeyHandler({
+	chartRef,
+	setDescriptionContent,
+	type,
+	descs,
+	title,
+	autoDescriptions,
+	event,
+}: DescriptionsKeyHandlerParams): void {
+	if (!chartRef.current) return;
+
+	const isItAutomatic = autoDescriptions ? "Automatic description: " : "";
+
+	const fullTitle = template("{{title}}, {{type}}. {{isItAutomatic}}", {
+		title,
+		type,
+		isItAutomatic,
+	});
+	if (!event) {
+		setDescriptionContent(fullTitle + descs[1]);
 		return;
+	}
+	if (event.altKey) {
+		switch (event.code) {
+			case "KeyS":
+				setDescriptionContent(fullTitle + descs[1]);
+				break;
+			case "KeyB":
+				setDescriptionContent(fullTitle + descs[0]);
+				break;
+		}
 	}
 }

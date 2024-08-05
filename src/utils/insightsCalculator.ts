@@ -6,25 +6,20 @@
  */
 
 import { sum, avg, max, min } from "./maths";
-
 /**
  * Calculates insights based on the array with only the values.
  *
  * @export
- * @template T
- * @return Array with the sum, average, maximum and minimum values.
+ * @param {number[]} arrayConverted - The array of numbers to calculate insights from.
+ * @return {number[]} Array with the sum, average, maximum and minimum values.
  */
-export function insightsCalculator<T extends number>(arrayConverted: T[]): number[] {
-	if (arrayConverted === undefined) {
+export function insightsCalculator(arrayConverted: number[]): number[] {
+	if (!arrayConverted || arrayConverted.length === 0) {
 		return [];
 	}
-	let insights = [];
-
-	const x = sum(arrayConverted);
-	const y = avg(arrayConverted, x);
-	const z = max(arrayConverted);
-	const w = min(arrayConverted);
-	insights = [x, y, z, w];
-
-	return insights;
+	const total = sum(arrayConverted);
+	const average = avg(arrayConverted);
+	const maximum = max(arrayConverted);
+	const minimum = min(arrayConverted);
+	return [total, average, maximum, minimum];
 }

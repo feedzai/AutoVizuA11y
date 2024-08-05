@@ -5,15 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-let lastId = 0;
+import { getLSItem, setLSItem } from "@feedzai/js-utilities";
 
 /**
- * Returns a new Id to be used by each AutoVizuA11y instance.
+ * Ensures the tutorial is heard the first time a chart is focused
  *
  * @export
- * @return An ID.
  */
-export function newId(prefix = "id") {
-	lastId++;
-	return `${prefix}${lastId}`;
+export function initToolTutorial() {
+	let toolTutorial = getLSItem("toolTutorial");
+
+	if (!toolTutorial) {
+		setLSItem("toolTutorial", "true");
+	}
 }
