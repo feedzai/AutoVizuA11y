@@ -10,7 +10,6 @@ import { addDataNavigation } from "./AddNavigation";
 import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
-import { ExtendedHTMLElement } from "./GuideKeyHandler";
 import { showAlert } from "../../utils/showAlert";
 
 import * as constants from "../../constants";
@@ -27,6 +26,8 @@ interface NavigationKeyHandlerParams {
 	series: string[];
 	selectorType: { element?: string; className?: string };
 	setVisibleShortcutGuide?: Function;
+	shortcutGuideRef?: React.RefObject<HTMLElement>;
+	isShorcutGuide?: boolean;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
 }
@@ -36,11 +37,6 @@ interface SwitchSeriesParams {
 	selectedSeries: string;
 	series: string[];
 }
-
-const isModalElement = (element: Element | null): boolean =>
-	element?.classList.contains(constants.MODAL_CONTENT_CLASS) ||
-	element?.classList.contains(constants.ROW_CLASS) ||
-	element?.id === constants.GUIDE_CLOSE_ID;
 
 /**
  * Handles navigation key events for chart interaction.
@@ -61,7 +57,14 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		multiSeries,
 		setVisibleShortcutGuide,
 		setSelectedSeries,
+		shortcutGuideRef,
 	} = params;
+
+	const isShorcutGuide = shortcutGuideRef?.current
+		? shortcutGuideRef.current.contains(document.activeElement)
+		: false;
+
+	console.log(isShorcutGuide);
 
 	const { altKey, key, code } = event.nativeEvent;
 
@@ -97,18 +100,19 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				chartRef,
 				multiSeries,
 				alertDivRef,
+				isShorcutGuide,
 			});
 		}
 
 		switch (key) {
 			case "ArrowDown":
-				handleArrowDown(event, chartRef, selectorType, selectedSeries, alertDivRef);
+				handleArrowDown(event, chartRef, selectorType, selectedSeries, alertDivRef, isShorcutGuide);
 				break;
 			case "ArrowUp":
-				handleArrowUp(event, chartRef, alertDivRef);
+				handleArrowUp(event, chartRef, alertDivRef, isShorcutGuide);
 				break;
 			case "?":
-				handleQuestionMark(event, chartRef, setVisibleShortcutGuide!);
+				handleQuestionMark(event, chartRef, setVisibleShortcutGuide!, isShorcutGuide);
 				break;
 		}
 
@@ -134,9 +138,10 @@ function handleAltM(
 		chartRef,
 		multiSeries,
 		alertDivRef,
+		isShorcutGuide,
 	} = params;
 
-	if (isModalElement(document.activeElement)) return number;
+	if (isShorcutGuide) return number;
 
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You can only change series while focused on a data point");
@@ -167,10 +172,11 @@ function handleArrowDown(
 	selectorType: { element?: string; className?: string },
 	selectedSeries: string,
 	alertDivRef: React.RefObject<HTMLElement>,
+	isShorcutGuide: boolean,
 ): void {
 	event.preventDefault();
 
-	if (isModalElement(document.activeElement)) return;
+	if (isShorcutGuide) return;
 
 	if (!document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You are already at the data level");
@@ -186,10 +192,11 @@ function handleArrowUp(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
 	alertDivRef: React.RefObject<HTMLElement>,
+	isShorcutGuide: boolean,
 ): void {
 	event.preventDefault();
 
-	if (isModalElement(document.activeElement)) return;
+	if (isShorcutGuide) return;
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You are already at the chart level");
 		return;
@@ -204,10 +211,9 @@ function handleQuestionMark(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
 	setVisibleShortcutGuide: Function,
+	isShorcutGuide: boolean,
 ): void {
-	const modal = document.getElementsByClassName("a11y_modal")[0];
-
-	if (modal) {
+	if (!isShorcutGuide) {
 		event.preventDefault();
 		levelGuide(chartRef, setVisibleShortcutGuide);
 	}

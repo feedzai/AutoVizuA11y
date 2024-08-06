@@ -326,6 +326,7 @@ const AutoVizuA11y = ({
 				setVisibleShortcutGuide,
 				autoDescriptions,
 				multiSeries,
+				shortcutGuideRef,
 			};
 			handleKeyDown(event, DATA);
 		},
