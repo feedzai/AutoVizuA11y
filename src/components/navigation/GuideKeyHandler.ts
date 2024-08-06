@@ -26,15 +26,11 @@ export function guideKeyHandler({
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
 	setVisibleShortcutGuide: Function;
-	shortcutGuideRef;
+	shortcutGuideRef: React.RefObject<HTMLElement>;
 }): void {
 	const { key } = event;
-	const activeElement = document.activeElement as HTMLElement;
 
-	const shouldHandleKey =
-		activeElement?.classList.contains("a11y_modal_content") ||
-		activeElement?.classList.contains("a11y_row") ||
-		activeElement?.id === "guide_close";
+	const shouldHandleKey = shortcutGuideRef.current?.contains(document.activeElement);
 
 	switch (key) {
 		case "Escape":

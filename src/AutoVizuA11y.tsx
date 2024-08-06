@@ -297,6 +297,12 @@ const AutoVizuA11y = ({
 		shortcutGuide = cloneElement(shortcutGuide, { closeShortcutGuide });
 	}
 
+	if (!isValidElement(shortcutGuide)) {
+		shortcutGuide = <ShortcutGuide closeShortcutGuide={closeShortcutGuide} />;
+	} else {
+		shortcutGuide = cloneElement(shortcutGuide, { closeShortcutGuide });
+	}
+
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const DATA = {
