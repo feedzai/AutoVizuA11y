@@ -21,18 +21,19 @@ function Homepage() {
 
 	return (
 		<div className="Homepage">
-			<h1>
-				<a href="https://github.com/feedzai/AutoVizuA11y" target="_blank">
-					AutoVizuA11y
-				</a>{" "}
-				— examples
-			</h1>
+			<h1>AutoVizuA11y — examples</h1>
 			{home === false ? (
 				<button onClick={goBack} tabIndex={0}>
 					Go back
 				</button>
 			) : (
-				<p> Choose one of the options to access a gallery of charts built using AutoVizuA11y </p>
+				<p>
+					{" "}
+					Choose one of the options to access a gallery of charts built using{" "}
+					<a href="https://github.com/feedzai/AutoVizuA11y" target="_blank">
+						AutoVizuA11y
+					</a>{" "}
+				</p>
 			)}
 			{isValid && apiKey !== "" ? (
 				<>
