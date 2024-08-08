@@ -190,7 +190,7 @@ const AutoVizuA11y = ({
 		() => (
 			<div
 				ref={alertDivRef}
-				className="a11y_alert visually-hidden"
+				className={constants.AUTOVIZUA11Y_CLASSES.alertDiv}
 				role="alert"
 				aria-live="assertive"
 			>
@@ -212,7 +212,7 @@ const AutoVizuA11y = ({
 		() => (
 			<p
 				style={{ textIndent: "-10000px" }}
-				className="a11y_desc visually-hidden"
+				className={constants.AUTOVIZUA11Y_CLASSES.a11yDesc}
 				data-testid="a11y_desc"
 				onFocus={onFocusHandler}
 				onBlur={onBlurHandler}
@@ -363,7 +363,7 @@ const AutoVizuA11y = ({
 			<div
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
-				className="a11y_chart"
+				className={constants.AUTOVIZUA11Y_CLASSES.a11yChart}
 				data-testid="a11y_chart"
 				key={`a11y_chart_${componentId}`}
 			>
@@ -377,7 +377,6 @@ const AutoVizuA11y = ({
 				onKeyDown={(event) => {
 					guideKeyHandler({ event, chartRef, setVisibleShortcutGuide, shortcutGuideRef });
 				}}
-				id="a11y_nav_guide"
 			>
 				{visibleShortcutGuide && shortcutGuide}
 			</div>

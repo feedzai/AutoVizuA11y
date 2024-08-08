@@ -20,3 +20,24 @@ export const FOCUS_CLASS = "focused";
 export const ALERT_MESSAGE =
 	"You just entered an AutoVizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide";
 export const ALERT_DURATION = 1000;
+export const AUTOVIZUA11Y_CLASSES = {
+	alertDiv: "a11y_alert visually-hidden",
+	a11yChart: "a11y_chart",
+	a11yDesc: "a11y_desc visually-hidden",
+	a11yNavGuide: "a11y_nav_guide",
+};
+export const SHORTCUTGUIDE_CLASSES = {
+	shortcutGuideBackground: "shortcut-guide__background",
+	shortcutGuideContainer: "shortcut-guide__container",
+	shortcutGuideHeader: "shortcut-guide__header",
+	shortcutGuideTitle: "shortcut-guide__title",
+	shortcutGuideActionLabel: "shortcut-guide__action-label",
+	shortcutGuideButtonClose: "shortcut-guide__button-close",
+	shortcutGuideBreak: "shortcut-guide__break",
+	shortcutGuideBody: "shortcut-guide__body",
+	shortcutGuideSection: "shortcut-guide__section",
+	shortcutGuideRow: "shortcut-guide__row",
+	shortcutGuideCellTitle: "shortcut-guide__cell shortcut-guide__cell--title",
+	shortcutGuideCellShortcut: "shortcut-guide__cell shortcut-guide__cell--shortcut",
+	shortcutGuideCellExplanation: "shortcut-guide__cell shortcut-guide__cell--explanation",
+};

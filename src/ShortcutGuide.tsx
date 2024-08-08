@@ -9,6 +9,8 @@ import React, { useRef, useEffect } from "react";
 import "./assets/style/ShortcutGuideStyle.css";
 import { guideData } from "./assets/data/GuideData";
 
+import * as constants from "./constants";
+
 export interface ShortcutGuideProps {
 	closeShortcutGuide: () => void;
 }
@@ -27,9 +29,12 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 
 	return (
 		<>
-			<div className="shortcut-guide__background" data-testid="shortcut-guide">
+			<div
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBackground}
+				data-testid="shortcut-guide"
+			>
 				<div
-					className="shortcut-guide__container"
+					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}
 					tabIndex={0}
 					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
           charts and underlying data elements using just the keyboard. When focused on a chart,
@@ -37,26 +42,26 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
           indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is
           recommended to turn Focus mode before navigating the data using the arrow keys."
 				>
-					<div className="shortcut-guide__header">
-						<h2 className="shortcut-guide__title">Shortcut Guide</h2>
-						<p className="shortcut-guide__action-label">? or Esc</p>
+					<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
+						<h2 className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}>Shortcut Guide</h2>
+						<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
 						<button
-							className="shortcut-guide__button-close"
+							className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 							aria-label="Close shortcut guide"
 							onClick={() => closeShortcutGuide()}
 						>
 							&times;
 						</button>
 					</div>
-					<hr className="shortcut-guide__break" />
+					<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
 					{[guideData].map((sectionGroup, groupIndex) => (
-						<div className="shortcut-guide__body" key={groupIndex}>
+						<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody} key={groupIndex}>
 							{sectionGroup.map((section) => (
 								<>
-									<div className="shortcut-guide__section">
-										<div className="shortcut-guide__row" tabIndex={0}>
+									<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
+										<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow} tabIndex={0}>
 											<div
-												className="shortcut-guide__cell shortcut-guide__cell--title"
+												className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellTitle}
 												aria-label={`Section: ${section.title}`}
 												role="listitem"
 											>
@@ -66,15 +71,17 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 										{section.shortcuts.map((shortcut, shortcutIndex) => (
 											<div
 												key={shortcutIndex}
-												className="shortcut-guide__row"
+												className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
 												tabIndex={0}
 												aria-label={`${shortcut.description}: ${shortcut.keys}`}
 												role="listitem"
 											>
-												<div className="shortcut-guide__cell shortcut-guide__cell--shortcut">
+												<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
 													{shortcut.keys}
 												</div>
-												<div className="shortcut-guide__cell shortcut-guide__cell--explanation">
+												<div
+													className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}
+												>
 													{shortcut.description}
 												</div>
 											</div>
