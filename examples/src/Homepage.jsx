@@ -21,31 +21,45 @@ function Homepage() {
 
 	return (
 		<div className="Homepage">
-			<h1>AutoVizuA11y - examples</h1>
-			<h5>
-				Data from{" "}
-				<a href="https://data.un.org/" target="_blank">
-					UN Data
-				</a>
-			</h5>
+			<h1>
+				<a href="https://github.com/feedzai/AutoVizuA11y" target="_blank">
+					AutoVizuA11y
+				</a>{" "}
+				— examples
+			</h1>
 			{home === false ? (
 				<button onClick={goBack} tabIndex={0}>
 					Go back
 				</button>
-			) : null}
+			) : (
+				<p> Choose one of the options to access a gallery of charts built using AutoVizuA11y </p>
+			)}
 			{isValid && apiKey !== "" ? (
-				<div style={{ marginTop: 20 }}>
-					{" "}
-					<CardGrid apiKey={apiKey} setHome={setHome} />
-				</div>
+				<>
+					<div style={{ marginTop: 20 }}>
+						<CardGrid apiKey={apiKey} setHome={setHome} />
+					</div>
+					<p>
+						Data from{" "}
+						<a href="https://data.un.org/" target="_blank">
+							UN Data
+						</a>
+					</p>
+				</>
 			) : manual ? (
-				<div style={{ marginTop: 20 }}>
-					{" "}
-					<CardGridManual setHome={setHome} />
-				</div>
+				<>
+					<div style={{ marginTop: 20 }}>
+						<CardGridManual setHome={setHome} />
+					</div>
+					<p>
+						Data from{" "}
+						<a href="https://data.un.org/" target="_blank">
+							UN Data
+						</a>
+					</p>
+				</>
 			) : automatic ? (
 				<div style={{ margin: 20 }}>
-					{" "}
 					<KeyRequest
 						apiKey={apiKey}
 						setApiKey={setApiKey}
@@ -54,7 +68,7 @@ function Homepage() {
 						home={home}
 						setHome={setHome}
 						setAutomatic={setAutomatic}
-					/>{" "}
+					/>
 				</div>
 			) : home ? (
 				<Options
