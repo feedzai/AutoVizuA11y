@@ -320,17 +320,13 @@ const AutoVizuA11y = ({
 		asyncEffect();
 	}, [chartRef]);
 
-	if (!isValidElement(shortcutGuide)) {
-		shortcutGuide = <ShortcutGuide closeShortcutGuide={closeShortcutGuide} />;
-	} else {
-		shortcutGuide = cloneElement(shortcutGuide, { closeShortcutGuide });
-	}
+	const IS_SHORTCUT_GUIDE_ELEMENT = !!isValidElement(shortcutGuide);
 
-	if (!isValidElement(shortcutGuide)) {
-		shortcutGuide = <ShortcutGuide closeShortcutGuide={closeShortcutGuide} />;
-	} else {
-		shortcutGuide = cloneElement(shortcutGuide, { closeShortcutGuide });
-	}
+	shortcutGuide = IS_SHORTCUT_GUIDE_ELEMENT ? (
+		cloneElement(shortcutGuide!, { closeShortcutGuide })
+	) : (
+		<ShortcutGuide closeShortcutGuide={closeShortcutGuide} />
+	);
 
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
