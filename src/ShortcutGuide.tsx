@@ -7,7 +7,7 @@
 
 import React, { useRef, useEffect } from "react";
 import "./assets/style/ShortcutGuideStyle.css";
-import { guideData } from "./assets/data/GuideData";
+import { GUIDE_DATA } from "./assets/data/GuideData";
 
 import * as constants from "./constants";
 
@@ -69,7 +69,7 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 						</button>
 					</div>
 					<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
-					{[guideData].map((sectionGroup, groupIndex) => (
+					{[GUIDE_DATA].map((sectionGroup, groupIndex) => (
 						<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody} key={groupIndex}>
 							{sectionGroup.map((section) => (
 								<>

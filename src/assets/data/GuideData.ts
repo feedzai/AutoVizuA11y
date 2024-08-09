@@ -8,7 +8,7 @@ interface Guide {
 	shortcuts: Shortcut[];
 }
 
-export const guideData: Guide[] = [
+export const GUIDE_DATA: Guide[] = [
 	{
 		title: "Access the guide",
 		shortcuts: [
