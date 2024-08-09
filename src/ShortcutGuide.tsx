@@ -33,15 +33,18 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBackground}
 				data-testid="shortcut-guide"
 			>
-				<div
-					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}
-					tabIndex={0}
-					aria-label="AutoVizually shortcut guide. AutoVizually lets you navigate between
-          charts and underlying data elements using just the keyboard. When focused on a chart,
-          a description regarding the data will be provided — you might receive a notification
-          indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is
-          recommended to turn Focus mode before navigating the data using the arrow keys."
+				<p
+					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
+					data-testid="shortcut-guide"
+					id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
 				>
+					AutoVizually shortcut guide. AutoVizually lets you navigate between charts and underlying
+					data elements using just the keyboard. When focused on a chart, a description regarding
+					the data will be provided — you might receive a notification indicating that the chart
+					description was produced by an AI model. For JAWS and NVDA users, it is recommended to
+					turn Focus mode before navigating the data using the arrow keys.
+				</p>
+				<div tabIndex={0} aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}>
 					<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
 						<h2 className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}>Shortcut Guide</h2>
 						<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>

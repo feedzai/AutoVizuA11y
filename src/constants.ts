@@ -40,4 +40,8 @@ export const SHORTCUTGUIDE_CLASSES = {
 	shortcutGuideCellTitle: "shortcut-guide__cell shortcut-guide__cell--title",
 	shortcutGuideCellShortcut: "shortcut-guide__cell shortcut-guide__cell--shortcut",
 	shortcutGuideCellExplanation: "shortcut-guide__cell shortcut-guide__cell--explanation",
+	shortcutGuideDescription: "visually-hidden",
+};
+export const SHORTCUTGUIDE_ID = {
+	shortcutGuideDescription: "shortcut-guide__description",
 };
