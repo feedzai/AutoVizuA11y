@@ -176,15 +176,6 @@ const AutoVizuA11y = ({
 
 	let componentId = useAutoId();
 
-	useEffect(() => {
-		if (isVisibleShortcutGuide) {
-			let modalContent = shortcutGuideRef.current!.getElementsByClassName(
-				"shortcut-guide__container",
-			)[0] as HTMLElement;
-			modalContent?.focus();
-		}
-	}, [isVisibleShortcutGuide]);
-
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = useMemo(
 		() => (

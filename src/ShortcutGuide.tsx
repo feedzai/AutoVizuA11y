@@ -22,6 +22,14 @@ export interface ShortcutGuideProps {
  */
 const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => {
 	const refNav = useRef(null);
+	const containerRef = useRef<HTMLDivElement>(null);
+
+	useEffect(() => {
+		if (containerRef.current) {
+			containerRef.current.focus();
+		}
+	}, []);
+
 	useEffect(() => {
 		//needs a slight delay since some elements take time to load
 		setTimeout(() => {}, 500);
@@ -35,7 +43,6 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 			>
 				<p
 					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
-					data-testid="shortcut-guide"
 					id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
 				>
 					AutoVizually shortcut guide. AutoVizually lets you navigate between charts and underlying
@@ -44,7 +51,12 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({ closeShortcutGuide }) => 
 					description was produced by an AI model. For JAWS and NVDA users, it is recommended to
 					turn Focus mode before navigating the data using the arrow keys.
 				</p>
-				<div tabIndex={0} aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}>
+				<div
+					tabIndex={0}
+					aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}
+					ref={containerRef}
+				>
 					<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
 						<h2 className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}>Shortcut Guide</h2>
 						<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
