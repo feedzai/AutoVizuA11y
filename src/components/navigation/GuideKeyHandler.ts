@@ -20,12 +20,12 @@ export interface ExtendedHTMLElement extends HTMLElement {
 export function guideKeyHandler({
 	event,
 	chartRef,
-	setVisibleShortcutGuide,
+	setIsVisibleShortcutGuide,
 	shortcutGuideRef,
 }: {
 	event: React.KeyboardEvent;
 	chartRef: React.RefObject<HTMLElement>;
-	setVisibleShortcutGuide: Function;
+	setIsVisibleShortcutGuide: Function;
 	shortcutGuideRef: React.RefObject<HTMLElement>;
 }): void {
 	const { key } = event;
@@ -37,7 +37,7 @@ export function guideKeyHandler({
 		case "?":
 			if (shouldHandleKey) {
 				event.preventDefault();
-				returnGuide(chartRef, setVisibleShortcutGuide);
+				returnGuide(chartRef, setIsVisibleShortcutGuide);
 			}
 			break;
 		default:
@@ -54,8 +54,8 @@ export function guideKeyHandler({
  */
 export function returnGuide(
 	chartRef: React.RefObject<HTMLElement>,
-	setVisibleShortcutGuide: Function,
+	setIsVisibleShortcutGuide: Function,
 ): void {
 	switchToChartLevel(chartRef);
-	setVisibleShortcutGuide(false);
+	setIsVisibleShortcutGuide(false);
 }

@@ -35,7 +35,7 @@ interface HandleKeyDownProps {
 	title: string;
 	descs: string[];
 	shortcutGuideRef: React.RefObject<HTMLDivElement>;
-	setVisibleShortcutGuide?: Function;
+	setIsVisibleShortcutGuide?: Function;
 	autoDescriptions?: AutoDescriptionsProps;
 	multiSeries?: string;
 }
@@ -61,7 +61,7 @@ export async function handleKeyDown(
 		arrayConverted,
 		title,
 		descs,
-		setVisibleShortcutGuide,
+		setIsVisibleShortcutGuide,
 		autoDescriptions,
 		multiSeries,
 		shortcutGuideRef,
@@ -75,7 +75,7 @@ export async function handleKeyDown(
 		elements,
 		alertDivRef,
 		selectedSeries,
-		setVisibleShortcutGuide,
+		setIsVisibleShortcutGuide,
 		series,
 		selectorType,
 		multiSeries,

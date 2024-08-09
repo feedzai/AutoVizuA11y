@@ -160,7 +160,7 @@ const AutoVizuA11y = ({
 
 	const dataString = useMemo(() => JSON.stringify(data), data);
 
-	const [visibleShortcutGuide, setVisibleShortcutGuide] = useState(false);
+	const [isVisibleShortcutGuide, setIsVisibleShortcutGuide] = useState(false);
 
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
@@ -177,13 +177,13 @@ const AutoVizuA11y = ({
 	let componentId = useAutoId();
 
 	useEffect(() => {
-		if (visibleShortcutGuide) {
+		if (isVisibleShortcutGuide) {
 			let modalContent = shortcutGuideRef.current!.getElementsByClassName(
 				"shortcut-guide__container",
 			)[0] as HTMLElement;
 			modalContent?.focus();
 		}
-	}, [visibleShortcutGuide]);
+	}, [isVisibleShortcutGuide]);
 
 	let alertDivRef = useRef<HTMLDivElement>(null);
 	let alertDiv: React.ReactNode = useMemo(
@@ -230,7 +230,7 @@ const AutoVizuA11y = ({
 	);
 
 	function closeShortcutGuide() {
-		returnGuide(chartRef, setVisibleShortcutGuide);
+		returnGuide(chartRef, setIsVisibleShortcutGuide);
 	}
 
 	useEffect(() => {
@@ -348,7 +348,7 @@ const AutoVizuA11y = ({
 				arrayConverted,
 				title,
 				descs,
-				setVisibleShortcutGuide,
+				setIsVisibleShortcutGuide,
 				autoDescriptions,
 				multiSeries,
 				shortcutGuideRef,
@@ -375,10 +375,10 @@ const AutoVizuA11y = ({
 			<div
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler({ event, chartRef, setVisibleShortcutGuide, shortcutGuideRef });
+					guideKeyHandler({ event, chartRef, setIsVisibleShortcutGuide, shortcutGuideRef });
 				}}
 			>
-				{visibleShortcutGuide && shortcutGuide}
+				{isVisibleShortcutGuide && shortcutGuide}
 			</div>
 		</>
 	);
