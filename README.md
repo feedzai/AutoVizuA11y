@@ -10,13 +10,13 @@ This tool focuses on three different key components that were identified after c
 
 ## Install AutoVizuA11y
 
-#### Via npm
+### Via npm
 
 ```
 npm i @feedzai/autovizua11y
 ```
 
-#### Via Github
+### Via Github
 
 Clone the repository into a local directory using:
 
@@ -27,12 +27,12 @@ cd autovizua11y
 
 ## AutoVizuA11y for Developers
 
-#### Inputs
+### Inputs
 
 - A set of props, passed in the AutoVizuA11y component, with information regarding the data visualization wrapped.
 - The chart that will receive AutoVizuA11y's accessibility features.
 
-#### Outputs
+### Outputs
 
 - **Navigation**
   - "Horizontally", between different data visualizations and between data elements;
@@ -58,7 +58,7 @@ cd autovizua11y
 | `descriptor`                                   | Optional            | string           | By receiving a `string`, this descriptor helps better contextualize what data elements are. It is added at the end of each data element. If no descriptor is provided, blank text (””) is set instead.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `multiSeries`                                  | Optional            | string           | When working with multi-series data, provide a `string` that corresponds to the key in the data object that defines each series, allowing users to navigate between different series/clusters in addition to regular navigation. If an empty string `""` is passed, the tool interprets the data as single series.                                                                                                                                                                                                                                                                                                       |
 | `context`                                      | Optional            | string           | The context in which the data visualization is present. It is passed in the prompt, when generating automatic the descriptions, resulting in contextualized outputs.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `shortcutGuide` <a id="shortcutGuideProp"></a> | Optional            | ReactElement     | AutoVizuA11y has its default ShortcutGuide but you may create your own. To handle the logic of closing the guide, make sure to include the prop `closeShortcutGuide` in your component. This function is handled by AutoVizuA11y — you may use it, for instance, in a close button inside your component. Additionally, to ensure your guide gets keyboard focus automatically, give it the className `shortcut-guide__container`.                                                                                                                                                                                       |
+| `shortcutGuide` <a id="shortcutGuideProp"></a> | Optional            | ReactElement     | AutoVizuA11y has its default ShortcutGuide but you may create your own. Since the ShortcutGuide is wrapped in a <dialog> a closing button should be set accordingly.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `autoDescriptions`                             | Required (option A) | object           | Various options regarding the creation of automatic descriptions with OpenAI models. AutoVizuA11y does two API calls per wrapped visualization, one for each type of description (longer and shorter). The options for this prop can be checked [here](#autoDescriptions-prop-options). This prop cannot be used at the same time as "manualDescriptions".                                                                                                                                                                                                                                                               |
 | `manualDescriptions`                           | Required (option B) | object           | Two manually written descriptions of the data. By providing this prop, no automatic descriptions are generated, thus not having any costs associated. The options for this prop can be checked [here](#manualdescriptions-prop-options). This prop cannot be used at the same time as "autoDescriptions".                                                                                                                                                                                                                                                                                                                |
 
@@ -208,7 +208,7 @@ The Shortcut Guide is the only aspect of AutoVizuA11y that is also visual. You m
 
 | className                      | HTML   |
 | ------------------------------ | ------ |
-| shortcut-guide\_\_background   | div    |
+| shortcut-guide                 | form   |
 | shortcut-guide\_\_container    | div    |
 | shortcut-guide\_\_header       | div    |
 | shortcut-guide\_\_title        | h2     |

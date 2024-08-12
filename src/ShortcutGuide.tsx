@@ -27,7 +27,7 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({}) => {
 	}, [refNav]);
 
 	return (
-		<form className="shortcut-guide" method="dialog">
+		<form className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide} method="dialog">
 			<p
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
 				id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}

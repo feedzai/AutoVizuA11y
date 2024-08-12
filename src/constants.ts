@@ -27,7 +27,7 @@ export const AUTOVIZUA11Y_CLASSES = {
 	a11yNavGuide: "a11y_nav_guide",
 };
 export const SHORTCUTGUIDE_CLASSES = {
-	shortcutGuideBackground: "shortcut-guide__background",
+	shortcutGuide: "shortcut-guide",
 	shortcutGuideContainer: "shortcut-guide__container",
 	shortcutGuideHeader: "shortcut-guide__header",
 	shortcutGuideTitle: "shortcut-guide__title",
