@@ -4,7 +4,7 @@
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
-@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700&display=swap");
 
 .shortcut-guide__background {
 	display: block;
@@ -56,7 +56,7 @@
 .shortcut-guide__action-label {
 	display: none;
 	margin-right: 0.5rem;
-	font-weight: lighter;
+	font-weight: 300;
 }
 
 .shortcut-guide__break {
@@ -100,7 +100,7 @@
 	align-items: center;
 	justify-content: center;
 	background-color: #f5f5f7;
-	font-weight: bold;
+	font-weight: 700;
 	border-radius: 2px;
 	height: 24px;
 	width: 100px;
