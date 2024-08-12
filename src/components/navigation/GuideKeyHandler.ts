@@ -5,8 +5,6 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { switchToChartLevel } from "./NavigationKeyHandler";
-
 export interface ExtendedHTMLElement extends HTMLElement {
 	pastFocus?: HTMLElement | null;
 }
@@ -19,12 +17,12 @@ export interface ExtendedHTMLElement extends HTMLElement {
  */
 export function guideKeyHandler({
 	event,
-	chartRef,
 	shortcutGuideRef,
+	setIsShortcutGuideOpen,
 }: {
 	event: React.KeyboardEvent;
-	chartRef: React.RefObject<HTMLElement>;
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
+	setIsShortcutGuideOpen: (bool: boolean) => void;
 }): void {
 	const { key } = event;
 
@@ -35,7 +33,7 @@ export function guideKeyHandler({
 		case "?":
 			if (shouldHandleKey) {
 				event.preventDefault();
-				returnGuide(chartRef, shortcutGuideRef);
+				returnGuide(shortcutGuideRef, setIsShortcutGuideOpen);
 			}
 			break;
 		default:
@@ -50,7 +48,10 @@ export function guideKeyHandler({
  *
  * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
-export function returnGuide(chartRef: React.RefObject<HTMLElement>, shortcutGuideRef: any): void {
-	switchToChartLevel(chartRef);
-	shortcutGuideRef.current.close();
+export function returnGuide(
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+	setIsShortcutGuideOpen: (bool: boolean) => void,
+): void {
+	shortcutGuideRef.current!.close();
+	setIsShortcutGuideOpen(false);
 }

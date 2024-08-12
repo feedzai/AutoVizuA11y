@@ -25,8 +25,9 @@ interface NavigationKeyHandlerParams {
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
-	shortcutGuideRef?: React.RefObject<HTMLElement>;
-	isShorcutGuide?: boolean;
+	isShortcutGuideOpen: boolean;
+	setIsShortcutGuideOpen?: (bool: boolean) => void;
+	shortcutGuideRef?: React.RefObject<HTMLDialogElement>;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
 }
@@ -56,13 +57,13 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		multiSeries,
 		setSelectedSeries,
 		shortcutGuideRef,
+		isShortcutGuideOpen,
+		setIsShortcutGuideOpen,
 	} = params;
 
-	const IS_SHORTCUT_GUIDE = shortcutGuideRef?.current
-		? shortcutGuideRef.current.contains(document.activeElement)
-		: false;
-
 	const { altKey, key, code } = event.nativeEvent;
+
+	if (!shortcutGuideRef || !setIsShortcutGuideOpen) return number;
 
 	try {
 		const updatedNumber = await xSetter({ event, type, number, alertDivRef });
@@ -96,7 +97,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				chartRef,
 				multiSeries,
 				alertDivRef,
-				isShorcutGuide: IS_SHORTCUT_GUIDE,
+				isShortcutGuideOpen,
 			});
 		}
 
@@ -108,14 +109,14 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 					selectorType,
 					selectedSeries,
 					alertDivRef,
-					IS_SHORTCUT_GUIDE,
+					isShortcutGuideOpen,
 				);
 				break;
 			case "ArrowUp":
-				handleArrowUp(event, chartRef, alertDivRef, IS_SHORTCUT_GUIDE);
+				handleArrowUp(event, chartRef, alertDivRef, isShortcutGuideOpen);
 				break;
 			case "?":
-				handleQuestionMark(event, IS_SHORTCUT_GUIDE, shortcutGuideRef);
+				handleQuestionMark(event, isShortcutGuideOpen, shortcutGuideRef, setIsShortcutGuideOpen);
 				break;
 		}
 
@@ -141,10 +142,10 @@ function handleAltM(
 		chartRef,
 		multiSeries,
 		alertDivRef,
-		isShorcutGuide,
+		isShortcutGuideOpen,
 	} = params;
 
-	if (isShorcutGuide) return number;
+	if (isShortcutGuideOpen) return number;
 
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You can only change series while focused on a data point");
@@ -213,11 +214,13 @@ function handleArrowUp(
 function handleQuestionMark(
 	event: React.KeyboardEvent,
 	isShorcutGuide: boolean,
-	shortcutGuideRef: any,
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+	setIsShortcutGuideOpen: (bool: boolean) => void,
 ): void {
 	if (!isShorcutGuide) {
 		event.preventDefault();
-		shortcutGuideRef.current.showModal();
+		shortcutGuideRef.current!.showModal();
+		setIsShortcutGuideOpen(true);
 	}
 }
 

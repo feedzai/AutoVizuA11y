@@ -167,6 +167,7 @@ const AutoVizuA11y = ({
 	const [descs, setDescs] = useState<string[]>([]);
 	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 	const [elements, setElements] = useState<HTMLElement[]>([]);
+	const [isShortcutGuideOpen, setIsShortcutGuideOpen] = useState<boolean>(false);
 
 	const chartRef = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDialogElement>(null);
@@ -330,6 +331,8 @@ const AutoVizuA11y = ({
 				autoDescriptions,
 				multiSeries,
 				shortcutGuideRef,
+				isShortcutGuideOpen,
+				setIsShortcutGuideOpen,
 			};
 			handleKeyDown(event, DATA);
 		},
@@ -354,10 +357,13 @@ const AutoVizuA11y = ({
 				id="dialog"
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler({ event, chartRef, shortcutGuideRef });
+					guideKeyHandler({ event, shortcutGuideRef, setIsShortcutGuideOpen });
 				}}
 				aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
 				className={constants.AUTOVIZUA11Y_CLASSES.a11yNavGuide}
+				onClose={() => {
+					setIsShortcutGuideOpen(false);
+				}}
 			>
 				{shortcutGuide}
 			</dialog>

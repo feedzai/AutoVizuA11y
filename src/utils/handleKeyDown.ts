@@ -34,6 +34,8 @@ interface HandleKeyDownProps {
 	arrayConverted: number[];
 	title: string;
 	descs: string[];
+	isShortcutGuideOpen: boolean;
+	setIsShortcutGuideOpen: (bool: boolean) => void;
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
 	autoDescriptions?: AutoDescriptionsProps;
 	multiSeries?: string;
@@ -63,6 +65,8 @@ export async function handleKeyDown(
 		autoDescriptions,
 		multiSeries,
 		shortcutGuideRef,
+		isShortcutGuideOpen,
+		setIsShortcutGuideOpen,
 	}: HandleKeyDownProps,
 ): Promise<void> {
 	const newNumber = await navigationKeyHandler({
@@ -78,6 +82,8 @@ export async function handleKeyDown(
 		multiSeries,
 		setSelectedSeries,
 		shortcutGuideRef,
+		isShortcutGuideOpen,
+		setIsShortcutGuideOpen,
 	});
 	setNumber(newNumber);
 	descriptionsKeyHandler({
