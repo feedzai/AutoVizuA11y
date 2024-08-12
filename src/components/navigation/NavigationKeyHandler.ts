@@ -64,8 +64,6 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		? shortcutGuideRef.current.contains(document.activeElement)
 		: false;
 
-	console.log(isShorcutGuide);
-
 	const { altKey, key, code } = event.nativeEvent;
 
 	try {
