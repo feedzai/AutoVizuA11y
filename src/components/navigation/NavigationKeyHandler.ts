@@ -60,7 +60,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		shortcutGuideRef,
 	} = params;
 
-	const isShorcutGuide = shortcutGuideRef?.current
+	const IS_SHORTCUT_GUIDE = shortcutGuideRef?.current
 		? shortcutGuideRef.current.contains(document.activeElement)
 		: false;
 
@@ -98,19 +98,26 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				chartRef,
 				multiSeries,
 				alertDivRef,
-				isShorcutGuide,
+				isShorcutGuide: IS_SHORTCUT_GUIDE,
 			});
 		}
 
 		switch (key) {
 			case "ArrowDown":
-				handleArrowDown(event, chartRef, selectorType, selectedSeries, alertDivRef, isShorcutGuide);
+				handleArrowDown(
+					event,
+					chartRef,
+					selectorType,
+					selectedSeries,
+					alertDivRef,
+					IS_SHORTCUT_GUIDE,
+				);
 				break;
 			case "ArrowUp":
-				handleArrowUp(event, chartRef, alertDivRef, isShorcutGuide);
+				handleArrowUp(event, chartRef, alertDivRef, IS_SHORTCUT_GUIDE);
 				break;
 			case "?":
-				handleQuestionMark(event, chartRef, setIsVisibleShortcutGuide!, isShorcutGuide);
+				handleQuestionMark(event, chartRef, setIsVisibleShortcutGuide!, IS_SHORTCUT_GUIDE);
 				break;
 		}
 
