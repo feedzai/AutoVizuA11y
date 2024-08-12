@@ -7,7 +7,6 @@
 
 import React, {
 	useCallback,
-	cloneElement,
 	isValidElement,
 	useEffect,
 	useMemo,
@@ -25,7 +24,7 @@ import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKe
 import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
-import { guideKeyHandler, returnGuide } from "./components/navigation/GuideKeyHandler";
+import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
 import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
@@ -160,8 +159,6 @@ const AutoVizuA11y = ({
 
 	const dataString = useMemo(() => JSON.stringify(data), data);
 
-	const [isVisibleShortcutGuide, setIsVisibleShortcutGuide] = useState(false);
-
 	const [series, setSeries] = useState<string[]>([]);
 	const [selectedSeries, setSelectedSeries] = useState<string>("");
 	const [insightsArray, setInsightsArray] = useState<number[]>([]);
@@ -172,7 +169,7 @@ const AutoVizuA11y = ({
 	const [elements, setElements] = useState<HTMLElement[]>([]);
 
 	const chartRef = useRef<HTMLDivElement>(null);
-	const shortcutGuideRef = useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = useRef<HTMLDialogElement>(null);
 
 	let componentId = useAutoId();
 
@@ -219,10 +216,6 @@ const AutoVizuA11y = ({
 		() => React.Children.map(children, (child) => <div>{child}</div>),
 		[children],
 	);
-
-	function closeShortcutGuide() {
-		returnGuide(chartRef, setIsVisibleShortcutGuide);
-	}
 
 	useEffect(() => {
 		if (!chartRef.current) {
@@ -313,16 +306,11 @@ const AutoVizuA11y = ({
 
 	const IS_SHORTCUT_GUIDE_ELEMENT = !!isValidElement(shortcutGuide);
 
-	shortcutGuide = IS_SHORTCUT_GUIDE_ELEMENT ? (
-		cloneElement(shortcutGuide!, { closeShortcutGuide })
-	) : (
-		<ShortcutGuide closeShortcutGuide={closeShortcutGuide} />
-	);
+	shortcutGuide = IS_SHORTCUT_GUIDE_ELEMENT ? shortcutGuide : <ShortcutGuide />;
 
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const DATA = {
-				event,
 				alertDivRef,
 				type,
 				number,
@@ -339,7 +327,6 @@ const AutoVizuA11y = ({
 				arrayConverted,
 				title,
 				descs,
-				setIsVisibleShortcutGuide,
 				autoDescriptions,
 				multiSeries,
 				shortcutGuideRef,
@@ -363,14 +350,17 @@ const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
-			<div
+			<dialog
+				id="dialog"
 				ref={shortcutGuideRef}
 				onKeyDown={(event) => {
-					guideKeyHandler({ event, chartRef, setIsVisibleShortcutGuide, shortcutGuideRef });
+					guideKeyHandler({ event, chartRef, shortcutGuideRef });
 				}}
+				aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+				className={constants.AUTOVIZUA11Y_CLASSES.a11yNavGuide}
 			>
-				{isVisibleShortcutGuide && shortcutGuide}
-			</div>
+				{shortcutGuide}
+			</dialog>
 		</>
 	);
 };
