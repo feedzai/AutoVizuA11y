@@ -52,11 +52,11 @@
 	margin: 0;
 }
 
-.shortcut-guide__button-close:hover,
+/* .shortcut-guide__button-close:hover,
 .shortcut-guide__button-close:focus {
 	color: var(--shortcut-guide-close-button-hover-color);
 	text-decoration: none;
-}
+} */
 
 .shortcut-guide__title {
 	margin-right: auto;
