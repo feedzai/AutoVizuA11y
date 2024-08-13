@@ -56,33 +56,39 @@ const NativeShortcutGuide: FC = () => {
 						tabIndex={-1}
 						key={groupIndex}
 					>
-						{sectionGroup.map((section) => (
+						{sectionGroup.map((section, sectionIndex) => (
 							<>
 								<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
-									<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow} tabIndex={0}>
-										<h3
-											className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellTitle}
-											aria-label={`Section: ${section.title}`}
-										>
-											{section.title}
-										</h3>
-									</div>
-									{section.shortcuts.map((shortcut, shortcutIndex) => (
-										<div
-											key={shortcutIndex}
-											className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
-											tabIndex={0}
-											aria-label={`${shortcut.description}: ${shortcut.keys}`}
-											role="listitem"
-										>
-											<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
-												{shortcut.keys}
+									<h3
+										className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellTitle}
+										id={`listHeader${sectionIndex}`}
+										aria-label={`Section: ${section.title}`}
+									>
+										{section.title}
+									</h3>
+									<dl
+										className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideList}
+										aria-labelledby={`listHeader${sectionIndex}`}
+									>
+										{section.shortcuts.map((shortcut, shortcutIndex) => (
+											<div
+												key={shortcutIndex}
+												className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
+												tabIndex={0}
+												aria-label={`${shortcut.description}: ${shortcut.keys}`}
+												role="listitem"
+											>
+												<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
+													{shortcut.keys}
+												</dt>
+												<dd
+													className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}
+												>
+													{shortcut.description}
+												</dd>
 											</div>
-											<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}>
-												{shortcut.description}
-											</div>
-										</div>
-									))}
+										))}
+									</dl>
 								</div>
 							</>
 						))}
