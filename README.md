@@ -206,19 +206,23 @@ The Shortcut Guide is the only aspect of AutoVizuA11y that is also visual. You m
 
 <img src="./src/assets/images/shortcut_guide_class_anatomy.png">
 
-| className                      | HTML   |
-| ------------------------------ | ------ |
-| shortcut-guide                 | form   |
-| shortcut-guide\_\_container    | div    |
-| shortcut-guide\_\_header       | div    |
-| shortcut-guide\_\_title        | h2     |
-| shortcut-guide\_\_button-label | p      |
-| shortcut-guide\_\_button       | button |
-| shortcut-guide\_\_break        | hr     |
-| shortcut-guide\_\_body         | div    |
-| shortcut-guide\_\_section      | div    |
-| shortcut-guide\_\_row          | div    |
-| shortcut-guide\_\_cell         | div    |
+| className                           | HTML   |
+| ----------------------------------- | ------ |
+| shortcut-guide                      | form   |
+| shortcut-guide\_\_container         | div    |
+| shortcut-guide\_\_header            | div    |
+| shortcut-guide\_\_title             | h2     |
+| shortcut-guide\_\_button-label      | p      |
+| shortcut-guide\_\_button            | button |
+| shortcut-guide\_\_break             | hr     |
+| shortcut-guide\_\_body              | div    |
+| shortcut-guide\_\_section           | div    |
+| shortcut-guide\_\_list--title       | h3     |
+| shortcut-guide\_\_list              | dl     |
+| shortcut-guide\_\_row               | div    |
+| shortcut-guide\_\_cell              | div    |
+| shortcut-guide\_\_cell--shortcut    | dt     |
+| shortcut-guide\_\_cell--explanation | dl     |
 
 ## Citing AutoVizuA11y
 

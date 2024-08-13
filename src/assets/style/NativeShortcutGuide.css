@@ -22,7 +22,6 @@
 	--shortcut-guide-title-font-weight: 700;
 	--shortcut-guide-cell-background: #f5f5f7;
 	--shortcut-guide-cell-title-font-size: 0.75rem;
-	--shortcut-guide-cell-title-max-width: 100px;
 	--shortcut-guide-cell-shortcut-font-size: 0.75rem;
 	--shortcut-guide-cell-shortcut-background: #f5f5f7;
 	--shortcut-guide-cell-shortcut-height: 1.5rem;
@@ -89,25 +88,27 @@
 	display: none;
 }
 
-.shortcut-guide__cell--title {
+.shortcut-guide__list--title {
 	margin: 0 auto 0 0;
 }
 
-.shortcut-guide__cell--title,
+.shortcut-guide__list--title,
 .shortcut-guide__cell--explanation {
 	text-align: left;
 	padding-left: 0;
+	margin: 0;
 }
 
-.shortcut-guide__cell--title,
+.shortcut-guide__list--title,
 .shortcut-guide__cell--shortcut {
 	font-size: var(--shortcut-guide-cell-title-font-size);
 }
 
-.shortcut-guide__cell--title {
-	max-width: var(--shortcut-guide-cell-title-max-width);
+.shortcut-guide__list--title {
 	white-space: nowrap;
 	font-weight: var(--shortcut-guide-title-font-weight);
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .shortcut-guide__cell--shortcut {

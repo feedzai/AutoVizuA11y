@@ -60,7 +60,7 @@ const NativeShortcutGuide: FC = () => {
 							<>
 								<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
 									<h3
-										className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellTitle}
+										className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideListTitle}
 										id={`listHeader${sectionIndex}`}
 										aria-label={`Section: ${section.title}`}
 									>
