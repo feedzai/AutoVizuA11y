@@ -5,5 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./NativeShortcutGuide";
+import { isValidElement } from "react";
+
+interface ShortcutGuideContainerProps {
+	shortcutGuide: JSX.Element | undefined;
+	nativeShortcutGuide: JSX.Element;
+}
+
+/**
+ * Component that renders the a ShortcutGuide.
+ *
+ * @export
+ * @param {string} shortcutGuide - A custom ShortcutGuide.
+ * @param {Function} nativeShortcutGuide - The native ShortcutGuide.
+ * @return Either the native ShortcutGuide or a custom one.
+ */
+export const ShortcutGuideContainer = ({
+	shortcutGuide,
+	nativeShortcutGuide,
+}: ShortcutGuideContainerProps): JSX.Element => {
+	return isValidElement(shortcutGuide) ? shortcutGuide : nativeShortcutGuide;
+};

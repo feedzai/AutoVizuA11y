@@ -5,19 +5,11 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, {
-	useCallback,
-	isValidElement,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-	ReactElement,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 
-import ShortcutGuide, { ShortcutGuideProps } from "./ShortcutGuide";
+import NativeShortcutGuide from "./NativeShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
@@ -34,6 +26,7 @@ import * as constants from "./constants";
 import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
+import { ShortcutGuideContainer } from "./components/ShortcutGuideContainer";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -85,7 +78,7 @@ export type AutoVizuA11yProps = {
 	/**
 	 * Optional custom shortcut guide component.
 	 */
-	shortcutGuide?: ReactElement<ShortcutGuideProps>;
+	shortcutGuide?: JSX.Element;
 	/**
 	 * Optional descriptor of each data element.
 	 */
@@ -305,9 +298,13 @@ const AutoVizuA11y = ({
 		asyncEffect();
 	}, [chartRef]);
 
-	const IS_SHORTCUT_GUIDE_ELEMENT = !!isValidElement(shortcutGuide);
-
-	shortcutGuide = IS_SHORTCUT_GUIDE_ELEMENT ? shortcutGuide : <ShortcutGuide />;
+	const nativeShortcutGuide = <NativeShortcutGuide />;
+	const shortcutGuideContainer = (
+		<ShortcutGuideContainer
+			shortcutGuide={shortcutGuide}
+			nativeShortcutGuide={nativeShortcutGuide}
+		/>
+	);
 
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -365,7 +362,7 @@ const AutoVizuA11y = ({
 					setIsShortcutGuideOpen(false);
 				}}
 			>
-				{shortcutGuide}
+				{shortcutGuideContainer}
 			</dialog>
 		</>
 	);

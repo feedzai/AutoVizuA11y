@@ -5,20 +5,18 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import React, { useRef, useEffect } from "react";
-import "./assets/style/ShortcutGuideStyle.css";
+import { useRef, useEffect, FC } from "react";
+import "./assets/style/NativeShortcutGuide.css";
 import { GUIDE_DATA } from "./assets/data/GuideData";
 
 import * as constants from "./constants";
-
-export interface ShortcutGuideProps {}
 
 /**
  * Component that renders the list of all AutoVizuA11y shortcuts.
  *
  * @return Shortcut guide.
  */
-const ShortcutGuide: React.FC<ShortcutGuideProps> = ({}) => {
+const NativeShortcutGuide: FC = () => {
 	const refNav = useRef(null);
 
 	useEffect(() => {
@@ -95,4 +93,4 @@ const ShortcutGuide: React.FC<ShortcutGuideProps> = ({}) => {
 	);
 };
 
-export default ShortcutGuide;
+export default NativeShortcutGuide;
