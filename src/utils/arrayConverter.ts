@@ -20,6 +20,9 @@ export function arrayConverter<T extends Record<string, unknown>>(
 	insight: keyof T,
 ): number[] {
 	try {
+		if (insight === "") {
+			return [];
+		}
 		if (!insight || typeof insight !== "string") {
 			throw new Error("Invalid insight key provided");
 		}

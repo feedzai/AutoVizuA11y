@@ -66,6 +66,8 @@ function PieManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSON(autovizData);
 
+	console.log(dataTransformed);
+
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h4 style={{ marginBottom: 2 }}>

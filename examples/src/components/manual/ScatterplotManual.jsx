@@ -108,6 +108,8 @@ function ScatterplotManual({ longDesc, shortDesc }) {
 		textAnchor: "end",
 	});
 
+	console.log(AutoVizuA11yArrayAux);
+
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h4 style={{ marginBottom: 2 }}>Countries with the highest surface area</h4>

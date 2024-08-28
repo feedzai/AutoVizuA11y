@@ -82,6 +82,8 @@ function MultiSeriesTimelineManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSONmulti(final);
 
+	console.log(dataTransformed);
+
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h4 style={{ marginBottom: 2 }}>

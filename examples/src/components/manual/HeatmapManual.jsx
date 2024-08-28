@@ -183,6 +183,8 @@ function HeatmapManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSON(final);
 
+	console.log(dataTransformed);
+
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h4 style={{ marginBottom: 2 }}>Population is growing in the more populated countries</h4>

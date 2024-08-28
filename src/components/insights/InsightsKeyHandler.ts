@@ -53,7 +53,10 @@ export function insightsKeyHandler({
 	}
 
 	const handleInsightComparison = (type: InsightCode, value: number) => {
-		if (typeof focusedData === "undefined") {
+		if (insights === "") {
+			showMessage("That shortcut does not work in this chart");
+			return;
+		} else if (typeof focusedData === "undefined") {
 			showMessage("This shortcut only works inside a chart");
 		} else {
 			showMessage(messageInsights(type, value, focusedData));
@@ -61,13 +64,13 @@ export function insightsKeyHandler({
 	};
 
 	const handleStatisticalInsight = (message: string) => {
-		showMessage(message);
+		if (insights === "") {
+			showMessage("That shortcut does not work in this chart");
+			return;
+		} else {
+			showMessage(message);
+		}
 	};
-
-	if (insights === "") {
-		showMessage("That shortcut does not work in this chart");
-		return;
-	}
 
 	if (altKey && shiftKey) {
 		switch (code) {
@@ -93,6 +96,10 @@ export function insightsKeyHandler({
 				handleStatisticalInsight(`The minimum is ${insightsArray[3]}`);
 				break;
 			case "KeyZ":
+				if (insights === "") {
+					showMessage("That shortcut does not work in this chart");
+					break;
+				}
 				isUndefined(focusedData)
 					? showMessage("This shortcut only works inside a chart")
 					: showMessage(messageOverall(arrayConverted, focusedData));
