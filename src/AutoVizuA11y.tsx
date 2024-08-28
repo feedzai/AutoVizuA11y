@@ -118,8 +118,6 @@ const AutoVizuA11y = ({
 		return insights && insights in data[0] ? insights : "";
 	}, [selectorType, insights, data]);
 
-	console.log(validatedInsights);
-
 	const dataString = useMemo(() => JSON.stringify(data), data);
 
 	const [series, setSeries] = useState<string[]>([]);
