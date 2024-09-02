@@ -45,4 +45,5 @@ export const SHORTCUTGUIDE_CLASSES = {
 };
 export const SHORTCUTGUIDE_ID = {
 	shortcutGuideDescription: "shortcut-guide__description",
+	shortcutGuideTitle: "shortcut-guide__title",
 };

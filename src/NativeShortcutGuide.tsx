@@ -25,7 +25,7 @@ const NativeShortcutGuide: FC = () => {
 	}, [refNav]);
 
 	return (
-		<form className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide} method="dialog">
+		<form className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}>
 			<p
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
 				id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
@@ -38,7 +38,12 @@ const NativeShortcutGuide: FC = () => {
 			</p>
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>
 				<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
-					<h2 className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}>Shortcut Guide</h2>
+					<h2
+						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
+						id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+					>
+						Shortcut Guide
+					</h2>
 					<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
 					<button
 						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}

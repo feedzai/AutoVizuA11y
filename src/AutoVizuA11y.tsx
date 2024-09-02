@@ -357,6 +357,7 @@ const AutoVizuA11y = ({
 					guideKeyHandler({ event, shortcutGuideRef, setIsShortcutGuideOpen });
 				}}
 				aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+				aria-labelledby={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
 				className={constants.AUTOVIZUA11Y_CLASSES.a11yNavGuide}
 				onClose={() => {
 					setIsShortcutGuideOpen(false);
