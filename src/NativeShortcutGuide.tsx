@@ -66,11 +66,7 @@ const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Eleme
 				</div>
 				<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
 				{[GUIDE_DATA].map((sectionGroup, groupIndex) => (
-					<div
-						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}
-						tabIndex={-1}
-						key={groupIndex}
-					>
+					<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody} key={groupIndex}>
 						{sectionGroup.map((section, sectionIndex) => (
 							<>
 								<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
@@ -89,7 +85,6 @@ const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Eleme
 											<div
 												key={shortcutIndex}
 												className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
-												tabIndex={0}
 												aria-label={`${shortcut.description}: ${shortcut.keys}`}
 												role="listitem"
 											>
