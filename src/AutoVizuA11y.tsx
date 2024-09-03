@@ -298,14 +298,6 @@ const AutoVizuA11y = ({
 		asyncEffect();
 	}, [chartRef]);
 
-	const nativeShortcutGuide = <NativeShortcutGuide />;
-	const shortcutGuideContainer = (
-		<ShortcutGuideContainer
-			shortcutGuide={shortcutGuide}
-			nativeShortcutGuide={nativeShortcutGuide}
-		/>
-	);
-
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const DATA = {
@@ -363,7 +355,10 @@ const AutoVizuA11y = ({
 					setIsShortcutGuideOpen(false);
 				}}
 			>
-				{shortcutGuideContainer}
+				<ShortcutGuideContainer
+					shortcutGuide={shortcutGuide}
+					nativeShortcutGuide={<NativeShortcutGuide />}
+				/>
 			</dialog>
 		</>
 	);
