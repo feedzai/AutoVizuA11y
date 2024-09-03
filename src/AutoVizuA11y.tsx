@@ -16,7 +16,6 @@ import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKe
 import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
-import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
 import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
@@ -342,24 +341,12 @@ const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
-			<dialog
-				id="dialog"
-				ref={shortcutGuideRef}
-				onKeyDown={(event) => {
-					guideKeyHandler({ event, shortcutGuideRef, setIsShortcutGuideOpen });
-				}}
-				aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
-				aria-labelledby={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
-				className={constants.AUTOVIZUA11Y_CLASSES.a11yNavGuide}
-				onClose={() => {
-					setIsShortcutGuideOpen(false);
-				}}
-			>
-				<ShortcutGuideContainer
-					shortcutGuide={shortcutGuide}
-					nativeShortcutGuide={<NativeShortcutGuide />}
-				/>
-			</dialog>
+			<ShortcutGuideContainer
+				shortcutGuide={shortcutGuide}
+				nativeShortcutGuide={<NativeShortcutGuide />}
+				shortcutGuideRef={shortcutGuideRef}
+				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
+			/>
 		</>
 	);
 };

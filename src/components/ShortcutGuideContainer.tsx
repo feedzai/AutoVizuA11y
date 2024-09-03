@@ -6,23 +6,47 @@
  */
 
 import { isValidElement } from "react";
+import { guideKeyHandler } from "./navigation";
+import * as constants from "../constants";
 
 interface ShortcutGuideContainerProps {
 	shortcutGuide: JSX.Element | undefined;
 	nativeShortcutGuide: JSX.Element;
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
+	setIsShortcutGuideOpen: (bool: boolean) => void;
 }
 
 /**
  * Component that renders the a ShortcutGuide.
  *
  * @export
- * @param {string} shortcutGuide - A custom ShortcutGuide.
- * @param {Function} nativeShortcutGuide - The native ShortcutGuide.
+ * @param {JSX.Element | undefined} shortcutGuide - A custom ShortcutGuide.
+ * @param {JSX.Element} nativeShortcutGuide - The native ShortcutGuide.
+ * @param {React.RefObject<HTMLDialogElement>} shortcutGuideRef - The React reference to this shortcut guide.
+ * @param {(bool: boolean) => void} setIsShortcutGuideOpen - Setter function that deals with the logic of opening the guide.
  * @return Either the native ShortcutGuide or a custom one.
  */
 export const ShortcutGuideContainer = ({
 	shortcutGuide,
 	nativeShortcutGuide,
+	shortcutGuideRef,
+	setIsShortcutGuideOpen,
 }: ShortcutGuideContainerProps): JSX.Element => {
-	return isValidElement(shortcutGuide) ? shortcutGuide : nativeShortcutGuide;
+	return (
+		<dialog
+			id="dialog"
+			ref={shortcutGuideRef}
+			onKeyDown={(event) => {
+				guideKeyHandler({ event, shortcutGuideRef, setIsShortcutGuideOpen });
+			}}
+			aria-describedby={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+			aria-labelledby={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+			className={constants.AUTOVIZUA11Y_CLASSES.a11yNavGuide}
+			onClose={() => {
+				setIsShortcutGuideOpen(false);
+			}}
+		>
+			{isValidElement(shortcutGuide) ? shortcutGuide : nativeShortcutGuide}
+		</dialog>
+	);
 };
