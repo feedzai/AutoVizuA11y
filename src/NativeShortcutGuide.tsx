@@ -5,18 +5,22 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { useRef, useEffect, FC } from "react";
+import { useRef, useEffect } from "react";
 import "./assets/style/NativeShortcutGuide.css";
 import { GUIDE_DATA } from "./assets/data/GuideData";
 
 import * as constants from "./constants";
+
+interface NativeShortcutGuideProps {
+	dialogRef: React.RefObject<HTMLDialogElement>;
+}
 
 /**
  * Component that renders the list of all AutoVizuA11y shortcuts.
  *
  * @return Shortcut guide.
  */
-const NativeShortcutGuide: FC = () => {
+const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
 	const refNav = useRef(null);
 
 	useEffect(() => {
@@ -24,8 +28,15 @@ const NativeShortcutGuide: FC = () => {
 		setTimeout(() => {}, 500);
 	}, [refNav]);
 
+	const handleCloseDialog = () => {
+		const dialog = dialogRef.current;
+		if (dialog) {
+			dialog.close();
+		}
+	};
+
 	return (
-		<form className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}>
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}>
 			<p
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
 				id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
@@ -48,8 +59,7 @@ const NativeShortcutGuide: FC = () => {
 					<button
 						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 						aria-label="Close shortcut guide"
-						type="submit"
-						formMethod="dialog"
+						onClick={handleCloseDialog}
 					>
 						&times;
 					</button>
@@ -100,7 +110,7 @@ const NativeShortcutGuide: FC = () => {
 					</div>
 				))}
 			</div>
-		</form>
+		</div>
 	);
 };
 

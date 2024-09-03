@@ -343,7 +343,7 @@ const AutoVizuA11y = ({
 			</div>
 			<ShortcutGuideContainer
 				shortcutGuide={shortcutGuide}
-				nativeShortcutGuide={<NativeShortcutGuide />}
+				nativeShortcutGuide={<NativeShortcutGuide dialogRef={shortcutGuideRef} />}
 				shortcutGuideRef={shortcutGuideRef}
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
 			/>
