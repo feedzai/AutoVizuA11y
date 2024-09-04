@@ -9,7 +9,6 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 
-import NativeShortcutGuide from "./NativeShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
@@ -25,7 +24,7 @@ import * as constants from "./constants";
 import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
-import { ShortcutGuideContainer } from "./components/ShortcutGuideContainer";
+import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -343,7 +342,6 @@ const AutoVizuA11y = ({
 			</div>
 			<ShortcutGuideContainer
 				shortcutGuide={shortcutGuide}
-				nativeShortcutGuide={<NativeShortcutGuide dialogRef={shortcutGuideRef} />}
 				shortcutGuideRef={shortcutGuideRef}
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
 			/>

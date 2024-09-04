@@ -8,4 +8,3 @@
 export * from "./descriptions";
 export * from "./navigation";
 export * from "./insights";
-export * from "./ShortcutGuideContainer";

@@ -6,12 +6,12 @@
  */
 
 import { cloneElement, isValidElement } from "react";
-import { guideKeyHandler } from "./navigation";
-import * as constants from "../constants";
+import { guideKeyHandler } from "../navigation";
+import * as constants from "../../constants";
+import NativeShortcutGuide from "./components/NativeShortcutGuide";
 
 interface ShortcutGuideContainerProps {
 	shortcutGuide: JSX.Element | undefined;
-	nativeShortcutGuide: JSX.Element;
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
 	setIsShortcutGuideOpen: (bool: boolean) => void;
 }
@@ -21,14 +21,12 @@ interface ShortcutGuideContainerProps {
  *
  * @export
  * @param {JSX.Element | undefined} shortcutGuide - A custom ShortcutGuide.
- * @param {JSX.Element} nativeShortcutGuide - The native ShortcutGuide.
  * @param {React.RefObject<HTMLDialogElement>} shortcutGuideRef - The React reference to this shortcut guide.
  * @param {(bool: boolean) => void} setIsShortcutGuideOpen - Setter function that deals with the logic of opening the guide.
  * @return Either the native ShortcutGuide or a custom one.
  */
 export const ShortcutGuideContainer = ({
 	shortcutGuide,
-	nativeShortcutGuide,
 	shortcutGuideRef,
 	setIsShortcutGuideOpen,
 }: ShortcutGuideContainerProps): JSX.Element => {
@@ -47,9 +45,11 @@ export const ShortcutGuideContainer = ({
 				setIsShortcutGuideOpen(false);
 			}}
 		>
-			{isValidElement(shortcutGuide)
-				? cloneElement(shortcutGuide, dialogRef)
-				: cloneElement(nativeShortcutGuide, dialogRef)}
+			{isValidElement(shortcutGuide) ? (
+				cloneElement(shortcutGuide, dialogRef)
+			) : (
+				<NativeShortcutGuide dialogRef={shortcutGuideRef} />
+			)}
 		</dialog>
 	);
 };
