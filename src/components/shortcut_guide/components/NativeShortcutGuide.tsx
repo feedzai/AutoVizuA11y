@@ -23,13 +23,6 @@ interface NativeShortcutGuideProps {
  * @return Shortcut guide.
  */
 const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
-	const refNav = useRef(null);
-
-	useEffect(() => {
-		// Needs a slight delay since some elements take time to load
-		setTimeout(() => {}, 500);
-	}, [refNav]);
-
 	const handleCloseDialog = () => {
 		const dialog = dialogRef.current;
 		if (dialog) {
