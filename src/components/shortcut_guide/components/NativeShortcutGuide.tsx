@@ -5,7 +5,6 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { useRef, useEffect } from "react";
 import "../../../assets/style/NativeShortcutGuide.css";
 
 import * as constants from "../../../constants";
