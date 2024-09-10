@@ -33,7 +33,6 @@ export const ShortcutGuideContainer = ({
 	const dialogRef = { shortcutGuideRef }; // Add any other props you might want to pass
 	return (
 		<dialog
-			id="dialog"
 			ref={shortcutGuideRef}
 			onKeyDown={(event) => {
 				guideKeyHandler({ event, shortcutGuideRef, setIsShortcutGuideOpen });
