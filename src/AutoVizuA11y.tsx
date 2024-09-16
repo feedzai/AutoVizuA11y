@@ -9,14 +9,12 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 import { addAriaLabels, switchToChartLevel } from "./components";
 
-import ShortcutGuide from "./ShortcutGuide";
 import { generateDescriptions } from "./components/descriptions/DescriptionsGenerator";
 import { descriptionsKeyHandler } from "./components/descriptions/DescriptionsKeyHandler";
 
 import { handleFirstFocus } from "./utils/handleFirstFocus";
 import { handleBlur } from "./utils/handleBlur";
 import { handleKeyDown } from "./utils/handleKeyDown";
-import { guideKeyHandler } from "./components/navigation/GuideKeyHandler";
 
 import { useAutoId } from "@feedzai/js-utilities/hooks";
 import { getLSItem, setLSItem, wait } from "@feedzai/js-utilities";
@@ -26,6 +24,7 @@ import * as constants from "./constants";
 import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
+import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -44,58 +43,88 @@ type SelectorType = {
 	className?: string;
 };
 
-type AutoVizuA11yProps = {
+/**
+ * AutoVizuA11y properties.
+ *
+ * @typedef {Object} AutoVizuA11yProps
+ */
+export type AutoVizuA11yProps = {
+	/**
+	 * Data array of objects
+	 */
 	data: Record<string, unknown>[];
+	/**
+	 * HTML type or classname of the data elements in the DOM.
+	 */
 	selectorType: SelectorType;
+	/**
+	 * Type of chart.
+	 */
 	type: string;
+	/**
+	 * Title of the chart.
+	 */
 	title: string;
+	/**
+	 * Context in which the visualization is present.
+	 */
 	context: string;
+	/**
+	 * Key in the data objects from which values will be used to calculate insights.
+	 */
 	insights: string;
+	/**
+	 * Optional custom shortcut guide component.
+	 */
+	shortcutGuide?: JSX.Element;
+	/**
+	 * Optional descriptor of each data element.
+	 */
 	descriptor?: string;
+	/**
+	 * Optional key in the data objects that defines each series.
+	 */
 	multiSeries?: string;
+	/**
+	 * Optional object with properties to automatically write chart descriptions.
+	 */
 	autoDescriptions?: AutoDescriptionsProps;
+	/**
+	 * Optional object with properties to manually write chart descriptions.
+	 */
 	manualDescriptions?: ManualDescriptionsProps;
+	/**
+	 * Wrapped chart.
+	 */
 	children: React.ReactNode;
 };
 
 /**
  * AutoVizuA11y component that adds screen-reader accessibility to wrapped charts.
  *
- * @param {AutoVizuA11yProps} {
- * 	type, - type of chart;
- * 	descriptor, - descriptor of each data element;
- * 	selectorType, - HTML type or classname of the data elements in the DOM;
- * 	title, - title of the chart;
- * 	data, - data used in the chart;
- * 	multiSeries, - key in the data object that defines each series;
- * 	insights, - key in the data object from which values will be used to derive statistical insights;
- * 	context, - context in which the visualization is present;
- * 	manualDescriptions, - object with properties to manually write the chart descriptions;
- * 	autoDescriptions, - object with properties to automatically write the chart descriptions;
- * 	children, - wrapped chart.
- * }
+ * @param {AutoVizuA11yProps}
  * @return Rendered chart with AutoVizuA11y features.
  *
  * @example
  * // SingleSeries with automatic descriptions
  *
- * 			<AutoVizuA11y
- *				data={barData}
- *				selectorType={{ element: "rect" }}
- *				type="bar chart"
- *				title="Number of hours spent looking at a screen per day of the week."
- *				context="Screen time dashboard"
- *				insights="value"
- *				descriptor="hours"
- *				autoDescriptions={{
- *					dynamicDescriptions: false,
- *					apiKey: API_KEY,
- *					model: "gpt-3.5-turbo",
- *					temperature: 0.1,
- *				}}
- *			>
- *				<BarChart></BarChart>
- *			</AutoVizuA11y>
+ * <AutoVizuA11y
+ *		data={barData}
+ *		selectorType={{ element: "rect" }}
+ *		type="bar chart"
+ *		title="Number of hours spent looking at a screen per day of the week."
+ *		context="Screen time dashboard"
+ *		insights="value"
+ *		descriptor="hours"
+ *		autoDescriptions={{
+ *			dynamicDescriptions: false,
+ *			apiKey: API_KEY,
+ *			model: "gpt-3.5-turbo",
+ *			temperature: 0.1,
+ *		}}
+ *	>
+ *		<BarChart></BarChart>
+ *	</AutoVizuA11y>
  */
 const AutoVizuA11y = ({
 	type,
@@ -106,6 +135,7 @@ const AutoVizuA11y = ({
 	multiSeries,
 	insights,
 	context,
+	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
 	children,
@@ -128,9 +158,10 @@ const AutoVizuA11y = ({
 	const [descs, setDescs] = useState<string[]>([]);
 	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
 	const [elements, setElements] = useState<HTMLElement[]>([]);
+	const [isShortcutGuideOpen, setIsShortcutGuideOpen] = useState<boolean>(false);
 
 	const chartRef = useRef<HTMLDivElement>(null);
-	const shortcutGuideRef = useRef<HTMLDivElement>(null);
+	const shortcutGuideRef = useRef<HTMLDialogElement>(null);
 
 	let componentId = useAutoId();
 
@@ -139,7 +170,7 @@ const AutoVizuA11y = ({
 		() => (
 			<div
 				ref={alertDivRef}
-				className="a11y_alert visually-hidden"
+				className={constants.AUTOVIZUA11Y_CLASSES.alertDiv}
 				role="alert"
 				aria-live="assertive"
 			>
@@ -161,7 +192,7 @@ const AutoVizuA11y = ({
 		() => (
 			<p
 				style={{ textIndent: "-10000px" }}
-				className="a11y_desc visually-hidden"
+				className={constants.AUTOVIZUA11Y_CLASSES.a11yDesc}
 				data-testid="a11y_desc"
 				onFocus={onFocusHandler}
 				onBlur={onBlurHandler}
@@ -268,7 +299,6 @@ const AutoVizuA11y = ({
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
 			const DATA = {
-				event,
 				alertDivRef,
 				type,
 				number,
@@ -287,6 +317,9 @@ const AutoVizuA11y = ({
 				descs,
 				autoDescriptions,
 				multiSeries,
+				shortcutGuideRef,
+				isShortcutGuideOpen,
+				setIsShortcutGuideOpen,
 			};
 			handleKeyDown(event, DATA);
 		},
@@ -298,7 +331,7 @@ const AutoVizuA11y = ({
 			<div
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
-				className="a11y_chart"
+				className={constants.AUTOVIZUA11Y_CLASSES.a11yChart}
 				data-testid="a11y_chart"
 				key={`a11y_chart_${componentId}`}
 			>
@@ -307,15 +340,11 @@ const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
-			<div
-				ref={shortcutGuideRef}
-				onKeyDown={(event) => {
-					guideKeyHandler(event, chartRef);
-				}}
-				id="a11y_nav_guide"
-			>
-				<ShortcutGuide />
-			</div>
+			<ShortcutGuideContainer
+				shortcutGuide={shortcutGuide}
+				shortcutGuideRef={shortcutGuideRef}
+				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
+			/>
 		</>
 	);
 };

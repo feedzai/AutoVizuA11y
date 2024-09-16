@@ -5,35 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-.focused {
-	outline: 2px solid blue;
-}
+import * as constants from "../../../constants";
+import { GUIDE_DATA } from "../../../assets/data/GuideData";
 
-.focused .a11y_desc:focus {
-	outline: none; /* Remove default focus outline */
-}
+import { ShortcutGuideSection } from "./NativeShortcutGuideSection";
 
-.visually-hidden {
-	position: absolute;
-	position: absolute !important;
-	width: 1px !important;
-	height: 1px !important;
-	padding: 0 !important;
-	margin: -1px !important;
-	overflow: hidden !important;
-	clip: rect(0, 0, 0, 0) !important;
-	white-space: nowrap !important;
-	border: 0 !important;
-}
-
-.a11y_nav_guide {
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: var(--shortcut-guide-background-color);
-	color: var(--shortcut-guide-color-primary);
-}
+export const ShortcutGuideBody = () => (
+	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
+		{GUIDE_DATA.map((section, sectionIndex) => (
+			<div key={sectionIndex}>
+				<ShortcutGuideSection section={section} sectionIndex={sectionIndex} />
+			</div>
+		))}
+	</div>
+);

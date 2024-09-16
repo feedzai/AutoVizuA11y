@@ -10,7 +10,6 @@ import { addDataNavigation } from "./AddNavigation";
 import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
-import { ExtendedHTMLElement } from "./GuideKeyHandler";
 import { showAlert } from "../../utils/showAlert";
 
 import * as constants from "../../constants";
@@ -26,6 +25,9 @@ interface NavigationKeyHandlerParams {
 	selectedSeries: string;
 	series: string[];
 	selectorType: { element?: string; className?: string };
+	isShortcutGuideOpen: boolean;
+	setIsShortcutGuideOpen?: (bool: boolean) => void;
+	shortcutGuideRef?: React.RefObject<HTMLDialogElement>;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
 }
@@ -35,11 +37,6 @@ interface SwitchSeriesParams {
 	selectedSeries: string;
 	series: string[];
 }
-
-const isModalElement = (element: Element | null): boolean =>
-	element?.classList.contains(constants.MODAL_CONTENT_CLASS) ||
-	element?.classList.contains(constants.ROW_CLASS) ||
-	element?.id === constants.GUIDE_CLOSE_ID;
 
 /**
  * Handles navigation key events for chart interaction.
@@ -59,9 +56,14 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		selectorType,
 		multiSeries,
 		setSelectedSeries,
+		shortcutGuideRef,
+		isShortcutGuideOpen,
+		setIsShortcutGuideOpen,
 	} = params;
 
 	const { altKey, key, code } = event.nativeEvent;
+
+	if (!shortcutGuideRef || !setIsShortcutGuideOpen) return number;
 
 	try {
 		const updatedNumber = await xSetter({ event, type, number, alertDivRef });
@@ -95,18 +97,26 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				chartRef,
 				multiSeries,
 				alertDivRef,
+				isShortcutGuideOpen,
 			});
 		}
 
 		switch (key) {
 			case "ArrowDown":
-				handleArrowDown(event, chartRef, selectorType, selectedSeries, alertDivRef);
+				handleArrowDown(
+					event,
+					chartRef,
+					selectorType,
+					selectedSeries,
+					alertDivRef,
+					isShortcutGuideOpen,
+				);
 				break;
 			case "ArrowUp":
-				handleArrowUp(event, chartRef, alertDivRef);
+				handleArrowUp(event, chartRef, alertDivRef, isShortcutGuideOpen);
 				break;
 			case "?":
-				handleQuestionMark(event, chartRef);
+				handleQuestionMark(event, isShortcutGuideOpen, shortcutGuideRef, setIsShortcutGuideOpen);
 				break;
 		}
 
@@ -132,9 +142,10 @@ function handleAltM(
 		chartRef,
 		multiSeries,
 		alertDivRef,
+		isShortcutGuideOpen,
 	} = params;
 
-	if (isModalElement(document.activeElement)) return number;
+	if (isShortcutGuideOpen) return number;
 
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You can only change series while focused on a data point");
@@ -165,10 +176,11 @@ function handleArrowDown(
 	selectorType: { element?: string; className?: string },
 	selectedSeries: string,
 	alertDivRef: React.RefObject<HTMLElement>,
+	isShorcutGuide: boolean,
 ): void {
 	event.preventDefault();
 
-	if (isModalElement(document.activeElement)) return;
+	if (isShorcutGuide) return;
 
 	if (!document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You are already at the data level");
@@ -184,10 +196,11 @@ function handleArrowUp(
 	event: React.KeyboardEvent,
 	chartRef: React.RefObject<HTMLElement>,
 	alertDivRef: React.RefObject<HTMLElement>,
+	isShorcutGuide: boolean,
 ): void {
 	event.preventDefault();
 
-	if (isModalElement(document.activeElement)) return;
+	if (isShorcutGuide) return;
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
 		showAlert(alertDivRef, "You are already at the chart level");
 		return;
@@ -200,13 +213,14 @@ function handleArrowUp(
  */
 function handleQuestionMark(
 	event: React.KeyboardEvent,
-	chartRef: React.RefObject<HTMLElement>,
+	isShorcutGuide: boolean,
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+	setIsShortcutGuideOpen: (bool: boolean) => void,
 ): void {
-	const modal = document.getElementsByClassName("a11y_modal")[0];
-
-	if (modal) {
+	if (!isShorcutGuide) {
 		event.preventDefault();
-		levelGuide(chartRef);
+		shortcutGuideRef.current!.showModal();
+		setIsShortcutGuideOpen(true);
 	}
 }
 
@@ -289,36 +303,4 @@ export function switchToChartLevel(chartRef: React.RefObject<HTMLElement>, first
 
 	const chart = chartRef?.current?.getElementsByClassName("a11y_desc")[0] as HTMLElement;
 	chart.focus();
-}
-
-/**
- * Displays the ShortcutGuide and gives it keyboard focus.
- */
-function levelGuide(chartRef: React.RefObject<HTMLElement>): void {
-	const allCharts = document.getElementsByClassName("a11y_desc");
-	wiper(chartRef);
-
-	for (let i = 0; i < allCharts.length; i++) {
-		allCharts[i].removeAttribute("tabIndex");
-	}
-
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	for (let i = 0; i < allShortcuts.length; i++) {
-		allShortcuts[i].setAttribute("tabIndex", "0");
-	}
-
-	const shortcutGuide = document.getElementsByClassName(
-		"a11y_modal_content",
-	)[0] as ExtendedHTMLElement;
-
-	const modal = document.getElementsByClassName("a11y_modal")[0] as HTMLElement;
-	modal.style.display = "block";
-
-	shortcutGuide.setAttribute("tabIndex", "0");
-	shortcutGuide.pastFocus = chartRef?.current?.getElementsByClassName(
-		"a11y_desc",
-	)[0] as HTMLElement;
-
-	document.body.classList.add("a11y_no_scroll");
-	shortcutGuide.focus();
 }

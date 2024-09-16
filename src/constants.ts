@@ -11,9 +11,6 @@ export const TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS = 500;
 export const OPENAI_MODEL = "gpt-3.5-turbo";
 export const OPENAI_LINK = "https://api.openai.com/v1/chat/completions";
 export const TIMEOUT_DURATION = 1000;
-export const MODAL_CONTENT_CLASS = "a11y_modal_content";
-export const ROW_CLASS = "a11y_row";
-export const GUIDE_CLOSE_ID = "guide_close";
 export const DESC_CLASS = "a11y_desc";
 export const ROUNDING_FACTOR = 10 ** DECIMAL_PLACES;
 export const ATTRIBUTES_TO_REMOVE = ["aria-describedby", "aria-labelledby"];
@@ -23,3 +20,30 @@ export const FOCUS_CLASS = "focused";
 export const ALERT_MESSAGE =
 	"You just entered an AutoVizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide";
 export const ALERT_DURATION = 1000;
+export const AUTOVIZUA11Y_CLASSES = {
+	alertDiv: "a11y_alert visually-hidden",
+	a11yChart: "a11y_chart",
+	a11yDesc: "a11y_desc visually-hidden",
+	a11yNavGuide: "a11y_nav_guide",
+};
+export const SHORTCUTGUIDE_CLASSES = {
+	shortcutGuide: "shortcut-guide",
+	shortcutGuideContainer: "shortcut-guide__container",
+	shortcutGuideHeader: "shortcut-guide__header",
+	shortcutGuideTitle: "shortcut-guide__title",
+	shortcutGuideActionLabel: "shortcut-guide__action-label",
+	shortcutGuideButtonClose: "shortcut-guide__button-close",
+	shortcutGuideBreak: "shortcut-guide__break",
+	shortcutGuideBody: "shortcut-guide__body",
+	shortcutGuideSection: "shortcut-guide__section",
+	shortcutGuideListTitle: "shortcut-guide__list--title",
+	shortcutGuideRow: "shortcut-guide__row",
+	shortcutGuideCellShortcut: "shortcut-guide__cell shortcut-guide__cell--shortcut",
+	shortcutGuideCellExplanation: "shortcut-guide__cell shortcut-guide__cell--explanation",
+	shortcutGuideDescription: "visually-hidden",
+	shortcutGuideList: "shortcut-guide__list",
+};
+export const SHORTCUTGUIDE_ID = {
+	shortcutGuideDescription: "shortcut-guide__description",
+	shortcutGuideTitle: "shortcut-guide__title",
+};

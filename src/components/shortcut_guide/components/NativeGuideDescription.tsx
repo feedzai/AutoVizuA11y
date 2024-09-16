@@ -5,35 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-.focused {
-	outline: 2px solid blue;
-}
+import * as constants from "../../../constants";
 
-.focused .a11y_desc:focus {
-	outline: none; /* Remove default focus outline */
-}
-
-.visually-hidden {
-	position: absolute;
-	position: absolute !important;
-	width: 1px !important;
-	height: 1px !important;
-	padding: 0 !important;
-	margin: -1px !important;
-	overflow: hidden !important;
-	clip: rect(0, 0, 0, 0) !important;
-	white-space: nowrap !important;
-	border: 0 !important;
-}
-
-.a11y_nav_guide {
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: var(--shortcut-guide-background-color);
-	color: var(--shortcut-guide-color-primary);
-}
+export const ShortcutGuideDescription = () => (
+	<p
+		className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
+		id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+	>
+		AutoVizually shortcut guide. AutoVizually lets you navigate between charts and underlying data
+		elements using just the keyboard. When focused on a chart, a description regarding the data will
+		be provided — you might receive a notification indicating that the chart description was
+		produced by an AI model. For JAWS and NVDA users, it is recommended to turn Focus mode before
+		navigating the data using the arrow keys.
+	</p>
+);

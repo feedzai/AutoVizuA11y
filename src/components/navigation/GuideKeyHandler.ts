@@ -5,8 +5,6 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { switchToChartLevel } from "./NavigationKeyHandler";
-
 export interface ExtendedHTMLElement extends HTMLElement {
 	pastFocus?: HTMLElement | null;
 }
@@ -17,34 +15,32 @@ export interface ExtendedHTMLElement extends HTMLElement {
  * @param {React.KeyboardEvent} event - The keyboard event.
  * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
-export function guideKeyHandler(
-	event: React.KeyboardEvent,
-	chartRef: React.RefObject<HTMLElement>,
-): void {
+export function guideKeyHandler({
+	event,
+	shortcutGuideRef,
+	setIsShortcutGuideOpen,
+}: {
+	event: React.KeyboardEvent;
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
+	setIsShortcutGuideOpen: (bool: boolean) => void;
+}): void {
 	const { key } = event;
-	const activeElement = document.activeElement as HTMLElement;
 
-	const shouldHandleKey =
-		activeElement?.classList.contains("a11y_modal_content") ||
-		activeElement?.classList.contains("a11y_row") ||
-		activeElement?.id === "guide_close";
+	const shouldHandleKey = shortcutGuideRef.current?.contains(document.activeElement);
 
 	switch (key) {
 		case "Escape":
 		case "?":
 			if (shouldHandleKey) {
 				event.preventDefault();
-				returnGuide(chartRef);
+				returnGuide(shortcutGuideRef, setIsShortcutGuideOpen);
 			}
 			break;
 		default:
 			break;
 	}
 
-	const closeButton = document.getElementById("guide_close");
-	if (closeButton) {
-		closeButton.onclick = () => returnGuide(chartRef);
-	}
+	return;
 }
 
 /**
@@ -52,21 +48,10 @@ export function guideKeyHandler(
  *
  * @param {React.RefObject<HTMLElement>} chartRef - Reference to the chart element.
  */
-function returnGuide(chartRef: React.RefObject<HTMLElement>): void {
-	const allShortcuts = document.getElementsByClassName("a11y_row");
-	Array.from(allShortcuts).forEach((element) => element.removeAttribute("tabIndex"));
-	const shortcutGuide = document.querySelector(".a11y_modal_content") as ExtendedHTMLElement;
-
-	if (shortcutGuide) {
-		shortcutGuide.removeAttribute("tabIndex");
-		if (shortcutGuide.pastFocus) {
-			shortcutGuide.pastFocus.focus();
-		}
-	}
-
-	switchToChartLevel(chartRef);
-	const modal = document.querySelector(".a11y_modal") as HTMLElement;
-	if (modal) {
-		modal.style.display = "none";
-	}
+export function returnGuide(
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+	setIsShortcutGuideOpen: (bool: boolean) => void,
+): void {
+	shortcutGuideRef.current!.close();
+	setIsShortcutGuideOpen(false);
 }

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added documentation
 - Revised the file structure
 - Refactored code with React best practices
+- Converted the ShortcutGuide into a prop, making it overridable and customizable
 
 ## 1.0.3 - 2024-01-09
 

@@ -6,3 +6,4 @@
  */
 
 export { default as AutoVizuA11y } from "./AutoVizuA11y";
+export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
