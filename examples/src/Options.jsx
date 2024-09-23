@@ -16,7 +16,7 @@ const Options = ({ setAutomatic, setManual }) => {
 		<>
 			<div id="cardContainer">
 				<Card sx={{ maxWidth: 400 }}>
-					<CardActionArea onClick={automaticChosen}>
+					<CardActionArea onClick={automaticChosen} data-testid="automatic-descriptions-option">
 						<CardContent>
 							<h2>Option A</h2> <h3>Automatic Descriptions</h3>
 							<Typography variant="body2" color="text.secondary" style={{ whiteSpace: "pre-wrap" }}>
@@ -27,7 +27,7 @@ const Options = ({ setAutomatic, setManual }) => {
 					</CardActionArea>
 				</Card>
 				<Card sx={{ maxWidth: 400 }}>
-					<CardActionArea onClick={manualChosen}>
+					<CardActionArea onClick={manualChosen} data-testid="manual-descriptions-option">
 						<CardContent>
 							<h2>Option B</h2>
 							<h3>Manual Descriptions</h3>

@@ -32,6 +32,7 @@ function setElementAttributes(
 	element.setAttribute("aria-label", ariaLabel);
 	element.setAttribute("role", "");
 	element.setAttribute("aria-roledescription", descriptor);
+	element.setAttribute("data-testid", "a11y-chart-element");
 }
 
 function addSeriesClass(element: HTMLElement, seriesValue: string): void {
