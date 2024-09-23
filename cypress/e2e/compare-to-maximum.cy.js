@@ -4,16 +4,13 @@ describe("template spec", () => {
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 		cy.get('[data-testid="a11y_desc"]').eq(0).focus().type("{downArrow}");
-		cy.get('[data-testid="a11y-chart-element"]')
-			.eq(0)
-			.type("{upArrow}")
-			.should((chart) => {
-				expect(chart).not.have.attr("tabindex", "0"); // Checks if tabindex="0" does not exist
-			});
-		cy.get('[data-testid="a11y_desc"]')
+
+		cy.get('[data-testid="a11y-chart-element"]').eq(0).type("{alt}{shift}l");
+
+		cy.get('[data-testid="a11y-chart-alert"]')
 			.eq(0)
 			.should((chart) => {
-				expect(chart).have.attr("tabindex", "0"); // Checks if tabindex="0" exists
+				expect(chart).to.have.text("The value is the same as the maximum value"); // Checks if the comparison is alerted and correct
 			});
 	});
 });

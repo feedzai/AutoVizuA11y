@@ -173,6 +173,7 @@ const AutoVizuA11y = ({
 				className={constants.AUTOVIZUA11Y_CLASSES.alertDiv}
 				role="alert"
 				aria-live="assertive"
+				data-testid="a11y-chart-alert"
 			>
 				{"\u00A0"}
 			</div>
