@@ -5,19 +5,10 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-/// <reference types="vitest/globals" />
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
-import { InlineConfig } from "vitest";
 import react from "@vitejs/plugin-react-swc";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
-
-const VITEST_CONFIG: InlineConfig = {
-	globals: true,
-	environment: "jsdom",
-	include: ["./src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
-	setupFiles: "./setupVitest.ts",
-};
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -47,5 +38,4 @@ export default defineConfig({
 			},
 		},
 	},
-	test: VITEST_CONFIG,
 });
