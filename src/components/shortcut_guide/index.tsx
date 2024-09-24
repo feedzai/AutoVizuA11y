@@ -30,7 +30,6 @@ export const ShortcutGuideContainer = ({
 	shortcutGuideRef,
 	setIsShortcutGuideOpen,
 }: ShortcutGuideContainerProps): JSX.Element => {
-	const dialogRef = { shortcutGuideRef }; // Add any other props you might want to pass
 	return (
 		<dialog
 			ref={shortcutGuideRef}
@@ -45,7 +44,7 @@ export const ShortcutGuideContainer = ({
 			}}
 		>
 			{isValidElement(shortcutGuide) ? (
-				cloneElement(shortcutGuide, dialogRef)
+				cloneElement(shortcutGuide, { dialogRef: shortcutGuideRef })
 			) : (
 				<NativeShortcutGuide dialogRef={shortcutGuideRef} />
 			)}

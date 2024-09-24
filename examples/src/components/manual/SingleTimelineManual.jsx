@@ -7,6 +7,7 @@ import countryData from "../../data/country_data.json";
 import { chartDimensions } from "./chart.constants.js";
 import { AutoVizuA11y } from "@feedzai/autovizua11y";
 import transformJSON from "../../data/transformJSON.js";
+import CustomShortcutGuide from "../custom_shortcut_guide/components/CustomShortcutGuide.tsx";
 
 function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 	const intValuesCountryData = countryData.map((country) => {
@@ -100,6 +101,7 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 					longer: longDesc,
 					shorter: shortDesc,
 				}}
+				shortcutGuide={<CustomShortcutGuide></CustomShortcutGuide>}
 			>
 				<svg width={380} height={chartDimensions.height}>
 					<Group left={40} top={0}>

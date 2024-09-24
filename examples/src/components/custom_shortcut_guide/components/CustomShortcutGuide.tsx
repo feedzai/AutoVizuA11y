@@ -5,14 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import "../../../assets/style/NativeShortcutGuide.css";
+import * as constants from "../../../../../src/constants";
+import React from "react";
+import { CustomShortcutGuideDescription } from "./CustomGuideDescription";
+import { CustomShortcutGuideHeader } from "./CustomGuideHeader";
+import { CustomShortcutGuideBody } from "./CustomShortcutGuideBody";
 
-import * as constants from "../../../constants";
-import { ShortcutGuideDescription } from "./NativeGuideDescription";
-import { ShortcutGuideHeader } from "./NativeGuideHeader";
-import { ShortcutGuideBody } from "./NativeShortcutGuideBody";
-
-interface NativeShortcutGuideProps {
+interface CustomShortcutGuideProps {
 	dialogRef: React.RefObject<HTMLDialogElement>;
 }
 
@@ -21,7 +20,7 @@ interface NativeShortcutGuideProps {
  *
  * @return Shortcut guide.
  */
-const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
+const CustomShortcutGuide = ({ dialogRef }: CustomShortcutGuideProps): JSX.Element => {
 	const handleCloseDialog = () => {
 		const dialog = dialogRef.current;
 		if (dialog) {
@@ -32,16 +31,16 @@ const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Eleme
 	return (
 		<div
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}
-			data-testid={"a11y-native-shortcut-guide"}
+			data-testid={"a11y-custom-shortcut-guide"}
 		>
-			<ShortcutGuideDescription />
+			<CustomShortcutGuideDescription />
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>
-				<ShortcutGuideHeader onClose={handleCloseDialog} />
+				<CustomShortcutGuideHeader onClose={handleCloseDialog} />
 				<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
-				<ShortcutGuideBody />
+				<CustomShortcutGuideBody />
 			</div>
 		</div>
 	);
 };
 
-export default NativeShortcutGuide;
+export default CustomShortcutGuide;
