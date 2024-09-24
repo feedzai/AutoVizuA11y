@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("passes", () => {
+describe("(Alt + K) Average Test", () => {
+	it("should alert the correct average value for the first chart", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds

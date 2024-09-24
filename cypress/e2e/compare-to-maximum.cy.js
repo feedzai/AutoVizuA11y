@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("passes", () => {
+describe("(Alt + Shift + L) Compare to Maximum of the Chart Test", () => {
+	it("should alert the correct comparison value between the first element and maximum of the chart", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds

@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("passes", () => {
+describe("(Alt + W and Alt + Q) Jump to the Extremes of the Chart Test", () => {
+	it("should set focus to the extreme elements of the chart", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds

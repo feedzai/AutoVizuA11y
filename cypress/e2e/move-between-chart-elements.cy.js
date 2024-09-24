@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("passes", () => {
+describe("(Right and Left Arrow) Move Between Elements of the Chart Test", () => {
+	it("should move to the next and previous chart elements", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds

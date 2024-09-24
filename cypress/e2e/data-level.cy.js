@@ -1,5 +1,5 @@
-describe("template spec", () => {
-	it("passes", () => {
+describe("(Down Arrow) Moving to Data Level Test", () => {
+	it("should add back the tabindexes to the chart elements when moving from the chart level", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds

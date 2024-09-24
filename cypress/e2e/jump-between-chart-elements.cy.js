@@ -1,4 +1,4 @@
-describe("Alt + X Key Combination Prompt Test", () => {
+describe("(Alt + X) Prompt Test", () => {
 	it("should open a prompt when Alt + X is pressed and input '2'", () => {
 		cy.visit("http://localhost:5173/AutoVizuA11y/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
