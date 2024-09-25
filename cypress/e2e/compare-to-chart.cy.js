@@ -2,7 +2,7 @@ describe("(Alt + Z) Compare to Rest of the Chart Test", () => {
 	it("should alert the correct comparison value between the first element and rest of the chart", () => {
 		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
-		cy.wait(500); // Wait for 0.5 seconds
+		cy.wait(500); // AutoVizuA11y waits 500ms beofre handling descriptions
 		cy.get('[data-testid="a11y_desc"]').eq(0).focus().type("{alt}z");
 
 		cy.get('[data-testid="a11y-chart-alert"]')

@@ -2,7 +2,7 @@ describe("(Alt + S and Alt + B) Change Chart Description Test", () => {
 	it("should correctly switch between longer and shorter descriptions", () => {
 		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
-		cy.wait(500); // Wait for 0.5 seconds
+		cy.wait(500); // AutoVizuA11y waits 500ms beofre handling descriptions
 
 		cy.get('[data-testid="a11y_desc"]') // Get the initial aria-label value
 			.eq(0)

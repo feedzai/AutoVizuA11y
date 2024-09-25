@@ -2,7 +2,7 @@ describe("(Alt + X) Prompt Test", () => {
 	it("should open a prompt when Alt + X is pressed and input '2'", () => {
 		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
-		cy.wait(500); // Wait for 0.5 seconds
+		cy.wait(500); // AutoVizuA11y waits 500ms beofre handling descriptions
 		cy.window().then((win) => {
 			cy.stub(win, "prompt").returns("2").as("prompt"); // Stub the prompt after Alt + X is pressed
 			cy.get('[data-testid="a11y_desc"]').eq(0).focus().type("{downArrow}");

@@ -2,7 +2,7 @@ describe("(Down Arrow) Moving to Data Level Test", () => {
 	it("should add back the tabindexes to the chart elements when moving from the chart level", () => {
 		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
-		cy.wait(500); // Wait for 0.5 seconds
+		cy.wait(500); // AutoVizuA11y waits 500ms beofre handling descriptions
 		cy.get('[data-testid="a11y_desc"]')
 			.eq(0)
 			.focus()
