@@ -1,6 +1,6 @@
 describe("Addition of Attributes to Chart Elements Test", () => {
 	it("should add aria-labels, aria-roledescription, empty role but not tabindexes to the chart elements", () => {
-		cy.visit("http://localhost:5173/AutoVizuA11y/");
+		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 		cy.get('[data-testid="a11y-chart-element"]')

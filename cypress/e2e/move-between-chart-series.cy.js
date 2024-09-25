@@ -1,6 +1,6 @@
 describe("(Alt + M) Move Between Data Series Test", () => {
 	it("should move to the next series of data", () => {
-		cy.visit("http://localhost:5173/AutoVizuA11y/");
+		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 		cy.get('[data-testid="a11y_desc"]').eq(0).focus().tab().tab().type("{downArrow}");

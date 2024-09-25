@@ -1,6 +1,6 @@
 describe("(Alt + S and Alt + B) Change Chart Description Test", () => {
 	it("should correctly switch between longer and shorter descriptions", () => {
-		cy.visit("http://localhost:5173/AutoVizuA11y/");
+		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 

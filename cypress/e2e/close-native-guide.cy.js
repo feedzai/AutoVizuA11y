@@ -1,6 +1,6 @@
 describe("(Esc) Close Native Shortcut Guide Test", () => {
 	it("should close the native shortcut guide", () => {
-		cy.visit("http://localhost:5173/AutoVizuA11y/");
+		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 		cy.get('[data-testid="a11y_desc"]').eq(0).focus().type("?");

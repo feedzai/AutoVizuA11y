@@ -1,6 +1,6 @@
 describe("(Alt + X) Prompt Test", () => {
 	it("should open a prompt when Alt + X is pressed and input '2'", () => {
-		cy.visit("http://localhost:5173/AutoVizuA11y/");
+		cy.visit("/");
 		cy.get('[data-testid="manual-descriptions-option"]').click();
 		cy.wait(500); // Wait for 0.5 seconds
 		cy.window().then((win) => {
