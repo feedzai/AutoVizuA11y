@@ -2,14 +2,11 @@ describe("Addition of Attributes to Chart Elements Test", () => {
 	it("should add aria-labels, aria-roledescription, empty role but not tabindexes to the chart elements", () => {
 		cy.visit("/");
 		cy.findByTestId("manual-descriptions-option").click();
-		cy.wait(500); // AutoVizuA11y waits 500ms beofre handling descriptions
-		cy.findAllByTestId("a11y-chart-element")
-			.eq(0)
-			.should((chart) => {
-				expect(chart).to.have.attr("aria-label"); // Checks if aria-label exists
-				expect(chart).to.have.attr("aria-roledescription"); // Checks if aria-roledescription exists
-				expect(chart).to.have.attr("role"); // Checks if role exists
-				expect(chart).not.have.attr("tabindex", "0"); // Checks if tabindex="0" does not exist
-			});
+		cy.wait(500); // AutoVizuA11y waits 500ms before handling descriptions
+		cy.findAllByTestId("a11y-chart-element").first().as("chart-element");
+		cy.get("@chart-element").should("have.attr", "aria-label"); // Check if aria-label exists
+		cy.get("@chart-element").should("have.attr", "aria-roledescription"); // Check if aria-roledescription exists
+		cy.get("@chart-element").should("have.attr", "role"); // Check if role exists
+		cy.get("@chart-element").should("not.have.attr", "tabindex", "0"); // Check if tabindex="0" does not exist
 	});
 });
