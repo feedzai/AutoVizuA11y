@@ -58,6 +58,7 @@
 		"@visx/visx": "^3.8.0",
 		"@vitejs/plugin-react-swc": "^3.5.0",
 		"cypress": "^13.14.2",
+		"cypress-axe": "^1.5.0",
 		"cypress-plugin-tab": "^1.0.5",
 		"eslint": "^8.56.0",
 		"eslint-plugin-react-hooks": "^4.6.0",

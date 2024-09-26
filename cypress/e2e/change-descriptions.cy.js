@@ -1,6 +1,7 @@
 describe("(Alt + S and Alt + B) Change Chart Description Test", () => {
 	it("should toggle between longer and shorter descriptions", () => {
 		cy.visit("/");
+		cy.injectAxe();
 		cy.findByTestId("manual-descriptions-option").click();
 		cy.wait(500); // Wait for AutoVizuA11y to handle descriptions
 		cy.findAllByTestId("a11y_desc").first().as("chartDescription");
@@ -18,5 +19,6 @@ describe("(Alt + S and Alt + B) Change Chart Description Test", () => {
 					.invoke("attr", "aria-label")
 					.should("equal", shortDescription); // Assert that the aria-label reverted back
 			});
+		cy.checkA11y();
 	});
 });

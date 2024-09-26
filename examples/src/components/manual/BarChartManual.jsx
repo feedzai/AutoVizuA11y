@@ -65,11 +65,11 @@ function BarChartManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				<mark
 					style={{
 						backgroundColor: "#00A39E",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -79,8 +79,8 @@ function BarChartManual({ longDesc, shortDesc }) {
 				and{" "}
 				<mark
 					style={{
-						backgroundColor: "#6943A1",
-						color: "white",
+						backgroundColor: "#965fe6",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -88,7 +88,7 @@ function BarChartManual({ longDesc, shortDesc }) {
 					India
 				</mark>{" "}
 				are the most populated countries in the world
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,
@@ -140,7 +140,7 @@ function BarChartManual({ longDesc, shortDesc }) {
 											width={barWidth}
 											height={barHeight}
 											opacity={1}
-											fill={name === "China" ? "#00A39E" : name === "India" ? "#6943A1" : "#B3B7C4"}
+											fill={name === "China" ? "#00A39E" : name === "India" ? "#965fe6" : "#B3B7C4"}
 										></rect>
 										<Text
 											x={name === "China" || name === "India" ? barX + 5 : barWidth + 5}
@@ -148,7 +148,7 @@ function BarChartManual({ longDesc, shortDesc }) {
 											dy={15}
 											style={{
 												fontSize: 14,
-												fill: name === "China" || name === "India" ? "white" : "black",
+												fill: "black",
 											}}
 										>
 											{name}

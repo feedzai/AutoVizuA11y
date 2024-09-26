@@ -187,7 +187,9 @@ function HeatmapManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>Population is growing in the more populated countries</h4>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
+				Population is growing in the more populated countries
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,

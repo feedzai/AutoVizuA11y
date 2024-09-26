@@ -54,9 +54,9 @@ function TreemapManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				Russia, Canada, China and the USA are the largest countries
-			</h4>
+			</h2>
 			<p style={{ marginBottom: 4, marginTop: 4, fontSize: 12 }}>Surface area (thousand km2)</p>
 			<AutoVizuA11y
 				data={dataTransformed}

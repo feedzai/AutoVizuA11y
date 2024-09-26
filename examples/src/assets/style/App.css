@@ -37,3 +37,7 @@
 		transform: rotate(360deg);
 	}
 }
+
+.a11y-examples-title {
+	font-size: 1rem;
+}

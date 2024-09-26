@@ -66,11 +66,11 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				<mark
 					style={{
 						backgroundColor: "#965FE6",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -78,7 +78,7 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 					India's
 				</mark>{" "}
 				population went from 1.24 billion in 2010 to 1.42 billion in 2022
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,

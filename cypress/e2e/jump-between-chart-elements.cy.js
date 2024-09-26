@@ -1,6 +1,7 @@
 describe("(Alt + X) Prompt Test", () => {
 	it("should open a prompt when Alt + X is pressed and input '2'", () => {
 		cy.visit("/");
+		cy.injectAxe();
 		cy.findByTestId("manual-descriptions-option").click();
 		cy.wait(500); // AutoVizuA11y waits 500ms before handling descriptions
 		cy.window().then((win) => {
@@ -11,5 +12,6 @@ describe("(Alt + X) Prompt Test", () => {
 			cy.get("@firstChartElement").type("{rightArrow}");
 			cy.findAllByTestId("a11y-chart-element").eq(2).should("be.focused"); // Checks if the third element is focused
 		});
+		cy.checkA11y();
 	});
 });
