@@ -26,7 +26,7 @@ If you want to discuss AutoVizuA11y in greater depth, **or contribute to the pro
 
 ## Test your changes
 
-Before committing your changes, ensure all cypress tests pass.
+Before committing your changes, ensure all tests pass.
 
 ## Assistance Required
 
