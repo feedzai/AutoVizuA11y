@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Changed bundler from babel to vite
-- Replaced jest with vitest
+- Replaced jest with cypress
 - Converted Javascript to Typescript
 - Added documentation
 - Revised the file structure

@@ -84,7 +84,7 @@ function MultiSeriesTimeline({ apiKey }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				<mark
 					style={{
 						backgroundColor: "#0460FF",
@@ -99,7 +99,7 @@ function MultiSeriesTimeline({ apiKey }) {
 				<mark
 					style={{
 						backgroundColor: "#48B970",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -118,7 +118,7 @@ function MultiSeriesTimeline({ apiKey }) {
 					Croatia
 				</mark>{" "}
 				are among the countries where population is decreasing
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,

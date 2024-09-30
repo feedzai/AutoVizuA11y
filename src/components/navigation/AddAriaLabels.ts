@@ -30,8 +30,9 @@ function setElementAttributes(
 ): void {
 	const ariaLabel = Object.values(item).join(", ");
 	element.setAttribute("aria-label", ariaLabel);
-	element.setAttribute("role", "");
+	element.setAttribute("role", "graphics-symbol");
 	element.setAttribute("aria-roledescription", descriptor);
+	element.setAttribute("data-testid", "a11y-chart-element");
 }
 
 function addSeriesClass(element: HTMLElement, seriesValue: string): void {

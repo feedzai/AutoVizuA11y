@@ -39,7 +39,7 @@ export function median(arr: number[]): number {
  * @return {string} Ordinal number.
  */
 export function getOrdinalNumber(number: number): string {
-	if (number === 1) return "";
+	if (number === 1) return "the";
 
 	const suffixes = ["th", "st", "nd", "rd"];
 	const lastTwoDigits = number % 100;

@@ -103,12 +103,12 @@ function StackedBar({ apiKey }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				The ratio of{" "}
 				<mark
 					style={{
 						backgroundColor: "#00A39E",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -118,8 +118,8 @@ function StackedBar({ apiKey }) {
 				to{" "}
 				<mark
 					style={{
-						backgroundColor: "#6943A1",
-						color: "white",
+						backgroundColor: "#965fe6",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -127,7 +127,7 @@ function StackedBar({ apiKey }) {
 					female
 				</mark>{" "}
 				varies significantly in some countries
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,
@@ -193,7 +193,7 @@ function StackedBar({ apiKey }) {
 											width={barWidthFemale}
 											height={barHeight}
 											opacity={1}
-											fill={"#6943A1"}
+											fill={"#965fe6"}
 										></rect>
 										<Text
 											x={barX + 5}
@@ -201,7 +201,7 @@ function StackedBar({ apiKey }) {
 											dy={15}
 											style={{
 												fontSize: 14,
-												fill: "white",
+												fill: "black",
 											}}
 											fontWeight="bold"
 										>
@@ -213,7 +213,7 @@ function StackedBar({ apiKey }) {
 											dy={15}
 											style={{
 												fontSize: 14,
-												fill: "white",
+												fill: "black",
 											}}
 											fontWeight="bold"
 										>

@@ -11,74 +11,68 @@ import StackedBar from "./StackedBarAutomatic";
 import Scatterplot from "./ScatterplotAutomatic";
 
 function CardGrid({ apiKey, setHome }) {
-  setHome(false);
-  return (
-    <Grid
-      container
-      direction="row"
-      spacing={2}
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <BarChart apiKey={apiKey}></BarChart>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <SingleSeriesTimeline apiKey={apiKey}></SingleSeriesTimeline>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <MultiSeriesTimeline apiKey={apiKey}></MultiSeriesTimeline>
-          </CardContent>
-        </Card>
-      </Grid>
+	setHome(false);
+	return (
+		<Grid container direction="row" spacing={2} justifyContent="center" alignItems="center">
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<BarChart apiKey={apiKey}></BarChart>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<SingleSeriesTimeline apiKey={apiKey}></SingleSeriesTimeline>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<MultiSeriesTimeline apiKey={apiKey}></MultiSeriesTimeline>
+					</CardContent>
+				</Card>
+			</Grid>
 
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <Pie_ apiKey={apiKey}></Pie_>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <Treemap_ apiKey={apiKey}></Treemap_>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <Heatmap apiKey={apiKey}></Heatmap>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <StackedBar apiKey={apiKey}></StackedBar>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item>
-        <Card sx={{ minWidth: 275, width: 450 }}>
-          <CardContent>
-            <Scatterplot apiKey={apiKey}></Scatterplot>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  );
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<Pie_ apiKey={apiKey}></Pie_>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<Treemap_ apiKey={apiKey}></Treemap_>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<Heatmap apiKey={apiKey}></Heatmap>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<StackedBar apiKey={apiKey}></StackedBar>
+					</CardContent>
+				</Card>
+			</Grid>
+			<Grid item>
+				<Card sx={{ minWidth: 275, width: 450 }}>
+					<CardContent>
+						<Scatterplot apiKey={apiKey}></Scatterplot>
+					</CardContent>
+				</Card>
+			</Grid>
+		</Grid>
+	);
 }
 
 export default CardGrid;

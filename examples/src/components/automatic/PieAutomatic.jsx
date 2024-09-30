@@ -61,19 +61,19 @@ function Pie_({ apiKey }) {
 	const value = (d) => d.Value;
 	const getColor = scaleOrdinal({
 		domain: ["India", "China", "Other Countries"],
-		range: ["#6943A1", "#00A39E", "#B3B7C4"],
+		range: ["#965fe6", "#00A39E", "#B3B7C4"],
 	});
 
 	const dataTransformed = transformJSON(autovizData);
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				More than one third of the world's population lives in{" "}
 				<mark
 					style={{
 						backgroundColor: "#00A39E",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -83,15 +83,15 @@ function Pie_({ apiKey }) {
 				and{" "}
 				<mark
 					style={{
-						backgroundColor: "#6943A1",
-						color: "white",
+						backgroundColor: "#965fe6",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
 				>
 					India
 				</mark>{" "}
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,

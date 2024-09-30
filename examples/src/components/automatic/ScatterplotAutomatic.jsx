@@ -110,7 +110,9 @@ function Scatterplot({ apiKey }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>Countries with the highest surface area</h4>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
+				Countries with the highest surface area
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,

@@ -20,7 +20,7 @@ function Homepage() {
 	};
 
 	return (
-		<div className="Homepage">
+		<main className="Homepage" role="main">
 			<h1>AutoVizuA11y — examples</h1>
 			{home === false ? (
 				<button onClick={goBack} tabIndex={0}>
@@ -85,7 +85,7 @@ function Homepage() {
 			) : (
 				<p></p>
 			)}
-		</div>
+		</main>
 	);
 }
 

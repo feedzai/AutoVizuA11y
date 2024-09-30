@@ -173,6 +173,7 @@ const AutoVizuA11y = ({
 				className={constants.AUTOVIZUA11Y_CLASSES.alertDiv}
 				role="alert"
 				aria-live="assertive"
+				data-testid="a11y-chart-alert"
 			>
 				{"\u00A0"}
 			</div>
@@ -332,7 +333,6 @@ const AutoVizuA11y = ({
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
 				className={constants.AUTOVIZUA11Y_CLASSES.a11yChart}
-				data-testid="a11y_chart"
 				key={`a11y_chart_${componentId}`}
 			>
 				{chartDescription}

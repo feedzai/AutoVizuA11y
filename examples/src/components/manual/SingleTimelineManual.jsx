@@ -7,6 +7,7 @@ import countryData from "../../data/country_data.json";
 import { chartDimensions } from "./chart.constants.js";
 import { AutoVizuA11y } from "@feedzai/autovizua11y";
 import transformJSON from "../../data/transformJSON.js";
+import CustomShortcutGuide from "../custom_shortcut_guide/components/CustomShortcutGuide.tsx";
 
 function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 	const intValuesCountryData = countryData.map((country) => {
@@ -65,11 +66,11 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				<mark
 					style={{
 						backgroundColor: "#965FE6",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -77,7 +78,7 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 					India's
 				</mark>{" "}
 				population went from 1.24 billion in 2010 to 1.42 billion in 2022
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,
@@ -100,6 +101,7 @@ function SingleSeriesTimelineManual({ longDesc, shortDesc }) {
 					longer: longDesc,
 					shorter: shortDesc,
 				}}
+				shortcutGuide={<CustomShortcutGuide></CustomShortcutGuide>}
 			>
 				<svg width={380} height={chartDimensions.height}>
 					<Group left={40} top={0}>

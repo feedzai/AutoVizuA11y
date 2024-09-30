@@ -105,12 +105,12 @@ function StackedBarManual({ longDesc, shortDesc }) {
 
 	return (
 		<div style={{ textAlign: "left" }}>
-			<h4 style={{ marginBottom: 2 }}>
+			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
 				The ratio of{" "}
 				<mark
 					style={{
 						backgroundColor: "#00A39E",
-						color: "white",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -120,8 +120,8 @@ function StackedBarManual({ longDesc, shortDesc }) {
 				to{" "}
 				<mark
 					style={{
-						backgroundColor: "#6943A1",
-						color: "white",
+						backgroundColor: "#965fe6",
+						color: "black",
 						paddingLeft: 2,
 						paddingRight: 2,
 					}}
@@ -129,7 +129,7 @@ function StackedBarManual({ longDesc, shortDesc }) {
 					female
 				</mark>{" "}
 				varies significantly in some countries
-			</h4>
+			</h2>
 			<p
 				style={{
 					marginBottom: 4,
@@ -193,7 +193,7 @@ function StackedBarManual({ longDesc, shortDesc }) {
 											width={barWidthFemale}
 											height={barHeight}
 											opacity={1}
-											fill={"#6943A1"}
+											fill={"#965fe6"}
 										></rect>
 										<Text
 											x={barX + 5}
@@ -201,7 +201,7 @@ function StackedBarManual({ longDesc, shortDesc }) {
 											dy={15}
 											style={{
 												fontSize: 14,
-												fill: "white",
+												fill: "black",
 											}}
 											fontWeight="bold"
 										>
@@ -213,7 +213,7 @@ function StackedBarManual({ longDesc, shortDesc }) {
 											dy={15}
 											style={{
 												fontSize: 14,
-												fill: "white",
+												fill: "black",
 											}}
 											fontWeight="bold"
 										>

@@ -168,7 +168,26 @@ The tool was tested with VoiceOver, JAWS and NVDA, as well as the most commonly 
 
 ## Examples
 
-You can check a series of examples built using AutoVizuA11y [here](https://feedzai.github.io/AutoVizuA11y/) (it requires an OpenAI API key).
+You can check a series of examples built using AutoVizuA11y [here](https://feedzai.github.io/AutoVizuA11y/) (some features require an OpenAI API key).
+
+## Tests
+
+All tests have been written using cypress.
+
+To run tests locally:
+
+```
+# root
+npm install
+npm run build
+
+# /examples
+npm install
+npm run dev
+
+# root
+npx cypress open
+```
 
 ## Shortcut Guide
 

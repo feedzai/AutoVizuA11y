@@ -7,6 +7,7 @@
 
 {
 	"compilerOptions": {
+		"types": ["cypress", "@testing-library/cypress", "cypress-axe"],
 		"target": "ES2020",
 		"useDefineForClassFields": true,
 		"lib": ["ES2020", "DOM", "DOM.Iterable"],

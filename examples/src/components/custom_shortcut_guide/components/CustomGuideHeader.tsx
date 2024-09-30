@@ -5,4 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import "@testing-library/jest-dom";
+import * as constants from "../../../../../src/constants";
+import React from "react";
+
+export const CustomShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => (
+	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
+		<h2
+			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
+			id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+		>
+			Custom Shortcut Guide
+		</h2>
+		<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
+		<button
+			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
+			aria-label="Close shortcut guide"
+			onClick={onClose}
+		>
+			&times;
+		</button>
+	</div>
+);

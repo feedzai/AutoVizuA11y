@@ -30,7 +30,10 @@ const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Eleme
 	};
 
 	return (
-		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}>
+		<div
+			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}
+			data-testid={"a11y-native-shortcut-guide"}
+		>
 			<ShortcutGuideDescription />
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>
 				<ShortcutGuideHeader onClose={handleCloseDialog} />
