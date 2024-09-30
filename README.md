@@ -34,13 +34,13 @@ cd autovizua11y
 
 ### Outputs
 
+- **Descriptions**
+  - Labels for every data element;
+  - Two descriptions, a longer and a shorter, for every data visualization wrapped by AutoVizuA11y. Both are composed of a title, the visualization type, whether the description was automatically generated, and a human-like summary generated using the `gpt-3.5-turbo` model from OpenAI. The shorter description is announced by default once the data visualization gets focused. The descriptions can also be manually written.
 - **Navigation**
   - "Horizontally", between different data visualizations and between data elements;
   - "Vertically", between data visualizations and their underlying data elements;
   - Between different data series (in case more than one exist).
-- **Descriptions**
-  - Labels for every data element;
-  - Two descriptions, a longer and a shorter, for every data visualization wrapped by AutoVizuA11y. Both are composed of a title, the visualization type, whether the description was automatically generated, and a human-like summary generated using the `gpt-3.5-turbo` model from OpenAI. The shorter description is announced by default once the data visualization gets focused. The descriptions can also be manually written.
 - **Shortcuts**
   - QOL navigation shortcuts that increase speed and efficiency in the exploration of a chart;
   - Shortcuts that offer statistical insights about the data on demand;
@@ -237,11 +237,10 @@ The Shortcut Guide is the only aspect of AutoVizuA11y that is also visual. You m
 | shortcut-guide\_\_body              | div    |
 | shortcut-guide\_\_section           | div    |
 | shortcut-guide\_\_list--title       | h3     |
-| shortcut-guide\_\_list              | dl     |
-| shortcut-guide\_\_row               | div    |
-| shortcut-guide\_\_cell              | div    |
+| shortcut-guide\_\_list              | div    |
+| shortcut-guide\_\_row               | dl     |
 | shortcut-guide\_\_cell--shortcut    | dt     |
-| shortcut-guide\_\_cell--explanation | dl     |
+| shortcut-guide\_\_cell--explanation | dd     |
 
 ## Citing AutoVizuA11y
 
