@@ -40,7 +40,7 @@
 		"docs:dev": "cd ./examples && npm run dev",
 		"docs:build": "npm run docs:install && cd ./examples && npm run build",
 		"docs:preview": "cd ./examples && npm run preview",
-		"docs:ci": "npm run docs:build && npm run docs:preview",
+		"docs:ci": "npm run build && npm run docs:build && npm run docs:preview",
 		"test:e2e-open": "cypress open --e2e",
 		"test:e2e-run": "cypress run --e2e",
 		"test:local": "start-server-and-test docs:ci http://localhost:5173/AutoVizuA11y/ 'npm run test:e2e-open'",
