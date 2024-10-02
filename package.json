@@ -35,7 +35,16 @@
 		"postbuild": "size-limit",
 		"format": "npx prettier --write '**/*.{jsx,ts,tsx,js}'",
 		"reinstall": "rimraf node_modules && npm install",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"docs:install": "cd ./examples && npm install",
+		"docs:dev": "cd ./examples && npm run dev",
+		"docs:build": "npm run docs:install && cd ./examples && npm run build",
+		"docs:preview": "cd ./examples && npm run preview",
+		"docs:ci": "npm run docs:install && npm run docs:dev",
+		"test:e2e-open": "cypress open --e2e",
+		"test:e2e-run": "cypress run --e2e",
+		"test:local": "start-server-and-test docs:ci http://localhost:5173/AutoVizuA11y/ 'npm run test:e2e-open'",
+		"test:ci": "start-server-and-test docs:ci http://localhost:5173/AutoVizuA11y/ 'npm run test:e2e-run'"
 	},
 	"peerDependencies": {
 		"react": ">= 17.0.2",
@@ -66,6 +75,7 @@
 		"jsdom": "^24.0.0",
 		"rimraf": "^5.0.5",
 		"size-limit": "^11.0.2",
+		"start-server-and-test": "^2.0.8",
 		"typescript": "^5.2.2",
 		"vite": "^5.3.1",
 		"vite-plugin-lib-inject-css": "^2.1.1",
