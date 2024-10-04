@@ -5,5 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+export * from "./arrayConverter";
+export * from "./insightsCalculator";
+export * from "./maths";
+export * from "./wiper";
+export * from "./handleBlur";
+export * from "./handleFirstFocus";
+export * from "./handleKeyDown";
+export * from "./showAlert";
+export * from "./initToolTutorial";
+export * from "./processData";

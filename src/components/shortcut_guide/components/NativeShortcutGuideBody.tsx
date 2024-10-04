@@ -5,5 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+import * as constants from "../../../constants";
+import { GUIDE_DATA } from "../../../assets/data/GuideData";
+
+import { ShortcutGuideSection } from "./NativeShortcutGuideSection";
+
+export const ShortcutGuideBody = () => (
+	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
+		{GUIDE_DATA.map((section, sectionIndex) => (
+			<div key={sectionIndex}>
+				<ShortcutGuideSection section={section} sectionIndex={sectionIndex} />
+			</div>
+		))}
+	</div>
+);

@@ -5,5 +5,17 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+import { getLSItem, setLSItem } from "@feedzai/js-utilities";
+
+/**
+ * Ensures the tutorial is heard the first time a chart is focused
+ *
+ * @export
+ */
+export function initToolTutorial() {
+	let toolTutorial = getLSItem("toolTutorial");
+
+	if (!toolTutorial) {
+		setLSItem("toolTutorial", "true");
+	}
+}

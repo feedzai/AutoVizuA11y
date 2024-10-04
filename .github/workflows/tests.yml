@@ -1,0 +1,24 @@
+name: Testing
+on:
+  - push
+  - pull_request
+jobs:
+  quality:
+    name: E2E tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version:
+          - 18.x
+          - 20.x
+        os:
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Using node ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+      - run: npm ci
+      - run: npm run test:ci
