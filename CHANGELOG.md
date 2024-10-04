@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.0.0 - 2024-10-04
+### Added
+- Changed bundler from babel to vite
+- Replaced jest with cypress
+- Converted Javascript to Typescript
+- Added documentation
+- Revised the file structure
+- Refactored code with React best practices
+- Converted the ShortcutGuide into a prop, making it overridable and customizable
+
 ## 1.0.3 - 2024-01-09
 ### Added
 - Remove unused dependency

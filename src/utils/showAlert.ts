@@ -5,5 +5,24 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+import { wait } from "@feedzai/js-utilities";
+
+import * as constants from "./../constants";
+
+/**
+ * Sets a message in div with the 'alert' role and cleans it after some time
+ *
+ * @export
+ * @param {React.ReactNode | null} alertDiv - Div where the alerts are set.
+ * @param {string} message - The message to be set.
+ */
+export async function showAlert(
+	alertDivRef: React.RefObject<HTMLElement>,
+	message: string,
+): Promise<void> {
+	if (alertDivRef.current) {
+		alertDivRef.current.textContent = message;
+		await wait(constants.ALERT_DURATION);
+		alertDivRef.current.textContent = "\u00A0";
+	}
+}

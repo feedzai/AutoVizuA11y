@@ -1,0 +1,63 @@
+[
+  {
+    "series": "Croatia",
+    "x": 2010,
+    "y": 4.37
+  },
+  {
+    "series": "Croatia",
+    "x": 2015,
+    "y": 4.25
+  },
+  {
+    "series": "Croatia",
+    "x": 2020,
+    "y": 4.1
+  },
+  {
+    "series": "Croatia",
+    "x": 2022,
+    "y": 4.03
+  },
+  {
+    "series": "Latvia",
+    "x": 2010,
+    "y": 2.1
+  },
+  {
+    "series": "Latvia",
+    "x": 2015,
+    "y": 1.99
+  },
+  {
+    "series": "Latvia",
+    "x": 2020,
+    "y": 1.9
+  },
+  {
+    "series": "Latvia",
+    "x": 2022,
+    "y": 1.85
+  },
+  {
+    "series": "Lithuania",
+    "x": 2010,
+    "y": 3.14
+  },
+  {
+    "series": "Lithuania",
+    "x": 2015,
+    "y": 2.96
+  },
+  {
+    "series": "Lithuania",
+    "x": 2020,
+
+    "y": 2.82
+  },
+  {
+    "series": "Lithuania",
+    "x": 2022,
+    "y": 2.75
+  }
+]

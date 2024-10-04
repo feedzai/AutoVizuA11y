@@ -1,0 +1,13 @@
+.Homepage {
+  text-align: center;
+}
+
+#informationContainer {
+  display: flex;
+  justify-content: center;
+}
+
+#information {
+  overflow-wrap: break-word; /* or anywhere */
+  width: 50%;
+}

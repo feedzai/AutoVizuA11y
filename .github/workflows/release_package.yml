@@ -24,15 +24,11 @@ jobs:
         uses: actions/setup-node@v3
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: "14"
+          node-version: "18"
 
       # Install dependencies (required by Run tests step)
       - name: Install dependencies
         run: npm install
-
-      # Tests
-      - name: Run tests
-        run: npm run test
 
       # Build
       - name: Run build

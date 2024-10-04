@@ -5,5 +5,16 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+import React from "react";
+
+import * as constants from "./../constants";
+
+/**
+ * Removes the 'focus' class when the element loses focus
+ *
+ * @export
+ * @param {React.RefObject<HTMLDivElement>} chartRef - The React reference of the chart.
+ */
+export const handleBlur = (chartRef: React.RefObject<HTMLDivElement>) => {
+	chartRef.current!.classList.remove(constants.FOCUS_CLASS);
+};

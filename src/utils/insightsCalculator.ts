@@ -5,5 +5,21 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { default as AutoVizuA11y } from "./AutoVizuA11y";
-export { default as NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+import { sum, avg, max, min } from "./maths";
+/**
+ * Calculates insights based on the array with only the values.
+ *
+ * @export
+ * @param {number[]} arrayConverted - The array of numbers to calculate insights from.
+ * @return {number[]} Array with the sum, average, maximum and minimum values.
+ */
+export function insightsCalculator(arrayConverted: number[]): number[] {
+	if (!arrayConverted || arrayConverted.length === 0) {
+		return [];
+	}
+	const total = sum(arrayConverted);
+	const average = avg(arrayConverted);
+	const maximum = max(arrayConverted);
+	const minimum = min(arrayConverted);
+	return [total, average, maximum, minimum];
+}
