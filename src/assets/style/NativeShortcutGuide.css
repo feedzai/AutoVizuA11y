@@ -27,6 +27,8 @@
 	--shortcut-guide-cell-shortcut-height: 1.5rem;
 	--shortcut-guide-cell-shortcut-width: 100px;
 	--shortcut-guide-explanation-font-size: 0.688rem;
+	--shortcut-guide-text-blue: #1c2950;
+	--shortcut-guide-text-darker-blue: #000f3a;
 }
 
 .shortcut-guide__container {
@@ -61,6 +63,7 @@
 	margin-right: auto;
 	font-size: var(--shortcut-guide-title-font-size);
 	font-weight: var(--shortcut-guide-title-font-weight);
+	color: var(--shortcut-guide-text-darker-blue);
 }
 
 .shortcut-guide__action-label {
@@ -90,6 +93,7 @@
 
 .shortcut-guide__list--title {
 	margin: 0 auto 0 0;
+	color: var(--shortcut-guide-text-blue);
 }
 
 .shortcut-guide__list--title,
@@ -120,6 +124,7 @@
 	border-radius: 2px;
 	height: var(--shortcut-guide-cell-shortcut-height);
 	width: var(--shortcut-guide-cell-shortcut-width);
+	color: var(--shortcut-guide-text-blue);
 }
 
 .shortcut-guide__cell--explanation {
@@ -129,6 +134,7 @@
 	font-weight: 400;
 	font-size: var(--shortcut-guide-explanation-font-size);
 	padding-left: 0.75rem;
+	color: var(--shortcut-guide-text-blue);
 }
 
 .shortcut-guide__row--empty {
@@ -147,11 +153,12 @@
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: safe space-around;
-	max-height: 400px;
-	width: 100%;
+	height: 340px;
 	overflow-y: auto;
+	gap: 1rem;
+	margin: 0.5rem 1rem 1rem 1rem;
 }
 
 .shortcut-guide__section {
-	margin: 0.5rem 1.5rem auto;
+	margin: 0.5rem;
 }

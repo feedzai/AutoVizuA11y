@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.0.1 - 2024-10-08
+### Added
+- Aligned native ShortcutGuide styling with the prototypes
+
 ## 2.0.0 - 2024-10-04
 ### Added
 - Changed bundler from babel to vite
