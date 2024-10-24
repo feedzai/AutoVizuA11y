@@ -217,7 +217,7 @@ const AutoVizuA11y = ({
 		const SELECTOR = selectorType.element || `.${selectorType.className ?? ""}`;
 		const NEW_ELEMENTS = Array.from(chartRef.current.querySelectorAll(SELECTOR)) as HTMLElement[];
 		setElements(NEW_ELEMENTS);
-	}, [chartRef, selectorType]);
+	}, [chartRef, selectorType, data, children]);
 
 	useEffect(() => {
 		const initSeries = () => {
@@ -295,7 +295,7 @@ const AutoVizuA11y = ({
 			return () => clearTimeout(timer);
 		};
 		asyncEffect();
-	}, [chartRef]);
+	}, [chartRef, data, children]);
 
 	const handleOnKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {

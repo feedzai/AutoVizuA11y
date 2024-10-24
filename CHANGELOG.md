@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 2.0.2 - 2024-10-24
+### Added
+- Dynamic changes in the data or DOM elements now trigger updates in the tool
+
 ## 2.0.1 - 2024-10-08
 ### Added
 - Aligned native ShortcutGuide styling with the prototypes
