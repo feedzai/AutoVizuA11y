@@ -13,7 +13,7 @@ import { getLSItem, setLSItem } from "@feedzai/js-utilities";
  * @export
  */
 export function initToolTutorial() {
-	let toolTutorial = getLSItem("toolTutorial");
+	const toolTutorial = getLSItem("toolTutorial");
 
 	if (!toolTutorial) {
 		setLSItem("toolTutorial", "true");
