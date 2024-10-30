@@ -11,8 +11,8 @@ import { insightsCalculator } from "./insightsCalculator";
 interface ProcessDataProps {
 	data: Record<string, unknown>[];
 	validatedInsights: string;
-	setArrayConverted: Function;
-	setInsightsArray: Function;
+	setArrayConverted: (data: number[]) => void;
+	setInsightsArray: (data: number[]) => void;
 }
 
 /**
@@ -37,7 +37,7 @@ export function processData({
 
 	let average = 0;
 	if (validatedInsights !== "") {
-		let insightsArrayAux = insightsCalculator(dataConverted);
+		const insightsArrayAux = insightsCalculator(dataConverted);
 		setInsightsArray(insightsArrayAux);
 
 		average = insightsArrayAux[1];

@@ -4,7 +4,6 @@
  * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
-
 import { getElements } from "../../utils/getElements";
 
 type SelectorType = {
@@ -15,7 +14,7 @@ type SelectorType = {
 interface AddAriaLabelsProps {
 	chartRef: React.RefObject<HTMLElement>;
 	selectorType: SelectorType;
-	data: Record<string, any>[];
+	data: Record<string, unknown>[];
 	descriptor?: string;
 	multiSeries?: string;
 }
@@ -25,7 +24,7 @@ interface AddAriaLabelsProps {
  */
 function setElementAttributes(
 	element: HTMLElement,
-	item: Record<string, any>,
+	item: Record<string, unknown>,
 	descriptor: string,
 ): void {
 	const ariaLabel = Object.values(item).join(", ");
@@ -46,7 +45,7 @@ function addSeriesClass(element: HTMLElement, seriesValue: string): void {
  * @export
  * @param {React.RefObject<HTMLElement>} chartRef - The React reference of the chart.
  * @param {SelectorType} selectorType - The selector to be used when retrieving the data elements.
- * @param {Record<string, any>[]} data - Chart data.
+ * @param {Record<string, string>[]} data - Chart data.
  * @param {string} descriptor - Data descriptor.
  * @param {string} multiSeries - Key in the data object that defines each series;.
  */
@@ -66,7 +65,7 @@ export function addAriaLabels({
 		setElementAttributes(element, item, descriptor);
 
 		if (multiSeries) {
-			addSeriesClass(element, item[multiSeries]);
+			addSeriesClass(element, item[multiSeries] as string);
 		}
 	});
 }

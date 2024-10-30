@@ -16,7 +16,7 @@ type AutoDescriptionsProps = {
 
 interface DescriptionsKeyHandlerParams {
 	chartRef: React.RefObject<HTMLElement>;
-	setDescriptionContent: Function;
+	setDescriptionContent: (value: string) => void;
 	type: string;
 	descs: string[];
 	title: string;
