@@ -13,10 +13,12 @@
 		"javascript"
 	],
 	"type": "module",
-	"main": "dist/index.umd.cjs",
-	"module": "dist/index.es.mjs",
+	"main": "./dist/index.umd.cjs",
+	"module": "./dist/index.es.mjs",
+	"types": "./dist/AutoVizuA11y.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/AutoVizuA11y.d.ts",
 			"import": "./dist/index.es.mjs",
 			"require": "./dist/index.umd.cjs"
 		},
@@ -82,8 +84,9 @@
 		"typescript": "^5.2.2",
 		"typescript-eslint": "^8.12.2",
 		"vite": "^5.3.1",
+		"vite-plugin-dts": "^4.3.0",
 		"vite-plugin-lib-inject-css": "^2.1.1",
-		"vite-tsconfig-paths": "^4.3.1"
+		"vite-tsconfig-paths": "^4.3.2"
 	},
 	"size-limit": [
 		{
