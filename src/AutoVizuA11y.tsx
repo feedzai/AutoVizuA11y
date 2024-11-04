@@ -126,7 +126,7 @@ export type AutoVizuA11yProps = {
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
  */
-const AutoVizuA11y = ({
+export const AutoVizuA11y = ({
 	type,
 	descriptor,
 	selectorType,
@@ -163,10 +163,10 @@ const AutoVizuA11y = ({
 	const chartRef = useRef<HTMLDivElement>(null);
 	const shortcutGuideRef = useRef<HTMLDialogElement>(null);
 
-	let componentId = useAutoId();
+	const componentId = useAutoId();
 
-	let alertDivRef = useRef<HTMLDivElement>(null);
-	let alertDiv: React.ReactNode = useMemo(
+	const alertDivRef = useRef<HTMLDivElement>(null);
+	const alertDiv: React.ReactNode = useMemo(
 		() => (
 			<div
 				ref={alertDivRef}
@@ -189,7 +189,7 @@ const AutoVizuA11y = ({
 		handleBlur(chartRef);
 	}, [chartRef]);
 
-	let chartDescription: React.ReactNode = useMemo(
+	const chartDescription: React.ReactNode = useMemo(
 		() => (
 			<p
 				style={{ textIndent: "-10000px" }}
@@ -205,7 +205,7 @@ const AutoVizuA11y = ({
 		[descriptionContent, onFocusHandler, onBlurHandler],
 	);
 
-	let chart = useMemo(
+	const chart = useMemo(
 		() => React.Children.map(children, (child) => <div>{child}</div>),
 		[children],
 	);
@@ -222,9 +222,11 @@ const AutoVizuA11y = ({
 	useEffect(() => {
 		const initSeries = () => {
 			if (multiSeries) {
-				const uniqueValues = [...new Set(data.map((item: any) => item[multiSeries]))];
-				setSeries(uniqueValues);
-				setSelectedSeries(uniqueValues[0]);
+				const uniqueValues = [
+					...new Set(data.map((item: Record<string, unknown>) => item[multiSeries])),
+				];
+				setSeries(uniqueValues as string[]);
+				setSelectedSeries(uniqueValues[0] as string);
 			}
 		};
 
@@ -242,8 +244,8 @@ const AutoVizuA11y = ({
 		const asyncEffect = async () => {
 			const timer = await wait(constants.TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS);
 
-			let storedLongerKey = `oldLonger_${componentId}`;
-			let storedSmallerKey = `oldSmaller_${componentId}`;
+			const storedLongerKey = `oldLonger_${componentId}`;
+			const storedSmallerKey = `oldSmaller_${componentId}`;
 			let chartDescriptions: string[] = [];
 
 			if (autoDescriptions?.dynamicDescriptions === false) {
@@ -348,5 +350,3 @@ const AutoVizuA11y = ({
 		</>
 	);
 };
-
-export default AutoVizuA11y;

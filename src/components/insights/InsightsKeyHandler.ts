@@ -100,9 +100,12 @@ export function insightsKeyHandler({
 					showMessage("That shortcut does not work in this chart");
 					break;
 				}
-				isUndefined(focusedData)
-					? showMessage("This shortcut only works inside a chart")
-					: showMessage(messageOverall(arrayConverted, focusedData));
+
+				showMessage(
+					isUndefined(focusedData)
+						? "This shortcut only works inside a chart"
+						: messageOverall(arrayConverted, focusedData),
+				);
 				break;
 		}
 	}

@@ -2,7 +2,7 @@
 	"name": "@feedzai/autovizua11y",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"private": false,
-	"version": "2.0.2",
+	"version": "2.0.3",
 	"author": "Feedzai",
 	"license": "AGPL-3.0",
 	"keywords": [
@@ -13,10 +13,12 @@
 		"javascript"
 	],
 	"type": "module",
-	"main": "dist/index.umd.cjs",
-	"module": "dist/index.es.mjs",
+	"main": "./dist/index.umd.cjs",
+	"module": "./dist/index.es.mjs",
+	"types": "./dist/AutoVizuA11y.d.ts",
 	"exports": {
 		".": {
+			"types": "./dist/AutoVizuA11y.d.ts",
 			"import": "./dist/index.es.mjs",
 			"require": "./dist/index.umd.cjs"
 		},
@@ -31,11 +33,11 @@
 		"npm": ">= 8"
 	},
 	"scripts": {
-		"build": "vite build",
-		"postbuild": "size-limit",
 		"format": "npx prettier --write '**/*.{jsx,ts,tsx,js}'",
 		"reinstall": "rimraf node_modules && npm install",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+		"build": "npm run lint && vite build",
+		"postbuild": "size-limit",
 		"docs:install": "cd ./examples && npm install",
 		"docs:dev": "cd ./examples && npm run dev",
 		"docs:build": "npm run docs:install && cd ./examples && npm run build",
@@ -51,12 +53,13 @@
 		"react-dom": ">= 17.0.2"
 	},
 	"dependencies": {
-		"@feedzai/js-utilities": "^1.4.2",
+		"@feedzai/js-utilities": "^1.6.0",
 		"react": ">= 17.0.2",
 		"react-dom": ">= 17.0.2"
 	},
 	"devDependencies": {
 		"@cypress/code-coverage": "^3.13.2",
+		"@eslint/js": "^9.13.0",
 		"@size-limit/preset-small-lib": "^11.0.2",
 		"@testing-library/cypress": "^10.0.2",
 		"@types/node": "^20.11.20",
@@ -69,17 +72,21 @@
 		"cypress": "^13.14.2",
 		"cypress-axe": "^1.5.0",
 		"cypress-plugin-tab": "^1.0.5",
-		"eslint": "^8.56.0",
+		"eslint": "^8.57.1",
+		"eslint-plugin-react": "^7.37.2",
 		"eslint-plugin-react-hooks": "^4.6.0",
 		"eslint-plugin-react-refresh": "^0.4.5",
+		"globals": "^15.11.0",
 		"jsdom": "^24.0.0",
 		"rimraf": "^5.0.5",
 		"size-limit": "^11.0.2",
 		"start-server-and-test": "^2.0.8",
 		"typescript": "^5.2.2",
+		"typescript-eslint": "^8.12.2",
 		"vite": "^5.3.1",
+		"vite-plugin-dts": "^4.3.0",
 		"vite-plugin-lib-inject-css": "^2.1.1",
-		"vite-tsconfig-paths": "^4.3.1"
+		"vite-tsconfig-paths": "^4.3.2"
 	},
 	"size-limit": [
 		{
