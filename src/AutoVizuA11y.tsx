@@ -126,7 +126,7 @@ export type AutoVizuA11yProps = {
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
  */
-const AutoVizuA11y = ({
+export const AutoVizuA11y = ({
 	type,
 	descriptor,
 	selectorType,
@@ -350,5 +350,3 @@ const AutoVizuA11y = ({
 		</>
 	);
 };
-
-export default AutoVizuA11y;

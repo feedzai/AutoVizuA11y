@@ -7,7 +7,7 @@
 
 import { guideKeyHandler } from "../navigation";
 import * as constants from "../../constants";
-import NativeShortcutGuide from "./components/NativeShortcutGuide";
+import { NativeShortcutGuide } from "./components/NativeShortcutGuide";
 import { cloneValidElement } from "@feedzai/js-utilities";
 
 interface ShortcutGuideContainerProps {

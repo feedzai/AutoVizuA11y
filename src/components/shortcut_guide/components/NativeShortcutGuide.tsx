@@ -21,7 +21,7 @@ interface NativeShortcutGuideProps {
  *
  * @return Shortcut guide.
  */
-const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
+export const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
 	const handleCloseDialog = () => {
 		const dialog = dialogRef.current;
 		if (dialog) {
@@ -43,5 +43,3 @@ const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Eleme
 		</div>
 	);
 };
-
-export default NativeShortcutGuide;
