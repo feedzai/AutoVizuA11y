@@ -5,13 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { cloneElement, isValidElement } from "react";
 import { guideKeyHandler } from "../navigation";
 import * as constants from "../../constants";
-import NativeShortcutGuide from "./components/NativeShortcutGuide";
+import { NativeShortcutGuide } from "./components/NativeShortcutGuide";
+import { cloneValidElement } from "@feedzai/js-utilities";
 
 interface ShortcutGuideContainerProps {
-	shortcutGuide: JSX.Element | undefined;
+	shortcutGuide: React.ReactElement | undefined;
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
 	setIsShortcutGuideOpen: (bool: boolean) => void;
 }
@@ -43,9 +43,7 @@ export const ShortcutGuideContainer = ({
 				setIsShortcutGuideOpen(false);
 			}}
 		>
-			{isValidElement(shortcutGuide) ? (
-				cloneElement(shortcutGuide, { dialogRef: shortcutGuideRef })
-			) : (
+			{cloneValidElement(shortcutGuide, { dialogRef: shortcutGuideRef }) ?? (
 				<NativeShortcutGuide dialogRef={shortcutGuideRef} />
 			)}
 		</dialog>
