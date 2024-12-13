@@ -51,7 +51,8 @@ export function getElements({
 	}
 
 	const seriesArray = Array.isArray(selectedSeries) ? selectedSeries : [selectedSeries];
+
 	return elementsArray.filter((element) =>
-		seriesArray.some((series) => element.classList.contains(`series:${series}`)),
+		seriesArray.some((series) => element.classList.contains(series)),
 	);
 }

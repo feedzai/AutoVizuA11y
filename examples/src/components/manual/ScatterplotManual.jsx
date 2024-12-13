@@ -108,8 +108,6 @@ function ScatterplotManual({ longDesc, shortDesc }) {
 		textAnchor: "end",
 	});
 
-	console.log(AutoVizuA11yArrayAux);
-
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>

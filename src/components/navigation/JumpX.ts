@@ -36,9 +36,7 @@ export async function jumpXElements({
 	// Filter elements for the selected series
 	if (series.length > 0 && selectedSeries) {
 		const currentSeriesName = selectedSeries.replace(/ /g, "-");
-		elements = elements.filter((element) =>
-			element.classList.contains(`series:${currentSeriesName}`),
-		);
+		elements = elements.filter((element) => element.classList.contains(currentSeriesName));
 	}
 
 	const activeElement = document.activeElement as HTMLElement;
