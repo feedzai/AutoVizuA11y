@@ -25,6 +25,7 @@ import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
+import { toSafeClassName } from "./utils/toSafeClassname";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -223,7 +224,9 @@ export const AutoVizuA11y = ({
 		const initSeries = () => {
 			if (multiSeries) {
 				const uniqueValues = [
-					...new Set(data.map((item: Record<string, unknown>) => item[multiSeries])),
+					...new Set(
+						data.map((item: Record<string, unknown>) => toSafeClassName(String(item[multiSeries]))),
+					),
 				];
 				setSeries(uniqueValues as string[]);
 				setSelectedSeries(uniqueValues[0] as string);

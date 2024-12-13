@@ -237,14 +237,14 @@ function switchSeries({
 	const elements = getElements({ chartRef, selectorType });
 
 	const previousSeries =
-		elements?.filter((element) => element.classList.contains(`series:${selectedSeries}`)) ?? [];
+		elements?.filter((element) => element.classList.contains(selectedSeries)) ?? [];
 	const previousIndex = previousSeries.indexOf(previousPoint);
 	const previousSeriesPos = series.indexOf(selectedSeries);
 
 	const currentSeriesPos = (previousSeriesPos + 1) % series.length;
 	const currentSeriesName = series[currentSeriesPos].replace(/ /g, "-");
 	const currentSeries =
-		elements?.filter((element) => element.classList.contains(`series:${currentSeriesName}`)) ?? [];
+		elements?.filter((element) => element.classList.contains(currentSeriesName)) ?? [];
 
 	wiper(chartRef);
 
