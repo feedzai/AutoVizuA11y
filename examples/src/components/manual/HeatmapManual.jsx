@@ -183,8 +183,6 @@ function HeatmapManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSON(final);
 
-	console.log(dataTransformed);
-
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
