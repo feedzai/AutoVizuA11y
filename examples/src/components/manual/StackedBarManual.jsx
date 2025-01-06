@@ -101,8 +101,6 @@ function StackedBarManual({ longDesc, shortDesc }) {
 		verticalAnchor: "middle",
 	});
 
-	console.log(mergedAux);
-
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
