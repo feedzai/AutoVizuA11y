@@ -5,6 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 import { getElements } from "../../utils/getElements";
+import { toSafeClassName } from "../../utils/toSafeClassname";
 
 type SelectorType = {
 	element?: string;
@@ -35,8 +36,8 @@ function setElementAttributes(
 }
 
 function addSeriesClass(element: HTMLElement, seriesValue: string): void {
-	const seriesClass = seriesValue.replace(/ /g, "-");
-	element.classList.add(`series:${seriesClass}`);
+	const seriesClass = toSafeClassName(seriesValue);
+	element.classList.add(`${seriesClass}`);
 }
 
 /**
@@ -65,7 +66,8 @@ export function addAriaLabels({
 		setElementAttributes(element, item, descriptor);
 
 		if (multiSeries) {
-			addSeriesClass(element, item[multiSeries] as string);
+			const series = item[multiSeries] as string;
+			addSeriesClass(element, series);
 		}
 	});
 }
