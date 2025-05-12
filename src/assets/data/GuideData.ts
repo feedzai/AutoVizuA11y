@@ -17,89 +17,89 @@ export interface Section {
 
 export const GUIDE_DATA: Section[] = [
 	{
-		title: "Access the guide",
+		title: "sg_access_title",
 		shortcuts: [
-			{ keys: "?", description: "Enter shortcut guide" },
-			{ keys: "? or Esc", description: "Leave shortcut guide" },
+			{ keys: "?", description: "sg_enter_description" },
+			{ keys: "? or Esc", description: "sg_leave_description" },
 		],
 	},
 	{
-		title: "Move between page elements",
+		title: "sg_move_elements_title",
 		shortcuts: [
-			{ keys: "↓", description: "Get into a chart" },
-			{ keys: "↑", description: "Get out of a chart" },
-			{ keys: "→", description: "Move forward in a page element" },
-			{ keys: "←", description: "Move backward in a page element" },
+			{ keys: "↓", description: "sg_get_into_chart" },
+			{ keys: "↑", description: "sg_get_out_of_chart" },
+			{ keys: "→", description: "sg_move_forward" },
+			{ keys: "←", description: "sg_move_backward" },
 			{
 				keys: "Alt + M",
-				description: "Move between series of data inside the chart",
+				description: "sg_move_series",
 			},
 		],
 	},
 	{
-		title: "Chart navigation shortcuts",
+		title: "sg_chart_nav_title",
 		shortcuts: [
 			{
 				keys: "Home or Alt + Q",
-				description: "Jump to the beginning of a chart",
+				description: "sg_jump_beginning",
 			},
 			{
 				keys: "End or Alt + W",
-				description: "Jump to the end of a chart",
+				description: "sg_jump_end",
 			},
 			{
 				keys: "Alt + X",
-				description: "Define the number of data points to be jumped at a time",
+				description: "sg_define_jump_points",
 			},
 			{
 				keys: "+",
-				description: "Add one number to the data points to be jumped at a time",
+				description: "sg_add_jump_point",
 			},
 			{
 				keys: "-",
-				description: "Subtract one number to the data points to be jumped at a time",
+				description: "sg_subtract_jump_point",
 			},
 		],
 	},
 	{
-		title: "Statistical insights (works when navigating a chart)",
+		title: "sg_stats_nav_title",
 		shortcuts: [
-			{ keys: "Alt + J", description: "Minimum" },
-			{ keys: "Alt + K", description: "Average" },
-			{ keys: "Alt + L", description: "Maximum" },
+			{ keys: "Alt + J", description: "sg_minimum" },
+			{ keys: "Alt + K", description: "sg_average" },
+			{ keys: "Alt + L", description: "sg_maximum" },
 		],
 	},
 	{
-		title: "Statistical insights (works when a chart element is focused)",
+		title: "sg_stats_focused_title",
 		shortcuts: [
 			{
 				keys: "Alt + Shift + J",
-				description: "Compare current data element to minimum value",
+				description: "sg_compare_minimum",
 			},
 			{
 				keys: "Alt + Shift + K",
-				description: "Compare current data element to average value",
+				description: "sg_compare_average",
 			},
 			{
 				keys: "Alt + Shift + L",
-				description: "Compare current data element to maximum value",
+				description: "sg_compare_maximum",
 			},
 			{
 				keys: "Alt + Z",
-				description: "Compare current data element to the rest of the chart",
+				description: "sg_compare_rest",
 			},
 		],
 	},
 	{
-		title: "Change chart descriptions",
+		title: "sg_change_desc_title",
 		shortcuts: [
 			{
 				keys: "Alt + B",
-				description: "Set longer description of the chart",
+				description: "sg_longer_desc",
 			},
 			{
 				keys: "Alt + S",
-				description: "Set shorter description of the chart (default)",
+				description: "sg_shorter_desc",
 			},
 		],
 	},

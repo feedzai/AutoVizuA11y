@@ -26,6 +26,7 @@ import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 import { toSafeClassName } from "./utils/toSafeClassname";
+import { useTranslation } from "react-i18next";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -95,6 +96,10 @@ export type AutoVizuA11yProps = {
 	 */
 	manualDescriptions?: ManualDescriptionsProps;
 	/**
+	 * The language to be used in the AutoVizuA11y text
+	 */
+	language?: string;
+	/**
 	 * Wrapped chart.
 	 */
 	children: React.ReactNode;
@@ -123,6 +128,7 @@ export type AutoVizuA11yProps = {
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
  *		}}
+ *		language="en"
  *	>
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
@@ -139,8 +145,16 @@ export const AutoVizuA11y = ({
 	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
+	language = "pt",
 	children,
 }: AutoVizuA11yProps) => {
+	const { t, i18n } = useTranslation();
+
+	useEffect(() => {
+		console.log("testing i18n");
+		i18n.changeLanguage(language);
+	}, []);
+
 	const validatedInsights = useMemo(() => {
 		if (!selectorType) {
 			console.warn("Type of chart not supported or no type given");
@@ -345,6 +359,7 @@ export const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
+			<p> {t("learn")}</p>
 			<ShortcutGuideContainer
 				shortcutGuide={shortcutGuide}
 				shortcutGuideRef={shortcutGuideRef}

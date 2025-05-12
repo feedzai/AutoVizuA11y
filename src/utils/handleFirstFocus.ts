@@ -9,6 +9,7 @@ import React from "react";
 import { wait, getLSItem, setLSItem } from "@feedzai/js-utilities";
 
 import * as constants from "./../constants";
+import { useTranslation } from "react-i18next";
 
 interface HandleFirstFocusProps {
 	alertDiv: React.ReactNode | null;
@@ -25,6 +26,7 @@ interface HandleFirstFocusProps {
  * @param {React.RefObject<HTMLElement>} alertDivRef - React reference of the alertDiv.
  */
 export async function handleFirstFocus({ alertDiv, chartRef, alertDivRef }: HandleFirstFocusProps) {
+	const { t } = useTranslation();
 	const chart = chartRef.current;
 	const alertElement = alertDivRef.current;
 	if (!chart || !alertElement) {
@@ -34,7 +36,7 @@ export async function handleFirstFocus({ alertDiv, chartRef, alertDivRef }: Hand
 	chart.classList.add(constants.FOCUS_CLASS);
 	const toolTutorial = getLSItem(constants.TOOL_TUTORIAL_KEY);
 	if (toolTutorial === "true" && alertDiv) {
-		alertElement.textContent = constants.ALERT_MESSAGE;
+		alertElement.textContent = t("alert");
 		await wait(constants.ALERT_DURATION);
 		alertElement.textContent = "\u00A0";
 		setLSItem(constants.TOOL_TUTORIAL_KEY, "false");
