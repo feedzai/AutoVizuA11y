@@ -94,7 +94,7 @@ async function longerDescription({
 	const averageString = average ? " with an average of " + JSON.stringify(average) : "";
 
 	const prompt = template(
-		"Knowing that the chart below is from a {{context}} and the data represents {{title}} {{average}}," +
+		"Knowing that the chart below is from a {{context}} and the data represents {{title}} {{averageString}}," +
 			" make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
 		{ context, title, averageString, data },
 	);

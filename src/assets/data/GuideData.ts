@@ -64,9 +64,9 @@ export const GUIDE_DATA: Section[] = [
 	{
 		title: "sg_stats_nav_title",
 		shortcuts: [
-			{ keys: "Alt + J", description: "sg_minimum" },
-			{ keys: "Alt + K", description: "sg_average" },
-			{ keys: "Alt + L", description: "sg_maximum" },
+			{ keys: "Alt + J", description: "minimum" },
+			{ keys: "Alt + K", description: "average" },
+			{ keys: "Alt + L", description: "maximum" },
 		],
 	},
 	{

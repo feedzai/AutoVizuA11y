@@ -1,23 +1,43 @@
+/**
+ * This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, version 3 of the License.
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more details.
+ * You should have received a copy of the GNU Affero General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+ * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
+ */
+
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 i18n
-	.use(Backend) // For loading translations from http
-	.use(LanguageDetector) // For detecting user language
-	.use(initReactI18next) // Passes i18n down to react-i18next
+	.use(Backend)
+	.use(LanguageDetector)
+	.use(initReactI18next)
 	.init({
-		fallbackLng: "en", // Default language if user's language is not available
-		debug: true, // Enable for debugging purposes
+		fallbackLng: "en",
+		debug: false,
 		resources: {
 			en: {
 				translation: {
-					learn: "this is a test",
 					alert:
 						"You just entered an Autovizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide",
-					sg_title: "Shortcut guide",
 					close_shortcut_guide_label: "Close shortcut guide",
+					minimum: "Minimum",
+					average: "Average",
+					maximum: "Maximum",
+					minimum_message: "The minimum is",
+					average_message: "The average is",
+					maximum_message: "The maximum is",
+					median_message: "This is the median value.",
+					shortcut_error: "This shortcut only works inside a chart",
+					shortcut_error2: "That shortcut does not work in this chart",
+					difference_below: "The value is {{ difference }} below the {{ code }}",
+					difference_above: "The value is {{ difference }} above the {{ code }}",
+					difference_same: "The value is the same as the {{ code }}",
+					highest_message: "This is {{ ordinalNumber }} highest value",
+					lowest_message: "This is {{ ordinalNumber }} lowest value",
+					sg_title: "Shortcut guide",
 					sg_access_title: "Access the guide",
 					sg_enter_description: "Enter shortcut guide",
 					sg_leave_description: "Leave shortcut guide",
@@ -34,9 +54,6 @@ i18n
 					sg_add_jump_point: "Add one number to the data points to be jumped at a time",
 					sg_subtract_jump_point: "Subtract one number to the data points to be jumped at a time",
 					sg_stats_nav_title: "Statistical insights (works when navigating a chart)",
-					sg_minimum: "Minimum",
-					sg_average: "Average",
-					sg_maximum: "Maximum",
 					sg_stats_focused_title: "Statistical insights (works when a chart element is focused)",
 					sg_compare_minimum: "Compare current data element to minimum value",
 					sg_compare_average: "Compare current data element to average value",
@@ -51,11 +68,24 @@ i18n
 			},
 			pt: {
 				translation: {
-					learn: "isto é um teste",
 					alert:
 						"Acabou de entrar num gráfico Autovizually. Para obter informações sobre como interagir com o mesmo, prima a tecla de ponto de interrogação para abrir o guia de atalhos.",
-					sg_title: "Guia de atalhos",
 					close_shortcut_guide_label: "Fechar guia de atalhos",
+					minimum: "Mínimo",
+					average: "Média",
+					maximum: "Máximo",
+					minimum_message: "O mínimo é",
+					average_message: "A média é",
+					maximum_message: "O máximo é",
+					median_message: "Este é o valor mediano.",
+					shortcut_error: "Este atalho só funciona dentro de um gráfico",
+					shortcut_error2: "Este atalho não funciona neste gráfico",
+					difference_below: "O valor está {{ difference }} abaixo do(a) {{ code }}",
+					difference_above: "O valor está {{ difference }} acima do(a) {{ code }}",
+					difference_same: "O valor é o mesmo que o(a) {{ code }}",
+					highest_message: "Este é o {{ ordinalNumber }} maior valor",
+					lowest_message: "Este é o {{ ordinalNumber }} menor valor",
+					sg_title: "Guia de atalhos",
 					sg_access_title: "Aceder ao guia",
 					sg_enter_description: "Abrir guia de atalhos",
 					sg_leave_description: "Sair do guia de atalhos",
@@ -73,9 +103,6 @@ i18n
 					sg_subtract_jump_point:
 						"Subtrair um número aos pontos de dados a serem saltados de cada vez",
 					sg_stats_nav_title: "Informações estatísticas (funciona ao navegar num gráfico)",
-					sg_minimum: "Mínimo",
-					sg_average: "Média",
-					sg_maximum: "Máximo",
 					sg_stats_focused_title:
 						"Informações estatísticas (funciona quando um elemento do gráfico está focado)",
 					sg_compare_minimum: "Comparar o elemento de dados atual com o valor mínimo",

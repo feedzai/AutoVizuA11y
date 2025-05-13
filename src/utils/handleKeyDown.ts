@@ -7,6 +7,7 @@
 
 import React from "react";
 import { descriptionsKeyHandler, insightsKeyHandler, navigationKeyHandler } from "../components";
+import { TFunction } from "i18next";
 interface AutoDescriptionsProps {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
@@ -39,6 +40,7 @@ interface HandleKeyDownProps {
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
 	autoDescriptions?: AutoDescriptionsProps;
 	multiSeries?: string;
+	t: TFunction<"translation", undefined>;
 }
 /**
  * Sets the appropriate navigation keys and shortcuts in the charts and data.
@@ -67,6 +69,7 @@ export async function handleKeyDown(
 		shortcutGuideRef,
 		isShortcutGuideOpen,
 		setIsShortcutGuideOpen,
+		t,
 	}: HandleKeyDownProps,
 ): Promise<void> {
 	const newNumber = await navigationKeyHandler({
@@ -102,5 +105,6 @@ export async function handleKeyDown(
 		insights,
 		insightsArray,
 		arrayConverted,
+		t,
 	});
 }

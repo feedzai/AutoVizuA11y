@@ -151,7 +151,6 @@ export const AutoVizuA11y = ({
 	const { t, i18n } = useTranslation();
 
 	useEffect(() => {
-		console.log("testing i18n");
 		i18n.changeLanguage(language);
 	}, []);
 
@@ -340,6 +339,7 @@ export const AutoVizuA11y = ({
 				shortcutGuideRef,
 				isShortcutGuideOpen,
 				setIsShortcutGuideOpen,
+				t,
 			};
 			handleKeyDown(event, DATA);
 		},
@@ -359,7 +359,6 @@ export const AutoVizuA11y = ({
 				{alertDiv}
 				{chart}
 			</div>
-			<p> {t("learn")}</p>
 			<ShortcutGuideContainer
 				shortcutGuide={shortcutGuide}
 				shortcutGuideRef={shortcutGuideRef}

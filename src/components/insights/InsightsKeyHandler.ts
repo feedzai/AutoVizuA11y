@@ -7,9 +7,10 @@
 
 import { wait, isUndefined } from "@feedzai/js-utilities";
 
-import { InsightCode, messageInsights, messageOverall } from "./MessageGenerator";
+import { messageInsights, messageOverall } from "./MessageGenerator";
 
 import * as constants from "../../constants";
+import { TFunction } from "i18next";
 
 type InsightsKeyHandlerProps = {
 	event: React.KeyboardEvent;
@@ -18,6 +19,7 @@ type InsightsKeyHandlerProps = {
 	insights: string;
 	insightsArray: number[];
 	arrayConverted?: number[];
+	t: TFunction<"translation", undefined>;
 };
 
 /**
@@ -32,7 +34,17 @@ export function insightsKeyHandler({
 	insights,
 	insightsArray,
 	arrayConverted,
+	t,
 }: InsightsKeyHandlerProps) {
+	const shortcut_error = t("shortcut_error");
+	const shortcut_error2 = t("shortcut_error2");
+	const average_word = t("average");
+	const maximum_word = t("maximum");
+	const minimum_word = t("minimum");
+	const average_message = t("average_message");
+	const maximum_message = t("maximum_message");
+	const minimum_message = t("minimum_message");
+
 	if (!arrayConverted || !alertDivRef.current) return;
 
 	const { altKey, shiftKey, code } = event.nativeEvent;
@@ -52,20 +64,20 @@ export function insightsKeyHandler({
 		alertDivRef.current!.textContent = "\u00A0";
 	}
 
-	const handleInsightComparison = (type: InsightCode, value: number) => {
+	const handleInsightComparison = (type: string, value: number) => {
 		if (insights === "") {
-			showMessage("That shortcut does not work in this chart");
+			showMessage(shortcut_error2);
 			return;
 		} else if (typeof focusedData === "undefined") {
-			showMessage("This shortcut only works inside a chart");
+			showMessage(shortcut_error);
 		} else {
-			showMessage(messageInsights(type, value, focusedData));
+			showMessage(messageInsights(type, value, focusedData, t));
 		}
 	};
 
 	const handleStatisticalInsight = (message: string) => {
 		if (insights === "") {
-			showMessage("That shortcut does not work in this chart");
+			showMessage(shortcut_error2);
 			return;
 		} else {
 			showMessage(message);
@@ -75,36 +87,36 @@ export function insightsKeyHandler({
 	if (altKey && shiftKey) {
 		switch (code) {
 			case "KeyK":
-				handleInsightComparison("average", insightsArray[1]);
+				handleInsightComparison(average_word, insightsArray[1]);
 				break;
 			case "KeyL":
-				handleInsightComparison("maximum value", insightsArray[2]);
+				handleInsightComparison(maximum_word, insightsArray[2]);
 				break;
 			case "KeyJ":
-				handleInsightComparison("minimum value", insightsArray[3]);
+				handleInsightComparison(minimum_word, insightsArray[3]);
 				break;
 		}
 	} else if (altKey) {
 		switch (code) {
 			case "KeyK":
-				handleStatisticalInsight(`The average is ${insightsArray[1]}`);
+				handleStatisticalInsight(`${average_message} ${insightsArray[1]}`);
 				break;
 			case "KeyL":
-				handleStatisticalInsight(`The maximum is ${insightsArray[2]}`);
+				handleStatisticalInsight(`${maximum_message} ${insightsArray[2]}`);
 				break;
 			case "KeyJ":
-				handleStatisticalInsight(`The minimum is ${insightsArray[3]}`);
+				handleStatisticalInsight(`${minimum_message} ${insightsArray[3]}`);
 				break;
 			case "KeyZ":
 				if (insights === "") {
-					showMessage("That shortcut does not work in this chart");
+					showMessage(shortcut_error2);
 					break;
 				}
 
 				showMessage(
 					isUndefined(focusedData)
-						? "This shortcut only works inside a chart"
-						: messageOverall(arrayConverted, focusedData),
+						? shortcut_error
+						: messageOverall(arrayConverted, focusedData, t),
 				);
 				break;
 		}
