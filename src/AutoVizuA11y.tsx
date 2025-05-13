@@ -128,7 +128,7 @@ export type AutoVizuA11yProps = {
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
  *		}}
- *		language="en"
+ *		language="pt"
  *	>
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
@@ -145,7 +145,7 @@ export const AutoVizuA11y = ({
 	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
-	language = "pt",
+	language = "en",
 	children,
 }: AutoVizuA11yProps) => {
 	const { t, i18n } = useTranslation();
