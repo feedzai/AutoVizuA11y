@@ -87,6 +87,7 @@ export async function handleKeyDown(
 		shortcutGuideRef,
 		isShortcutGuideOpen,
 		setIsShortcutGuideOpen,
+		t,
 	});
 	setNumber(newNumber);
 	descriptionsKeyHandler({

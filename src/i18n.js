@@ -64,6 +64,16 @@ i18n
 					sg_shorter_desc: "Set shorter description of the chart (default)",
 					sg_description:
 						"AutoVizually shortcut guide. AutoVizually lets you navigate between charts and underlying data elements using just the keyboard. When focused on a chart, a description regarding the data will be provided — you might receive a notification indicating that the chart description was produced by an AI model. For JAWS and NVDA users, it is recommended to turn Focus mode before navigating the data using the arrow keys.",
+					generating_description: "Generating description...",
+					alert_invalid_input_number: "Invalid input. Enter a number above 0.",
+					alert_change_series_focused_only:
+						"You can only change series while focused on a data point",
+					alert_chart_single_series: "This chart only has one series of data",
+					alert_already_at_data_level: "You are already at the data level",
+					alert_already_at_chart_level: "You are already at the chart level",
+					alert_jumping_data_points:
+						"You are now jumping {{ count }} data points at a time inside the {{ type }}",
+					prompt_enter_number: "Enter a number above 0:",
 				},
 			},
 			pt: {
@@ -114,6 +124,16 @@ i18n
 					sg_shorter_desc: "Definir descrição mais curta do gráfico (padrão)",
 					sg_description:
 						"Guia de atalhos AutoVizually. O AutoVizually permite navegar entre gráficos e elementos de dados subjacentes usando apenas o teclado. Quando o foco está num gráfico, será fornecida uma descrição sobre os dados — poderá receber uma notificação indicando que a descrição do gráfico foi produzida por um modelo de IA. Para utilizadores de JAWS e NVDA, recomenda-se ativar o modo de Foco antes de navegar pelos dados usando as teclas de seta.",
+					generating_description: "A gerar descrição...",
+					alert_invalid_input_number: "Input inválido. Insira um número acima de 0.",
+					alert_change_series_focused_only:
+						"Só é possível trocar de série quando focado num ponto de dados",
+					alert_chart_single_series: "Este gráfico apenas tem uma série de dados",
+					alert_already_at_data_level: "Já se encontra no nível dos dados",
+					alert_already_at_chart_level: "Já está no nível dos gráficos",
+					alert_jumping_data_points:
+						"Está a saltar {{ count }} pontos de dados dentro do {{ type }}",
+					prompt_enter_number: "Digite um número acima de 0:",
 				},
 			},
 		},

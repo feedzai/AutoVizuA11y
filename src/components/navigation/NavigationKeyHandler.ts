@@ -11,6 +11,7 @@ import { jumpXCharts, jumpXElements } from "./JumpX";
 import { skip } from "./Skip";
 import { xSetter } from "./XSetter";
 import { showAlert } from "../../utils/showAlert";
+import { TFunction } from "i18next";
 
 import * as constants from "../../constants";
 import { getElements } from "../../utils/getElements";
@@ -30,6 +31,7 @@ interface NavigationKeyHandlerParams {
 	shortcutGuideRef?: React.RefObject<HTMLDialogElement>;
 	multiSeries?: string;
 	setSelectedSeries?: (series: string) => void;
+	t: TFunction<"translation", undefined>;
 }
 interface SwitchSeriesParams {
 	chartRef: React.RefObject<HTMLElement>;
@@ -59,6 +61,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 		shortcutGuideRef,
 		isShortcutGuideOpen,
 		setIsShortcutGuideOpen,
+		t,
 	} = params;
 
 	const { altKey, key, code } = event.nativeEvent;
@@ -66,7 +69,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 	if (!shortcutGuideRef || !setIsShortcutGuideOpen) return number;
 
 	try {
-		const updatedNumber = await xSetter({ event, type, number, alertDivRef });
+		const updatedNumber = await xSetter({ event, type, number, alertDivRef, t });
 		skip({ event, chartRef, selectorType, selectedSeries });
 
 		const charts = Array.from(
@@ -98,6 +101,7 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 				multiSeries,
 				alertDivRef,
 				isShortcutGuideOpen,
+				t,
 			});
 		}
 
@@ -110,10 +114,11 @@ export async function navigationKeyHandler(params: NavigationKeyHandlerParams): 
 					selectedSeries,
 					alertDivRef,
 					isShortcutGuideOpen,
+					t,
 				);
 				break;
 			case "ArrowUp":
-				handleArrowUp(event, chartRef, alertDivRef, isShortcutGuideOpen);
+				handleArrowUp(event, chartRef, alertDivRef, isShortcutGuideOpen, t);
 				break;
 			case "?":
 				handleQuestionMark(event, isShortcutGuideOpen, shortcutGuideRef, setIsShortcutGuideOpen);
@@ -143,17 +148,18 @@ function handleAltM(
 		multiSeries,
 		alertDivRef,
 		isShortcutGuideOpen,
+		t,
 	} = params;
 
 	if (isShortcutGuideOpen) return number;
 
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
-		showAlert(alertDivRef, "You can only change series while focused on a data point");
+		showAlert(alertDivRef, t("alert_change_series_focused_only"));
 		return number;
 	}
 
 	if (!multiSeries) {
-		showAlert(alertDivRef, "This chart only has one series of data");
+		showAlert(alertDivRef, t("alert_chart_single_series"));
 		return number;
 	}
 
@@ -177,13 +183,14 @@ function handleArrowDown(
 	selectedSeries: string,
 	alertDivRef: React.RefObject<HTMLElement>,
 	isShorcutGuide: boolean,
+	t: TFunction<"translation", undefined>,
 ): void {
 	event.preventDefault();
 
 	if (isShorcutGuide) return;
 
 	if (!document.activeElement?.classList.contains(constants.DESC_CLASS)) {
-		showAlert(alertDivRef, "You are already at the data level");
+		showAlert(alertDivRef, t("alert_already_at_data_level"));
 		return;
 	}
 	switchToDataLevel({ chartRef, selectorType, selectedSeries });
@@ -197,12 +204,13 @@ function handleArrowUp(
 	chartRef: React.RefObject<HTMLElement>,
 	alertDivRef: React.RefObject<HTMLElement>,
 	isShorcutGuide: boolean,
+	t: TFunction<"translation", undefined>,
 ): void {
 	event.preventDefault();
 
 	if (isShorcutGuide) return;
 	if (document.activeElement?.classList.contains(constants.DESC_CLASS)) {
-		showAlert(alertDivRef, "You are already at the chart level");
+		showAlert(alertDivRef, t("alert_already_at_chart_level"));
 		return;
 	}
 	switchToChartLevel(chartRef);

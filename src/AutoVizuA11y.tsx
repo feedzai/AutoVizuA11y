@@ -170,7 +170,7 @@ export const AutoVizuA11y = ({
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
-	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
+	const [descriptionContent, setDescriptionContent] = useState<string>(t("generating_description"));
 	const [elements, setElements] = useState<HTMLElement[]>([]);
 	const [isShortcutGuideOpen, setIsShortcutGuideOpen] = useState<boolean>(false);
 
