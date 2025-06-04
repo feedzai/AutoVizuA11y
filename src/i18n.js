@@ -74,6 +74,11 @@ i18n
 					alert_jumping_data_points:
 						"You are now jumping {{ count }} data points at a time inside the {{ type }}",
 					prompt_enter_number: "Enter a number above 0:",
+					// AI Prompt Templates
+					prompt_longer_description:
+						"Knowing that the chart below is from a {{context}} and the data represents {{title}}{{averageString}}, make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
+					prompt_shorter_description: "Summarize (in less than 60 words) the following:",
+					prompt_average_text: " with an average of ",
 				},
 			},
 			pt: {
@@ -134,6 +139,11 @@ i18n
 					alert_jumping_data_points:
 						"Está a saltar {{ count }} pontos de dados dentro do {{ type }}",
 					prompt_enter_number: "Digite um número acima de 0:",
+					// AI Prompt Templates
+					prompt_longer_description:
+						"Sabendo que o gráfico abaixo é de um {{context}} e os dados representam {{title}}{{averageString}}, faça uma descrição (não use abreviações) com as tendências dos dados, começando com a conclusão: {{data}}",
+					prompt_shorter_description: "Resuma (em menos de 60 palavras) o seguinte:",
+					prompt_average_text: " com uma média de ",
 				},
 			},
 		},

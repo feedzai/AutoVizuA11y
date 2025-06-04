@@ -289,6 +289,7 @@ export const AutoVizuA11y = ({
 					apiKey: autoDescriptions!.apiKey,
 					model: autoDescriptions!.model,
 					temperature: autoDescriptions!.temperature,
+					t,
 				});
 				chartDescriptions = generatedDescriptions;
 				setDescs(generatedDescriptions);

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Implemented i18n alternatives as the new "language" property
+- Fixed tests / github pipeline errors
 
 ## 2.0.4 - 2025-01-06
 
