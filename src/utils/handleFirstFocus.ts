@@ -9,12 +9,13 @@ import React from "react";
 import { wait, getLSItem, setLSItem } from "@feedzai/js-utilities";
 
 import * as constants from "./../constants";
-import { useTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 
 interface HandleFirstFocusProps {
 	alertDiv: React.ReactNode | null;
 	chartRef: React.RefObject<HTMLDivElement>;
 	alertDivRef: React.RefObject<HTMLElement>;
+	t: TFunction<"translation", undefined>;
 }
 
 /**
@@ -24,9 +25,14 @@ interface HandleFirstFocusProps {
  * @param {React.ReactNode | null} alertDiv - Div where the alerts are set.
  * @param {React.RefObject<HTMLDivElement>} chartRef - React reference of the chart.
  * @param {React.RefObject<HTMLElement>} alertDivRef - React reference of the alertDiv.
+ * @param {TFunction<"translation", undefined>} t - Translation function from useTranslation hook.
  */
-export async function handleFirstFocus({ alertDiv, chartRef, alertDivRef }: HandleFirstFocusProps) {
-	const { t } = useTranslation();
+export async function handleFirstFocus({
+	alertDiv,
+	chartRef,
+	alertDivRef,
+	t,
+}: HandleFirstFocusProps) {
 	const chart = chartRef.current;
 	const alertElement = alertDivRef.current;
 	if (!chart || !alertElement) {

@@ -25,7 +25,7 @@ export function messageInsights(
 	if (insight < focusedData) {
 		return t("difference_above", { difference: roundedDifference, code: code });
 	}
-	return t("difference_same");
+	return t("difference_same", { code: code });
 }
 /**
  * Creates the message regarding the comparison between a data element and all others.

@@ -196,8 +196,8 @@ export const AutoVizuA11y = ({
 	);
 
 	const onFocusHandler = useCallback(() => {
-		handleFirstFocus({ alertDiv, chartRef, alertDivRef });
-	}, [alertDiv, chartRef, alertDivRef]);
+		handleFirstFocus({ alertDiv, chartRef, alertDivRef, t });
+	}, [alertDiv, chartRef, alertDivRef, t]);
 
 	const onBlurHandler = useCallback(() => {
 		handleBlur(chartRef);
@@ -343,7 +343,30 @@ export const AutoVizuA11y = ({
 			};
 			handleKeyDown(event, DATA);
 		},
-		[event],
+		[
+			alertDivRef,
+			type,
+			number,
+			chartRef,
+			elements,
+			selectedSeries,
+			series,
+			selectorType,
+			setSelectedSeries,
+			setNumber,
+			setDescriptionContent,
+			validatedInsights,
+			insightsArray,
+			arrayConverted,
+			title,
+			descs,
+			autoDescriptions,
+			multiSeries,
+			shortcutGuideRef,
+			isShortcutGuideOpen,
+			setIsShortcutGuideOpen,
+			t,
+		],
 	);
 
 	return (

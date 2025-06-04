@@ -34,7 +34,7 @@ i18n
 					shortcut_error2: "That shortcut does not work in this chart",
 					difference_below: "The value is {{ difference }} below the {{ code }}",
 					difference_above: "The value is {{ difference }} above the {{ code }}",
-					difference_same: "The value is the same as the {{ code }}",
+					difference_same: "The value is the same as the {{ code }} value",
 					highest_message: "This is {{ ordinalNumber }} highest value",
 					lowest_message: "This is {{ ordinalNumber }} lowest value",
 					sg_title: "Shortcut guide",
