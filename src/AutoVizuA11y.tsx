@@ -27,6 +27,7 @@ import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 import { toSafeClassName } from "./utils/toSafeClassname";
 import { useTranslation } from "react-i18next";
+import { CustomTranslations, addCustomTranslations } from "./utils/customTranslations";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -96,9 +97,18 @@ export type AutoVizuA11yProps = {
 	 */
 	manualDescriptions?: ManualDescriptionsProps;
 	/**
-	 * The language to be used in the AutoVizuA11y text
+	 * Internationalization settings for the component
 	 */
-	language?: string;
+	internationalization?: {
+		/**
+		 * The language to be used in the AutoVizuA11y text
+		 */
+		language?: string;
+		/**
+		 * Custom translations object that allows developers to add their own language objects
+		 */
+		customTranslations?: CustomTranslations;
+	};
 	/**
 	 * Wrapped chart.
 	 */
@@ -128,7 +138,20 @@ export type AutoVizuA11yProps = {
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
  *		}}
- *		language="pt"
+ *		internationalization={{
+ *			language: "fr",
+ *			customTranslations: {
+ *				fr: {
+ *					translation: {
+ *						alert: "Vous venez d'entrer dans un graphique Autovizually...",
+ *						minimum: "Minimum",
+ *						average: "Moyenne",
+ *						maximum: "Maximum",
+ *						...
+ *					}
+ *				}
+ *			}
+ *		}}
  *	>
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
@@ -145,14 +168,22 @@ export const AutoVizuA11y = ({
 	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
-	language = "en",
+	internationalization,
 	children,
 }: AutoVizuA11yProps) => {
 	const { t, i18n } = useTranslation();
 
 	useEffect(() => {
-		i18n.changeLanguage(language);
-	}, []);
+		if (internationalization?.language) {
+			i18n.changeLanguage(internationalization.language);
+		}
+	}, [internationalization?.language, i18n]);
+
+	useEffect(() => {
+		if (internationalization?.customTranslations) {
+			addCustomTranslations(i18n, internationalization.customTranslations);
+		}
+	}, [internationalization?.customTranslations, i18n]);
 
 	const validatedInsights = useMemo(() => {
 		if (!selectorType) {
