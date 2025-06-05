@@ -122,10 +122,12 @@ const longerDesc = "...";
 const shorterDesc = "...";
 
 const customFrenchTranslations = {
-	minimumValue: "Ponto plus bas",
-	maximumValue: "Ponto plus haut",
-	averageValue: "Valeur moyenne",
-	// ...
+	fr: {
+		minimumValue: "Ponto plus bas",
+		maximumValue: "Ponto plus haut",
+		averageValue: "Valeur moyenne",
+		// ...
+	},
 };
 
 // ...
