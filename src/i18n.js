@@ -13,10 +13,10 @@ i18n
 	.use(Backend)
 	.use(initReactI18next)
 	.init({
-		fallbackLng: "en",
+		fallbackLng: "en-BR",
 		debug: false,
 		resources: {
-			en: {
+			"en-BR": {
 				translation: {
 					alert:
 						"You just entered an Autovizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide",
@@ -75,11 +75,11 @@ i18n
 					// AI Prompt Templates
 					prompt_longer_description:
 						"Knowing that the chart below is from a {{context}} and the data represents {{title}}{{averageString}}, make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
-					prompt_shorter_description: "Summarize (in less than 60 words) the following:",
+					prompt_shorter_description: "Summarise (in less than 60 words) the following:",
 					prompt_average_text: " with an average of ",
 				},
 			},
-			pt: {
+			"pt-PT": {
 				translation: {
 					alert:
 						"Acabou de entrar num gráfico Autovizually. Para obter informações sobre como interagir com o mesmo, prima a tecla de ponto de interrogação para abrir o guia de atalhos.",
@@ -128,7 +128,7 @@ i18n
 					sg_description:
 						"Guia de atalhos AutoVizually. O AutoVizually permite navegar entre gráficos e elementos de dados subjacentes usando apenas o teclado. Quando o foco está num gráfico, será fornecida uma descrição sobre os dados — poderá receber uma notificação indicando que a descrição do gráfico foi produzida por um modelo de IA. Para utilizadores de JAWS e NVDA, recomenda-se ativar o modo de Foco antes de navegar pelos dados usando as teclas de seta.",
 					generating_description: "A gerar descrição...",
-					alert_invalid_input_number: "Input inválido. Insira um número acima de 0.",
+					alert_invalid_input_number: "Entrada inválida. Introduza um número superior a 0.",
 					alert_change_series_focused_only:
 						"Só é possível trocar de série quando focado num ponto de dados",
 					alert_chart_single_series: "Este gráfico apenas tem uma série de dados",
@@ -136,7 +136,7 @@ i18n
 					alert_already_at_chart_level: "Já está no nível dos gráficos",
 					alert_jumping_data_points:
 						"Está a saltar {{ count }} pontos de dados dentro do {{ type }}",
-					prompt_enter_number: "Digite um número acima de 0:",
+					prompt_enter_number: "Introduza um número superior a 0:",
 					// AI Prompt Templates
 					prompt_longer_description:
 						"Sabendo que o gráfico abaixo é de um {{context}} e os dados representam {{title}}{{averageString}}, faça uma descrição (não use abreviações) com as tendências dos dados, começando com a conclusão: {{data}}",

@@ -126,19 +126,19 @@ export type AutoVizuA11yProps = {
  *
  * <AutoVizuA11y
  *		data={barData}
- *		selectorType={{ element: "rect" }}
+ *		selectorType={ element: "rect" }
  *		type="bar chart"
  *		title="Number of hours spent looking at a screen per day of the week."
  *		context="Screen time dashboard"
  *		insights="value"
  *		descriptor="hours"
- *		autoDescriptions={{
+ *		autoDescriptions={
  *			dynamicDescriptions: false,
  *			apiKey: API_KEY,
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
- *		}}
- *		internationalization={{
+ *		}
+ *		internationalization={
  *			language: "fr",
  *			customTranslations: {
  *				fr: {
@@ -151,7 +151,7 @@ export type AutoVizuA11yProps = {
  *					}
  *				}
  *			}
- *		}}
+ *		}
  *	>
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
