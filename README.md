@@ -123,8 +123,8 @@ const shorterDesc = "...";
 
 const customFrenchTranslations = {
 	fr: {
-		minimumValue: "Ponto plus bas",
-		maximumValue: "Ponto plus haut",
+		minimumValue: "Valeur maximale",
+		maximumValue: "Valeur minimale",
 		averageValue: "Valeur moyenne",
 		// ...
 	},
@@ -187,7 +187,7 @@ function App() {
 				}}
 				manualDescriptions={{
 					longer: "Ce graphique montre...",
-					shorter: "Temps d'écran hebdomadaire",
+					shorter: "Temps d'écran hebdomadaire...",
 				}}
 			>
 				<BarChart></BarChart>
