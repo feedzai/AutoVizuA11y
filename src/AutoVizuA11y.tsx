@@ -101,7 +101,7 @@ export type AutoVizuA11yProps = {
 	 */
 	internationalization?: {
 		/**
-		 * The language to be used in the AutoVizuA11y text
+		 * The language locale code, matching an existing key or one added in 'customTranslations'
 		 */
 		language?: string;
 		/**
@@ -139,14 +139,14 @@ export type AutoVizuA11yProps = {
  *			temperature: 0.1,
  *		}
  *		internationalization={
- *			language: "fr",
+ *			language: "en-GB",
  *			customTranslations: {
- *				fr: {
+ *				"pt-PT": {
  *					translation: {
- *						alert: "Vous venez d'entrer dans un graphique Autovizually...",
- *						minimum: "Minimum",
- *						average: "Moyenne",
- *						maximum: "Maximum",
+ *						alert: "Acabou de entrar num gráfico Autovizually...",
+ *						minimum: "Mínimo",
+ *						average: "Média",
+ *						maximum: "Máximo",
  *						...
  *					}
  *				}

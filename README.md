@@ -67,8 +67,8 @@ cd autovizua11y
 
 | Keys                 | Required/Optional | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | -------------------- | ----------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `language`           | Optional          | string | AutoVizuA11y supports both British English and European Portuguese languages (`en-BR` and `pt-PT`), British English being the default language. Changing the language has an impact in the messages produced, the `NativeShortcutGuide` but also in the automatic descriptions prompt (and consequent output). To contribute with a new language, please fork the project and modify the `./src/i18n.js` file — it's crucial that every string has its own translation with the correct key.                                                                                                                                                                                                             |
-| `customTranslations` | Optional          | object | Custom translation strings that override the default translations for the specified language. You can override the entire `en-BR` or `pt-PT` language set, or just specific keys/messages you want to customize. The object should follow the same structure as the default translation files, with keys matching those found in `./src/i18n.js`. Only provided keys will be overridden, while others will use the default translations. **Important:** Remember to set the `language` property to match the language you're customizing (e.g., set `language: "en-BR"` when providing new British English translations, or `language: "pt-PT"` when providing custom European Portuguese translations). |
+| `language`           | Optional          | string | AutoVizuA11y supports both British English and European Portuguese (`en-BR` and `pt-PT`), British English being the default. Changing the language has an impact in the messages produced, the `NativeShortcutGuide` and the prompt to generate the automatic descriptions. **To contribute with a new language, please fork the project and modify the `./src/i18n.js` file** — it's crucial that every string has its own translation with the correct key.                                                                                                                                                                                                             |
+| `customTranslations` | Optional          | object | Override the default translations for the specified language. You can override the entire `en-BR` or `pt-PT` language set, or just specific keys/messages you want to customize. The object should follow the same structure as the default translation files, with keys matching those found in `./src/i18n.js`. Only provided keys will be overridden, while others will use the default translations. **Important:** Remember to set the `language` property to match the language you're customizing (e.g., set `language: "en-BR"` when providing new British English translations, or `language: "pt-PT"` when providing custom European Portuguese translations). |
 
 ### `autoDescriptions` prop options
 
@@ -122,7 +122,7 @@ const longerDesc = "...";
 const shorterDesc = "...";
 
 const customFrenchTranslations = {
-	fr: {
+	"fr-FR": {
 		minimumValue: "Valeur maximale",
 		maximumValue: "Valeur minimale",
 		averageValue: "Valeur moyenne",
@@ -176,13 +176,13 @@ function App() {
 			<AutoVizuA11y
 				data={barData}
 				selectorType={{ element: "rect" }}
-				type="graphique en barres"
+				type="graphique à barres"
 				title="Temps d'écran par jour de la semaine"
 				context="Tableau de bord du temps d'écran"
 				insights="value"
 				descriptor="heures"
 				internationalization={{
-					language: "fr",
+					language: "fr-FR",
 					customTranslations: customFrenchTranslations,
 				}}
 				manualDescriptions={{
