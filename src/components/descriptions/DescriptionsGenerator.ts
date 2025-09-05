@@ -86,7 +86,7 @@ export async function generateDescriptions({
 }
 
 /**
- * Calls the GPT API to generate the longer description.
+ * Calls the OpenAI or OpenAI-compatible API to generate the longer description.
  *
  * @return Longer chart description.
  */
@@ -130,7 +130,7 @@ async function longerDescription({
 }
 
 /**
- * Calls the GPT API to generate the smaller description.
+ * Calls the OpenAI or OpenAI-compatible API to generate the smaller description.
  *
  * @return Smaller chart description.
  */
