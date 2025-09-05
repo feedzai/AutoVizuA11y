@@ -16,6 +16,7 @@ interface GenerateDescriptionsParams {
 	context: string;
 	apiKey: string;
 	model?: string;
+	baseURL?: string;
 	temperature?: number;
 }
 
@@ -26,6 +27,7 @@ interface LongerDescriptionsParam {
 	context: string;
 	key: string;
 	adjustedModel: string;
+	adjustedLink: URL;
 	adjustedTemperature: number;
 }
 
@@ -33,6 +35,7 @@ interface SmallerDescriptionsParam {
 	desc: string;
 	key: string;
 	adjustedModel: string;
+	adjustedLink: URL;
 	adjustedTemperature: number;
 }
 
@@ -49,9 +52,12 @@ export async function generateDescriptions({
 	context,
 	apiKey: key,
 	model,
+	baseURL,
 	temperature,
 }: GenerateDescriptionsParams): Promise<string[]> {
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
+	const adjustedBaseURL = baseURL ?? constants.OPENAI_BASE_URL;
+	const adjustedLink = new URL(constants.OPENAI_ENDPOINT, adjustedBaseURL);
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one
@@ -62,6 +68,7 @@ export async function generateDescriptions({
 		context,
 		key,
 		adjustedModel,
+		adjustedLink,
 		adjustedTemperature,
 	});
 
@@ -70,6 +77,7 @@ export async function generateDescriptions({
 		desc: longerDesc,
 		key,
 		adjustedModel,
+		adjustedLink,
 		adjustedTemperature,
 	});
 	const descs = [longerDesc, smallerDesc];
@@ -89,6 +97,7 @@ async function longerDescription({
 	context,
 	key,
 	adjustedModel,
+	adjustedLink,
 	adjustedTemperature,
 }: LongerDescriptionsParam): Promise<string> {
 	const averageString = average ? " with an average of " + JSON.stringify(average) : "";
@@ -99,7 +108,7 @@ async function longerDescription({
 		{ context, title, averageString, data },
 	);
 
-	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+	const response = await fetch(adjustedLink, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -129,11 +138,12 @@ async function smallerDescription({
 	desc,
 	key,
 	adjustedModel,
+	adjustedLink,
 	adjustedTemperature,
 }: SmallerDescriptionsParam): Promise<string> {
 	const prompt = "Summarize (in less than 60 words) the following:" + desc;
 
-	const response = await fetch(constants.OPENAI_LINK, {
+	const response = await fetch(adjustedLink, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
