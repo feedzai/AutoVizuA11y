@@ -8,7 +8,7 @@ describe("(Alt + Shift + L) Compare to Maximum of the Chart Test", () => {
 		cy.findAllByTestId("a11y-chart-element").first().type("{alt}{shift}l");
 		cy.findAllByTestId("a11y-chart-alert")
 			.first()
-			.should("have.text", "The value is the same as the maximum value");
+			.should("have.text", "The value is the same as the Maximum value");
 		cy.checkA11y();
 	});
 });

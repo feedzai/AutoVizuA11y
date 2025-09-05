@@ -5,7 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { template } from "@feedzai/js-utilities";
+import { TFunction } from "i18next";
 
 import * as constants from "../../constants";
 
@@ -17,6 +17,7 @@ interface GenerateDescriptionsParams {
 	apiKey: string;
 	model?: string;
 	temperature?: number;
+	t: TFunction<"translation", undefined>;
 }
 
 interface LongerDescriptionsParam {
@@ -27,6 +28,7 @@ interface LongerDescriptionsParam {
 	key: string;
 	adjustedModel: string;
 	adjustedTemperature: number;
+	t: TFunction<"translation", undefined>;
 }
 
 interface SmallerDescriptionsParam {
@@ -34,6 +36,7 @@ interface SmallerDescriptionsParam {
 	key: string;
 	adjustedModel: string;
 	adjustedTemperature: number;
+	t: TFunction<"translation", undefined>;
 }
 
 /**
@@ -50,6 +53,7 @@ export async function generateDescriptions({
 	apiKey: key,
 	model,
 	temperature,
+	t,
 }: GenerateDescriptionsParams): Promise<string[]> {
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
 	const adjustedTemperature = temperature ?? 0;
@@ -63,6 +67,7 @@ export async function generateDescriptions({
 		key,
 		adjustedModel,
 		adjustedTemperature,
+		t,
 	});
 
 	// Generates the smaller one
@@ -71,6 +76,7 @@ export async function generateDescriptions({
 		key,
 		adjustedModel,
 		adjustedTemperature,
+		t,
 	});
 	const descs = [longerDesc, smallerDesc];
 
@@ -90,14 +96,11 @@ async function longerDescription({
 	key,
 	adjustedModel,
 	adjustedTemperature,
+	t,
 }: LongerDescriptionsParam): Promise<string> {
-	const averageString = average ? " with an average of " + JSON.stringify(average) : "";
+	const averageString = average ? t("prompt_average_text") + JSON.stringify(average) : "";
 
-	const prompt = template(
-		"Knowing that the chart below is from a {{context}} and the data represents {{title}} {{average}}," +
-			" make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
-		{ context, title, averageString, data },
-	);
+	const prompt = t("prompt_longer_description", { context, title, averageString, data });
 
 	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
 		method: "POST",
@@ -130,8 +133,9 @@ async function smallerDescription({
 	key,
 	adjustedModel,
 	adjustedTemperature,
+	t,
 }: SmallerDescriptionsParam): Promise<string> {
-	const prompt = "Summarize (in less than 60 words) the following:" + desc;
+	const prompt = t("prompt_shorter_description") + " " + desc;
 
 	const response = await fetch(constants.OPENAI_LINK, {
 		method: "POST",

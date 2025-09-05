@@ -56,11 +56,19 @@ cd autovizua11y
 | `title`                                        | Required            | string           | The title of the visualization, which should be short and concise, showcasing the purpose of the content inside the data visualization. It is announced once a data visualization gets focused, before the type and the longer or shorter descriptions.                                                                                                                                                                                                                                                                                                                                                                  |
 | `insights`                                     | Required            | string           | Expects a `string` that corresponds to the key in the data object from which values will be used to derive statistical insights. For example, If the insights should be derived from the `amount` in the data, then that's what should be passed in this property. If an empty string `""` is passed, the user will receive an alert stating 'This shortcut does not work in this chart.' This applies to shortcuts related to minimum, average, and maximum values, as well as those involving comparisons to these insights and other data points. **Note: the values used for insights need to be of type `Number`.** |
 | `context`                                      | Required            | string           | The context in which the data visualization is present. It is passed in the prompt, when generating automatic the descriptions, resulting in contextualized outputs.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `descriptor`                                   | Optional            | string           | By receiving a `string`, this descriptor helps better contextualize what data elements are. It is added at the end of each data element. If no descriptor is provided, blank text (””) is set instead.                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `descriptor`                                   | Optional            | string           | By receiving a `string`, this descriptor helps better contextualize what data elements are. It is added at the end of each data element. If no descriptor is provided, blank text ("") is set instead.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `multiSeries`                                  | Optional            | string           | When working with multi-series data, provide a `string` that corresponds to the key in the data object that defines each series, allowing users to navigate between different series/clusters in addition to regular navigation. If an empty string `""` is passed, the tool interprets the data as single series.                                                                                                                                                                                                                                                                                                       |
 | `shortcutGuide` <a id="shortcutGuideProp"></a> | Optional            | JSX.Element      | AutoVizuA11y has its default `NativeShortcutGuide` but you may create your own. The ShortcutGuide is wrapped in a `<dialog>`, and its reference can be obtained trought the property `dialogRef`, which you can add to your `shortcutGuide`. The `dialogRef` is a `RefObject<HTMLDialogElement>`, which you can use to create, for example, a button that handles the logic of closing this dialog.                                                                                                                                                                                                                      |
+| `internationalization`                         | Optional            | object           | Internationalization settings for the component. The options for this prop can be checked [here](#internationalization-prop-options).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `autoDescriptions`                             | Required (option A) | object           | Various options regarding the creation of automatic descriptions with OpenAI models. AutoVizuA11y does two API calls per wrapped visualization, one for each type of description (longer and shorter). The options for this prop can be checked [here](#autoDescriptions-prop-options). This prop cannot be used at the same time as "manualDescriptions".                                                                                                                                                                                                                                                               |
 | `manualDescriptions`                           | Required (option B) | object           | Two manually written descriptions of the data. By providing this prop, no automatic descriptions are generated, thus not having any costs associated. The options for this prop can be checked [here](#manualdescriptions-prop-options). This prop cannot be used at the same time as "autoDescriptions".                                                                                                                                                                                                                                                                                                                |
+
+### `internationalization` prop options
+
+| Keys                 | Required/Optional | Type   | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| -------------------- | ----------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `language`           | Optional          | string | AutoVizuA11y supports both British English and European Portuguese (`en-BR` and `pt-PT`), British English being the default. Changing the language has an impact in the messages produced, the `NativeShortcutGuide` and the prompt to generate the automatic descriptions. **To contribute with a new language, please fork the project and modify the `./src/i18n.js` file** — it's crucial that every string has its own translation with the correct key.                                                                                                                                                                                                             |
+| `customTranslations` | Optional          | object | Override the default translations for the specified language. You can override the entire `en-BR` or `pt-PT` language set, or just specific keys/messages you want to customize. The object should follow the same structure as the default translation files, with keys matching those found in `./src/i18n.js`. Only provided keys will be overridden, while others will use the default translations. **Important:** Remember to set the `language` property to match the language you're customizing (e.g., set `language: "en-BR"` when providing new British English translations, or `language: "pt-PT"` when providing custom European Portuguese translations). |
 
 ### `autoDescriptions` prop options
 
@@ -113,6 +121,15 @@ const multiLineData = [
 const longerDesc = "...";
 const shorterDesc = "...";
 
+const customFrenchTranslations = {
+	"fr-FR": {
+		minimumValue: "Valeur maximale",
+		maximumValue: "Valeur minimale",
+		averageValue: "Valeur moyenne",
+		// ...
+	},
+};
+
 // ...
 
 function App() {
@@ -153,6 +170,27 @@ function App() {
 				}}
 			>
 				<LineChart></LineChart>
+			</AutoVizuA11y>
+
+			{/* Example with custom French translations */}
+			<AutoVizuA11y
+				data={barData}
+				selectorType={{ element: "rect" }}
+				type="graphique à barres"
+				title="Temps d'écran par jour de la semaine"
+				context="Tableau de bord du temps d'écran"
+				insights="value"
+				descriptor="heures"
+				internationalization={{
+					language: "fr-FR",
+					customTranslations: customFrenchTranslations,
+				}}
+				manualDescriptions={{
+					longer: "Ce graphique montre...",
+					shorter: "Temps d'écran hebdomadaire...",
+				}}
+			>
+				<BarChart></BarChart>
 			</AutoVizuA11y>
 		</>
 	);

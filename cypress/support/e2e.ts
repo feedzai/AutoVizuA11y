@@ -16,7 +16,8 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "cypress-axe";
-require("cypress-plugin-tab");
+import "cypress-plugin-tab";
+import "@cypress/code-coverage/support";
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

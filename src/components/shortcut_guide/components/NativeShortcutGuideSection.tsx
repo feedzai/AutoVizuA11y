@@ -7,40 +7,45 @@
 
 import { Section } from "../../../assets/data/GuideData";
 import * as constants from "../../../constants";
+import { useTranslation } from "react-i18next";
 
 interface ShortcutGuideSectionProps {
 	section: Section;
 	sectionIndex: number;
 }
 
-export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSectionProps) => (
-	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
-		<h3
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideListTitle}
-			id={`listHeader${sectionIndex}`}
-			aria-label={`Section: ${section.title}`}
-		>
-			{section.title}
-		</h3>
-		<div
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideList}
-			aria-labelledby={`listHeader${sectionIndex}`}
-		>
-			{section.shortcuts.map((shortcut, shortcutIndex) => (
-				<dl
-					key={shortcutIndex}
-					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
-					aria-label={`${shortcut.description}: ${shortcut.keys}`}
-					tabIndex={0}
-				>
-					<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
-						{shortcut.keys}
-					</dt>
-					<dd className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}>
-						{shortcut.description}
-					</dd>
-				</dl>
-			))}
+export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSectionProps) => {
+	const { t } = useTranslation();
+
+	return (
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
+			<h3
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideListTitle}
+				id={`listHeader${sectionIndex}`}
+				aria-label={`Section: ${t(section.title)}`}
+			>
+				{t(section.title)}
+			</h3>
+			<div
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideList}
+				aria-labelledby={`listHeader${sectionIndex}`}
+			>
+				{section.shortcuts.map((shortcut, shortcutIndex) => (
+					<dl
+						key={shortcutIndex}
+						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
+						aria-label={`${t(shortcut.description)}: ${shortcut.keys}`}
+						tabIndex={0}
+					>
+						<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
+							{shortcut.keys}
+						</dt>
+						<dd className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}>
+							{t(shortcut.description)}
+						</dd>
+					</dl>
+				))}
+			</div>
 		</div>
-	</div>
-);
+	);
+};

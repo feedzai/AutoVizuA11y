@@ -5,41 +5,50 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { TFunction } from "i18next";
 import { getOrdinalNumber, median, rounding } from "../../utils";
-
-export type InsightCode = "average" | "maximum value" | "minimum value";
 
 /**
  * Creates the message regarding the insight requested.
  */
-export function messageInsights(code: InsightCode, insight: number, focusedData: number): string {
+export function messageInsights(
+	code: string,
+	insight: number,
+	focusedData: number,
+	t: TFunction<"translation", undefined>,
+): string {
 	const difference = Math.abs(insight - focusedData);
 	const roundedDifference = rounding(difference);
 	if (insight > focusedData) {
-		return `The value is ${roundedDifference} below the ${code}`;
+		return t("difference_below", { difference: roundedDifference, code: code });
 	}
 	if (insight < focusedData) {
-		return `The value is ${roundedDifference} above the ${code}`;
+		return t("difference_above", { difference: roundedDifference, code: code });
 	}
-	return `The value is the same as the ${code}`;
+	return t("difference_same", { code: code });
 }
 /**
  * Creates the message regarding the comparison between a data element and all others.
  */
-export function messageOverall(arrayConverted: number[], focusedData: number): string {
+export function messageOverall(
+	arrayConverted: number[],
+	focusedData: number,
+	t: TFunction<"translation", undefined>,
+): string {
 	const dataSuperConverted = trimAndSort(arrayConverted);
 	const positionValue = dataSuperConverted.indexOf(focusedData);
 	const med = median(dataSuperConverted);
+	const median_message = t("median_message");
 	if (focusedData === med) {
-		return "This is the median value";
+		return median_message;
 	}
 	if (focusedData > med) {
 		const rank = dataSuperConverted.length - positionValue;
-		return `This is ${getOrdinalNumber(rank)} highest value.`;
+		return t("highest_message", { ordinalNumber: getOrdinalNumber(rank) });
 	}
 	if (focusedData < med) {
 		const rank = positionValue + 1;
-		return `This is ${getOrdinalNumber(rank)} lowest value.`;
+		return t("lowest_message", { ordinalNumber: getOrdinalNumber(rank) });
 	}
 	return "";
 }
