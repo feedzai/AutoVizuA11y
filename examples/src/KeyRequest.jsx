@@ -3,32 +3,41 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./assets/style/Options.css";
 
-const KeyRequest = ({ modelId, setModelId, apiKey, setApiKey, setIsValid, setHome }) => {
+const KeyRequest = ({ apiKey, setApiKey, modelId, setModelId, baseUrl, setBaseUrl, setIsValid, setHome }) => {
 	setHome(false);
 
-	const handleModelIdChange = (e) => {
-		setModelId(e.target.value);
+	const isValidApiKey = (key) => {
+		const apiKeyPattern = /^sk-(proj-)?[a-zA-Z0-9]{48}$/;
+		return apiKeyPattern.test(key);
 	};
+
+	const isOpenAiApi = (baseUrl) => {
+		return baseUrl === "https://api.openai.com/v1";
+	}
 
 	const handleApiKeyChange = (e) => {
 		setApiKey(e.target.value);
 	};
 
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (isValidApiKey(apiKey)) {
-			setIsValid(true);
-		} else {
-			alert(
-				"The API key should start with 'sk-' and be followed by a string of exactly 48 alphanumeric characters.",
-			);
-			setIsValid(false);
-		}
+	const handleModelIdChange = (e) => {
+		setModelId(e.target.value);
 	};
 
-	const isValidApiKey = (key) => {
-		const apiKeyPattern = /^sk-(proj-)?[a-zA-Z0-9]{48}$/;
-		return apiKeyPattern.test(key);
+	const handleBaseUrl = (e) => {
+		setBaseUrl(e.target.value);
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+
+		if (isOpenAiApi(baseUrl) && !isValidApiKey(apiKey)) {
+			alert(
+				"The OpenAI API key should start with 'sk-' and be followed by a string of exactly 48 alphanumeric characters.",
+			);
+			setIsValid(false);
+		} else {
+			setIsValid(true);
+		}
 	};
 
 	return (
@@ -49,6 +58,17 @@ const KeyRequest = ({ modelId, setModelId, apiKey, setApiKey, setIsValid, setHom
 							</Typography>
 							<br />
 							<label>
+								API Key:{" "}
+								<input
+									type="text"
+									required
+									placeholder="sk-... OR sk-proj-... OR ..."
+									value={apiKey}
+									onChange={handleApiKeyChange}
+								/>
+							</label>
+							<br />
+							<label>
 								Model ID:{" "}
 								<input
 									type="text"
@@ -59,13 +79,12 @@ const KeyRequest = ({ modelId, setModelId, apiKey, setApiKey, setIsValid, setHom
 							</label>
 							<br />
 							<label>
-								API Key:{" "}
+								Base URL:{" "}
 								<input
-									type="text"
+									type="url"
 									required
-									placeholder="sk-... OR sk-proj-..."
-									value={apiKey}
-									onChange={handleApiKeyChange}
+									value={baseUrl}
+									onChange={handleBaseUrl}
 								/>
 							</label>
 							<br />
@@ -73,9 +92,9 @@ const KeyRequest = ({ modelId, setModelId, apiKey, setApiKey, setIsValid, setHom
 								Submit
 							</button>
 						</form>
-						{apiKey.length > 0 && !isValidApiKey(apiKey) && (
+						{apiKey.length > 0 && !isValidApiKey(apiKey) && isOpenAiApi(baseUrl) && (
 							<p style={{ color: "red" }} role="alert">
-								Invalid API key format.
+								Invalid OpenAI API key format.
 							</p>
 						)}
 					</CardContent>
