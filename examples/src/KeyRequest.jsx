@@ -3,10 +3,14 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./assets/style/Options.css";
 
-const KeyRequest = ({ apiKey, setApiKey, setIsValid, setHome }) => {
+const KeyRequest = ({ modelId, setModelId, apiKey, setApiKey, setIsValid, setHome }) => {
 	setHome(false);
 
-	const handleChanges = (e) => {
+	const handleModelIdChange = (e) => {
+		setModelId(e.target.value);
+	};
+
+	const handleApiKeyChange = (e) => {
 		setApiKey(e.target.value);
 	};
 
@@ -38,21 +42,33 @@ const KeyRequest = ({ apiKey, setApiKey, setIsValid, setHome }) => {
 							<Typography variant="body2" color="text.secondary" style={{ whiteSpace: "pre-wrap" }}>
 								Please provide an{" "}
 								<a href="https://platform.openai.com/account/api-keys" target="_blank">
-									OpenAI API key
+									OpenAI
 								</a>{" "}
-								(the key is not saved). <br></br>The API key should start with 'sk-' and be followed
+								or OpenAI-compatible API key (the key is not saved). <br></br>The OpenAI API key should start with 'sk-' and be followed
 								by a string of exactly 48 alphanumeric characters.
 							</Typography>
+							<br />
+							<label>
+								Model ID:{" "}
+								<input
+									type="text"
+									required
+									value={modelId}
+									onChange={handleModelIdChange}
+								/>
+							</label>
 							<br />
 							<label>
 								API Key:{" "}
 								<input
 									type="text"
+									required
 									placeholder="sk-... OR sk-proj-..."
 									value={apiKey}
-									onChange={handleChanges}
+									onChange={handleApiKeyChange}
 								/>
 							</label>
+							<br />
 							<button type="submit" tabIndex={0}>
 								Submit
 							</button>

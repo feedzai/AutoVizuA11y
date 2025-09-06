@@ -6,6 +6,7 @@ import CardGrid from "./components/automatic/ChartGrid";
 import CardGridManual from "./components/manual/ChartGridManual";
 
 function Homepage() {
+	const [modelId, setModelId] = useState("gpt-3.5-turbo");
 	const [apiKey, setApiKey] = useState("");
 	const [isValid, setIsValid] = useState(false);
 	const [automatic, setAutomatic] = useState(false);
@@ -62,6 +63,8 @@ function Homepage() {
 			) : automatic ? (
 				<div style={{ margin: 20 }}>
 					<KeyRequest
+						modelId={modelId}
+						setModelId={setModelId}
 						apiKey={apiKey}
 						setApiKey={setApiKey}
 						isValid={isValid}
