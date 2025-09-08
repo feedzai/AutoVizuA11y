@@ -7,13 +7,11 @@
 
 import * as constants from "../../../constants";
 import { GUIDE_DATA } from "../../../assets/data/GuideData";
-import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 import { ShortcutGuideSection } from "./NativeShortcutGuideSection";
 
-export const ShortcutGuideBody = () => {
-	const { t } = useTranslation();
-
+export const ShortcutGuideBody = ({ t }: { t: TFunction }) => {
 	return (
 		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
 			{GUIDE_DATA.map((section, sectionIndex) => (
@@ -21,6 +19,7 @@ export const ShortcutGuideBody = () => {
 					<ShortcutGuideSection
 						section={{ ...section, title: t(section.title) }}
 						sectionIndex={sectionIndex}
+						t={t}
 					/>
 				</div>
 			))}

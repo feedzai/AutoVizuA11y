@@ -7,16 +7,15 @@
 
 import { Section } from "../../../assets/data/GuideData";
 import * as constants from "../../../constants";
-import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 interface ShortcutGuideSectionProps {
 	section: Section;
 	sectionIndex: number;
+	t: TFunction;
 }
 
-export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSectionProps) => {
-	const { t } = useTranslation();
-
+export const ShortcutGuideSection = ({ section, sectionIndex, t }: ShortcutGuideSectionProps) => {
 	return (
 		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
 			<h3

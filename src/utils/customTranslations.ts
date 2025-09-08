@@ -16,11 +16,10 @@ export type TranslationObject = {
 
 /**
  * Custom translations structure where keys are language codes and values are translation objects
+ * Direct format: { "en-BR": { sg_title: "value" } }
  */
 export type CustomTranslations = {
-	[languageCode: string]: {
-		translation: TranslationObject;
-	};
+	[languageCode: string]: TranslationObject;
 };
 
 /**
@@ -37,8 +36,8 @@ export const addCustomTranslations = (
 		return;
 	}
 
-	Object.entries(customTranslations).forEach(([languageCode, resources]) => {
-		if (!languageCode || !resources || !resources.translation) {
+	Object.entries(customTranslations).forEach(([languageCode, translations]) => {
+		if (!languageCode || !translations || typeof translations !== "object") {
 			console.warn(`AutoVizuA11y: Invalid translation structure for language '${languageCode}'`);
 			return;
 		}
@@ -48,13 +47,13 @@ export const addCustomTranslations = (
 			if (i18nInstance.hasResourceBundle(languageCode, "translation")) {
 				// Merge with existing translations, custom translations take precedence
 				const existingTranslations = i18nInstance.getResourceBundle(languageCode, "translation");
-				const mergedTranslations = { ...existingTranslations, ...resources.translation };
+				const mergedTranslations = { ...existingTranslations, ...translations };
 				i18nInstance.removeResourceBundle(languageCode, "translation");
 				i18nInstance.addResourceBundle(languageCode, "translation", mergedTranslations);
 			} else {
 				// For new languages, merge with English fallback to ensure no missing strings
 				const englishFallback = i18nInstance.getResourceBundle("en", "translation") || {};
-				const mergedTranslations = { ...englishFallback, ...resources.translation };
+				const mergedTranslations = { ...englishFallback, ...translations };
 				i18nInstance.addResourceBundle(languageCode, "translation", mergedTranslations);
 			}
 		} catch (error) {
