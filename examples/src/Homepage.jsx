@@ -8,7 +8,7 @@ import CardGridManual from "./components/manual/ChartGridManual";
 function Homepage() {
 	const [apiKey, setApiKey] = useState("");
 	const [model, setModel] = useState("gpt-3.5-turbo");
-	const [baseUrl, setBaseUrl] = useState("https://api.openai.com/v1");
+	const [baseUrl, setBaseUrl] = useState("https://api.openai.com/v1/");
 	const [isValid, setIsValid] = useState(false);
 	const [automatic, setAutomatic] = useState(false);
 	const [manual, setManual] = useState(false);

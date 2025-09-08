@@ -30,6 +30,7 @@ type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
 	model?: string;
+	baseUrl?: string;
 	temperature?: number;
 };
 
@@ -272,6 +273,7 @@ export const AutoVizuA11y = ({
 					context,
 					apiKey: autoDescriptions!.apiKey,
 					model: autoDescriptions!.model,
+					baseUrl: autoDescriptions!.baseUrl,
 					temperature: autoDescriptions!.temperature,
 				});
 				chartDescriptions = generatedDescriptions;

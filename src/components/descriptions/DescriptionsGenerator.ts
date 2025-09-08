@@ -56,8 +56,14 @@ export async function generateDescriptions({
 	temperature,
 }: GenerateDescriptionsParams): Promise<string[]> {
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
-	const adjustedBaseUrl = baseUrl ?? constants.OPENAI_BASE_URL;
+
+	const adjustedBaseUrl = baseUrl
+		? baseUrl.endsWith("/")
+			? baseUrl
+			: baseUrl + "/"
+		: constants.OPENAI_BASE_URL;
 	const adjustedLink = new URL(constants.OPENAI_ENDPOINT, adjustedBaseUrl);
+
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one

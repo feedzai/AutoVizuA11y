@@ -21,7 +21,13 @@ const KeyRequest = ({
 	};
 
 	const isOpenAiApi = (baseUrl) => {
-		return baseUrl === "https://api.openai.com/v1";
+		const parsedBaseUrl = URL.parse(baseUrl);
+
+		if (parsedBaseUrl) {
+			return parsedBaseUrl.host === "api.openai.com";
+		}
+
+		return false;
 	};
 
 	const handleApiKeyChange = (e) => {
