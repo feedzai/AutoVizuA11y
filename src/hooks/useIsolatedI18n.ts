@@ -11,12 +11,8 @@ import { initReactI18next, useTranslation } from "react-i18next";
 // @ts-expect-error - i18n.js file doesn't have TypeScript declarations
 import globalI18n from "../i18n";
 
-export type TranslationObject = {
-	[key: string]: string;
-};
-
 export type CustomTranslations = {
-	[languageCode: string]: TranslationObject;
+	[languageCode: string]: Record<string, string>;
 };
 
 /**
