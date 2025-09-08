@@ -5,6 +5,8 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { isMacOS } from "../../utils/macOSDetector";
+
 export interface Shortcut {
 	keys: string;
 	description: string;
@@ -15,92 +17,103 @@ export interface Section {
 	shortcuts: Shortcut[];
 }
 
-export const GUIDE_DATA: Section[] = [
-	{
-		title: "Access the guide",
-		shortcuts: [
-			{ keys: "?", description: "Enter shortcut guide" },
-			{ keys: "? or Esc", description: "Leave shortcut guide" },
-		],
-	},
-	{
-		title: "Move between page elements",
-		shortcuts: [
-			{ keys: "↓", description: "Get into a chart" },
-			{ keys: "↑", description: "Get out of a chart" },
-			{ keys: "→", description: "Move forward in a page element" },
-			{ keys: "←", description: "Move backward in a page element" },
-			{
-				keys: "Alt + M",
-				description: "Move between series of data inside the chart",
-			},
-		],
-	},
-	{
-		title: "Chart navigation shortcuts",
-		shortcuts: [
-			{
-				keys: "Home or Alt + Q",
-				description: "Jump to the beginning of a chart",
-			},
-			{
-				keys: "End or Alt + W",
-				description: "Jump to the end of a chart",
-			},
-			{
-				keys: "Alt + X",
-				description: "Define the number of data points to be jumped at a time",
-			},
-			{
-				keys: "+",
-				description: "Add one number to the data points to be jumped at a time",
-			},
-			{
-				keys: "-",
-				description: "Subtract one number to the data points to be jumped at a time",
-			},
-		],
-	},
-	{
-		title: "Statistical insights (works when navigating a chart)",
-		shortcuts: [
-			{ keys: "Alt + J", description: "Minimum" },
-			{ keys: "Alt + K", description: "Average" },
-			{ keys: "Alt + L", description: "Maximum" },
-		],
-	},
-	{
-		title: "Statistical insights (works when a chart element is focused)",
-		shortcuts: [
-			{
-				keys: "Alt + Shift + J",
-				description: "Compare current data element to minimum value",
-			},
-			{
-				keys: "Alt + Shift + K",
-				description: "Compare current data element to average value",
-			},
-			{
-				keys: "Alt + Shift + L",
-				description: "Compare current data element to maximum value",
-			},
-			{
-				keys: "Alt + Z",
-				description: "Compare current data element to the rest of the chart",
-			},
-		],
-	},
-	{
-		title: "Change chart descriptions",
-		shortcuts: [
-			{
-				keys: "Alt + B",
-				description: "Set longer description of the chart",
-			},
-			{
-				keys: "Alt + S",
-				description: "Set shorter description of the chart (default)",
-			},
-		],
-	},
-];
+/**
+ * Generates guide data with appropriate key names based on the operating system
+ * Uses "Option" for macOS and "Alt" for other systems
+ */
+export function getGuideData(): Section[] {
+	const modifierKey = isMacOS() ? "option" : "Alt";
+
+	return [
+		{
+			title: "sg_access_title",
+			shortcuts: [
+				{ keys: "?", description: "sg_enter_description" },
+				{ keys: "? or Esc", description: "sg_leave_description" },
+			],
+		},
+		{
+			title: "sg_move_elements_title",
+			shortcuts: [
+				{ keys: "↓", description: "sg_get_into_chart" },
+				{ keys: "↑", description: "sg_get_out_of_chart" },
+				{ keys: "→", description: "sg_move_forward" },
+				{ keys: "←", description: "sg_move_backward" },
+				{
+					keys: `${modifierKey} + M`,
+					description: "sg_move_series",
+				},
+			],
+		},
+		{
+			title: "sg_chart_nav_title",
+			shortcuts: [
+				{
+					keys: `Home or ${modifierKey} + Q`,
+					description: "sg_jump_beginning",
+				},
+				{
+					keys: `End or ${modifierKey} + W`,
+					description: "sg_jump_end",
+				},
+				{
+					keys: `${modifierKey} + X`,
+					description: "sg_define_jump_points",
+				},
+				{
+					keys: "+",
+					description: "sg_add_jump_point",
+				},
+				{
+					keys: "-",
+					description: "sg_subtract_jump_point",
+				},
+			],
+		},
+		{
+			title: "sg_stats_nav_title",
+			shortcuts: [
+				{ keys: `${modifierKey} + J`, description: "minimum" },
+				{ keys: `${modifierKey} + K`, description: "average" },
+				{ keys: `${modifierKey} + L`, description: "maximum" },
+			],
+		},
+		{
+			title: "sg_stats_focused_title",
+			shortcuts: [
+				{
+					keys: `${modifierKey} + Shift + J`,
+					description: "sg_compare_minimum",
+				},
+				{
+					keys: `${modifierKey} + Shift + K`,
+					description: "sg_compare_average",
+				},
+				{
+					keys: `${modifierKey} + Shift + L`,
+					description: "sg_compare_maximum",
+				},
+				{
+					keys: `${modifierKey} + Z`,
+					description: "sg_compare_rest",
+				},
+			],
+		},
+		{
+			title: "sg_change_desc_title",
+			shortcuts: [
+				{
+					keys: `${modifierKey} + B`,
+					description: "sg_longer_desc",
+				},
+				{
+					keys: `${modifierKey} + S`,
+					description: "sg_shorter_desc",
+				},
+			],
+		},
+	];
+}
+
+// Legacy export for backward compatibility - but this will now be dynamic
+export const GUIDE_DATA = getGuideData();

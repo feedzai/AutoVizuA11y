@@ -6,14 +6,14 @@
  */
 
 import * as constants from "../../../../../src/constants";
-import { GUIDE_DATA } from "../../../../../src/assets/data/GuideData";
 import React from "react";
 
 import { CustomShortcutGuideSection } from "./CustomShortcutGuideSection";
+import { CUSTOM_GUIDE_DATA } from "./CustomGuideData";
 
 export const CustomShortcutGuideBody = () => (
 	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
-		{GUIDE_DATA.map((section, sectionIndex) => (
+		{CUSTOM_GUIDE_DATA.map((section, sectionIndex) => (
 			<div key={sectionIndex}>
 				<CustomShortcutGuideSection section={section} sectionIndex={sectionIndex} />
 			</div>

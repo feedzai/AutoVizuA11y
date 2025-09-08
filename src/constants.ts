@@ -18,8 +18,6 @@ export const ATTRIBUTES_TO_REMOVE = ["aria-describedby", "aria-labelledby"];
 export const TABINDEX_ZERO = '[tabindex="0"]';
 export const TOOL_TUTORIAL_KEY = "toolTutorial";
 export const FOCUS_CLASS = "focused";
-export const ALERT_MESSAGE =
-	"You just entered an AutoVizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide";
 export const ALERT_DURATION = 1000;
 export const AUTOVIZUA11Y_CLASSES = {
 	alertDiv: "a11y_alert visually-hidden",

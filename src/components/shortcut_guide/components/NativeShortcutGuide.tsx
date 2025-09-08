@@ -11,6 +11,7 @@ import * as constants from "../../../constants";
 import { ShortcutGuideDescription } from "./NativeGuideDescription";
 import { ShortcutGuideHeader } from "./NativeGuideHeader";
 import { ShortcutGuideBody } from "./NativeShortcutGuideBody";
+import { useTranslation } from "react-i18next";
 
 interface NativeShortcutGuideProps {
 	dialogRef: React.RefObject<HTMLDialogElement>;
@@ -22,6 +23,8 @@ interface NativeShortcutGuideProps {
  * @return Shortcut guide.
  */
 export const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
+	const { t } = useTranslation();
+
 	const handleCloseDialog = () => {
 		const dialog = dialogRef.current;
 		if (dialog) {
@@ -33,6 +36,7 @@ export const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JS
 		<div
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}
 			data-testid={"a11y-native-shortcut-guide"}
+			aria-label={t("sg_title")}
 		>
 			<ShortcutGuideDescription />
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>

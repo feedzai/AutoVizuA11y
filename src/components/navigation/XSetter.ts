@@ -7,12 +7,14 @@
 
 import React from "react";
 import { showAlert } from "../../utils/showAlert";
+import { TFunction } from "i18next";
 
 interface XSetterParams {
 	event: React.KeyboardEvent;
 	type: string;
 	number: number;
 	alertDivRef: React.RefObject<HTMLElement>;
+	t: TFunction<"translation", undefined>;
 }
 
 /**
@@ -26,19 +28,20 @@ export async function xSetter({
 	type,
 	number,
 	alertDivRef,
+	t,
 }: XSetterParams): Promise<number> {
 	try {
 		const { nativeEvent } = event;
 
 		if (nativeEvent instanceof KeyboardEvent) {
 			if (nativeEvent.altKey && nativeEvent.code === "KeyX") {
-				return await handleAltX(event, type, number, alertDivRef);
+				return await handleAltX(event, type, number, alertDivRef, t);
 			}
 			if (nativeEvent.key === "-") {
-				return await handleMinus(type, number, alertDivRef);
+				return await handleMinus(type, number, alertDivRef, t);
 			}
 			if (nativeEvent.key === "+") {
-				return await handlePlus(type, number, alertDivRef);
+				return await handlePlus(type, number, alertDivRef, t);
 			}
 		}
 
@@ -58,24 +61,22 @@ async function handleAltX(
 	type: string,
 	number: number,
 	alertDivRef: React.RefObject<HTMLElement>,
+	t: TFunction<"translation", undefined>,
 ): Promise<number> {
 	try {
 		event.preventDefault();
 		const activeElement = document.activeElement as HTMLElement | null;
-		const input = prompt("Enter a number above 0:");
+		const input = prompt(t("prompt_enter_number"));
 
 		if (input !== null && input !== "") {
 			const parsedInput = parseInt(input, 10);
 
 			if (!isNaN(parsedInput) && parsedInput > 0) {
-				showAlert(
-					alertDivRef,
-					`You are now jumping ${parsedInput} data points at a time inside the ${type}`,
-				);
+				showAlert(alertDivRef, t("alert_jumping_data_points", { count: parsedInput, type }));
 				activeElement?.focus();
 				return parsedInput;
 			} else {
-				showAlert(alertDivRef, "Invalid input. Please enter a number.");
+				showAlert(alertDivRef, t("alert_invalid_input_number"));
 			}
 		}
 
@@ -96,15 +97,13 @@ async function handleMinus(
 	type: string,
 	number: number,
 	alertDivRef: React.RefObject<HTMLElement>,
+	t: TFunction<"translation", undefined>,
 ): Promise<number> {
 	if (number === 1) {
 		return number;
 	}
 
-	showAlert(
-		alertDivRef,
-		`You are now jumping ${number - 1} data points at a time inside the ${type}`,
-	);
+	showAlert(alertDivRef, t("alert_jumping_data_points", { count: number - 1, type }));
 
 	return number - 1;
 }
@@ -116,10 +115,8 @@ async function handlePlus(
 	type: string,
 	number: number,
 	alertDivRef: React.RefObject<HTMLElement>,
+	t: TFunction<"translation", undefined>,
 ): Promise<number> {
-	showAlert(
-		alertDivRef,
-		`You are now jumping ${number + 1} data points at a time inside the ${type}`,
-	);
+	showAlert(alertDivRef, t("alert_jumping_data_points", { count: number + 1, type }));
 	return number + 1;
 }

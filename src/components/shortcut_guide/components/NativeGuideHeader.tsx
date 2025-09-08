@@ -5,23 +5,28 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
+import { useTranslation } from "react-i18next";
 import * as constants from "../../../constants";
 
-export const ShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => (
-	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
-		<h2
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
-			id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
-		>
-			Shortcut Guide
-		</h2>
-		<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
-		<button
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
-			aria-label="Close shortcut guide"
-			onClick={onClose}
-		>
-			&times;
-		</button>
-	</div>
-);
+export const ShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => {
+	const { t } = useTranslation();
+
+	return (
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
+			<h2
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
+				id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+			>
+				{t("sg_title")}
+			</h2>
+			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
+			<button
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
+				aria-label={t("close_shortcut_guide_label")}
+				onClick={onClose}
+			>
+				&times;
+			</button>
+		</div>
+	);
+};

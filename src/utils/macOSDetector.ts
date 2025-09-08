@@ -5,14 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export * from "./arrayConverter";
-export * from "./insightsCalculator";
-export * from "./maths";
-export * from "./wiper";
-export * from "./handleBlur";
-export * from "./handleFirstFocus";
-export * from "./handleKeyDown";
-export * from "./showAlert";
-export * from "./initToolTutorial";
-export * from "./processData";
-export * from "./macOSDetector";
+/**
+ * Detects if the user is on macOS
+ * @returns {boolean} true if on macOS, false otherwise
+ */
+export function isMacOS(): boolean {
+	const userAgent = navigator.userAgent.toLowerCase();
+	const platform = navigator.platform.toLowerCase();
+
+	return platform.includes("mac") || userAgent.includes("mac os");
+}

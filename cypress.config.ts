@@ -1,5 +1,5 @@
 import { defineConfig } from "cypress";
-import codeCoverageTask from "@cypress/code-coverage/task";
+import codeCoverageTask from "@cypress/code-coverage/task.js";
 
 export default defineConfig({
 	e2e: {

@@ -7,15 +7,23 @@
 
 import * as constants from "../../../constants";
 import { GUIDE_DATA } from "../../../assets/data/GuideData";
+import { useTranslation } from "react-i18next";
 
 import { ShortcutGuideSection } from "./NativeShortcutGuideSection";
 
-export const ShortcutGuideBody = () => (
-	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
-		{GUIDE_DATA.map((section, sectionIndex) => (
-			<div key={sectionIndex}>
-				<ShortcutGuideSection section={section} sectionIndex={sectionIndex} />
-			</div>
-		))}
-	</div>
-);
+export const ShortcutGuideBody = () => {
+	const { t } = useTranslation();
+
+	return (
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
+			{GUIDE_DATA.map((section, sectionIndex) => (
+				<div key={sectionIndex}>
+					<ShortcutGuideSection
+						section={{ ...section, title: t(section.title) }}
+						sectionIndex={sectionIndex}
+					/>
+				</div>
+			))}
+		</div>
+	);
+};
