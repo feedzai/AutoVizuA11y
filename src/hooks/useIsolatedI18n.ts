@@ -64,7 +64,7 @@ export const useIsolatedI18n = (
 							};
 						} else {
 							// For new languages, use English as base
-							const englishFallback = baseResources["en-BR"]?.translation || {};
+							const englishFallback = baseResources["en-GB"]?.translation || {};
 							baseResources[languageCode] = {
 								translation: {
 									...englishFallback,
@@ -80,7 +80,7 @@ export const useIsolatedI18n = (
 		};
 
 		instance.use(initReactI18next).init({
-			fallbackLng: "en-BR",
+			fallbackLng: "en-GB",
 			debug: false,
 			resources: getIsolatedResources(),
 			interpolation: {

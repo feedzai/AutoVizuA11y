@@ -67,7 +67,7 @@ function PieManual({ longDesc, shortDesc }) {
 	const dataTransformed = transformJSON(autovizData);
 
 	const customTranslations = {
-		"en-BR": {
+		"en-GB": {
 			sg_title: "Overwritten Shortcut guide title",
 		},
 	};

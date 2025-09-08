@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 describe("Internationalization Tests", () => {
-	it("should use default English (en-BR) language when internationalization property is empty", () => {
+	it("should use default English (en-GB) language when internationalization property is empty", () => {
 		cy.visit("/");
 		cy.injectAxe();
 		cy.findByTestId("manual-descriptions-option").click();
@@ -29,7 +29,7 @@ describe("Internationalization Tests", () => {
 		cy.checkA11y();
 	});
 
-	it("should use an overriten en-BR string", () => {
+	it("should use an overriten en-GB string", () => {
 		cy.visit("/");
 		cy.injectAxe();
 		cy.findByTestId("manual-descriptions-option").click();
