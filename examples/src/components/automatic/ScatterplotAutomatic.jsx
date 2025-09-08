@@ -7,7 +7,7 @@ import countryData from "../../data/country_data.json";
 import { chartDimensions } from "./chart.constants";
 import { ascending } from "d3-array";
 
-function Scatterplot({ apiKey }) {
+function Scatterplot({ apiKey, model, baseUrl }) {
 	const intValuesCountryData = countryData.map((country) => {
 		return {
 			...country,
@@ -134,7 +134,8 @@ function Scatterplot({ apiKey }) {
 				autoDescriptions={{
 					dynamicDescriptions: false,
 					apiKey: apiKey,
-					model: "gpt-3.5-turbo",
+					model: model,
+					baseUrl: baseUrl,
 					temperature: 0.1,
 				}}
 			>

@@ -3,7 +3,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./assets/style/Options.css";
 
-const KeyRequest = ({ apiKey, setApiKey, modelId, setModelId, baseUrl, setBaseUrl, setIsValid, setHome }) => {
+const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, setIsValid, setHome }) => {
 	setHome(false);
 
 	const isValidApiKey = (key) => {
@@ -19,8 +19,8 @@ const KeyRequest = ({ apiKey, setApiKey, modelId, setModelId, baseUrl, setBaseUr
 		setApiKey(e.target.value);
 	};
 
-	const handleModelIdChange = (e) => {
-		setModelId(e.target.value);
+	const handleModelChange = (e) => {
+		setModel(e.target.value);
 	};
 
 	const handleBaseUrl = (e) => {
@@ -73,8 +73,8 @@ const KeyRequest = ({ apiKey, setApiKey, modelId, setModelId, baseUrl, setBaseUr
 								<input
 									type="text"
 									required
-									value={modelId}
-									onChange={handleModelIdChange}
+									value={model}
+									onChange={handleModelChange}
 								/>
 							</label>
 							<br />
@@ -83,6 +83,7 @@ const KeyRequest = ({ apiKey, setApiKey, modelId, setModelId, baseUrl, setBaseUr
 								<input
 									type="url"
 									required
+									pattern="^https://.*|^http://localhost:\d+.*"
 									value={baseUrl}
 									onChange={handleBaseUrl}
 								/>

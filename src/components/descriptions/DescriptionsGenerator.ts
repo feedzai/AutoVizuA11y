@@ -16,7 +16,7 @@ interface GenerateDescriptionsParams {
 	context: string;
 	apiKey: string;
 	model?: string;
-	baseURL?: string;
+	baseUrl?: string;
 	temperature?: number;
 }
 
@@ -52,12 +52,12 @@ export async function generateDescriptions({
 	context,
 	apiKey: key,
 	model,
-	baseURL,
+	baseUrl,
 	temperature,
 }: GenerateDescriptionsParams): Promise<string[]> {
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
-	const adjustedBaseURL = baseURL ?? constants.OPENAI_BASE_URL;
-	const adjustedLink = new URL(constants.OPENAI_ENDPOINT, adjustedBaseURL);
+	const adjustedBaseUrl = baseUrl ?? constants.OPENAI_BASE_URL;
+	const adjustedLink = new URL(constants.OPENAI_ENDPOINT, adjustedBaseUrl);
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one

@@ -10,28 +10,36 @@ import Heatmap from "./HeatmapAutomatic";
 import StackedBar from "./StackedBarAutomatic";
 import Scatterplot from "./ScatterplotAutomatic";
 
-function CardGrid({ apiKey, setHome }) {
+function CardGrid({ apiKey, model, baseUrl, setHome }) {
 	setHome(false);
 	return (
 		<Grid container direction="row" spacing={2} justifyContent="center" alignItems="center">
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<BarChart apiKey={apiKey}></BarChart>
+						<BarChart apiKey={apiKey} model={model} baseUrl={baseUrl}></BarChart>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<SingleSeriesTimeline apiKey={apiKey}></SingleSeriesTimeline>
+						<SingleSeriesTimeline
+							apiKey={apiKey}
+							model={model}
+							baseUrl={baseUrl}
+						></SingleSeriesTimeline>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<MultiSeriesTimeline apiKey={apiKey}></MultiSeriesTimeline>
+						<MultiSeriesTimeline
+							apiKey={apiKey}
+							model={model}
+							baseUrl={baseUrl}
+						></MultiSeriesTimeline>
 					</CardContent>
 				</Card>
 			</Grid>
@@ -39,35 +47,35 @@ function CardGrid({ apiKey, setHome }) {
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<Pie_ apiKey={apiKey}></Pie_>
+						<Pie_ apiKey={apiKey} model={model} baseUrl={baseUrl}></Pie_>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<Treemap_ apiKey={apiKey}></Treemap_>
+						<Treemap_ apiKey={apiKey} model={model} baseUrl={baseUrl}></Treemap_>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<Heatmap apiKey={apiKey}></Heatmap>
+						<Heatmap apiKey={apiKey} model={model} baseUrl={baseUrl}></Heatmap>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<StackedBar apiKey={apiKey}></StackedBar>
+						<StackedBar apiKey={apiKey} model={model} baseUrl={baseUrl}></StackedBar>
 					</CardContent>
 				</Card>
 			</Grid>
 			<Grid item>
 				<Card sx={{ minWidth: 275, width: 450 }}>
 					<CardContent>
-						<Scatterplot apiKey={apiKey}></Scatterplot>
+						<Scatterplot apiKey={apiKey} model={model} baseUrl={baseUrl}></Scatterplot>
 					</CardContent>
 				</Card>
 			</Grid>
