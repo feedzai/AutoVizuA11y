@@ -15,9 +15,8 @@ const KeyRequest = ({
 }) => {
 	setHome(false);
 
-	const isValidApiKey = (key) => {
-		const apiKeyPattern = /^sk-(proj-)?[a-zA-Z0-9]{48}$/;
-		return apiKeyPattern.test(key);
+	const isValidOpenAiApiKey = (key) => {
+		return key.startsWith("sk-proj-");
 	};
 
 	const isOpenAiApi = (baseUrl) => {
@@ -45,10 +44,8 @@ const KeyRequest = ({
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (isOpenAiApi(baseUrl) && !isValidApiKey(apiKey)) {
-			alert(
-				"The OpenAI API key should start with 'sk-' and be followed by a string of exactly 48 alphanumeric characters.",
-			);
+		if (isOpenAiApi(baseUrl) && !isValidOpenAiApiKey(apiKey)) {
+			alert("The OpenAI API key should start with 'sk-proj-'.");
 			setIsValid(false);
 		} else {
 			setIsValid(true);
@@ -69,8 +66,7 @@ const KeyRequest = ({
 									OpenAI
 								</a>{" "}
 								or OpenAI-compatible API key (the key is not saved). <br></br>The OpenAI API key
-								should start with 'sk-' and be followed by a string of exactly 48 alphanumeric
-								characters.
+								should start with 'sk-proj-'.
 							</Typography>
 							<br />
 							<label>
@@ -78,7 +74,7 @@ const KeyRequest = ({
 								<input
 									type="text"
 									required
-									placeholder="sk-... OR sk-proj-... OR ..."
+									placeholder="sk-proj-... OR ..."
 									value={apiKey}
 									onChange={handleApiKeyChange}
 								/>
@@ -103,7 +99,7 @@ const KeyRequest = ({
 								Submit
 							</button>
 						</form>
-						{apiKey.length > 0 && !isValidApiKey(apiKey) && isOpenAiApi(baseUrl) && (
+						{apiKey.length > 0 && !isValidOpenAiApiKey(apiKey) && isOpenAiApi(baseUrl) && (
 							<p style={{ color: "red" }} role="alert">
 								Invalid OpenAI API key format.
 							</p>
