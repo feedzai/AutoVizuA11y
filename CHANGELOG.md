@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adapted the ShortcutGuide to vary between "Alt" and "option" depending on the OS
 - Added support for OpenAI API-compatible providers via the new `baseUrl` prop
 - Added new Cypress tests
+- Moved the context prop to inside autoDescriptions
 
 ## 2.0.4 - 2025-01-06
 
