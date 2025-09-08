@@ -3,7 +3,16 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./assets/style/Options.css";
 
-const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, setIsValid, setHome }) => {
+const KeyRequest = ({
+	apiKey,
+	setApiKey,
+	model,
+	setModel,
+	baseUrl,
+	setBaseUrl,
+	setIsValid,
+	setHome,
+}) => {
 	setHome(false);
 
 	const isValidApiKey = (key) => {
@@ -13,7 +22,7 @@ const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, s
 
 	const isOpenAiApi = (baseUrl) => {
 		return baseUrl === "https://api.openai.com/v1";
-	}
+	};
 
 	const handleApiKeyChange = (e) => {
 		setApiKey(e.target.value);
@@ -53,8 +62,9 @@ const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, s
 								<a href="https://platform.openai.com/account/api-keys" target="_blank">
 									OpenAI
 								</a>{" "}
-								or OpenAI-compatible API key (the key is not saved). <br></br>The OpenAI API key should start with 'sk-' and be followed
-								by a string of exactly 48 alphanumeric characters.
+								or OpenAI-compatible API key (the key is not saved). <br></br>The OpenAI API key
+								should start with 'sk-' and be followed by a string of exactly 48 alphanumeric
+								characters.
 							</Typography>
 							<br />
 							<label>
@@ -69,13 +79,7 @@ const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, s
 							</label>
 							<br />
 							<label>
-								Model:{" "}
-								<input
-									type="text"
-									required
-									value={model}
-									onChange={handleModelChange}
-								/>
+								Model: <input type="text" required value={model} onChange={handleModelChange} />
 							</label>
 							<br />
 							<label>
