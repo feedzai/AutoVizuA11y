@@ -3,28 +3,53 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import "./assets/style/Options.css";
 
-const KeyRequest = ({ apiKey, setApiKey, setIsValid, setHome }) => {
+const KeyRequest = ({
+	apiKey,
+	setApiKey,
+	model,
+	setModel,
+	baseUrl,
+	setBaseUrl,
+	setIsValid,
+	setHome,
+}) => {
 	setHome(false);
 
-	const handleChanges = (e) => {
+	const isValidOpenAiApiKey = (key) => {
+		return key.startsWith("sk-proj-");
+	};
+
+	const isOpenAiApi = (baseUrl) => {
+		const parsedBaseUrl = URL.parse(baseUrl);
+
+		if (parsedBaseUrl) {
+			return parsedBaseUrl.host === "api.openai.com";
+		}
+
+		return false;
+	};
+
+	const handleApiKeyChange = (e) => {
 		setApiKey(e.target.value);
+	};
+
+	const handleModelChange = (e) => {
+		setModel(e.target.value);
+	};
+
+	const handleBaseUrl = (e) => {
+		setBaseUrl(e.target.value);
 	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		if (isValidApiKey(apiKey)) {
-			setIsValid(true);
-		} else {
-			alert(
-				"The API key should start with 'sk-' and be followed by a string of exactly 48 alphanumeric characters.",
-			);
-			setIsValid(false);
-		}
-	};
 
-	const isValidApiKey = (key) => {
-		const apiKeyPattern = /^sk-(proj-)?[a-zA-Z0-9]{48}$/;
-		return apiKeyPattern.test(key);
+		if (isOpenAiApi(baseUrl) && !isValidOpenAiApiKey(apiKey)) {
+			alert("The OpenAI API key should start with 'sk-proj-'.");
+			setIsValid(false);
+		} else {
+			setIsValid(true);
+		}
 	};
 
 	return (
@@ -38,28 +63,45 @@ const KeyRequest = ({ apiKey, setApiKey, setIsValid, setHome }) => {
 							<Typography variant="body2" color="text.secondary" style={{ whiteSpace: "pre-wrap" }}>
 								Please provide an{" "}
 								<a href="https://platform.openai.com/account/api-keys" target="_blank">
-									OpenAI API key
+									OpenAI
 								</a>{" "}
-								(the key is not saved). <br></br>The API key should start with 'sk-' and be followed
-								by a string of exactly 48 alphanumeric characters.
+								or OpenAI-compatible API key (the key is not saved). <br></br>The OpenAI API key
+								should start with 'sk-proj-'.
 							</Typography>
 							<br />
 							<label>
-								API Key:{" "}
+								API key:{" "}
 								<input
 									type="text"
-									placeholder="sk-... OR sk-proj-..."
+									required
+									placeholder="sk-proj-... OR ..."
 									value={apiKey}
-									onChange={handleChanges}
+									onChange={handleApiKeyChange}
 								/>
 							</label>
+							<br />
+							<label>
+								Model: <input type="text" required value={model} onChange={handleModelChange} />
+							</label>
+							<br />
+							<label>
+								Base URL:{" "}
+								<input
+									type="url"
+									required
+									pattern="^https://.*|^http://localhost:\d+.*"
+									value={baseUrl}
+									onChange={handleBaseUrl}
+								/>
+							</label>
+							<br />
 							<button type="submit" tabIndex={0}>
 								Submit
 							</button>
 						</form>
-						{apiKey.length > 0 && !isValidApiKey(apiKey) && (
+						{apiKey.length > 0 && !isValidOpenAiApiKey(apiKey) && isOpenAiApi(baseUrl) && (
 							<p style={{ color: "red" }} role="alert">
-								Invalid API key format.
+								Invalid OpenAI API key format.
 							</p>
 						)}
 					</CardContent>

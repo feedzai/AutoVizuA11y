@@ -8,7 +8,7 @@ import { chartDimensions } from "./chart.constants.js";
 import { AutoVizuA11y } from "@feedzai/autovizua11y";
 import transformJSON from "../../data/transformJSON.js";
 
-function SingleSeriesTimeline({ apiKey }) {
+function SingleSeriesTimeline({ apiKey, model, baseUrl }) {
 	const intValuesCountryData = countryData.map((country) => {
 		return {
 			...country, //copies all countrys first...
@@ -97,7 +97,8 @@ function SingleSeriesTimeline({ apiKey }) {
 				autoDescriptions={{
 					dynamicDescriptions: false,
 					apiKey: apiKey,
-					model: "gpt-3.5-turbo",
+					model: model,
+					baseUrl: baseUrl,
 					temperature: 0.1,
 				}}
 			>
