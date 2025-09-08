@@ -58,7 +58,7 @@ const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, s
 							</Typography>
 							<br />
 							<label>
-								API Key:{" "}
+								API key:{" "}
 								<input
 									type="text"
 									required
@@ -69,7 +69,7 @@ const KeyRequest = ({ apiKey, setApiKey, model, setModel, baseUrl, setBaseUrl, s
 							</label>
 							<br />
 							<label>
-								Model ID:{" "}
+								Model:{" "}
 								<input
 									type="text"
 									required
