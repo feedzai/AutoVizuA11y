@@ -10,7 +10,14 @@ import { createInstance, i18n } from "i18next";
 import { initReactI18next, useTranslation } from "react-i18next";
 // @ts-expect-error - i18n.js file doesn't have TypeScript declarations
 import globalI18n from "../i18n";
-import { CustomTranslations } from "../utils/customTranslations";
+
+export type TranslationObject = {
+	[key: string]: string;
+};
+
+export type CustomTranslations = {
+	[languageCode: string]: TranslationObject;
+};
 
 /**
  * Hook that creates an isolated i18n instance for each component to prevent
