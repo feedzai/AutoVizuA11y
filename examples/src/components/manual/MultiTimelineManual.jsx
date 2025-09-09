@@ -142,6 +142,9 @@ function MultiSeriesTimelineManual({ longDesc, shortDesc }) {
 					longer: longDesc,
 					shorter: shortDesc,
 				}}
+				internationalization={{
+					language: "pt-PT",
+				}}
 			>
 				<svg width={380} height={chartDimensions.height}>
 					<Group left={40} top={20}>

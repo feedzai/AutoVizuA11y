@@ -13,10 +13,10 @@ i18n
 	.use(Backend)
 	.use(initReactI18next)
 	.init({
-		fallbackLng: "en-BR",
+		fallbackLng: "en-GB",
 		debug: false,
 		resources: {
-			"en-BR": {
+			"en-GB": {
 				translation: {
 					alert:
 						"You just entered an Autovizually chart. For information on how to interact with it, press the question mark key to open the shortcut guide",

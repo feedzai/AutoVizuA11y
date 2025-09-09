@@ -6,11 +6,9 @@
  */
 
 import * as constants from "../../../constants";
-import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
-export const ShortcutGuideDescription = () => {
-	const { t } = useTranslation();
-
+export const ShortcutGuideDescription = ({ t }: { t: TFunction }) => {
 	return (
 		<p
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}

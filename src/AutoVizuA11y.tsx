@@ -26,8 +26,8 @@ import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 import { toSafeClassName } from "./utils/toSafeClassname";
-import { useTranslation } from "react-i18next";
-import { CustomTranslations, addCustomTranslations } from "./utils/customTranslations";
+import { CustomTranslations } from "./utils/customTranslations";
+import { useIsolatedI18n } from "./hooks/useIsolatedI18n";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
@@ -172,19 +172,10 @@ export const AutoVizuA11y = ({
 	internationalization,
 	children,
 }: AutoVizuA11yProps) => {
-	const { t, i18n } = useTranslation();
-
-	useEffect(() => {
-		if (internationalization?.language) {
-			i18n.changeLanguage(internationalization.language);
-		}
-	}, [internationalization?.language, i18n]);
-
-	useEffect(() => {
-		if (internationalization?.customTranslations) {
-			addCustomTranslations(i18n, internationalization.customTranslations);
-		}
-	}, [internationalization?.customTranslations, i18n]);
+	const { t } = useIsolatedI18n(
+		internationalization?.language,
+		internationalization?.customTranslations,
+	);
 
 	const validatedInsights = useMemo(() => {
 		if (!selectorType) {
@@ -420,6 +411,7 @@ export const AutoVizuA11y = ({
 				shortcutGuide={shortcutGuide}
 				shortcutGuideRef={shortcutGuideRef}
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
+				t={t}
 			/>
 		</>
 	);

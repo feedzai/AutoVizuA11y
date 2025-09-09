@@ -9,11 +9,13 @@ import { guideKeyHandler } from "../navigation";
 import * as constants from "../../constants";
 import { NativeShortcutGuide } from "./components/NativeShortcutGuide";
 import { cloneValidElement } from "@feedzai/js-utilities";
+import type { TFunction } from "i18next";
 
 interface ShortcutGuideContainerProps {
 	shortcutGuide: React.ReactElement | undefined;
 	shortcutGuideRef: React.RefObject<HTMLDialogElement>;
 	setIsShortcutGuideOpen: (bool: boolean) => void;
+	t: TFunction;
 }
 
 /**
@@ -29,6 +31,7 @@ export const ShortcutGuideContainer = ({
 	shortcutGuide,
 	shortcutGuideRef,
 	setIsShortcutGuideOpen,
+	t,
 }: ShortcutGuideContainerProps): JSX.Element => {
 	return (
 		<dialog
@@ -43,8 +46,8 @@ export const ShortcutGuideContainer = ({
 				setIsShortcutGuideOpen(false);
 			}}
 		>
-			{cloneValidElement(shortcutGuide, { dialogRef: shortcutGuideRef }) ?? (
-				<NativeShortcutGuide dialogRef={shortcutGuideRef} />
+			{cloneValidElement(shortcutGuide, { dialogRef: shortcutGuideRef, t }) ?? (
+				<NativeShortcutGuide dialogRef={shortcutGuideRef} t={t} />
 			)}
 		</dialog>
 	);
