@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added support for OpenAI API-compatible providers via the new `baseUrl` prop
 - Added new Cypress tests
 - Moved the context prop to inside autoDescriptions
+- Added Arrow Navigation to the ShortcutGuide
 
 ## 2.0.4 - 2025-01-06
 
