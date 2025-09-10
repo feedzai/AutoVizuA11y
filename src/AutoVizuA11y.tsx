@@ -26,7 +26,7 @@ import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 import { toSafeClassName } from "./utils/toSafeClassname";
-import { CustomTranslations } from "./utils/customTranslations";
+import { CustomTranslations } from "./hooks/useIsolatedI18n";
 import { useIsolatedI18n } from "./hooks/useIsolatedI18n";
 
 type AutoDescriptionsProps = {
