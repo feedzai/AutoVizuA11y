@@ -391,7 +391,7 @@ export const AutoVizuA11y = ({
 	);
 
 	return (
-		<>
+		<div className={constants.AUTOVIZUA11Y_CLASSES.a11yWrapper} role="application">
 			<div
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
@@ -409,6 +409,6 @@ export const AutoVizuA11y = ({
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
 				t={t}
 			/>
-		</>
+		</div>
 	);
 };
