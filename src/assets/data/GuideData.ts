@@ -35,10 +35,10 @@ export function getGuideData(): Section[] {
 		{
 			title: "sg_move_elements_title",
 			shortcuts: [
-				{ keys: "↓", description: "sg_get_into_chart" },
-				{ keys: "↑", description: "sg_get_out_of_chart" },
-				{ keys: "→", description: "sg_move_forward" },
-				{ keys: "←", description: "sg_move_backward" },
+				{ keys: "Down Arrow", description: "sg_get_into_chart" },
+				{ keys: "Up Arrow", description: "sg_get_out_of_chart" },
+				{ keys: "Right Arrow", description: "sg_move_forward" },
+				{ keys: "Left Arrow", description: "sg_move_backward" },
 				{
 					keys: `${modifierKey} + M`,
 					description: "sg_move_series",

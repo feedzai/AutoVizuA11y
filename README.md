@@ -237,10 +237,10 @@ The Shortcut Guide can be acessed by the user, using the <kbd>?</kbd> key, while
 | --------------------------------------------------------: | ------------------------------------------------------------- |
 |                                              <kbd>?</kbd> | Enter shortcut guide                                          |
 |                            <kbd>?</kbd> or <kbd>Esc</kbd> | Leave shortcut guide                                          |
-|                                              <kbd>↓</kbd> | Get into a chart                                              |
-|                                              <kbd>↑</kbd> | Get out of a chart                                            |
-|                                              <kbd>→</kbd> | Move forward in a page element                                |
-|                                              <kbd>←</kbd> | Move backward in a page element                               |
+|                                     <kbd>Down arrow</kbd> | Get into a chart                                              |
+|                                       <kbd>Up arrow</kbd> | Get out of a chart                                            |
+|                                    <kbd>Right arrow</kbd> | Move forward in a page element                                |
+|                                     <kbd>Left arrow</kbd> | Move backward in a page element                               |
 |                    <kbd>Alt (option)</kbd> + <kbd>M</kbd> | Move between series of data inside the chart                  |
 | <kbd>Home</kbd> or <kbd>Alt (option)</kbd> + <kbd>Q</kbd> | Jump to the beginning of a chart                              |
 |  <kbd>End</kbd> or <kbd>Alt (option)</kbd> + <kbd>W</kbd> | Jump to the end of a chart                                    |
