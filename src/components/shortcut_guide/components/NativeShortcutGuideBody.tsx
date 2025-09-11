@@ -15,13 +15,12 @@ export const ShortcutGuideBody = ({ t }: { t: TFunction }) => {
 	return (
 		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
 			{GUIDE_DATA.map((section, sectionIndex) => (
-				<div key={sectionIndex}>
-					<ShortcutGuideSection
-						section={{ ...section, title: t(section.title) }}
-						sectionIndex={sectionIndex}
-						t={t}
-					/>
-				</div>
+				<ShortcutGuideSection
+					key={sectionIndex}
+					section={{ ...section, title: t(section.title) }}
+					sectionIndex={sectionIndex}
+					t={t}
+				/>
 			))}
 		</div>
 	);
