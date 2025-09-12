@@ -122,9 +122,15 @@
 	background-color: var(--shortcut-guide-cell-shortcut-background);
 	font-weight: var(--shortcut-guide-title-font-weight);
 	border-radius: 2px;
-	height: var(--shortcut-guide-cell-shortcut-height);
+	min-height: var(--shortcut-guide-cell-shortcut-height);
 	width: var(--shortcut-guide-cell-shortcut-width);
 	color: var(--shortcut-guide-text-blue);
+	word-wrap: break-word;
+	overflow-wrap: break-word;
+	hyphens: auto;
+	text-align: center;
+	padding: 0.25rem;
+	box-sizing: border-box;
 }
 
 .shortcut-guide__cell--explanation {
@@ -153,7 +159,7 @@
 	flex-direction: column;
 	flex-wrap: wrap;
 	align-content: safe space-around;
-	height: 340px;
+	height: 360px;
 	overflow-y: auto;
 	gap: 1rem;
 	margin: 0.5rem 1rem 1rem 1rem;

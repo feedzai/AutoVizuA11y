@@ -21,6 +21,7 @@ export const FOCUS_CLASS = "focused";
 export const ALERT_DURATION = 1000;
 export const AUTOVIZUA11Y_CLASSES = {
 	alertDiv: "a11y_alert visually-hidden",
+	a11yWrapper: "a11y_wrapper",
 	a11yChart: "a11y_chart",
 	a11yDesc: "a11y_desc visually-hidden",
 	a11yNavGuide: "a11y_nav_guide",

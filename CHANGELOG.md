@@ -13,7 +13,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed tests / github pipeline errors
 - Adapted the ShortcutGuide to vary between "Alt" and "option" depending on the OS
 - Added support for OpenAI API-compatible providers via the new `baseUrl` prop
-- Added new Cypress tests
+- Added new i18n Cypress tests
+- Added Arrow Navigation to the ShortcutGuide
+
+### Changed
+
+- Replaced arrow symbols with text on the ShortcutGuide
+- Re-did ShortcutGuide `<dl>` structure
+- Moved the context prop to inside autoDescriptions
 
 ## 2.0.4 - 2025-01-06
 

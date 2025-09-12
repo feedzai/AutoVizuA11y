@@ -17,7 +17,9 @@ export const ShortcutGuideHeader = ({ onClose, t }: { onClose: () => void; t: TF
 			>
 				{t("sg_title")}
 			</h2>
-			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
+			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>
+				Question Mark or Escape
+			</p>
 			<button
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 				aria-label={t("close_shortcut_guide_label")}

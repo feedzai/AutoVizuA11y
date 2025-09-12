@@ -25,15 +25,14 @@ export const ShortcutGuideSection = ({ section, sectionIndex, t }: ShortcutGuide
 			>
 				{t(section.title)}
 			</h3>
-			<div
+			<dl
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideList}
 				aria-labelledby={`listHeader${sectionIndex}`}
 			>
 				{section.shortcuts.map((shortcut, shortcutIndex) => (
-					<dl
+					<div
 						key={shortcutIndex}
 						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
-						aria-label={`${t(shortcut.description)}: ${shortcut.keys}`}
 						tabIndex={0}
 					>
 						<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
@@ -42,9 +41,9 @@ export const ShortcutGuideSection = ({ section, sectionIndex, t }: ShortcutGuide
 						<dd className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}>
 							{t(shortcut.description)}
 						</dd>
-					</dl>
+					</div>
 				))}
-			</div>
+			</dl>
 		</div>
 	);
 };

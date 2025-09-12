@@ -19,17 +19,17 @@ export const CUSTOM_GUIDE_DATA: Section[] = [
 	{
 		title: "Access the guide",
 		shortcuts: [
-			{ keys: "?", description: "Enter shortcut guide" },
-			{ keys: "? or Esc", description: "Leave shortcut guide" },
+			{ keys: "Question Mark", description: "Enter shortcut guide" },
+			{ keys: "Question Mark or Escape", description: "Leave shortcut guide" },
 		],
 	},
 	{
 		title: "Move between page elements",
 		shortcuts: [
-			{ keys: "↓", description: "Get into a chart" },
-			{ keys: "↑", description: "Get out of a chart" },
-			{ keys: "→", description: "Move forward in a page element" },
-			{ keys: "←", description: "Move backward in a page element" },
+			{ keys: "Down Arrow", description: "Get into a chart" },
+			{ keys: "Up Arrow", description: "Get out of a chart" },
+			{ keys: "Right Arrow", description: "Move forward in a page element" },
+			{ keys: "Left Arrow", description: "Move backward in a page element" },
 			{
 				keys: "Alt + M",
 				description: "Move between series of data inside the chart",

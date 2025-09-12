@@ -55,7 +55,6 @@ cd autovizua11y
 | `type`                                         | Required            | string           | The type of data visualization. It is announced once a data visualization gets focused, after the title and before the descriptions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `title`                                        | Required            | string           | The title of the visualization, which should be short and concise, showcasing the purpose of the content inside the data visualization. It is announced once a data visualization gets focused, before the type and the longer or shorter descriptions.                                                                                                                                                                                                                                                                                                                                                                  |
 | `insights`                                     | Required            | string           | Expects a `string` that corresponds to the key in the data object from which values will be used to derive statistical insights. For example, If the insights should be derived from the `amount` in the data, then that's what should be passed in this property. If an empty string `""` is passed, the user will receive an alert stating 'This shortcut does not work in this chart.' This applies to shortcuts related to minimum, average, and maximum values, as well as those involving comparisons to these insights and other data points. **Note: the values used for insights need to be of type `Number`.** |
-| `context`                                      | Required            | string           | The context in which the data visualization is present. It is passed in the prompt, when generating automatic the descriptions, resulting in contextualized outputs.                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `descriptor`                                   | Optional            | string           | By receiving a `string`, this descriptor helps better contextualize what data elements are. It is added at the end of each data element. If no descriptor is provided, blank text ("") is set instead.                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `multiSeries`                                  | Optional            | string           | When working with multi-series data, provide a `string` that corresponds to the key in the data object that defines each series, allowing users to navigate between different series/clusters in addition to regular navigation. If an empty string `""` is passed, the tool interprets the data as single series.                                                                                                                                                                                                                                                                                                       |
 | `shortcutGuide` <a id="shortcutGuideProp"></a> | Optional            | JSX.Element      | AutoVizuA11y has its default `NativeShortcutGuide` but you may create your own. The ShortcutGuide is wrapped in a `<dialog>`, and its reference can be obtained trought the property `dialogRef`, which you can add to your `shortcutGuide`. The `dialogRef` is a `RefObject<HTMLDialogElement>`, which you can use to create, for example, a button that handles the logic of closing this dialog.                                                                                                                                                                                                                      |
@@ -74,8 +73,9 @@ cd autovizua11y
 
 | Keys                  | Required/Optional | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                    |
 | --------------------- | ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `dynamicDescriptions` | Optional          | boolean | Setting this to `false` stops the component from generating the two descriptions for that chart after the first render (the descriptions get saved in localstorage). This should be useful for static visualizations.                                                                                                                                                                                          |
 | `apiKey`              | Required          | string  | The OpenAI or OpenAI-compatible API key, enabling an LLM to generate human-like descriptions of the data visualization. [You can get yours here](https://platform.openai.com/account/api-keys), It is recommended for the developer to take the necessary precautions in order to hide the API key.                                                                                                            |
+| `context`             | Required          | string  | The context in which the data visualization is present. It is passed in the prompt, when generating automatic the descriptions, resulting in contextualized outputs.                                                                                                                                                                                                                                           |
+| `dynamicDescriptions` | Optional          | boolean | Setting this to `false` stops the component from generating the two descriptions for that chart after the first render (the descriptions get saved in localstorage). This should be useful for static visualizations.                                                                                                                                                                                          |
 | `model`               | Optional          | string  | The LLM responsible for generating both descriptions. [You can check the models available here](https://platform.openai.com/docs/models). If no model is provided, `gpt-3.5-turbo` will be chosen by `default`.                                                                                                                                                                                                |
 | `baseUrl`             | Optional          | string  | The base URL for the API compatible with the OpenAI [Chat Completions API](https://platform.openai.com/docs/api-reference/chat) endpoint. If no base URL is provided, `https://api.openai.com/v1/` (OpenAI) will be chosen by `default`.                                                                                                                                                                       |
 | `temperature`         | Optional          | number  | A temperature, from `0` to `1`, used in the model responsible for generating both descriptions. Descriptions with temperatures closer to 0 should be more deterministic between API calls while those being closer to 1 should be more random between API calls. [You can check the models available here](https://platform.openai.com/docs/models). If no model is provided, `0` will be chosen by `default`. |
@@ -142,12 +142,12 @@ function App() {
 				selectorType={{ element: "rect" }}
 				type="bar chart"
 				title="Number of hours spent looking at a screen per day of the week."
-				context="Screen time dashboard"
 				insights="value"
 				descriptor="hours"
 				autoDescriptions={{
-					dynamicDescriptions: false,
 					apiKey: API_KEY,
+					context="Screen time dashboard"
+					dynamicDescriptions: false,
 					model: "gpt-3.5-turbo",
 					temperature: 0.1,
 				}}
@@ -161,7 +161,6 @@ function App() {
 				selectorType={{ element: "circle" }}
 				type="Multi line chart"
 				title="Latvia, Lithuania, and Croatia are among the countries where population is decreasing"
-				context="Interface with World data"
 				insights="y"
 				descriptor="millions"
 				multiSeries="series"
@@ -179,7 +178,6 @@ function App() {
 				selectorType={{ element: "rect" }}
 				type="graphique à barres"
 				title="Temps d'écran par jour de la semaine"
-				context="Tableau de bord du temps d'écran"
 				insights="value"
 				descriptor="heures"
 				internationalization={{
@@ -237,12 +235,12 @@ The Shortcut Guide can be acessed by the user, using the <kbd>?</kbd> key, while
 
 |                                         Activation Key(s) | Description                                                   |
 | --------------------------------------------------------: | ------------------------------------------------------------- |
-|                                              <kbd>?</kbd> | Enter shortcut guide                                          |
-|                            <kbd>?</kbd> or <kbd>Esc</kbd> | Leave shortcut guide                                          |
-|                                              <kbd>↓</kbd> | Get into a chart                                              |
-|                                              <kbd>↑</kbd> | Get out of a chart                                            |
-|                                              <kbd>→</kbd> | Move forward in a page element                                |
-|                                              <kbd>←</kbd> | Move backward in a page element                               |
+|                                  <kbd>Question Mark</kbd> | Enter shortcut guide                                          |
+|                         <kbd>?</kbd> or <kbd>Escape</kbd> | Leave shortcut guide                                          |
+|                                     <kbd>Down arrow</kbd> | Get into a chart                                              |
+|                                       <kbd>Up arrow</kbd> | Get out of a chart                                            |
+|                                    <kbd>Right arrow</kbd> | Move forward in a page element                                |
+|                                     <kbd>Left arrow</kbd> | Move backward in a page element                               |
 |                    <kbd>Alt (option)</kbd> + <kbd>M</kbd> | Move between series of data inside the chart                  |
 | <kbd>Home</kbd> or <kbd>Alt (option)</kbd> + <kbd>Q</kbd> | Jump to the beginning of a chart                              |
 |  <kbd>End</kbd> or <kbd>Alt (option)</kbd> + <kbd>W</kbd> | Jump to the end of a chart                                    |
