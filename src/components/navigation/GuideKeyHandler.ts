@@ -7,10 +7,6 @@
 
 import * as constants from "../../constants";
 
-export interface ExtendedHTMLElement extends HTMLElement {
-	pastFocus?: HTMLElement | null;
-}
-
 /**
  * Handles the pressing of right arrow key inside the Shortcut Guide
  */
@@ -28,13 +24,10 @@ function handleArrowRight(
 	);
 	if (rows.length === 0) return;
 
-	const activeElement = document.activeElement as HTMLElement | null;
+	const activeElement = document.activeElement;
 	const currentRowIndex = rows.findIndex((row) => row === activeElement);
 
-	let nextIndex = currentRowIndex + 1;
-	if (currentRowIndex === -1) {
-		nextIndex = 0;
-	}
+	const nextIndex = currentRowIndex === -1 ? 0 : currentRowIndex + 1;
 
 	if (nextIndex < rows.length) {
 		(rows[nextIndex] as HTMLElement).focus();
@@ -58,7 +51,7 @@ function handleArrowLeft(
 	);
 	if (rows.length === 0) return;
 
-	const activeElement = document.activeElement as HTMLElement | null;
+	const activeElement = document.activeElement;
 	const currentRowIndex = rows.findIndex((row) => row === activeElement);
 
 	let prevIndex = currentRowIndex - 1;

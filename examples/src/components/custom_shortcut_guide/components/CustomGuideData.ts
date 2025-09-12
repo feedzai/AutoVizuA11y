@@ -19,8 +19,8 @@ export const CUSTOM_GUIDE_DATA: Section[] = [
 	{
 		title: "Access the guide",
 		shortcuts: [
-			{ keys: "?", description: "Enter shortcut guide" },
-			{ keys: "? or Esc", description: "Leave shortcut guide" },
+			{ keys: "Question Mark", description: "Enter shortcut guide" },
+			{ keys: "Question Mark or Escape", description: "Leave shortcut guide" },
 		],
 	},
 	{

@@ -28,8 +28,8 @@ export function getGuideData(): Section[] {
 		{
 			title: "sg_access_title",
 			shortcuts: [
-				{ keys: "?", description: "sg_enter_description" },
-				{ keys: "? or Esc", description: "sg_leave_description" },
+				{ keys: "Question Mark", description: "sg_enter_description" },
+				{ keys: "Question Mark or Escape", description: "sg_leave_description" },
 			],
 		},
 		{
