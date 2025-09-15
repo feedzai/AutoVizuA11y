@@ -5,12 +5,10 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { useTranslation } from "react-i18next";
 import * as constants from "../../../constants";
+import type { TFunction } from "i18next";
 
-export const ShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => {
-	const { t } = useTranslation();
-
+export const ShortcutGuideHeader = ({ onClose, t }: { onClose: () => void; t: TFunction }) => {
 	return (
 		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
 			<h2
@@ -19,7 +17,9 @@ export const ShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => {
 			>
 				{t("sg_title")}
 			</h2>
-			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
+			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>
+				Question Mark or Escape
+			</p>
 			<button
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 				aria-label={t("close_shortcut_guide_label")}

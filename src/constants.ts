@@ -9,7 +9,8 @@ const DECIMAL_PLACES = 2;
 
 export const TIME_TO_WAIT_BEFORE_HANDLING_DESCRIPTIONS = 500;
 export const OPENAI_MODEL = "gpt-3.5-turbo";
-export const OPENAI_LINK = "https://api.openai.com/v1/chat/completions";
+export const OPENAI_BASE_URL = "https://api.openai.com/v1/";
+export const OPENAI_ENDPOINT = "chat/completions";
 export const TIMEOUT_DURATION = 1000;
 export const DESC_CLASS = "a11y_desc";
 export const ROUNDING_FACTOR = 10 ** DECIMAL_PLACES;
@@ -20,6 +21,7 @@ export const FOCUS_CLASS = "focused";
 export const ALERT_DURATION = 1000;
 export const AUTOVIZUA11Y_CLASSES = {
 	alertDiv: "a11y_alert visually-hidden",
+	a11yWrapper: "a11y_wrapper",
 	a11yChart: "a11y_chart",
 	a11yDesc: "a11y_desc visually-hidden",
 	a11yNavGuide: "a11y_nav_guide",

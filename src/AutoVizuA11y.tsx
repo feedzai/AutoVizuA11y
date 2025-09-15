@@ -26,14 +26,16 @@ import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
 import { toSafeClassName } from "./utils/toSafeClassname";
-import { useTranslation } from "react-i18next";
-import { CustomTranslations, addCustomTranslations } from "./utils/customTranslations";
+import { CustomTranslations } from "./hooks/useIsolatedI18n";
+import { useIsolatedI18n } from "./hooks/useIsolatedI18n";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
 	model?: string;
+	baseUrl?: string;
 	temperature?: number;
+	context: string;
 };
 
 type ManualDescriptionsProps = {
@@ -68,10 +70,6 @@ export type AutoVizuA11yProps = {
 	 * Title of the chart.
 	 */
 	title: string;
-	/**
-	 * Context in which the visualization is present.
-	 */
-	context: string;
 	/**
 	 * Key in the data objects from which values will be used to calculate insights.
 	 */
@@ -129,7 +127,6 @@ export type AutoVizuA11yProps = {
  *		selectorType={ element: "rect" }
  *		type="bar chart"
  *		title="Number of hours spent looking at a screen per day of the week."
- *		context="Screen time dashboard"
  *		insights="value"
  *		descriptor="hours"
  *		autoDescriptions={
@@ -137,6 +134,7 @@ export type AutoVizuA11yProps = {
  *			apiKey: API_KEY,
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
+ *			context: "Screen time dashboard",
  *		}
  *		internationalization={
  *			language: "en-GB",
@@ -164,26 +162,16 @@ export const AutoVizuA11y = ({
 	data,
 	multiSeries,
 	insights,
-	context,
 	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
 	internationalization,
 	children,
 }: AutoVizuA11yProps) => {
-	const { t, i18n } = useTranslation();
-
-	useEffect(() => {
-		if (internationalization?.language) {
-			i18n.changeLanguage(internationalization.language);
-		}
-	}, [internationalization?.language, i18n]);
-
-	useEffect(() => {
-		if (internationalization?.customTranslations) {
-			addCustomTranslations(i18n, internationalization.customTranslations);
-		}
-	}, [internationalization?.customTranslations, i18n]);
+	const { t } = useIsolatedI18n(
+		internationalization?.language,
+		internationalization?.customTranslations,
+	);
 
 	const validatedInsights = useMemo(() => {
 		if (!selectorType) {
@@ -316,9 +304,10 @@ export const AutoVizuA11y = ({
 					title,
 					dataString,
 					average: averageAux,
-					context,
+					context: autoDescriptions!.context,
 					apiKey: autoDescriptions!.apiKey,
 					model: autoDescriptions!.model,
+					baseUrl: autoDescriptions!.baseUrl,
 					temperature: autoDescriptions!.temperature,
 					t,
 				});
@@ -402,7 +391,7 @@ export const AutoVizuA11y = ({
 	);
 
 	return (
-		<>
+		<div className={constants.AUTOVIZUA11Y_CLASSES.a11yWrapper} role="application">
 			<div
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
@@ -418,7 +407,8 @@ export const AutoVizuA11y = ({
 				shortcutGuide={shortcutGuide}
 				shortcutGuideRef={shortcutGuideRef}
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
+				t={t}
 			/>
-		</>
+		</div>
 	);
 };

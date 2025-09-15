@@ -7,16 +7,15 @@
 
 import { Section } from "../../../assets/data/GuideData";
 import * as constants from "../../../constants";
-import { useTranslation } from "react-i18next";
+import type { TFunction } from "i18next";
 
 interface ShortcutGuideSectionProps {
 	section: Section;
 	sectionIndex: number;
+	t: TFunction;
 }
 
-export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSectionProps) => {
-	const { t } = useTranslation();
-
+export const ShortcutGuideSection = ({ section, sectionIndex, t }: ShortcutGuideSectionProps) => {
 	return (
 		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideSection}>
 			<h3
@@ -26,15 +25,14 @@ export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSec
 			>
 				{t(section.title)}
 			</h3>
-			<div
+			<dl
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideList}
 				aria-labelledby={`listHeader${sectionIndex}`}
 			>
 				{section.shortcuts.map((shortcut, shortcutIndex) => (
-					<dl
+					<div
 						key={shortcutIndex}
 						className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
-						aria-label={`${t(shortcut.description)}: ${shortcut.keys}`}
 						tabIndex={0}
 					>
 						<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
@@ -43,9 +41,9 @@ export const ShortcutGuideSection = ({ section, sectionIndex }: ShortcutGuideSec
 						<dd className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellExplanation}>
 							{t(shortcut.description)}
 						</dd>
-					</dl>
+					</div>
 				))}
-			</div>
+			</dl>
 		</div>
 	);
 };

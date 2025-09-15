@@ -9,4 +9,3 @@ import "./i18n";
 
 export { AutoVizuA11y } from "./AutoVizuA11y";
 export { NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
-export type { CustomTranslations, TranslationObject } from "./utils/customTranslations";

@@ -7,6 +7,8 @@ import CardGridManual from "./components/manual/ChartGridManual";
 
 function Homepage() {
 	const [apiKey, setApiKey] = useState("");
+	const [model, setModel] = useState("gpt-3.5-turbo");
+	const [baseUrl, setBaseUrl] = useState("https://api.openai.com/v1/");
 	const [isValid, setIsValid] = useState(false);
 	const [automatic, setAutomatic] = useState(false);
 	const [manual, setManual] = useState(false);
@@ -38,7 +40,7 @@ function Homepage() {
 			{isValid && apiKey !== "" ? (
 				<>
 					<div style={{ marginTop: 20 }}>
-						<CardGrid apiKey={apiKey} setHome={setHome} />
+						<CardGrid apiKey={apiKey} model={model} baseUrl={baseUrl} setHome={setHome} />
 					</div>
 					<p>
 						Data from{" "}
@@ -64,6 +66,10 @@ function Homepage() {
 					<KeyRequest
 						apiKey={apiKey}
 						setApiKey={setApiKey}
+						model={model}
+						setModel={setModel}
+						baseUrl={baseUrl}
+						setBaseUrl={setBaseUrl}
 						isValid={isValid}
 						setIsValid={setIsValid}
 						home={home}
@@ -72,16 +78,7 @@ function Homepage() {
 					/>
 				</div>
 			) : home ? (
-				<Options
-					apiKey={apiKey}
-					setApiKey={setApiKey}
-					isValid={isValid}
-					setIsValid={setIsValid}
-					automatic={automatic}
-					setAutomatic={setAutomatic}
-					manual={manual}
-					setManual={setManual}
-				/>
+				<Options setAutomatic={setAutomatic} setManual={setManual} />
 			) : (
 				<p></p>
 			)}

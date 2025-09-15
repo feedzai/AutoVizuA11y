@@ -7,7 +7,7 @@ import { descending } from "d3-array";
 import { AutoVizuA11y } from "@feedzai/autovizua11y";
 import transformJSON from "../../data/transformJSON.js";
 
-function Treemap_({ apiKey }) {
+function Treemap_({ apiKey, model, baseUrl }) {
 	const intValuesCountryData = countryData.map((country) => {
 		return {
 			...country, //copies all countrys first...
@@ -67,7 +67,8 @@ function Treemap_({ apiKey }) {
 				autoDescriptions={{
 					dynamicDescriptions: false,
 					apiKey: apiKey,
-					model: "gpt-3.5-turbo",
+					model: model,
+					baseUrl: baseUrl,
 					temperature: 0.1,
 				}}
 			>
