@@ -5,5 +5,13 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export { AutoVizuA11y } from "./AutoVizuA11y";
-export { NativeShortcutGuide } from "./components/shortcut_guide/components/NativeShortcutGuide";
+/**
+ * Detects if the user is on macOS
+ * @returns {boolean} true if on macOS, false otherwise
+ */
+export function isMacOS(): boolean {
+	const userAgent = navigator.userAgent.toLowerCase();
+	const platform = navigator.platform.toLowerCase();
+
+	return platform.includes("mac") || userAgent.includes("mac os");
+}

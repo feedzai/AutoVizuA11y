@@ -11,9 +11,11 @@ import * as constants from "../../../constants";
 import { ShortcutGuideDescription } from "./NativeGuideDescription";
 import { ShortcutGuideHeader } from "./NativeGuideHeader";
 import { ShortcutGuideBody } from "./NativeShortcutGuideBody";
+import type { TFunction } from "i18next";
 
 interface NativeShortcutGuideProps {
 	dialogRef: React.RefObject<HTMLDialogElement>;
+	t: TFunction;
 }
 
 /**
@@ -21,7 +23,7 @@ interface NativeShortcutGuideProps {
  *
  * @return Shortcut guide.
  */
-export const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JSX.Element => {
+export const NativeShortcutGuide = ({ dialogRef, t }: NativeShortcutGuideProps): JSX.Element => {
 	const handleCloseDialog = () => {
 		const dialog = dialogRef.current;
 		if (dialog) {
@@ -33,12 +35,13 @@ export const NativeShortcutGuide = ({ dialogRef }: NativeShortcutGuideProps): JS
 		<div
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuide}
 			data-testid={"a11y-native-shortcut-guide"}
+			aria-label={t("sg_title")}
 		>
-			<ShortcutGuideDescription />
+			<ShortcutGuideDescription t={t} />
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>
-				<ShortcutGuideHeader onClose={handleCloseDialog} />
+				<ShortcutGuideHeader onClose={handleCloseDialog} t={t} />
 				<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
-				<ShortcutGuideBody />
+				<ShortcutGuideBody t={t} />
 			</div>
 		</div>
 	);

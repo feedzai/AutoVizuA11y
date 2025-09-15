@@ -25,12 +25,17 @@ import "./assets/style/AutoVizuA11y.css";
 import { initToolTutorial } from "./utils/initToolTutorial";
 import { processData } from "./utils/processData";
 import { ShortcutGuideContainer } from "./components/shortcut_guide/index";
+import { toSafeClassName } from "./utils/toSafeClassname";
+import { CustomTranslations } from "./hooks/useIsolatedI18n";
+import { useIsolatedI18n } from "./hooks/useIsolatedI18n";
 
 type AutoDescriptionsProps = {
 	dynamicDescriptions?: boolean;
 	apiKey: string;
 	model?: string;
+	baseUrl?: string;
 	temperature?: number;
+	context: string;
 };
 
 type ManualDescriptionsProps = {
@@ -66,10 +71,6 @@ export type AutoVizuA11yProps = {
 	 */
 	title: string;
 	/**
-	 * Context in which the visualization is present.
-	 */
-	context: string;
-	/**
 	 * Key in the data objects from which values will be used to calculate insights.
 	 */
 	insights: string;
@@ -94,6 +95,19 @@ export type AutoVizuA11yProps = {
 	 */
 	manualDescriptions?: ManualDescriptionsProps;
 	/**
+	 * Internationalization settings for the component
+	 */
+	internationalization?: {
+		/**
+		 * The language locale code, matching an existing key or one added in 'customTranslations'
+		 */
+		language?: string;
+		/**
+		 * Custom translations object that allows developers to add their own language objects
+		 */
+		customTranslations?: CustomTranslations;
+	};
+	/**
 	 * Wrapped chart.
 	 */
 	children: React.ReactNode;
@@ -110,18 +124,32 @@ export type AutoVizuA11yProps = {
  *
  * <AutoVizuA11y
  *		data={barData}
- *		selectorType={{ element: "rect" }}
+ *		selectorType={ element: "rect" }
  *		type="bar chart"
  *		title="Number of hours spent looking at a screen per day of the week."
- *		context="Screen time dashboard"
  *		insights="value"
  *		descriptor="hours"
- *		autoDescriptions={{
+ *		autoDescriptions={
  *			dynamicDescriptions: false,
  *			apiKey: API_KEY,
  *			model: "gpt-3.5-turbo",
  *			temperature: 0.1,
- *		}}
+ *			context: "Screen time dashboard",
+ *		}
+ *		internationalization={
+ *			language: "en-GB",
+ *			customTranslations: {
+ *				"pt-PT": {
+ *					translation: {
+ *						alert: "Acabou de entrar num gráfico Autovizually...",
+ *						minimum: "Mínimo",
+ *						average: "Média",
+ *						maximum: "Máximo",
+ *						...
+ *					}
+ *				}
+ *			}
+ *		}
  *	>
  *		<BarChart></BarChart>
  *	</AutoVizuA11y>
@@ -134,12 +162,17 @@ export const AutoVizuA11y = ({
 	data,
 	multiSeries,
 	insights,
-	context,
 	shortcutGuide,
 	manualDescriptions,
 	autoDescriptions,
+	internationalization,
 	children,
 }: AutoVizuA11yProps) => {
+	const { t } = useIsolatedI18n(
+		internationalization?.language,
+		internationalization?.customTranslations,
+	);
+
 	const validatedInsights = useMemo(() => {
 		if (!selectorType) {
 			console.warn("Type of chart not supported or no type given");
@@ -156,7 +189,7 @@ export const AutoVizuA11y = ({
 	const [arrayConverted, setArrayConverted] = useState<number[]>([]);
 	const [number, setNumber] = useState<number>(1);
 	const [descs, setDescs] = useState<string[]>([]);
-	const [descriptionContent, setDescriptionContent] = useState<string>("Generating description...");
+	const [descriptionContent, setDescriptionContent] = useState<string>(t("generating_description"));
 	const [elements, setElements] = useState<HTMLElement[]>([]);
 	const [isShortcutGuideOpen, setIsShortcutGuideOpen] = useState<boolean>(false);
 
@@ -182,8 +215,8 @@ export const AutoVizuA11y = ({
 	);
 
 	const onFocusHandler = useCallback(() => {
-		handleFirstFocus({ alertDiv, chartRef, alertDivRef });
-	}, [alertDiv, chartRef, alertDivRef]);
+		handleFirstFocus({ alertDiv, chartRef, alertDivRef, t });
+	}, [alertDiv, chartRef, alertDivRef, t]);
 
 	const onBlurHandler = useCallback(() => {
 		handleBlur(chartRef);
@@ -223,7 +256,9 @@ export const AutoVizuA11y = ({
 		const initSeries = () => {
 			if (multiSeries) {
 				const uniqueValues = [
-					...new Set(data.map((item: Record<string, unknown>) => item[multiSeries])),
+					...new Set(
+						data.map((item: Record<string, unknown>) => toSafeClassName(String(item[multiSeries]))),
+					),
 				];
 				setSeries(uniqueValues as string[]);
 				setSelectedSeries(uniqueValues[0] as string);
@@ -269,10 +304,12 @@ export const AutoVizuA11y = ({
 					title,
 					dataString,
 					average: averageAux,
-					context,
+					context: autoDescriptions!.context,
 					apiKey: autoDescriptions!.apiKey,
 					model: autoDescriptions!.model,
+					baseUrl: autoDescriptions!.baseUrl,
 					temperature: autoDescriptions!.temperature,
+					t,
 				});
 				chartDescriptions = generatedDescriptions;
 				setDescs(generatedDescriptions);
@@ -323,14 +360,38 @@ export const AutoVizuA11y = ({
 				shortcutGuideRef,
 				isShortcutGuideOpen,
 				setIsShortcutGuideOpen,
+				t,
 			};
 			handleKeyDown(event, DATA);
 		},
-		[event],
+		[
+			alertDivRef,
+			type,
+			number,
+			chartRef,
+			elements,
+			selectedSeries,
+			series,
+			selectorType,
+			setSelectedSeries,
+			setNumber,
+			setDescriptionContent,
+			validatedInsights,
+			insightsArray,
+			arrayConverted,
+			title,
+			descs,
+			autoDescriptions,
+			multiSeries,
+			shortcutGuideRef,
+			isShortcutGuideOpen,
+			setIsShortcutGuideOpen,
+			t,
+		],
 	);
 
 	return (
-		<>
+		<div className={constants.AUTOVIZUA11Y_CLASSES.a11yWrapper} role="application">
 			<div
 				ref={chartRef}
 				onKeyDown={handleOnKeyDown}
@@ -346,7 +407,8 @@ export const AutoVizuA11y = ({
 				shortcutGuide={shortcutGuide}
 				shortcutGuideRef={shortcutGuideRef}
 				setIsShortcutGuideOpen={setIsShortcutGuideOpen}
+				t={t}
 			/>
-		</>
+		</div>
 	);
 };

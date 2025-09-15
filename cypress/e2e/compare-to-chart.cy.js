@@ -11,7 +11,7 @@ describe("(Alt + Z) Compare to Rest of the Chart Test", () => {
 			.should("have.text", "This shortcut only works inside a chart");
 		cy.get("@chartDescription").type("{downArrow}");
 		cy.findAllByTestId("a11y-chart-element").first().type("{alt}z");
-		cy.get("@chartAlert").should("have.text", "This is the highest value.");
+		cy.get("@chartAlert").should("have.text", "This is the highest value");
 		cy.checkA11y();
 	});
 });

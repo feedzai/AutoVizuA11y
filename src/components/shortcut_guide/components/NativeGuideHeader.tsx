@@ -6,22 +6,27 @@
  */
 
 import * as constants from "../../../constants";
+import type { TFunction } from "i18next";
 
-export const ShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => (
-	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
-		<h2
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
-			id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
-		>
-			Shortcut Guide
-		</h2>
-		<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>? or Esc</p>
-		<button
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
-			aria-label="Close shortcut guide"
-			onClick={onClose}
-		>
-			&times;
-		</button>
-	</div>
-);
+export const ShortcutGuideHeader = ({ onClose, t }: { onClose: () => void; t: TFunction }) => {
+	return (
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
+			<h2
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
+				id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+			>
+				{t("sg_title")}
+			</h2>
+			<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>
+				Question Mark or Escape
+			</p>
+			<button
+				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
+				aria-label={t("close_shortcut_guide_label")}
+				onClick={onClose}
+			>
+				&times;
+			</button>
+		</div>
+	);
+};

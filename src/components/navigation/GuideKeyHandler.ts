@@ -5,8 +5,63 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export interface ExtendedHTMLElement extends HTMLElement {
-	pastFocus?: HTMLElement | null;
+import * as constants from "../../constants";
+
+/**
+ * Handles the pressing of right arrow key inside the Shortcut Guide
+ */
+function handleArrowRight(
+	event: React.KeyboardEvent,
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+): void {
+	event.preventDefault();
+
+	const shortcutGuide = shortcutGuideRef.current;
+	if (!shortcutGuide) return;
+
+	const rows = Array.from(
+		shortcutGuide.querySelectorAll(`.${constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}`),
+	);
+	if (rows.length === 0) return;
+
+	const activeElement = document.activeElement;
+	const currentRowIndex = rows.findIndex((row) => row === activeElement);
+
+	const nextIndex = currentRowIndex === -1 ? 0 : currentRowIndex + 1;
+
+	if (nextIndex < rows.length) {
+		(rows[nextIndex] as HTMLElement).focus();
+	}
+}
+
+/**
+ * Handles the pressing of left arrow key inside the Shortcut Guide
+ */
+function handleArrowLeft(
+	event: React.KeyboardEvent,
+	shortcutGuideRef: React.RefObject<HTMLDialogElement>,
+): void {
+	event.preventDefault();
+
+	const shortcutGuide = shortcutGuideRef.current;
+	if (!shortcutGuide) return;
+
+	const rows = Array.from(
+		shortcutGuide.querySelectorAll(`.${constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}`),
+	);
+	if (rows.length === 0) return;
+
+	const activeElement = document.activeElement;
+	const currentRowIndex = rows.findIndex((row) => row === activeElement);
+
+	let prevIndex = currentRowIndex - 1;
+	if (currentRowIndex === -1) {
+		prevIndex = rows.length - 1;
+	}
+
+	if (prevIndex >= 0) {
+		(rows[prevIndex] as HTMLElement).focus();
+	}
 }
 
 /**
@@ -35,6 +90,12 @@ export function guideKeyHandler({
 				event.preventDefault();
 				returnGuide(shortcutGuideRef, setIsShortcutGuideOpen);
 			}
+			break;
+		case "ArrowLeft":
+			handleArrowLeft(event, shortcutGuideRef);
+			break;
+		case "ArrowRight":
+			handleArrowRight(event, shortcutGuideRef);
 			break;
 		default:
 			break;

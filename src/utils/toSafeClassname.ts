@@ -5,14 +5,22 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-export * from "./arrayConverter";
-export * from "./insightsCalculator";
-export * from "./maths";
-export * from "./wiper";
-export * from "./handleBlur";
-export * from "./handleFirstFocus";
-export * from "./handleKeyDown";
-export * from "./showAlert";
-export * from "./initToolTutorial";
-export * from "./processData";
-export * from "./macOSDetector";
+/**
+ * Converts the name of the series into a version suitable for a class
+ *
+ * @export
+ * @param {string} multiSeriesValues - One of the multiserie string values
+ * @return {string} - The string value refactored to fit a className
+ */
+export function toSafeClassName(multiSeriesValues: string): string {
+	// Remove leading and trailing whitespace
+	let safeClassName = multiSeriesValues.trim();
+
+	// Replace spaces and invalid characters with dashes
+	safeClassName = safeClassName.replace(/[^a-zA-Z0-9_-]/g, "-");
+
+	// Replace multiple consecutive dashes with a single dash
+	safeClassName = safeClassName.replace(/-+/g, "-");
+
+	return "series_" + safeClassName;
+}

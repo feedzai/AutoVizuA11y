@@ -5,7 +5,7 @@
  * Other licensing options may be available, please reach out to data-viz@feedzai.com for more information.
  */
 
-import { template } from "@feedzai/js-utilities";
+import { TFunction } from "i18next";
 
 import * as constants from "../../constants";
 
@@ -16,7 +16,9 @@ interface GenerateDescriptionsParams {
 	context: string;
 	apiKey: string;
 	model?: string;
+	baseUrl?: string;
 	temperature?: number;
+	t: TFunction<"translation", undefined>;
 }
 
 interface LongerDescriptionsParam {
@@ -26,14 +28,18 @@ interface LongerDescriptionsParam {
 	context: string;
 	key: string;
 	adjustedModel: string;
+	adjustedLink: URL;
 	adjustedTemperature: number;
+	t: TFunction<"translation", undefined>;
 }
 
 interface SmallerDescriptionsParam {
 	desc: string;
 	key: string;
 	adjustedModel: string;
+	adjustedLink: URL;
 	adjustedTemperature: number;
+	t: TFunction<"translation", undefined>;
 }
 
 /**
@@ -49,9 +55,19 @@ export async function generateDescriptions({
 	context,
 	apiKey: key,
 	model,
+	baseUrl,
 	temperature,
+	t,
 }: GenerateDescriptionsParams): Promise<string[]> {
 	const adjustedModel = model ?? constants.OPENAI_MODEL;
+
+	const adjustedBaseUrl = baseUrl
+		? baseUrl.endsWith("/")
+			? baseUrl
+			: baseUrl + "/"
+		: constants.OPENAI_BASE_URL;
+	const adjustedLink = new URL(constants.OPENAI_ENDPOINT, adjustedBaseUrl);
+
 	const adjustedTemperature = temperature ?? 0;
 
 	// Generates the longer one
@@ -62,7 +78,9 @@ export async function generateDescriptions({
 		context,
 		key,
 		adjustedModel,
+		adjustedLink,
 		adjustedTemperature,
+		t,
 	});
 
 	// Generates the smaller one
@@ -70,7 +88,9 @@ export async function generateDescriptions({
 		desc: longerDesc,
 		key,
 		adjustedModel,
+		adjustedLink,
 		adjustedTemperature,
+		t,
 	});
 	const descs = [longerDesc, smallerDesc];
 
@@ -78,7 +98,7 @@ export async function generateDescriptions({
 }
 
 /**
- * Calls the GPT API to generate the longer description.
+ * Calls the OpenAI or OpenAI-compatible API to generate the longer description.
  *
  * @return Longer chart description.
  */
@@ -89,17 +109,15 @@ async function longerDescription({
 	context,
 	key,
 	adjustedModel,
+	adjustedLink,
 	adjustedTemperature,
+	t,
 }: LongerDescriptionsParam): Promise<string> {
-	const averageString = average ? " with an average of " + JSON.stringify(average) : "";
+	const averageString = average ? t("prompt_average_text") + JSON.stringify(average) : "";
 
-	const prompt = template(
-		"Knowing that the chart below is from a {{context}} and the data represents {{title}} {{average}}," +
-			" make a description (do not use abbreviations) with the trends in the data, starting with the conclusion: {{data}}",
-		{ context, title, averageString, data },
-	);
+	const prompt = t("prompt_longer_description", { context, title, averageString, data });
 
-	const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+	const response = await fetch(adjustedLink, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -121,7 +139,7 @@ async function longerDescription({
 }
 
 /**
- * Calls the GPT API to generate the smaller description.
+ * Calls the OpenAI or OpenAI-compatible API to generate the smaller description.
  *
  * @return Smaller chart description.
  */
@@ -129,11 +147,13 @@ async function smallerDescription({
 	desc,
 	key,
 	adjustedModel,
+	adjustedLink,
 	adjustedTemperature,
+	t,
 }: SmallerDescriptionsParam): Promise<string> {
-	const prompt = "Summarize (in less than 60 words) the following:" + desc;
+	const prompt = t("prompt_shorter_description") + " " + desc;
 
-	const response = await fetch(constants.OPENAI_LINK, {
+	const response = await fetch(adjustedLink, {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",

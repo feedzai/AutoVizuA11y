@@ -82,8 +82,6 @@ function MultiSeriesTimelineManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSONmulti(final);
 
-	console.log(dataTransformed);
-
 	return (
 		<div style={{ textAlign: "left" }}>
 			<h2 className={"a11y-examples-title"} style={{ marginBottom: 2 }}>
@@ -143,6 +141,9 @@ function MultiSeriesTimelineManual({ longDesc, shortDesc }) {
 				manualDescriptions={{
 					longer: longDesc,
 					shorter: shortDesc,
+				}}
+				internationalization={{
+					language: "pt-PT",
 				}}
 			>
 				<svg width={380} height={chartDimensions.height}>

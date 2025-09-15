@@ -6,16 +6,15 @@
  */
 
 import * as constants from "../../../constants";
+import type { TFunction } from "i18next";
 
-export const ShortcutGuideDescription = () => (
-	<p
-		className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
-		id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
-	>
-		AutoVizually shortcut guide. AutoVizually lets you navigate between charts and underlying data
-		elements using just the keyboard. When focused on a chart, a description regarding the data will
-		be provided — you might receive a notification indicating that the chart description was
-		produced by an AI model. For JAWS and NVDA users, it is recommended to turn Focus mode before
-		navigating the data using the arrow keys.
-	</p>
-);
+export const ShortcutGuideDescription = ({ t }: { t: TFunction }) => {
+	return (
+		<p
+			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideDescription}
+			id={constants.SHORTCUTGUIDE_ID.shortcutGuideDescription}
+		>
+			{t("sg_description")}
+		</p>
+	);
+};

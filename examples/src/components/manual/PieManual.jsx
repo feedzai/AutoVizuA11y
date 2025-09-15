@@ -66,7 +66,11 @@ function PieManual({ longDesc, shortDesc }) {
 
 	const dataTransformed = transformJSON(autovizData);
 
-	console.log(dataTransformed);
+	const customTranslations = {
+		"en-GB": {
+			sg_title: "Overwritten Shortcut guide title",
+		},
+	};
 
 	return (
 		<div style={{ textAlign: "left" }}>
@@ -117,6 +121,9 @@ function PieManual({ longDesc, shortDesc }) {
 				manualDescriptions={{
 					longer: longDesc,
 					shorter: shortDesc,
+				}}
+				internationalization={{
+					customTranslations: customTranslations,
 				}}
 			>
 				<svg width={chartDimensions.width} height={chartDimensions.height}>
