@@ -2,7 +2,7 @@
 	"name": "@feedzai/autovizua11y",
 	"description": "AutoVizuA11y is a React library that automates the process of creating accessible data visualizations",
 	"private": false,
-	"version": "3.0.0",
+	"version": "3.0.1",
 	"author": "Feedzai",
 	"license": "AGPL-3.0",
 	"keywords": [
@@ -54,7 +54,7 @@
 	},
 	"dependencies": {
 		"@feedzai/js-utilities": "^1.6.0",
-		"i18next": "^25.1.2",
+		"i18next": "^25.5.2",
 		"i18next-browser-languagedetector": "^8.1.0",
 		"i18next-http-backend": "^3.0.2",
 		"react": ">= 17.0.2",
@@ -84,7 +84,7 @@
 		"jsdom": "^24.0.0",
 		"rimraf": "^5.0.5",
 		"size-limit": "^11.0.2",
-		"start-server-and-test": "^2.0.8",
+		"start-server-and-test": "^2.1.2",
 		"typescript": "^5.2.2",
 		"typescript-eslint": "^8.12.2",
 		"vite": "^5.3.1",
