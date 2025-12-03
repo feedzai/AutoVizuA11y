@@ -54,12 +54,12 @@
 	},
 	"dependencies": {
 		"@feedzai/js-utilities": "^1.6.0",
-		"i18next": "^25.1.2",
-		"i18next-browser-languagedetector": "^8.1.0",
+		"i18next": "^25.5.2",
+		"i18next-browser-languagedetector": "^8.2.0",
 		"i18next-http-backend": "^3.0.2",
 		"react": ">= 17.0.2",
 		"react-dom": ">= 17.0.2",
-		"react-i18next": "^15.5.1"
+		"react-i18next": "^15.7.3"
 	},
 	"devDependencies": {
 		"@cypress/code-coverage": "^3.13.2",

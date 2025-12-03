@@ -12,9 +12,7 @@
 		"@visx/visx": "^3.3.0",
 		"d3-array": "^3.2.4",
 		"react": "^18.2.0",
-		"react-dom": "^18.2.0",
-		"react-scripts": "5.0.1",
-		"web-vitals": "^2.1.4"
+		"react-dom": "^18.2.0"
 	},
 	"scripts": {
 		"dev": "vite",
