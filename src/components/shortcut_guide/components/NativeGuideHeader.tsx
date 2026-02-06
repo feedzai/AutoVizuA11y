@@ -14,6 +14,7 @@ export const ShortcutGuideHeader = ({ t }: { t: TFunction }) => {
 			<h2
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
 				id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+				tabIndex={-1}
 			>
 				{t("sg_title")}
 			</h2>
