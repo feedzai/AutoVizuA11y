@@ -21,7 +21,6 @@ export const ShortcutGuideSection = ({ section, sectionIndex, t }: ShortcutGuide
 			<h3
 				className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideListTitle}
 				id={`listHeader${sectionIndex}`}
-				aria-label={`Section: ${t(section.title)}`}
 			>
 				{t(section.title)}
 			</h3>
