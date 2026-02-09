@@ -13,7 +13,7 @@ import { ShortcutGuideSection } from "./NativeShortcutGuideSection";
 
 export const ShortcutGuideBody = ({ t }: { t: TFunction }) => {
 	return (
-		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
+		<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody} tabIndex={0}>
 			{GUIDE_DATA.map((section, sectionIndex) => (
 				<ShortcutGuideSection
 					key={sectionIndex}

@@ -12,7 +12,7 @@ import { CustomShortcutGuideSection } from "./CustomShortcutGuideSection";
 import { CUSTOM_GUIDE_DATA } from "./CustomGuideData";
 
 export const CustomShortcutGuideBody = () => (
-	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody}>
+	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBody} tabIndex={0}>
 		{CUSTOM_GUIDE_DATA.map((section, sectionIndex) => (
 			<div key={sectionIndex}>
 				<CustomShortcutGuideSection section={section} sectionIndex={sectionIndex} />
