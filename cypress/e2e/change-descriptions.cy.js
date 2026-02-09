@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + S and Alt + B) Change Chart Description Test", () => {
 	it("should toggle between longer and shorter descriptions", () => {
 		cy.visit("/");

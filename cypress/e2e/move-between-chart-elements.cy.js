@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Right and Left Arrow) Move Between Elements of the Chart Test", () => {
 	it("should move to the next and previous chart elements", () => {
 		cy.visit("/");
