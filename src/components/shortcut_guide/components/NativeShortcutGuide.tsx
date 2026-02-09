@@ -46,6 +46,7 @@ export const NativeShortcutGuide = ({ dialogRef, t }: NativeShortcutGuideProps):
 					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 					aria-label={t("close_shortcut_guide_label")}
 					onClick={handleCloseDialog}
+					type="button"
 				>
 					&times;
 				</button>

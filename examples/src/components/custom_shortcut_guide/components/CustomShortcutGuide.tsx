@@ -42,6 +42,7 @@ const CustomShortcutGuide = ({ dialogRef }: CustomShortcutGuideProps): JSX.Eleme
 					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
 					aria-label="Close shortcut guide"
 					onClick={handleCloseDialog}
+					type="button"
 				>
 					&times;
 				</button>
