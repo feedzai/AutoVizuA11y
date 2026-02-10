@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Down Arrow) Moving to Data Level Test", () => {
 	it("should add back the tabindexes to the chart elements when moving from the chart level", () => {
 		cy.visit("/");

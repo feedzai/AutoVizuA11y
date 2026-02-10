@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.1.0 - 2026-02-10
+### Added
+- Added alt text to the Readme images
+
+### Changed
+- Updated Shortcut Guides to better follow the [Dialog (Modal) Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) by W3C
+- Updated cypress tests accordingly
+
 ## 3.0.3 - 2025-12-03
 ### Added
 - Fixed vulnerable dependency

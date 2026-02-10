@@ -1,6 +1,6 @@
 # AutoVizuA11y
 
-<img src="./src/assets/images/banner.png">
+<img src="./src/assets/images/banner.png" alt="Three illustrative bar charts, each corresponding to an AutoVizuA11y pillar. The first, 'Descriptions', depicts a focus highlight around the entire chart and a box with the text 'Calories per piece of fruit, bar chart. Automatic description: The data shows that bananas and grapes have the same...'. The second pillar, 'Navigation', depicts three focus highlights around the first three bars and two arrows going from the previous to the next. There is also a box that says 'Bananas: 105 calories' together with two icons of a right arrow. Lastly, the third pillar 'Shortcuts', depicts a single focus highlight around one of the bars. It also includes a box with the text 'The value is 42.18 above the average' and three icons, the first with 'Alt', the second with a top arrow and the third with the letter 'K'.">
 
 ## Description
 
@@ -73,7 +73,7 @@ cd autovizua11y
 
 | Keys                  | Required/Optional | Type    | Description                                                                                                                                                                                                                                                                                                                                                                                                    |
 | --------------------- | ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apiKey`              | Required          | string  | The OpenAI or OpenAI-compatible API key, enabling an LLM to generate human-like descriptions of the data visualization. [You can get yours here](https://platform.openai.com/account/api-keys), It is recommended for the developer to take the necessary precautions in order to hide the API key.                                                                                                            |
+| `apiKey`              | Required          | string  | The OpenAI or OpenAI-compatible API key, enabling an LLM to generate human-like descriptions of the data visualization. [You can get yours here](https://platform.openai.com/account/api-keys). It is recommended for the developer to take the necessary precautions in order to hide the API key.                                                                                                            |
 | `context`             | Required          | string  | The context in which the data visualization is present. It is passed in the prompt, when generating automatic the descriptions, resulting in contextualized outputs.                                                                                                                                                                                                                                           |
 | `dynamicDescriptions` | Optional          | boolean | Setting this to `false` stops the component from generating the two descriptions for that chart after the first render (the descriptions get saved in localstorage). This should be useful for static visualizations.                                                                                                                                                                                          |
 | `model`               | Optional          | string  | The LLM responsible for generating both descriptions. [You can check the models available here](https://platform.openai.com/docs/models). If no model is provided, `gpt-3.5-turbo` will be chosen by `default`.                                                                                                                                                                                                |
@@ -261,7 +261,7 @@ The Shortcut Guide can be acessed by the user, using the <kbd>?</kbd> key, while
 
 The Shortcut Guide is the only aspect of AutoVizuA11y that is also visual. You may change the styling of the default guide. Below are the classNames of the elements that make up this component:
 
-<img src="./src/assets/images/shortcut_guide_class_anatomy.png">
+<img src="./src/assets/images/shortcut_guide_class_anatomy.png" alt="Diagram of the native Shortcut Guide styling. Each individual component of the guide has an annotation with its CSS class">
 
 | className                           | HTML   |
 | ----------------------------------- | ------ |

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(?) Open Custom Shortcut Guide Test", () => {
 	it("should open the custom shortcut guide", () => {
 		cy.visit("/");

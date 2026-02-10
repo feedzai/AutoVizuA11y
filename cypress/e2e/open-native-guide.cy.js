@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(?) Open Native Shortcut Guide Test", () => {
 	it("should open the native shortcut guide", () => {
 		cy.visit("/");

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + X) Prompt Test", () => {
 	it("should open a prompt when Alt + X is pressed and input '2'", () => {
 		cy.visit("/");

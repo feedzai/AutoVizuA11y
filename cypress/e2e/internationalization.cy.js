@@ -26,6 +26,7 @@ describe("Internationalization Tests", () => {
 		cy.focused().type("?");
 		cy.get("dialog").should("be.visible");
 		cy.get("dialog h2").should("contain.text", "Guia de atalhos");
+		cy.focused().type("{esc}");
 		cy.checkA11y();
 	});
 
@@ -38,6 +39,7 @@ describe("Internationalization Tests", () => {
 		cy.focused().type("?");
 		cy.get("dialog").should("be.visible");
 		cy.get("dialog h2").should("contain.text", "Overwritten Shortcut guide title");
+		cy.focused().type("{esc}");
 		cy.checkA11y();
 	});
 });

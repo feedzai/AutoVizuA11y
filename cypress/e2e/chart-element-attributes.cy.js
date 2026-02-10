@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("Addition of Attributes to Chart Elements Test", () => {
 	it("should add aria-labels, aria-roledescription, empty role but not tabindexes to the chart elements", () => {
 		cy.visit("/");

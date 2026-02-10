@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + Shift + L) Compare to Maximum of the Chart Test", () => {
 	it("should alert the correct comparison value between the first element and maximum of the chart", () => {
 		cy.visit("/");
