@@ -39,9 +39,17 @@ export const NativeShortcutGuide = ({ dialogRef, t }: NativeShortcutGuideProps):
 		>
 			<ShortcutGuideDescription t={t} />
 			<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideContainer}>
-				<ShortcutGuideHeader onClose={handleCloseDialog} t={t} />
+				<ShortcutGuideHeader t={t} />
 				<hr className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideBreak} />
 				<ShortcutGuideBody t={t} />
+				<button
+					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
+					aria-label={t("close_shortcut_guide_label")}
+					onClick={handleCloseDialog}
+					type="button"
+				>
+					&times;
+				</button>
 			</div>
 		</div>
 	);

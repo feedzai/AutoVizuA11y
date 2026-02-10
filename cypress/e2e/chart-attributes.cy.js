@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("Addition of Attributes to Chart Test", () => {
 	it("should add aria-labels and tabindexes to the charts", () => {
 		cy.visit("/");

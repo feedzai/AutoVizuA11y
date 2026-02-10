@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + W and Alt + Q) Jump to the Extremes of the Chart Test", () => {
 	it("should set focus to the extreme elements of the chart", () => {
 		cy.visit("/");

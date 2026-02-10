@@ -22,7 +22,6 @@ export const CustomShortcutGuideSection = ({
 		<h3
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideListTitle}
 			id={`listHeader${sectionIndex}`}
-			aria-label={`Section: ${section.title}`}
 		>
 			{section.title}
 		</h3>
@@ -35,7 +34,6 @@ export const CustomShortcutGuideSection = ({
 					key={shortcutIndex}
 					className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideRow}
 					aria-label={`${shortcut.description}: ${shortcut.keys}`}
-					tabIndex={0}
 				>
 					<dt className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideCellShortcut}>
 						{shortcut.keys}

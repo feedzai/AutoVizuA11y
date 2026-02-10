@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + Z) Compare to Rest of the Chart Test", () => {
 	it("should alert the correct comparison value between the first element and rest of the chart", () => {
 		cy.visit("/");
