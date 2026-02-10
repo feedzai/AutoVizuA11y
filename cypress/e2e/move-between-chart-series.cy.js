@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + M) Move Between Data Series Test", () => {
 	it("should move to the next series of data", () => {
 		cy.visit("/");

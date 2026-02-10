@@ -8,23 +8,17 @@
 import * as constants from "../../../../../src/constants";
 import React from "react";
 
-export const CustomShortcutGuideHeader = ({ onClose }: { onClose: () => void }) => (
+export const CustomShortcutGuideHeader = () => (
 	<div className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideHeader}>
 		<h2
 			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideTitle}
 			id={constants.SHORTCUTGUIDE_ID.shortcutGuideTitle}
+			tabIndex={-1}
 		>
 			Custom Shortcut Guide
 		</h2>
 		<p className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideActionLabel}>
 			Question Mark or Escape
 		</p>
-		<button
-			className={constants.SHORTCUTGUIDE_CLASSES.shortcutGuideButtonClose}
-			aria-label="Close shortcut guide"
-			onClick={onClose}
-		>
-			&times;
-		</button>
 	</div>
 );

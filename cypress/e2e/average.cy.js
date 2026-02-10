@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 describe("(Alt + K) Average Test", () => {
 	it("should alert the correct average value for the first chart", () => {
 		cy.visit("/");

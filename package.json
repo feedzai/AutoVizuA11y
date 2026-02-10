@@ -35,7 +35,7 @@
 	"scripts": {
 		"format": "npx prettier --write '**/*.{jsx,ts,tsx,js}'",
 		"reinstall": "rimraf node_modules && npm install",
-		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" --fix",
+		"lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\" \"cypress/**/*.js\" --fix",
 		"build": "npm run lint && vite build",
 		"postbuild": "size-limit",
 		"docs:install": "cd ./examples && npm install",
