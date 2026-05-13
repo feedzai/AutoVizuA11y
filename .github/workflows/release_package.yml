@@ -14,17 +14,22 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       # Checkout project repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
 
       # Setup Node.js environment
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           registry-url: https://registry.npmjs.org/
           node-version: "18"
+          package-manager-cache: false
 
       # Install dependencies (required by Run tests step)
       - name: Install dependencies
@@ -76,14 +81,17 @@ jobs:
         run: |
           git add "package.json"
           git add "CHANGELOG.md"
-          git commit -m "chore: release ${{ env.NEW_VERSION }}"
-          git tag ${{ env.NEW_VERSION }}
+          git commit -m "chore: release ${NEW_VERSION}"
+          git tag "${NEW_VERSION}"
+        env:
+          NEW_VERSION: ${{ env.NEW_VERSION }}
 
       # Publish version to public repository
       - name: Publish
-        run: npm publish --verbose --access public --tag ${{ env.RELEASE_TAG }}
+        run: npm publish --verbose --access public --tag "${RELEASE_TAG}"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPMJS_ACCESS_TOKEN }}
+          RELEASE_TAG: ${{ env.RELEASE_TAG }}
 
       # Push repository changes
       - name: Push changes to repository
