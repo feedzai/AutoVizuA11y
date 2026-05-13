@@ -46,6 +46,22 @@ cd autovizua11y
   - Shortcuts that offer statistical insights about the data on demand;
   - A Shortcut Guide that can be consulted while focusing an AutoVizuA11y chart.
 
+### GitHub Actions
+
+AutoVizuA11y is published via [GitHub Actions](https://docs.github.com/en/actions). With that, [zizmor](https://github.com/zizmorcore/zizmor) is used to lint workflows and [pinact](https://github.com/suzuki-shunsuke/pinact) to pin versions of actions like `actions/checkout`.
+
+If you change the [`release_package.yml` or `tests.yml` file](.github/workflows/release.yml), install [zizmor](https://docs.zizmor.sh/installation/) (if necessary), run the following command, and implement the relevant feedback:
+
+```bash
+zizmor .
+```
+
+To update action versions, install [pinact](https://github.com/suzuki-shunsuke/pinact/blob/main/INSTALL.md) (if necessary) and run the following command:
+
+```bash
+pinact run -u --min-age 7
+```
+
 ## AutoVizuA11y component properties
 
 | Property                                       | Required/Optional   | Type             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
