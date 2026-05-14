@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: feedzai-autovizua11y
+message: If you use autovizua11y, please cite it using the metadata from this file.
+type: software
+authors:
+  - name: Feedzai
+    email: oss-licenses@feedzai.com
+repository-code: https://github.com/feedzai/AutoVizuA11y
+url: https://feedzai.github.io/AutoVizuA11y/
+repository-artifact: https://www.npmjs.com/package/@feedzai/autovizua11y
+abstract: React library that automates the process of creating accessible data visualizations for screen reader users.
+keywords:
+  - react
+  - visualization
+  - javascript
+  - automation
+  - typescript
+  - accessibility
+  - screen-reader
+  - a11y
+  - data-visualization
+  - language-model
+  - genai
+license-url: https://github.com/feedzai/AutoVizuA11y/blob/main/LICENSE
+date-released: 2023-09-22

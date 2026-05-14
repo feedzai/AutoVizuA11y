@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## 3.1.1 - 2026-05-14
+### Added
+- Added 'CITATION.cff'
+- Updated CI/CD
+- Updated Readme
+
 ## 3.1.0 - 2026-02-10
 ### Added
 - Added alt text to the Readme images
