@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Changed
-- Introduced npm package staging
+- Introduced npm package trusted and staged publishing
 - Fixed pipeline error on authentication
 
 ## 3.1.1 - 2026-05-14
