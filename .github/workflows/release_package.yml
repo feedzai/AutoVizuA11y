@@ -87,9 +87,9 @@ jobs:
         env:
           NEW_VERSION: ${{ env.NEW_VERSION }}
 
-      # Publish version to public repository
-      - name: Publish
-        run: npm publish --verbose --access public --tag "${RELEASE_TAG}"
+      # Stage version for publishing to the public registry
+      - name: Stage publish
+        run: npm stage publish --verbose --provenance --access public --tag "${RELEASE_TAG}"
         env:
           RELEASE_TAG: ${{ env.RELEASE_TAG }}
 
